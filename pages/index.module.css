@@ -9,7 +9,6 @@
 }
 /* Title */
 .title {
-    color: var(--text-color) !important;
-    font-family: var(--font-family) !important;
+    color: var(--text-color);
     font-size: 100px;
 }

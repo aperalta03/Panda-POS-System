@@ -11,8 +11,8 @@ const Loading = () => {
   }, [router]);
 
   return (
-    <div className={styles.container} maxWidth={false}>
-      <h1 className={styles.title}></h1>
+    <div className={styles.container} height={'100vh'} width={'100%'}>
+      <h1>Loading...</h1>
     </div> 
   );
 };
