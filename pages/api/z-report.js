@@ -2,7 +2,6 @@ import fs from 'fs';
 import path from 'path';
 import database from '../../app/utils/database';
 import tempSalesData from '../../app/data/tempSalesData';
-import sql from '../../app/utils/sql/z-report';
 
 export default async function handler(req, res) {
     if (req.method === 'POST') {
@@ -13,7 +12,7 @@ export default async function handler(req, res) {
             const today = new Date().toISOString().split('T')[0];
 
             // Read the SQL file for Z-Report
-            const filePath = path.join(process.cwd(), sql);
+            const filePath = path.join(process.cwd(), 'app/utils/sql/z-report');
             const queryText = fs.readFileSync(filePath, 'utf-8');
 
             // Insert daily totals into the database

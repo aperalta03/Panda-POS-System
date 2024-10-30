@@ -1,7 +1,6 @@
 import fs from 'fs';
 import path from 'path';
 import database from '../../app/utils/database';
-import sql from '../../app/utils/sql/sales_report';
 
 export default async function handler(req, res) {
     if (req.method === 'GET') {
@@ -9,7 +8,7 @@ export default async function handler(req, res) {
 
         try {
             // Read the SQL file content
-            const filePath = path.join(process.cwd(), sql);
+            const filePath = path.join(process.cwd(), 'app/utils/sql/sales_report.sql');
             const queryText = fs.readFileSync(filePath, 'utf-8');
 
             // Execute the query
