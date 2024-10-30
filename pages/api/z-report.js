@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
-import database from '../../utils/database';
-import tempSalesData from '../../path/to/tempSalesData';
-import sql from '../../utils/sql/z-report';
+import database from '../../app/utils/database';
+import tempSalesData from '../../app/data/tempSalesData';
+import sql from '../../app/utils/sql/z-report';
 
 export default async function handler(req, res) {
     if (req.method === 'POST') {

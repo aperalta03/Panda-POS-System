@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
-import database from '../../utils/database';
-import sql from '../../utils/sql/sales_report';
+import database from '../../app/utils/database';
+import sql from '../../app/utils/sql/sales_report';
 
 export default async function handler(req, res) {
     if (req.method === 'GET') {
