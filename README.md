@@ -13,7 +13,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Deployed
 
-Link: [https://pos-system-7oolqac7b-aperalta03s-projects.vercel.app/login]
+Link: [https://pos-system-ecru-tau.vercel.app/login]
 
 ## Important Files
 1. Components (App)
