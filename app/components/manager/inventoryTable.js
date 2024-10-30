@@ -6,7 +6,7 @@ const InventoryTable = () => {
 
   return (
     <div className={style.mainContainer}>
-      <table className={style.InventoryTable}> {/* Apply class here */}
+      <table className={style.InventoryTable}>
         <thead>
           <tr>
             <th>ID</th>
