@@ -2,8 +2,9 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import styles from './dropDowns.module.css';
 
-const SalesReport = () => {
+const DropDowns = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
 
@@ -19,13 +20,14 @@ const SalesReport = () => {
   };
 
   return (
-    <div>
+    <div className={styles.mainContainer}>
       <h2>Generate Sales Report</h2>
+      <button onClick={fetchReport} className={styles.getSalesReport}>Get Sales Report</button>
       <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
       <DatePicker selected={endDate} onChange={(date) => setEndDate(date)} />
-      <button onClick={fetchReport}>Get Sales Report</button>
+      
     </div>
   );
 };
 
-export default SalesReport;
+export default DropDowns;
