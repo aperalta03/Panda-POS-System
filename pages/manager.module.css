@@ -2,36 +2,30 @@
     position: relative;
     width: 100%;
     height: 100%;
-    display: flex; /* Flexbox helps align left and right sections side-by-side */
+    display: flex;
 }
-
-/* Position the left section */
-.mainContainer .left {
+.left {
     width: 30%;
     height: 100%;
 }
-
-/* Position the right section */
-.mainContainer .right {
+.right {
     width: 70%;
     height: 100%;
 }
-
-.mainContainer .left .inventoryTablePosition{
+.inventoryTablePosition{
     width: 100%;
     height: 90%;
 }
-.mainContainer .left .managerProfilePosition{
+.managerProfilePosition{
     width: 100%;
     height: 10%;
 }
-.mainContainer .right .dropDownPosition{
+.dropDownPosition{
     width: 100%;
     height: 30%;
 }
-
-.mainContainer .right .salesChartPosition{
+.salesChartPosition{
     width: 100%;
     height: 70%;
+    margin: auto;
 }
-

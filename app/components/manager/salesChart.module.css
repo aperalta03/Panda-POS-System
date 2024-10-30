@@ -1,0 +1,19 @@
+.salesChartContainer {
+    width: 100%;
+    height: 100%;
+    border-top: solid 2px black;
+    border-left: solid 2px black;
+    justify-content: center;
+    padding: 20px;
+}
+.subtitle {
+    display: flex;
+    justify-self: center;
+    align-self: center;
+    font-size: 2rem;
+    margin: 10px; 
+}
+.salesChartContainer canvas {
+    width: 100%;
+    height: 100%;
+}

@@ -6,9 +6,8 @@
     align-content: center;
     justify-content: space-between;
     padding: 20px;
-    border: solid 2px black;
+    border-left: 2px solid black;
 }
-
 .getSalesReport{
     width: 10%;
     height: 10%;

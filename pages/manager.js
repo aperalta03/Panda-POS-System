@@ -1,8 +1,8 @@
 import React from 'react';
-import InventoryTable from '../app/components/InventoryTable';
-import ManagerProfile from '../app/components/managerProfile';
-import DropDowns from '../app/components/dropDowns';
-import SalesChart from '../app/components/salesChart';
+import InventoryTable from '../app/components/manager/inventoryTable';
+import ManagerProfile from '../app/components/manager/managerProfile';
+import DropDowns from '../app/components/manager/dropDowns';
+import SalesChart from '../app/components/manager/salesChart';
 import styles from './manager.module.css';
 
 const Manager = () => {
@@ -22,8 +22,6 @@ const Manager = () => {
     ];
     return (
         <div className={styles.mainContainer}>
-
-
             <div className={styles.left}>
                 <div className={styles.inventoryTablePosition}>
                     <InventoryTable />

@@ -35,8 +35,8 @@ const SalesChart = ({ dataset }) => {
 
   return (
     <div className= {styles.salesChartContainer}> {/* Add this class */}
-      <h2>Sales Chart</h2>
-      <Line data={data} />
+      <h2 className={styles.subtitle}>Sales Chart</h2>
+      <Line data={data} height={'135px'}/>
     </div>
   );
 };

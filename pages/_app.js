@@ -1,6 +1,6 @@
 import '../app/globals.css';
 import styles from './_app.module.css';
-import Navbar from '../app/components/navbar';
+import Navbar from '../app/components/navbar/navbar';
 import { RoleProvider } from '../app/context/roleProvider';
 
 function MyApp({ Component, pageProps }) {
