@@ -32,11 +32,10 @@ const Navbar = () => {
                 const response = await fetch("https://wttr.in/?format=%t+%C");
                 const data = await response.text();
                 
-                // Use regex to capture the temperature and condition
                 const match = data.match(/([+-]?\d+°[CF])\s+(.+)/);
                 
                 if (match) {
-                    const temp = match[1].replace("+", ""); // Remove + if positive
+                    const temp = match[1].replace("+", "");
                     const condition = match[2];
                     setWeather({ temp, condition });
                 } else {
@@ -57,7 +56,7 @@ const Navbar = () => {
         if (condition.includes("Rainy")) return <ThunderstormIcon />;
         if (condition.includes("Windy")) return <AirIcon />;
         if (condition.includes("Snow")) return <AcUnitIcon />;
-        return null; // No icon for other conditions
+        return null;
     };
 
     const handleLogoff = () => {
