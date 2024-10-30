@@ -1,0 +1,26 @@
+/* General Layout */
+.layoutContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    transition: all 0.5s ease-in-out;
+}
+/* Navbar */
+.navbarContainer {
+    height: 10%;
+    transition: width 1s ease-in-out;
+    display: flex;
+    flex-direction: row;
+}
+
+/* Page */
+.pageContent {
+    flex: 1;
+    background-color: var(--background-color);
+    color: var(--color-text);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: margin-left 0.5s ease-in-out;
+}

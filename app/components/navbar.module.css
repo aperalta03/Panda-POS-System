@@ -1,0 +1,45 @@
+/* Main Container */
+.mainContainer {
+    height: 100%;
+    width: 100%;
+    background-color: var(--primary-color);
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: space-between;
+    padding: 20px;
+    border-bottom: solid 2px black;
+}
+/* Content */
+.pageButton {
+    padding: 10px;
+    color: var(--text-color-dark);
+    background-color: var(--secondary-color);
+    border-radius: 15px;
+}
+.pageButton:hover {
+    cursor: pointer;
+    background-color: var(--secondary-color-hover);
+}
+.title {
+    color: var(--text-color-dark);
+    align-self: center;
+    justify-self: center;
+}
+.detailsBox {
+    height: 100%;
+    width: 10%;
+    display: flex;
+    justify-content: flex-end;
+    color: var(--text-color-dark);
+    align-items: center;
+    gap: 20px;
+}
+.navTime {
+    font-size: 1.2rem;
+}
+.logo {
+    height: 100%;
+    width: auto;
+    border-radius: 10px;
+}

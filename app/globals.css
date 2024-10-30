@@ -5,6 +5,10 @@
 }
 /* Global Variables */
 :root {
-  --color-text: black;
-  --background-color: white;
+  --text-color-light: black;
+  --text-color-dark: white;
+  --background-color: #EAE2D8; /* Panda Express White */
+  --primary-color: #D22730; /* Panda Express Red */
+  --secondary-color: #131313;
+  --secondary-color-hover: #292929;
 }

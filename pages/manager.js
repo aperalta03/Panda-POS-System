@@ -1,8 +1,8 @@
 import React from 'react';
-import Navbar from '../app/components/Navbar';
-import InventoryTable from '../app/components/InventoryTable';
-import SalesReport from '../app/components/SalesReport';
-import SalesChart from '../app/components/SalesChart';
+import Navbar from '../app/components/navbar';
+import InventoryTable from '../app/components/inventoryTable';
+import SalesReport from '../app/components/salesReport';
+import SalesChart from '../app/components/salesChart';
 
 const Manager = () => {
     const mockDataset = [
