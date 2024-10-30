@@ -53,7 +53,7 @@ const Navbar = () => {
         if (condition.includes("Sunny") || condition.includes("Clear")) return <WbSunnyIcon />;
         if (condition.includes("Partly cloudy")) return <CloudIcon />;
         if (condition.includes("Cloudy") || condition.includes("Overcast")) return <CloudIcon />;
-        if (condition.includes("Rain") || condition.includes("Showers")) return <ThunderstormIcon />;
+        if (condition.includes("Rain") || condition.includes("Showers") || condition.includes("rain")) return <ThunderstormIcon />;
         if (condition.includes("Thunderstorm") || condition.includes("Thunder")) return <ThunderstormIcon />;
         if (condition.includes("Snow")) return <AcUnitIcon />;
         if (condition.includes("Windy") || condition.includes("Breezy")) return <AirIcon />;
