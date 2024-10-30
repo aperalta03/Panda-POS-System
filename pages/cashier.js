@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./cashier.module.css";
 
-const ButtonGrid = () => {
+const ButtonGrid = ({ addOrderToPanel }) => {
   // Define initial state for each item quantity
   const menuItems = [
     "Bowl",
@@ -83,7 +83,7 @@ const ButtonGrid = () => {
   const [currPlate, setCurrPlate] = useState("");  //use state for current plate set
   const [initialItemCounts, setInitialItemCounts] = useState({}); //use state for initial item count after each order
   const [isEnterEnabled, setIsEnterEnabled] = useState(false); // New state for Enter button
-  const [orders, setOrders] = useState([]); // State to hold orders
+  //const [orders, setOrders] = useState([]); // State to hold orders
   const [associatedItems, setAssociatedItems] = useState([]);
 
   // Function to handle quantity updates (+ and -)
@@ -131,7 +131,7 @@ const ButtonGrid = () => {
   const checkQuantity =  (currentPlateQuantity, currentPlate)  => {
     if (currentPlateQuantity === 2 && currentPlate === "Bowl") {
       //console.log("Bowl order created, needs to be reset");
-      addOrderToPanel("Bowl", associatedItems);
+      addOrderToPanel(currentPlate, [...associatedItems]);
       const itemsToEnable = plateSizes;
       const itemsToDisable = foodItems;
       setDisabledItems(itemsToDisable);
@@ -142,7 +142,7 @@ const ButtonGrid = () => {
     }
     else if (currentPlateQuantity === 3 && currentPlate === "Plate") {
       //console.log("Plate order created, needs to be reset");
-      addOrderToPanel("Plate", associatedItems);
+      addOrderToPanel(currentPlate, [...associatedItems]);
       const itemsToEnable = plateSizes;
       const itemsToDisable = foodItems;
       setDisabledItems(itemsToDisable);
@@ -153,7 +153,7 @@ const ButtonGrid = () => {
     }
     else if (currentPlateQuantity === 4 && currentPlate === "Bigger Plate") {
       console.log("Bigger Plate order created, needs to be reset");
-      addOrderToPanel("Bigger Plate", associatedItems);
+      addOrderToPanel(currentPlate, [...associatedItems]);
       const itemsToEnable = plateSizes;
       const itemsToDisable = foodItems;
       setDisabledItems(itemsToDisable);
@@ -168,6 +168,7 @@ const ButtonGrid = () => {
   const handleEnterClick = () => {
     if (currPlate === "A La Carte") {
       console.log("Finalizing A La Carte order");
+      addOrderToPanel(currPlate, [...associatedItems]);
       const itemsToEnable = plateSizes;
       const itemsToDisable = foodItems;
       setDisabledItems(itemsToDisable);
@@ -178,12 +179,6 @@ const ButtonGrid = () => {
       setAssociatedItems([]);
     }
   };
-
-  // Add an order to the left panel
-  const addOrderToPanel = (plateSize, items) => {
-    setOrders((prevOrders) => [...prevOrders, { plateSize, items }]);
-  };
-
 
   return (
     <div className={styles.buttonGrid}>
@@ -220,18 +215,16 @@ const ButtonGrid = () => {
 
 
 // Left Panel to display orders
-/*const OrderPanel = ({ orders, onDelete }) => {
-  return (
-    <div className={styles.orderPanel}>
-      {orders.map((order, index) => (
-        <div key={index} className={`${styles.orderRow} ${index % 2 === 0 ? styles.evenRow : styles.oddRow}`}>
-          <span>{order.plateSize} ({order.items.join(", ")})</span>
-          <button onClick={() => onDelete(index)} className={styles.deleteButton}>Delete</button>
-        </div>
-      ))}
-    </div>
-  );
-};*/
+const OrderPanel = ({ orders, onDelete }) => (
+  <div className={styles.orderPanel}>
+    {orders.map((order, index) => (
+      <div key={index} className={`${styles.orderRow} ${index % 2 === 0 ? styles.evenRow : styles.oddRow}`}>
+        <span>{order.plateSize} ({order.items.join(", ")})</span>
+        <button onClick={() => onDelete(index)} className={styles.deleteButton}>Delete</button>
+      </div>
+    ))}
+  </div>
+);
 
 //creating bottom panel for buttons, ordering, and cost labels
 const BottomPanel = () => {
@@ -299,14 +292,23 @@ const priceMap = {
 const CashierPage = () => {
   //const [orders, setOrders] = useState([]); // Store orders here
   //const [associatedItems, setAssociatedItems] = useState([]); // Store associated items here
+  const [orders, setOrders] = useState([]);
 
-  
+  const addOrderToPanel = (plateSize, items) => {
+    setOrders(prev => [...prev, { plateSize, items }]);
+  };
+
+  const deleteOrder = (index) => {
+    setOrders(prev => prev.filter((_, i) => i !== index));
+  };
+
   return (
     <div>
       <h1>Order Total:</h1>
       <div className={styles.layout}>
-        <ButtonGrid />
+      <ButtonGrid addOrderToPanel={addOrderToPanel} />
       </div>
+      <OrderPanel orders={orders} onDelete={deleteOrder} />
       <BottomPanel />
     </div>
   );
