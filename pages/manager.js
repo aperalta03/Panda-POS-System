@@ -1,9 +1,22 @@
-import React from 'react'
+import React from 'react';
+import Navbar from '../app/components/Navbar';
+import InventoryTable from '../app/components/InventoryTable';
+import SalesReport from '../app/components/SalesReport';
+import SalesChart from '../app/components/SalesChart';
 
 const Manager = () => {
+    const mockDataset = [
+        { label: 'January', value: 30 },
+        { label: 'February', value: 20 },
+        { label: 'March', value: 50 },
+        // Add more as needed
+    ];
     return (
         <div>
-            <h1> HELLO </h1>
+            <Navbar title="Manager GUI" />
+            <InventoryTable />
+            <SalesReport />
+            <SalesChart dataset={mockDataset} />
         </div>
     )
 }
