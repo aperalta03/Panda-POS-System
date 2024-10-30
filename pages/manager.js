@@ -1,7 +1,6 @@
 import React from 'react';
-import Navbar from '../app/components/navbar';
 import InventoryTable from '../app/components/InventoryTable';
-import SalesReport from '../app/components/SalesChart';
+import SalesReport from '../app/components/SalesReport';
 import SalesChart from '../app/components/SalesChart';
 
 const Manager = () => {
@@ -13,7 +12,6 @@ const Manager = () => {
     ];
     return (
         <div>
-            <Navbar title="Manager GUI" />
             <InventoryTable />
             <SalesReport />
             <SalesChart dataset={mockDataset} />
