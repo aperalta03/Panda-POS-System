@@ -39,7 +39,7 @@ const SalesChart = ({ dataset }) => {
           <DatePicker selected={endDate} onChange={(date) => setEndDate(date)} />
         </div>
       </div>
-      <Line data={data} height={'135px'} />
+      <Line data={data} height={'130px'} />
     </div>
   );
 };

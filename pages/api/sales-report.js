@@ -8,7 +8,7 @@ export default async function handler(req, res) {
 
         try {
             // Read the SQL file content
-            const filePath = path.join(process.cwd(), '../../app/utils/sql/sales_report.sql');
+            const filePath = path.join(process.cwd(), 'app/utils/sql/sales_report.sql');
             const queryText = fs.readFileSync(filePath, 'utf-8');
 
             // Execute the query
