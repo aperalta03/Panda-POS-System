@@ -68,6 +68,13 @@ const ButtonGrid = () => {
   );
 };
 
+// Checkout Block
+const CheckoutSession = () => {
+  return (
+    <div></div>
+  )
+}
+
 const CashierPage = () => {
   return (
     <div>
