@@ -1,0 +1,11 @@
+
+.salesChartContainer {
+    width: 100;
+    height: 100;
+    border: solid 2px black;
+}
+
+.salesChartContainer canvas {
+    width: 100% !important;
+    height: 100% !important;
+}

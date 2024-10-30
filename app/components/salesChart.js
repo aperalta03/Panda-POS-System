@@ -1,9 +1,9 @@
-// src/components/SalesChart.js
 import React from 'react';
+import styles from './salesChart.module.css';
 import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
-  CategoryScale, // for 'category' scale
+  CategoryScale,
   LinearScale,
   PointElement,
   LineElement,
@@ -12,7 +12,6 @@ import {
   Legend,
 } from 'chart.js';
 
-// Register Chart.js components
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -35,7 +34,7 @@ const SalesChart = ({ dataset }) => {
   };
 
   return (
-    <div>
+    <div className= {styles.salesChartContainer}> {/* Add this class */}
       <h2>Sales Chart</h2>
       <Line data={data} />
     </div>
