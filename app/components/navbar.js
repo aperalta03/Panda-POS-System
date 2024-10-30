@@ -97,7 +97,7 @@ const Navbar = () => {
                         <div className={styles.weatherTemp}>{weather.temp}</div>
                     </div>
                 )}
-                <img className={styles.logo} src='chickenmaxxing_logo.png' alt="Logo"/>
+                <img className={styles.logo} src='chickenmaxxing_logo.png' alt="Chicken Maxxing Logo"/>
             </div>
         </div>
     );
