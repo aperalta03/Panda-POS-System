@@ -1,0 +1,67 @@
+/* Navbar styling */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #d32f2f; /* Red background */
+  color: white;
+  padding: 10px 20px;
+}
+
+.navButton {
+  background-color: white;
+  color: #d32f2f;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 1rem;
+  border-radius: 4px;
+}
+
+.navTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.navTime {
+  font-size: 1.2rem;
+}
+
+.buttonGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* Adjust for column count */
+  gap: 10px;
+  padding: 20px;
+}
+
+.gridItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #e0e0e0;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.itemButton {
+  background-color: #d32f2f; /* Red for main button */
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.quantity {
+  font-size: 1.2rem;
+  margin: 10px 0;
+}
+
+.minusButton {
+  background-color: #9e9e9e; /* Gray for minus button */
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
