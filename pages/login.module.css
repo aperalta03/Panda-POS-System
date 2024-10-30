@@ -1,8 +1,99 @@
+/* Main Container */
 .mainContainer {
-    height: 100vh;
+    display: flex;
+    height: 100%;
     width: 100%;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+/* Left Container */
+.leftContainer {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 50%;
+}
+.numpad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 20px;
+}
+.numpadButton {
+    width: 150px;
+    height: 150px;
+    font-size: 1.5rem;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.numpadButton:disabled {
+    background-color: transparent;
+    cursor: default;
+}
+.numpadButton:hover {
+    background-color: #ddd;
+}
+.backspaceButton {
+    width: 150px;
+    height: 150px;
+    font-size: 1.5rem;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.backspaceButton:hover {
+    background-color: #ffb3b3;
+}
+.loginButton {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    border-radius: 10px;
+    cursor: pointer;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    transition: background-color 0.3s;
+}
+.loginButton:hover {
+    background-color: var(--primary-color-hover);
+}
+.inputDisplay {
+    margin-top: 10px;
+    font-size: 1.2rem;
+}
+/* Right Container */
+.rightContainer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    height: 100%;
+    width: 50%;
+}
+.navButton {
+    width: 80%;
+    height: 30%;
+    font-size: 5rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-align: center;
+}
+.navButton:hover {
+    background-color: var(--primary-color-hover);
 }

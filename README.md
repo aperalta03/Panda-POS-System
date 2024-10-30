@@ -11,6 +11,10 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Deployed
+
+Link: [https://pos-system-7oolqac7b-aperalta03s-projects.vercel.app/login]
+
 ## Important Files
 1. Components (App)
     - If want to not have a cluttered file, good for graphs and big functions

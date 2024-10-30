@@ -9,6 +9,7 @@
   --text-color-dark: white;
   --background-color: #EAE2D8; /* Panda Express White */
   --primary-color: #D22730; /* Panda Express Red */
+  --primary-color-hover: #a52229;
   --secondary-color: #131313;
   --secondary-color-hover: #292929;
 }

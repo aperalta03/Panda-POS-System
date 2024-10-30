@@ -5,26 +5,44 @@
     background-color: var(--primary-color);
     display: flex;
     flex-direction: row;
-    align-content: center;
-    justify-content: space-between;
-    padding: 20px;
+    padding: 1%;
     border-bottom: solid 2px black;
 }
 /* Content */
-.pageButton {
-    padding: 10px;
+.logoffButton {
+    padding: 0.5%;
     color: var(--text-color-dark);
     background-color: var(--secondary-color);
     border-radius: 15px;
+    margin-right: 1%;
+    visibility: hidden;
+}
+.logoffButton:hover {
+    cursor: pointer;
+    background-color: var(--secondary-color-hover);
+}
+.logoffButton.visible {
+    visibility: visible;
+}
+.pageButton {
+    padding: 0.5%;
+    color: var(--text-color-dark);
+    background-color: var(--secondary-color);
+    border-radius: 15px;
+    visibility: hidden;
 }
 .pageButton:hover {
     cursor: pointer;
     background-color: var(--secondary-color-hover);
 }
+.pageButton.visible {
+    visibility: visible;
+}
 .title {
     color: var(--text-color-dark);
+    text-align: center;
+    flex: 1;
     align-self: center;
-    justify-self: center;
 }
 .detailsBox {
     height: 100%;
@@ -33,10 +51,31 @@
     justify-content: flex-end;
     color: var(--text-color-dark);
     align-items: center;
-    gap: 20px;
+    gap: 5%;
 }
 .navTime {
     font-size: 1.2rem;
+}
+.weatherBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f0f0;
+    color: #333;
+    padding: 5px 10px;
+    margin: 0 10px;
+    border-radius: 15px;
+    font-size: 0.9rem;
+    text-align: center;
+}
+.weatherIcon {
+    display: flex;
+    justify-content: center;
+}
+.weatherTemp {
+    font-size: 0.9rem;
+    margin-top: 2px;
 }
 .logo {
     height: 100%;

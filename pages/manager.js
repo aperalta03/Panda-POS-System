@@ -1,5 +1,5 @@
 import React from 'react';
-import InventoryTable from '../app/components/InventoryTable';
+import InventoryTable from '../app/components/inventoryTable';
 import ManagerProfile from '../app/components/managerProfile';
 import DropDowns from '../app/components/dropDowns';
 import SalesChart from '../app/components/salesChart';
