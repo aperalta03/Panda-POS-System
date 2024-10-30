@@ -4,10 +4,24 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border-top: solid 2px black
+    border-top: solid 2px black;
+    background-color: var(--primary-color);
 }
-.profilePicture{
-    height: 100%;
+.managerName{
+    font-size: 100%;
+    /* font-family: Arial, sans-serif; */
+    margin-left: 5%;
+    margin-right: 5%;
+    color: white;
+}
+.profilePicture {
+    height: 75%;
     width: auto;
+    max-height: 100%;
+    max-width: 100%;
     border-radius: 10px;
+    object-fit: cover;
+    margin-left: 5%;
+    margin-right: 5%;
 }
+
