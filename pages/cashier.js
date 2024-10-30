@@ -1,30 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from "./cashier.module.css";
 
-const Navbar = () => {
-  const [time, setTime] = useState("");
-
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      setTime(
-        now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
-      );
-    };
-    updateTime();
-    const timer = setInterval(updateTime, 60000); // Update every minute
-    return () => clearInterval(timer);
-  }, []);
-
-  return (
-    <div className={styles.navbar}>
-      <button className={styles.navButton}>Switch to Manager View</button>
-      <h1 className={styles.navTitle}>Panda Express</h1>
-      <div className={styles.navTime}>{time}</div>
-    </div>
-  );
-};
-
 const ButtonGrid = () => {
   // Define initial state for each item quantity
   const menuItems = [
@@ -95,7 +71,6 @@ const ButtonGrid = () => {
 const CashierPage = () => {
   return (
     <div>
-      <Navbar />
       <h1>Order Total:</h1>
       <ButtonGrid />
     </div>
