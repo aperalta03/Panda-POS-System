@@ -5,26 +5,44 @@
     background-color: var(--primary-color);
     display: flex;
     flex-direction: row;
-    align-content: center;
-    justify-content: space-between;
     padding: 20px;
     border-bottom: solid 2px black;
 }
 /* Content */
+.logoffButton {
+    padding: 10px;
+    color: var(--text-color-dark);
+    background-color: var(--secondary-color);
+    border-radius: 15px;
+    margin-right: 10px;
+    visibility: hidden;
+}
+.logoffButton:hover {
+    cursor: pointer;
+    background-color: var(--secondary-color-hover);
+}
+.logoffButton.visible {
+    visibility: visible;
+}
 .pageButton {
     padding: 10px;
     color: var(--text-color-dark);
     background-color: var(--secondary-color);
     border-radius: 15px;
+    visibility: hidden;
 }
 .pageButton:hover {
     cursor: pointer;
     background-color: var(--secondary-color-hover);
 }
+.pageButton.visible {
+    visibility: visible;
+}
 .title {
     color: var(--text-color-dark);
+    text-align: center;
+    flex: 1;
     align-self: center;
-    justify-self: center;
 }
 .detailsBox {
     height: 100%;

@@ -1,8 +1,58 @@
+/* Main Container */
 .mainContainer {
-    height: 100vh;
-    width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    padding: 20px;
+    background-color: #EAE2D8;
+    border-radius: 10px;
+}
+/* Content */
+.h1 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+/* Numpad */
+.numpad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 300px;
+}
+.numpad button {
+    background-color: #D22730;
+    color: #FFF;
+    font-size: 1.5rem;
+    padding: 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.numpad button:hover {
+    background-color: #B71C24;
+}
+.numpad button:active {
+    background-color: #A1191F;
+}
+/* Bottom */
+.button {
+    background-color: #333;
+    color: #FFF;
+    font-size: 1rem;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+.button:hover {
+    background-color: #555;
+}
+.button:active {
+    background-color: #222;
 }
