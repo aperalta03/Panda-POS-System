@@ -29,7 +29,7 @@ const Navbar = () => {
     useEffect(() => {
         const fetchWeather = async () => {
             try {
-                const response = await fetch("https://wttr.in/?format=%t+%C");
+                const response = await fetch("https://wttr.in/College+Station?format=%t+%C");
                 const data = await response.text();
                 
                 const match = data.match(/([+-]?\d+°[CF])\s+(.+)/);
@@ -50,12 +50,14 @@ const Navbar = () => {
     
 
     const getWeatherIcon = (condition) => {
-        if (condition.includes("Sunny")) return <WbSunnyIcon />;
+        if (condition.includes("Sunny") || condition.includes("Clear")) return <WbSunnyIcon />;
         if (condition.includes("Partly cloudy")) return <CloudIcon />;
-        if (condition.includes("Cloudy")) return <CloudIcon />;
-        if (condition.includes("Rainy")) return <ThunderstormIcon />;
-        if (condition.includes("Windy")) return <AirIcon />;
+        if (condition.includes("Cloudy") || condition.includes("Overcast")) return <CloudIcon />;
+        if (condition.includes("Rain") || condition.includes("Showers")) return <ThunderstormIcon />;
+        if (condition.includes("Thunderstorm") || condition.includes("Thunder")) return <ThunderstormIcon />;
         if (condition.includes("Snow")) return <AcUnitIcon />;
+        if (condition.includes("Windy") || condition.includes("Breezy")) return <AirIcon />;
+        if (condition.includes("Fog") || condition.includes("Mist") || condition.includes("Haze")) return <CloudIcon />;
         return null;
     };
 
