@@ -13,7 +13,7 @@ export const RoleProvider = ({ children }) => {
 
     const updateRole = (newRole) => {
         setRole(newRole);
-        localStorage.setItem('role', newRole); // Save role to localStorage
+        localStorage.setItem('role', newRole);
     };
 
     return (
