@@ -53,6 +53,16 @@
   font-size: 1rem;
 }
 
+.itemButtonDisabled {
+  opacity: 0.5;         /* Grays out the button */
+  cursor: not-allowed;  /* Shows a disabled cursor */
+}
+
+.itemButtonEnabled {
+  opacity: 1.0;         /* Grays out the button */
+  cursor: pointer;  /* Shows a disabled cursor */
+}
+
 .quantity {
   font-size: 1.2rem;
   margin: 10px 0;
@@ -64,4 +74,101 @@
   border: none;
   padding: 5px 10px;
   cursor: pointer;
+}
+
+.enterButton {
+  background-color: #d32f2f; /* Red for main button */
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  /*font-size: 1rem;*/
+}
+
+.orderPanel {
+  width: 300px; /* Width of the left panel */
+  border: 1px solid #ccc; /* Add a border */
+  padding: 10px;
+  margin-left: 20px; /* Space from the button grid */
+}
+
+.orderRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+}
+
+.evenRow {
+  background-color: #f0f0f0; /* Light gray for even rows */
+}
+
+.oddRow {
+  background-color: #ffffff; /* White for odd rows */
+}
+
+.deleteButton {
+  background-color: red; /* Red background */
+  color: white; /* White text */
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+}
+
+
+
+/* Bottom Panel styling */
+.bottomPanel {
+  display: flex;
+  align-items: center;
+  background-color: #d32f2f; /* Match red color */
+  padding: 10px;
+  color: white;
+}
+
+.leftPanel {
+  display: flex;
+  flex-direction: column;
+  margin-right: auto;
+}
+
+.label {
+  font-family: 'Arial, sans-serif';
+  padding: 5px 0;
+}
+
+.netLabel {
+  font-size: 16px;
+}
+
+.taxLabel {
+  font-size: 16px;
+}
+
+.totalLabel {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.payButton {
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px;
+  background-color: white;
+  color: #d32f2f;
+  margin-right: 10px;
+}
+
+.rightPanel {
+  display: flex;
+  align-items: center;
+}
+
+.addItem {
+  font-size: 16px;
+  margin-right: 10px;
+}
+
+.closeButton {
+  font-size: 16px;
 }
