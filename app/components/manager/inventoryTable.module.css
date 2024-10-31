@@ -1,22 +1,14 @@
 /* Main Container */
 .mainContainer {
+    display: flex;
+    flex-direction: column;
     width: 100%;
+    height: 100%;
     padding: 10px;
     border: solid 2px black;
     border-radius: 10px;
     background: var(--background-color-hover);
     box-shadow: 0.1px 0.1px 10px #131313;
-}  
-.scrollableTableContainer {
-    max-height: 300px;
-    overflow-y: auto;
-}
-.scrollableTableContainer::-webkit-scrollbar {
-    display: none;
-}
-.scrollableTableContainer {
-    scrollbar-width: none;
-    -ms-overflow-style: none;
 }
 /* Inventory Table Styling */
 .InventoryTable {
@@ -33,15 +25,27 @@
 }
 .InventoryTable tbody tr:nth-child(odd) {
     background-color: #f2f2f2;
-} 
+}
 .InventoryTable tbody tr:nth-child(even) {
     background-color: #ffffff;
-}  
+}
 .InventoryTable th,
 .InventoryTable td {
     padding: 10px;
     border: 1px solid #ccc;
-}  
+}
 .InventoryTable tbody td {
     color: #333;
+}
+/* Scrollable Table Container */
+.scrollableTableContainer {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+.scrollableTableContainer::-webkit-scrollbar {
+    display: none;
+}
+.scrollableTableContainer {
+    scrollbar-width: none;
+    -ms-overflow-style: none; 
 }

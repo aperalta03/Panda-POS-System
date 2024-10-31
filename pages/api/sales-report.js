@@ -7,12 +7,10 @@ export default async function handler(req, res) {
     const { startDate, endDate } = req.query;
 
     try {
-      // Read the SQL file content
       const filePath = path.join(process.cwd(), 'utils', 'sql', 'sales-report.sql');
-      console.log("SQL file path:", filePath); 
+      //console.log("SQL file path:", filePath); 
       const queryText = fs.readFileSync(filePath, 'utf-8');
 
-      // Execute the query
       const result = await database.query(queryText, [startDate, endDate]);
       res.status(200).json({ data: result.rows });
     } catch (error) {
