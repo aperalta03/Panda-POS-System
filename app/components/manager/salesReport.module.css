@@ -1,16 +1,88 @@
+/* Main Container */
 .modalBox {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 400px;
+    max-width: 90%;
     background-color: white;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
 }
+/* Inputs */
 .datePickerContainer {
     display: flex;
     gap: 10px;
     margin-top: 15px;
+}
+.fetchButton {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    height: 50px;
+}
+.fetchButton:hover {
+    background-color: #218838;
+}
+.closeButton {
+    margin-top: 20px;
+    padding: 10px 15px;
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+.closeButton:hover {
+    background-color: #c9302c;
+}
+.errorText {
+    color: red;
+    margin-top: 10px;
+    font-size: 14px;
+}
+/* DataFrame */
+.scrollableTableContainer {
+    max-height: 500px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+.scrollableTableContainer::-webkit-scrollbar {
+    display: none;
+}
+.scrollableTableContainer {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.reportTable {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+.reportTable th, .reportTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    font-size: 14px;
+}
+.reportTable th {
+    background-color: #333;
+    color: white;
+    font-weight: bold;
+}
+.reportTable tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+.reportTable tbody tr:nth-child(even) {
+    background-color: #ffffff;
 }
