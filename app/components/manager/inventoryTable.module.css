@@ -7,6 +7,18 @@
     background: var(--background-color-hover);
     box-shadow: 0.1px 0.1px 10px #131313;
 }  
+.scrollableTableContainer {
+    max-height: 300px;
+    overflow-y: auto;
+}
+.scrollableTableContainer::-webkit-scrollbar {
+    display: none;
+}
+.scrollableTableContainer {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+/* Inventory Table Styling */
 .InventoryTable {
     width: 100%;
     border-collapse: collapse;
