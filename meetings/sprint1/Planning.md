@@ -9,22 +9,23 @@ Meeting Attendees
     Anson Thai
     Uzair Khan
     Alonso Peralta Espinoza
+
 Meeting Agenda Items
-    Looking forward discuss what we actually want our product to look like
-    Discuss what is a reasonable MVP for our first sprint 
-    Create sprint backlog
+    - Looking forward discuss what we actually want our product to look like
+    - Discuss what is a reasonable MVP for our first sprint 
+    - Create sprint backlog
 
 Tasks Completed:    
     Task Description-Assigned to-Completed? (yes/no)
-    Created sprint backlog-Conner-Yes
+    - Created sprint backlog-Conner-Yes
 
 Before The Next Meeting
     Plans:
-        Decide what framework/language we are using for development
+        - Decide what framework/language we are using for development
 
     Task Assignments:
         Task Description-Assigned to
-        Look into different frameworks and which one works best for our group-Everyone
+        - Look into different frameworks and which one works best for our group-Everyone
 
 Minutes
     The goal for this sprint is to start our prgram and get something working for the demo. We are aiming
