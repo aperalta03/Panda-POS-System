@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import RestockReportModal from './restockReport';
+import EmployeeViewerModal from './employeeViewerModal';
 import SalesReportModal from './salesReport';
 import XReportModal from './xReport';
 import ZReportModal from './zReport';
@@ -21,14 +21,14 @@ const DropDowns = () => {
   return (
     <div className={styles.mainContainer}>
       <div className={styles.buttonGrid}>
-        <button className={styles.button} onClick={() => openModal('Restock Report')}>Restock Report</button>
+        <button className={styles.button} onClick={() => openModal('Employee Viewer')}>Employee Viewer</button>
         <button className={styles.button} onClick={() => openModal('Sales Report')}>Sales Report</button>
         <button className={styles.button} onClick={() => openModal('X Report')}>X Report</button>
         <button className={styles.button} onClick={() => openModal('Z Report')}>Z Report</button>
       </div>
 
-      {modalTitle === 'Restock Report' && (
-        <RestockReportModal isOpen={isModalOpen} onClose={closeModal} />
+      {modalTitle === 'Employee Viewer' && (
+        <EmployeeViewerModal isOpen={isModalOpen} onClose={closeModal} />
       )}
       {modalTitle === 'Sales Report' && (
         <SalesReportModal

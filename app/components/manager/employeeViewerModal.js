@@ -1,12 +1,12 @@
 import React from 'react';
 import Modal from '@mui/material/Modal';
-import styles from './restockReport.module.css';
+import styles from './employeeViewerModal.module.css';
 
-const RestockReportModal = ({ isOpen, onClose }) => {
+const EmployeeViewerModal = ({ isOpen, onClose }) => {
   return (
     <Modal open={isOpen} onClose={onClose}>
       <div className={styles.modalBox}>
-        <h2>Restock Report</h2>
+        <h2>Employee Viewer</h2>
         {/* Add Restock Report specific content here */}
         <button onClick={onClose} className={styles.closeButton}>Close</button>
       </div>
@@ -14,4 +14,4 @@ const RestockReportModal = ({ isOpen, onClose }) => {
   );
 };
 
-export default RestockReportModal;
+export default EmployeeViewerModal;

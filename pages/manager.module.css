@@ -41,8 +41,8 @@
     flex-shrink: 0;
 }
 .salesChartPosition {
-    width: 97.5%;
-    margin: 15px;
+    width: 100%;
+    padding: 15px;
     flex-grow: 1;
     overflow: hidden;
 }

@@ -6,7 +6,7 @@
     border: solid 2px black;
     border-radius: 10px;
     background: var(--background-color-hover);
-    box-shadow: 0.1px 0.1px 10px #131313;
+    box-shadow: 0.01px 0.01px 10px #131313;
 }
 .chartHeader {
     width: 100%;
