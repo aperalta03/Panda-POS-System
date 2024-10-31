@@ -1,7 +1,11 @@
 /* Main Container */
 .mainContainer {
     width: 100%;
-    padding: 20px;
+    padding: 10px;
+    border: solid 2px black;
+    border-radius: 10px;
+    background: var(--background-color-hover);
+    box-shadow: 0.1px 0.1px 10px #131313;
 }  
 .InventoryTable {
     width: 100%;

@@ -25,7 +25,8 @@ const SalesChart = ({ dataset }) => {
     datasets: [{
       label: 'Sales',
       data: dataset.map(item => item.value),
-      borderColor: 'rgba(75,192,192,1)',
+      borderColor: '#D22730',
+      backgroundColor: 'wine',
       fill: false,
     }],
   };
@@ -40,7 +41,7 @@ const SalesChart = ({ dataset }) => {
         </div>
       </div>
       <div className={styles.chart}>
-       <Line data={data} height={'135px'} />
+       <Line data={data}/>
       </div>
     </div>
   );

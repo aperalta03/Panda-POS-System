@@ -1,10 +1,12 @@
 .salesChartContainer {
     width: 100%;
     height: 100%;
-    border-top: solid 2px black;
-    border-left: solid 2px black;
     justify-content: center;
-    padding: 20px;
+    padding: 10px;
+    border: solid 2px black;
+    border-radius: 10px;
+    background: var(--background-color-hover);
+    box-shadow: 0.1px 0.1px 10px #131313;
 }
 .chartHeader {
     width: 100%;
@@ -12,7 +14,6 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    
 }
 .subtitle {
     display: flex;
@@ -28,7 +29,7 @@
 }
 .chart {
     width: 100%;
-    height: 90%;
+    height: 85%;
     justify-content: center;
 }
 .chart canvas {
