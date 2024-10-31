@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import database from '../../app/utils/database';
+import database from '../../utils/database';
 import tempSalesData from '../../app/data/tempSalesData';
 
 export default async function handler(req, res) {
