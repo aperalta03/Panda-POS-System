@@ -43,5 +43,5 @@ Before The Next Meeting
 Minutes from Previous Meeting
     Our sprint goal is to get a working version of our project 2 using react and node. Our fist of five 
     was 2.5. We know we are probably not finished everything we want to by the end of this sprint. There
-    are still a few things that we haven't been able to convert over, but it's not too much (about 6 story points). It's mostly a few things here and there plus the database connection. Our biggest blocker is geting the database connection to work. Right now we are having a pathing issud. We are still on a good
+    are still a few things that we haven't been able to convert over, but it's not too much (about 6 story points). It's mostly a few things here and there plus the database connection. Our biggest blocker is getting the database connection to work. Right now we are having a pathing issud. We are still on a good
     pace for the demo, and ideally we will have the database connection by tonight.   

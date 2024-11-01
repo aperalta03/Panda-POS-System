@@ -35,8 +35,8 @@ Before The Next Meeting
         - Look into way to host our program online - Conner
 
 Minutes from Previous Meeting
-    We ultimately decided to go with node for our back end frame work and react for our front end
-    frame work. Now we need to go throught the process of making sure everyone can actually use node
-    effectively. Our sprint goal is to get a working version of our project 2 using react and node. 
-    Our fist of five was a 4.2. We assinged who was working on what in the sprint backlog. Go look at 
-    that to see who is working on what.
+    We ultimately decided to go with node for our backend framework and react for our front end framework. 
+    Now we need to go through the process of making sure everyone can actually use node effectively. Our 
+    sprint goal is to get a working version of our project 2 using react and node.  Our fist of five was 
+    a 4.2. We assigned who was working on what in the sprint backlog. Go look at that to see who is working 
+    on what.

@@ -41,4 +41,4 @@ Before The Next Meeting
 
 Minutes from Previous Meeting
     Our sprint goal is to get a working version of our project 2 using react and node. Our fist of five 
-    was 3.8. Now everyone has access to the node environment and everyone is able to run the program locally. We have a better understanding of what is expected because of the scrum metting between the TA's and the scrum masters. We know that our program does not need to connect to the database for this sprint. We would still like to do that, but if we don't have time we can push it to next sprint. 
+    was 3.8. Now everyone has access to the node environment and everyone is able to run the program locally. We have a better understanding of what is expected because of the scrum meeting between the TA's and the scrum masters. We know that our program does not need to connect to the database for this sprint. We would still like to do that, but if we don't have time we can push it to the next sprint. 
