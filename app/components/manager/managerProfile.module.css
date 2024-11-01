@@ -6,7 +6,6 @@
     align-items: center;
     background-color: var(--primary-color);
     border-radius: 10px;
-    border: solid 2px black;
     box-shadow: 0.1px 0.1px 10px #131313;
 }
 .managerName{
