@@ -1,5 +1,6 @@
 # Meetings:
 Srum meetings Monday, Wednesday, and Friday after lecture
+Meeting docs are in the meeting folder
 
 # FIRST:
 run `npm install next react react-dom` to populate the `node_modules` folder in your directory :)
