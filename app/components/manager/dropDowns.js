@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import Modal from '@mui/material/Modal';
+import EmployeeViewerModal from './employeeViewerModal';
+import SalesReportModal from './salesReport';
+import XReportModal from './xReport';
+import ZReportModal from './zReport';
 import styles from './dropDowns.module.css';
 
 const DropDowns = () => {
@@ -20,24 +21,31 @@ const DropDowns = () => {
   return (
     <div className={styles.mainContainer}>
       <div className={styles.buttonGrid}>
-        <button className={styles.button} onClick={() => openModal('Restock Report')}>Restock Report</button>
+        <button className={styles.button} onClick={() => openModal('Employee Viewer')}>Employee Viewer</button>
         <button className={styles.button} onClick={() => openModal('Sales Report')}>Sales Report</button>
         <button className={styles.button} onClick={() => openModal('X Report')}>X Report</button>
         <button className={styles.button} onClick={() => openModal('Z Report')}>Z Report</button>
       </div>
-      
-      <Modal open={isModalOpen} onClose={closeModal}>
-        <div className={styles.modalBox}>
-          <h2>{modalTitle}</h2>
-          {modalTitle === 'Sales Report' && (
-            <div className={styles.datePickerContainer}>
-              <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
-              <DatePicker selected={endDate} onChange={(date) => setEndDate(date)} />
-            </div>
-          )}
-          <button onClick={closeModal} variant="outlined" style={{ marginTop: '20px' }}>Close</button>
-        </div>
-      </Modal>
+
+      {modalTitle === 'Employee Viewer' && (
+        <EmployeeViewerModal isOpen={isModalOpen} onClose={closeModal} />
+      )}
+      {modalTitle === 'Sales Report' && (
+        <SalesReportModal
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          startDate={startDate}
+          setStartDate={setStartDate}
+          endDate={endDate}
+          setEndDate={setEndDate}
+        />
+      )}
+      {modalTitle === 'X Report' && (
+        <XReportModal isOpen={isModalOpen} onClose={closeModal} />
+      )}
+      {modalTitle === 'Z Report' && (
+        <ZReportModal isOpen={isModalOpen} onClose={closeModal} />
+      )}
     </div>
   );
 };

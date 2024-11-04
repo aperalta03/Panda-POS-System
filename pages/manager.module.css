@@ -1,31 +1,48 @@
+/* Main Container */
 .mainContainer {
     position: relative;
     width: 100%;
-    height: 100%;
+    height: 90vh; /* Fixed Height - Better for % in children comps */
     display: flex;
+}
+/* Left and Right Containers */
+.left, .right {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
 }
 .left {
     width: 30%;
-    height: 100%;
 }
 .right {
     width: 70%;
-    height: 100%;
 }
-.inventoryTablePosition{
-    width: 100%;
+/* Left Containers */
+.inventoryTablePosition {
     height: 90%;
-}
-.managerProfilePosition{
     width: 100%;
+    padding: 15px;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.managerProfilePosition {
     height: 10%;
-}
-.dropDownPosition{
     width: 100%;
+    padding: 15px;
+    flex-shrink: 0;
+}
+/* Right Containers */
+.dropDownPosition {
     height: 30%;
-}
-.salesChartPosition{
     width: 100%;
-    height: 70%;
-    margin: auto;
+    padding: 15px;
+    flex-shrink: 0;
+}
+.salesChartPosition {
+    width: 100%;
+    padding: 15px;
+    flex-grow: 1;
+    overflow: hidden;
 }

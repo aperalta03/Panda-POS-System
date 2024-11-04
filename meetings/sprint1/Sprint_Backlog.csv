@@ -1,0 +1,18 @@
+﻿Task,Assigned To,Time Estimate (story points),Actual Time Taken,Status
+Set up local environments,Everyone,1,1,Completed
+Fix the issue that causes orders to take too much time,Brandon,1,1,Completed
+Set up the website to host,Alonso,3,1,Completed
+Move the employee view to the web service,Uzair/Brandon,8,10,Completed
+Move the manager view to the web service,Anson/Andrew,8,10,Completed
+Move the login page to the web service,Conner/Alonzo,5,5,Completed
+Find way to host our program online,Alonso,1,1,Completed
+Set up online host,Alonso,3,2,Completed
+Download and set up OAuth API,Conner,3,N/A,In Progress
+Create a way for managers to log in with OAuth API,Anson,2,N/A,In Progress
+Test login functionality,Conner,1,N/A,In Progress
+Create a new kiosk view,Uzair,2,1,Completed
+Create a new kitchen window view,Anson,2,1,Completed
+Create a new menu board view,Andrew,2,1,Completed
+Create a way for managers/employees to switch to the kiosk view,Brandon,1,1,Completed
+Create a way for managers/employees to switch to the kitchen window view,Alonzo,1,1,Completed
+Create a way for managers/employees to switch to the menu board view,Alonzo,1,1,Completed

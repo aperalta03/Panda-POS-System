@@ -1,30 +1,37 @@
 .salesChartContainer {
     width: 100%;
     height: 100%;
-    border-top: solid 2px black;
-    border-left: solid 2px black;
     justify-content: center;
-    padding: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    background: var(--background-color-hover);
+    box-shadow: 0.01px 0.01px 10px #131313;
+}
+.chartHeader {
+    width: 100%;
+    height: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 .subtitle {
     display: flex;
     justify-self: center;
     align-self: center;
     font-size: 2rem;
-    margin-left: 20px; 
-}
-.salesChartContainer canvas {
-    width: 100%;
-    height: 100%;
-}
-.chartHeader {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 15px;
+    margin-left: 2%; 
 }
 .datePickers {
     display: flex;
-    gap: 30px;
-    margin-right: 30px;
+    gap: 10%;
+    margin-right: 10%;
+}
+.chart {
+    width: 100%;
+    height: 85%;
+    justify-content: center;
+}
+.chart canvas {
+    width: 100% !important;
+    height: 100% !important;
 }

@@ -1,0 +1,73 @@
+.modalBox {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1000px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+/* Table */
+.employeeTableContainer {
+    max-height: 700px; 
+    overflow-y: auto;
+}
+.employeeTableContainer::-webkit-scrollbar {
+    display: none;
+}
+.employeeTableContainer {
+    scrollbar-width: none;
+}
+.employeeTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+.employeeTable th, .employeeTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+.employeeTable th {
+    background-color: black;
+    color: white;
+    border: 1px solid red;
+}
+.employeeTable tr:nth-child(odd) {
+    background-color: #f5f5f5;
+}
+.employeeTable tr:nth-child(even) {
+    background-color: #e0e0e0;
+}
+.managerName {
+    color: red;
+}
+.active {
+    color: green;
+    font-weight: bold;
+}
+.inactive {
+    color: red;
+    font-weight: bold;
+}
+/* Button Styles */
+.closeButton, .switchButton {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.switchButton {
+    color: white;
+    background: #131313;
+}
+.closeButton {
+    margin-top: 20px;
+    background-color: #ddd;
+}
+.errorText {
+    color: red;
+    margin-bottom: 10px;
+}
