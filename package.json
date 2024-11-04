@@ -13,6 +13,7 @@
     "@emotion/styled": "^11.13.0",
     "@mui/icons-material": "^6.1.6",
     "@mui/material": "^6.1.6",
+    "@next/swc-darwin-arm64": "^15.0.2",
     "chart.js": "^4.4.6",
     "dotenv": "^16.4.5",
     "next": "15.0.1",
