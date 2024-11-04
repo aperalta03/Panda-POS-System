@@ -4,9 +4,9 @@ import styles from "./cashier.module.css";
 const ButtonGrid = ({
   setNetCost,
   priceMap,
-  resetGrid,
   quantities,
   setQuantities,
+  addOrderToPanel,
 }) => {
   const menuItems = [
     "Bowl",
@@ -65,7 +65,7 @@ const ButtonGrid = ({
     if (foodItems.includes(item)) {
       setPlateQuantity((prev) => {
         const newPlateQuantity = Math.max(prev + incrementAmount, 0);
-        checkQuantity(newPlateQuantity, currPlate);
+        checkQuantity(newPlateQuantity, currPlate, [...associatedItems, item]);
         return newPlateQuantity;
       });
       setAssociatedItems((prev) => [...prev, item]);
@@ -92,19 +92,18 @@ const ButtonGrid = ({
     }
   };
 
-  const handleMinusClick = (item) => updateQuantity(item, -1);
-
-  const checkQuantity = (currentPlateQuantity, currentPlate) => {
+  const checkQuantity = (currentPlateQuantity, currentPlate, items) => {
     if (
       (currentPlateQuantity === 2 && currentPlate === "Bowl") ||
       (currentPlateQuantity === 3 && currentPlate === "Plate") ||
       (currentPlateQuantity === 4 && currentPlate === "Bigger Plate")
     ) {
+      addOrderToPanel(currentPlate, items);
       setDisabledItems(foodItems);
       setEnabledItems(plateSizes);
       setCurrPlate("");
       setPlateQuantity(0);
-      setAssociatedItems([]);
+      setAssociatedItems([]); // Reset associated items after adding order
       setNetCost((prev) => prev + priceMap[currentPlate]);
     }
   };
@@ -116,13 +115,14 @@ const ButtonGrid = ({
         0
       );
       setNetCost((prevNetCost) => prevNetCost + aLaCarteCost);
+      addOrderToPanel("A La Carte", associatedItems);
 
       setDisabledItems(foodItems);
       setEnabledItems(plateSizes);
       setCurrPlate("");
       setPlateQuantity(0);
       setIsEnterEnabled(false);
-      setAssociatedItems([]);
+      setAssociatedItems([]); // Reset associated items after adding order
     }
   };
 
@@ -178,6 +178,26 @@ const BottomPanel = ({ netCost, handlePayClick }) => (
   </div>
 );
 
+const OrderPanel = ({ orders, onDelete }) => {
+  return (
+    <div className={styles.orderPanel}>
+      {orders.map((order, index) => (
+        <div key={index} className={styles.orderRow}>
+          <span>
+            {order.plateSize} ({order.items.join(", ")})
+          </span>
+          <button
+            onClick={() => onDelete(index)}
+            className={styles.deleteButton}
+          >
+            Delete
+          </button>
+        </div>
+      ))}
+    </div>
+  );
+};
+
 const CashierPage = () => {
   const [netCost, setNetCost] = useState(0.0);
   const [quantities, setQuantities] = useState({
@@ -209,6 +229,8 @@ const CashierPage = () => {
     "Black Pepper Chicken": 0,
     "Seasonal Item": 0,
   });
+
+  const [orders, setOrders] = useState([]);
 
   const priceMap = {
     Bowl: 8.3,
@@ -245,17 +267,43 @@ const CashierPage = () => {
     setQuantities(
       Object.keys(quantities).reduce((acc, item) => ({ ...acc, [item]: 0 }), {})
     ); // Reset all quantities to zero
+    setOrders([]); // Clear all orders
+  };
+
+  const addOrderToPanel = (plateSize, items) => {
+    setOrders((prevOrders) => [...prevOrders, { plateSize, items }]);
+  };
+
+  const deleteOrder = (index) => {
+    const orderToDelete = orders[index];
+    const orderCost =
+      orderToDelete.plateSize === "A La Carte"
+        ? orderToDelete.items.reduce((total, item) => total + priceMap[item], 0)
+        : priceMap[orderToDelete.plateSize];
+
+    setNetCost((prev) => prev - orderCost);
+
+    const updatedQuantities = { ...quantities };
+    updatedQuantities[orderToDelete.plateSize] -= 1;
+    orderToDelete.items.forEach((item) => {
+      updatedQuantities[item] = Math.max((updatedQuantities[item] || 0) - 1, 0);
+    });
+    setQuantities(updatedQuantities);
+
+    setOrders((prevOrders) => prevOrders.filter((_, i) => i !== index));
   };
 
   return (
     <div>
       <h1>Order Total:</h1>
       <div className={styles.layout}>
+        <OrderPanel orders={orders} onDelete={deleteOrder} />
         <ButtonGrid
           setNetCost={setNetCost}
           priceMap={priceMap}
           quantities={quantities}
           setQuantities={setQuantities}
+          addOrderToPanel={addOrderToPanel}
         />
       </div>
       <BottomPanel netCost={netCost} handlePayClick={handlePayClick} />
