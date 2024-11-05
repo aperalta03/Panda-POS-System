@@ -142,7 +142,7 @@ const ButtonGrid = ({
           <span className={styles.quantity}>{quantities[item]}</span>
           {!plateSizes.includes(item) && (
             <button
-              onClick={() => handleMinusClick(item)}
+              onClick={() => updateQuantity(item, -1)}
               className={styles.minusButton}
             >
               –
