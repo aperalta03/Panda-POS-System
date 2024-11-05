@@ -250,8 +250,8 @@ const CashierPage = () => {
   const [orders, setOrders] = useState([]);
 
   const [priceMap, setPriceMap] = useState ({
-    Bowl: 8.3,
-    Plate: 9.8,
+    "Bowl": 8.3,
+    "Plate": 9.8,
     "Bigger Plate": 11.3,
     "A La Carte": 0.0,
     "Fountain Drink": 2.9,
