@@ -11,7 +11,7 @@
 }
 /* Table */
 .employeeTableContainer {
-    max-height: 700px; 
+    max-height: 450px; 
     overflow-y: auto;
 }
 .employeeTableContainer::-webkit-scrollbar {
@@ -66,6 +66,11 @@
 .closeButton {
     margin-top: 20px;
     background-color: #ddd;
+}
+.addButton {
+    margin-top: 20px;
+    background-color: #000;
+    color: #ddd;
 }
 .errorText {
     color: red;
