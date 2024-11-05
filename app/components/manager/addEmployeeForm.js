@@ -14,6 +14,8 @@ const AddEmployeeForm = ({ isOpen, onClose, onSubmit }) => {
     is_parttime: false,
   });
 
+  const [errorMessage, setErrorMessage] = useState(''); // State to track the error message
+
   // Handle form input changes
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -26,6 +28,7 @@ const AddEmployeeForm = ({ isOpen, onClose, onSubmit }) => {
   // Submit the form to create a new employee
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage(''); // Reset the error message before each submission
 
     try {
       const response = await fetch('/api/add-employee', {
@@ -37,7 +40,9 @@ const AddEmployeeForm = ({ isOpen, onClose, onSubmit }) => {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to add new employee');
+        // If the response is not OK, throw an error
+        setErrorMessage('Bad input. Please check your data and try again.'); // Set the error message
+        return; // Exit early without closing the modal or notifying the parent
       }
 
       const data = await response.json();
@@ -45,6 +50,7 @@ const AddEmployeeForm = ({ isOpen, onClose, onSubmit }) => {
       onClose(); // Close the modal after successful submission
     } catch (error) {
       console.error('Error adding new employee:', error);
+      setErrorMessage('Bad input. Please check your data and try again.'); // Show a generic error message
     }
   };
 
@@ -125,6 +131,8 @@ const AddEmployeeForm = ({ isOpen, onClose, onSubmit }) => {
               onChange={handleInputChange}
             />
           </label>
+
+          {errorMessage && <div className={styles.error}>{errorMessage}</div>} {/* Display error message */}
 
           <div className={styles.buttonContainer}>
             <button type="submit">Submit</button>

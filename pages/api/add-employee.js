@@ -17,30 +17,14 @@ export default async function handler(req, res) {
 
         try {
             // SQL query to insert the new employee
-            const queryText = `
-                INSERT INTO employees 
-                (
-                    employee_id, 
-                    first_name, 
-                    last_name, 
-                    dob, 
-                    phone_number, 
-                    hourly_rate, 
-                    is_manager, 
-                    is_part_time, 
-                    is_active
-                )
-                VALUES
-                (
-                    $1, $2, $3, $4, $5, $6, $7, $8, $9
-                )
-            `;
+            const filePath = path.join(process.cwd(), 'utils', 'sql', 'add-employee.sql');
+            const queryText = fs.readFileSync(filePath, 'utf-8');
             
             const values = [
                 employee_id, 
-                first_name,   // already wrapped in single quotes in the frontend
-                last_name,    // already wrapped in single quotes in the frontend
-                date_of_birth, // already formatted as 'YYYY-MM-DD'
+                first_name,   
+                last_name,    
+                date_of_birth, 
                 phone_number,
                 hourly_rate,
                 is_manager,
@@ -48,11 +32,17 @@ export default async function handler(req, res) {
                 true // Assuming all new employees are active
             ];
 
+            // Attempt to add the new employee to the database
             const result = await database.query(queryText, values);
+
+            // Send success response with employee details
             res.status(200).json({ message: 'Employee added successfully', employee: result.rows[0] });
         } catch (error) {
+            // Log the error (for debugging) but do not crash the app
             console.error('Error adding new employee:', error);
-            res.status(500).json({ error: 'Failed to add new employee' });
+
+            // Send a generic error message to the user
+            res.status(400).json({ error: 'Bad input. Please check your data and try again.' });
         }
     } else {
         res.setHeader('Allow', ['POST']);
