@@ -37,6 +37,8 @@ Link: [https://pos-system-ecru-tau.vercel.app/login]
     - Translate Java
 3. Manager Page
     - Translate Java
+    - add functionality to add and remove employees in the manager view. (Anson)
+    - add functionality to the chart (Anson)
 4. Kitchen Page
 5. Menu Board Page
 6. Customer Page
