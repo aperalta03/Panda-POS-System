@@ -7,7 +7,7 @@ export default function handler(req, res) {
     const filePath = path.join(
       process.cwd(),
       "app",
-      "data",
+      "context",
       "salesRecord.json"
     );
 
