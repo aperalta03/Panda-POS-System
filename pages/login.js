@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useRole } from '../app/context/roleProvider';
-import { useUser } from '../app/context/currentUser';  // Import useUser to access context
+import { useUser } from '../app/context/currentUser';  
 import styles from './login.module.css';
 
 const Login = () => {
     const router = useRouter();
     const { setRole } = useRole();
-    const { setLoggedInName } = useUser();  // Destructure setLoggedInName from context
+    const { setLoggedInName } = useUser();
     const [input, setInput] = useState("");
     const [employeeMap, setEmployeeMap] = useState({});
 
@@ -48,7 +48,7 @@ const Login = () => {
 
     const handleLogin = async () => {
         if (Object.keys(employeeMap).length === 0) {
-            await fetchEmployees();  // Fetch employee data from API
+            await fetchEmployees();
         }
 
         if (!employeeMap[input]) {
@@ -57,8 +57,7 @@ const Login = () => {
         } else {
             const employee = employeeMap[input];
 
-            // Set logged-in name in context
-            setLoggedInName(employee.name);  // Set the name in context
+            setLoggedInName(employee.name);
 
             if (employee.isManager) {
                 setRole("manager");
@@ -66,7 +65,7 @@ const Login = () => {
                 setRole("cashier");
             }
 
-            setInput(""); // Clear the input field after a successful login
+            setInput("");
             router.push('/cashier');
         }
     };

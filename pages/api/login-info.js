@@ -10,11 +10,10 @@ export default async function handler(req, res) {
 
             const result = await database.query(queryText);
 
-            // Transform the data to match the expected format for the front-end
             const employeeData = result.rows.map((employee) => ({
-                employeeID: employee.employee_id,  // Renaming to match front-end code
-                name: `${employee.first_name} ${employee.last_name}`,  // Combining first and last name
-                isManager: employee.is_manager     // Mapping to the correct field
+                employeeID: employee.employee_id, 
+                name: `${employee.first_name} ${employee.last_name}`, 
+                isManager: employee.is_manager   
             }));
 
             // Return the transformed data
