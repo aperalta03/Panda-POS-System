@@ -46,7 +46,11 @@ const Login = () => {
     setInput((prev) => prev.slice(0, -1));
   };
 
-    const handleLogin = () => {
+    const handleLogin = async () => {
+        if (Object.keys(employeeMap).length === 0) {
+            await fetchEmployees();  // Fetch employee data from API
+        }
+
         if (!employeeMap[input]) {
             alert("Invalid Code");
             setInput("");
