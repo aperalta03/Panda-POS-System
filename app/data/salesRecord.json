@@ -1,1 +1,20 @@
-[]
+[
+  {
+    "saleNumber": 1,
+    "date": "2024-11-06",
+    "time": "09:48:44",
+    "totalPrice": "10.41",
+    "employeeID": "01",
+    "items": [
+      {
+        "plateSize": "Plate",
+        "items": [
+          "Super Greens",
+          "Super Greens",
+          "Honey Walnut Shrimp",
+          "Honey Walnut Shrimp"
+        ]
+      }
+    ]
+  }
+]

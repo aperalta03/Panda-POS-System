@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from "./cashier.module.css";
+import { Modal, Box, TextField, Button } from "@mui/material";
 
 const ButtonGrid = ({
   setNetCost,
@@ -333,7 +334,11 @@ const CashierPage = () => {
 
   const [itemIngredientsMap, setItemIngredientsMap] = useState({});
   const [seasonalItemName, setSeasonalItemName] = useState("Seasonal Item");
-  const [employeeID, setEmployeeID] = useState(null); // Add employeeID state
+  const [seasonalItemPrice, setSeasonalItemPrice] = useState(0.0);
+  const [seasonalItemIngredients, setSeasonalItemIngredients] = useState("");
+  const [employeeID, setEmployeeID] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [seasonalItemActive, setSeasonalItemActive] = useState(false);
 
   // Retrieve employeeID from localStorage on component mount
   useEffect(() => {
@@ -419,56 +424,55 @@ const CashierPage = () => {
     setOrders((prevOrders) => prevOrders.filter((_, i) => i !== index));
   };
 
-  const [seasonalItemActive, setSeasonalItemActive] = useState(false);
+  const handleModalOpen = () => setModalOpen(true);
+  const handleModalClose = () => setModalOpen(false);
+
+  const handleModalSubmit = async () => {
+    try {
+      const response = await fetch('/api/updateSeasonalItem', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: seasonalItemName,
+          price: seasonalItemPrice,
+          ingredients: seasonalItemIngredients,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update seasonal item');
+      }
+
+      setPriceMap((prevPriceMap) => ({
+        ...prevPriceMap,
+        ["Seasonal Item"]: seasonalItemPrice,
+      }));
+      setItemIngredientsMap((prevItemIngredientsMap) => ({
+        ...prevItemIngredientsMap,
+        ["Seasonal Item"]: seasonalItemIngredients.split(',').map((ingredient) => ingredient.trim()),
+      }));
+      setSeasonalItemActive(true);
+      handleModalClose();
+    } catch (error) {
+      console.error(error);
+      alert("Error updating seasonal item.");
+    }
+  };
+
   const handleSeasonalAddDelete = () => {
     if (seasonalItemActive) {
       setSeasonalItemName("Seasonal Item");
-      setPriceMap((prevPriceMap) => ({
-        ...prevPriceMap,
-        ["Seasonal Item"]: 0.0,
-      }));
+      setPriceMap((prevPriceMap) => ({ ...prevPriceMap, ["Seasonal Item"]: 0.0 }));
       setItemIngredientsMap((prevItemIngredientsMap) => {
         const { ["Seasonal Item"]: _, ...newMap } = prevItemIngredientsMap;
         return newMap;
       });
-      setQuantities((prevQuantities) => ({
-        ...prevQuantities,
-        ["Seasonal Item"]: 0,
-      }));
+      setQuantities((prevQuantities) => ({ ...prevQuantities, ["Seasonal Item"]: 0 }));
       setSeasonalItemActive(false);
     } else {
-      const itemName = prompt("Enter the seasonal item name:");
-      const itemPrice = parseFloat(
-        prompt("Enter the price of the seasonal item:")
-      );
-      if (isNaN(itemPrice)) {
-        alert("Invalid price entered. Please try again.");
-        return;
-      }
-
-      setSeasonalItemName(itemName);
-      const itemIngredients = prompt(
-        "Enter the seasonal item ingredients (seperated by commas):"
-      );
-
-      setPriceMap((prevPriceMap) => ({
-        ...prevPriceMap,
-        ["Seasonal Item"]: itemPrice,
-      }));
-
-      setItemIngredientsMap((prevItemIngredientsMap) => ({
-        ...prevItemIngredientsMap,
-        [itemName]: itemIngredients
-          .split(",")
-          .map((ingredient) => ingredient.trim()),
-      }));
-
-      setQuantities((prevQuantities) => ({
-        ...prevQuantities,
-        ["Seasonal Item"]: 0,
-      }));
-
-      setSeasonalItemActive(true);
+      handleModalOpen();
     }
   };
 
@@ -497,6 +501,38 @@ const CashierPage = () => {
         handleSeasonalAddDelete={handleSeasonalAddDelete}
         seasonalItemActive={seasonalItemActive}
       />
+
+      <Modal open={modalOpen} onClose={handleModalClose}>
+        <Box className={styles.modalBox}>
+          <h2>Add Seasonal Item</h2>
+          <TextField
+            label="Seasonal Item Name"
+            fullWidth
+            margin="normal"
+            value={seasonalItemName}
+            onChange={(e) => setSeasonalItemName(e.target.value)}
+          />
+          <TextField
+            label="Price"
+            type="number"
+            fullWidth
+            margin="normal"
+            value={seasonalItemPrice}
+            onChange={(e) => setSeasonalItemPrice(parseFloat(e.target.value))}
+          />
+          <TextField
+            label="Ingredients (comma-separated)"
+            fullWidth
+            margin="normal"
+            value={seasonalItemIngredients}
+            onChange={(e) => setSeasonalItemIngredients(e.target.value)}
+          />
+          <Button onClick={handleModalSubmit} variant="contained" color="primary" fullWidth>
+            Submit
+          </Button>
+        </Box>
+      </Modal>
+
     </div>
   );
 };
