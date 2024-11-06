@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./cashier.module.css";
 
 const ButtonGrid = ({
@@ -333,13 +333,67 @@ const CashierPage = () => {
 
   const [itemIngredientsMap, setItemIngredientsMap] = useState({});
   const [seasonalItemName, setSeasonalItemName] = useState("Seasonal Item");
+  const [employeeID, setEmployeeID] = useState(null); // Add employeeID state
 
-  const handlePayClick = () => {
-    setNetCost(0); // Reset net cost to zero
+  // Retrieve employeeID from localStorage on component mount
+  useEffect(() => {
+    const storedEmployeeID = localStorage.getItem("employeeID");
+    if (storedEmployeeID) {
+      setEmployeeID(storedEmployeeID);
+    }
+  }, []);
+
+  const handlePayClick = async () => {
+    // Get current date and time
+    const now = new Date();
+    const date = now.toISOString().split("T")[0];
+    const time = now.toTimeString().split(" ")[0];
+
+    // Retrieve and increment sale number
+    let saleNumber = parseInt(localStorage.getItem("latestSaleNumber")) || 0;
+    saleNumber += 1;
+
+    // Prepare the order details
+    const orderDetails = {
+      saleNumber, // Use as the primary key
+      date,
+      time,
+      totalPrice: (netCost + netCost * 0.0625).toFixed(2),
+      employeeID, // Assume employeeID was retrieved from localStorage or context
+      items: orders,
+    };
+    console.log("orderDetails: ", orderDetails);
+    // Send order details to the API route
+    try {
+      const response = await fetch(
+        `${window.location.origin}/api/updateSalesRecord`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(orderDetails),
+        }
+      );
+
+      if (response.ok) {
+        console.log("Order saved successfully");
+      } else {
+        console.error("Failed to save order");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+
+    // Increment and save the latest sale number in localStorage
+    localStorage.setItem("latestSaleNumber", saleNumber.toString());
+
+    // Reset net cost and quantities after payment
+    setNetCost(0);
     setQuantities(
       Object.keys(quantities).reduce((acc, item) => ({ ...acc, [item]: 0 }), {})
-    ); // Reset all quantities to zero
-    setOrders([]); // Clear all orders
+    );
+    setOrders([]); // Clear all orders in the UI
   };
 
   const addOrderToPanel = (plateSize, items) => {
