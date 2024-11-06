@@ -1,33 +1,49 @@
 import fs from 'fs';
 import path from 'path';
-import database from '../../utils/database';
-import tempSalesData from '../../app/data/tempSalesData';
+import database from '../../utils/database'; // Database utility to handle queries
+import salesRecord from '../../app/context/salesRecord.json'; // Path to your sales record JSON file
 
 export default async function handler(req, res) {
-    if (req.method === 'POST') {
-        try {
-            // Calculate daily totals from tempSalesData
-            const totalSales = tempSalesData.reduce((acc, transaction) => acc + transaction.total, 0);
-            const totalOrders = tempSalesData.length;
-            const today = new Date().toISOString().split('T')[0];
+  if (req.method === 'POST') {
+    try {
+      // Path to the SQL files
+      const salesQueryPath = path.join(process.cwd(), 'app/utils/sql/z-report-sales.sql');
+      const inventoryQueryPath = path.join(process.cwd(), 'app/utils/sql/z-report-inventory.sql');
+      
+      // Read SQL queries from files
+      const salesQuery = fs.readFileSync(salesQueryPath, 'utf-8');
+      const inventoryQuery = fs.readFileSync(inventoryQueryPath, 'utf-8');
+      
+      // Process each sale from salesRecord.json
+      for (const sale of salesRecord) {
+        // Insert sale into the database using the sales query
+        await database.query(salesQuery, [
+          sale.date, // $1 - date_of_sale
+          sale.employeeID, // $2 - employee_id
+          sale.time, // $3 - time_of_sale
+          sale.totalPrice, // $4 - price
+          sale.franchiseID, // $5 - franchise_id
+        ]);
 
-            // Read the SQL file for Z-Report
-            const filePath = path.join(process.cwd(), 'app/utils/sql/z-report');
-            const queryText = fs.readFileSync(filePath, 'utf-8');
-
-            // Insert daily totals into the database
-            await database.query(queryText, [today, totalSales, totalOrders]);
-
-            // Reset tempSalesData for the next day
-            tempSalesData.length = 0;
-
-            res.status(200).json({ message: 'Z-Report generated, totals reset for the next day.' });
-        } catch (error) {
-            console.error('Error running Z-Report:', error);
-            res.status(500).json({ error: 'Error running Z-Report' });
+        // Process each item in the sale and update inventory
+        for (const itemCategory of sale.items) {
+          for (const item of itemCategory.items) {
+            // Update inventory based on items sold using the inventory query
+            await database.query(inventoryQuery, [1, item]); // Assuming 1 is the quantity sold
+          }
         }
-    } else {
-        res.setHeader('Allow', ['POST']);
-        res.status(405).end(`Method ${req.method} Not Allowed`);
+      }
+
+      // Clear the salesRecord.json after processing
+      fs.writeFileSync(path.join(process.cwd(), 'app/context/salesRecord.json'), JSON.stringify([]));
+
+      res.status(200).json({ message: 'Z Report generated, sales recorded, and data reset.' });
+    } catch (error) {
+      console.error('Error generating Z report:', error);
+      res.status(500).json({ error: 'Error generating Z Report' });
     }
+  } else {
+    res.setHeader('Allow', ['POST']);
+    res.status(405).end(`Method ${req.method} Not Allowed`);
+  }
 }
