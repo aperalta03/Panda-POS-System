@@ -98,10 +98,10 @@ const SalesChart = () => {
         const salesCountMap = new Map();
 
         data.forEach((entry) => {
-            console.log('Entry:', entry);
-            const dateOfSale = new Date(entry.date_of_sale + 'T' + entry.time_of_sale); // Combine date and time
-            console.log("Hhhhhhhhhhhhhhhhhhhhggg");
+            // console.log('Entry:', entry);
+            const dateOfSale = new Date(entry.date_of_sale.slice(0,10) + 'T' + entry.time_of_sale); // Combine date and time
             let key = '';
+            // console.log(dateOfSale);
 
             switch (timeFrame) {
                 case 'Hourly':
@@ -134,9 +134,17 @@ const SalesChart = () => {
 
     // Helper function to get week number and year
     const getWeekYear = (date) => {
+
+        if (!(date instanceof Date) || isNaN(date)) {
+            console.error("Invalid date provided.");
+            return null; // Return null or handle the error as needed
+        }
+        
         const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
         const days = Math.floor((date - firstDayOfYear) / (24 * 60 * 60 * 1000));
         const weekNumber = Math.ceil((days + firstDayOfYear.getDay() + 1) / 7);
+        console.log(`${date.getFullYear()}-W${weekNumber}`);
+
         return `${date.getFullYear()}-W${weekNumber}`;
     };
 
