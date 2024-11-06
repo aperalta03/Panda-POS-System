@@ -1,0 +1,24 @@
+INSERT INTO employees 
+    (
+        employee_id, 
+        first_name, 
+        last_name, 
+        dob, 
+        phone_number, 
+        hourly_rate, 
+        is_manager, 
+        is_part_time, 
+        is_active
+    )
+VALUES
+    (
+        $1,
+        $2,
+        $3,
+        $4,
+        $5,
+        $6,
+        $7,
+        $8,
+        true
+    );

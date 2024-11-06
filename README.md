@@ -32,6 +32,7 @@ Link: [https://pos-system-ecru-tau.vercel.app/login]
 ## TODO
 
 1. Login Page
+
     - Translate Java
 2. Cashier Page
     - Translate Java
