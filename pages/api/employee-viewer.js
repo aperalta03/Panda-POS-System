@@ -11,8 +11,8 @@ export default async function handler(req, res) {
       const result = await database.query(queryText);
       res.status(200).json({ data: result.rows });
     } catch (error) {
-      console.error('Error fetching employee data:', error);
-      res.status(500).json({ error: 'Error fetching employee data' });
+      console.error('Error accessing database:', error);
+      res.status(500).json({ error: 'Error accessing database' });
     }
   } else {
     res.setHeader('Allow', ['GET']);

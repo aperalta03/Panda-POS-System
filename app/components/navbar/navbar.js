@@ -90,7 +90,7 @@ const Navbar = () => {
             >
                 Switch View
             </button>
-            <h1 className={styles.title}>Welcome to Panda Express</h1>
+            <h1 className={styles.title}>WELCOME TO PANDA EXPRESS</h1>
             <div className={styles.detailsBox}>
                 <div className={styles.timestamp}>{time}</div>
                 {weather.temp && weather.condition && (

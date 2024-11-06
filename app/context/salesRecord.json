@@ -1,0 +1,111 @@
+[
+  {
+    "saleNumber": 1,
+    "date": "2024-11-06",
+    "time": "10:24:36",
+    "totalPrice": "12.01",
+    "employeeID": null,
+    "items": [
+      {
+        "plateSize": "Bigger Plate",
+        "items": [
+          "Fried Rice",
+          "Fried Rice",
+          "Honey Walnut Shrimp",
+          "Honey Walnut Shrimp",
+          "Honey Walnut Shrimp"
+        ]
+      }
+    ]
+  },
+  {
+    "saleNumber": 2,
+    "date": "2024-11-06",
+    "time": "10:34:20",
+    "totalPrice": "10.41",
+    "employeeID": null,
+    "items": [
+      {
+        "plateSize": "Plate",
+        "items": [
+          "Super Greens",
+          "Super Greens",
+          "Black Pepper Sirloin Steak",
+          "Black Pepper Sirloin Steak"
+        ]
+      }
+    ]
+  },
+  {
+    "saleNumber": 3,
+    "date": "2024-11-06",
+    "time": "10:39:09",
+    "totalPrice": "8.82",
+    "employeeID": null,
+    "items": [
+      {
+        "plateSize": "Bowl",
+        "items": [
+          "Chow Mein",
+          "Chow Mein",
+          "Broccoli Beef"
+        ]
+      }
+    ]
+  },
+  {
+    "saleNumber": 4,
+    "date": "2024-11-06",
+    "time": "11:34:48",
+    "totalPrice": "10.41",
+    "employeeID": null,
+    "items": [
+      {
+        "plateSize": "Plate",
+        "items": [
+          "Chow Mein",
+          "Super Greens",
+          "Grilled Teriyaki Chicken",
+          "Grilled Teriyaki Chicken"
+        ]
+      }
+    ]
+  },
+  {
+    "saleNumber": 5,
+    "date": "2024-11-06",
+    "time": "11:54:53",
+    "totalPrice": "10.41",
+    "employeeID": null,
+    "items": [
+      {
+        "plateSize": "Plate",
+        "items": [
+          "Super Greens",
+          "Super Greens",
+          "Orange Chicken",
+          "Orange Chicken"
+        ]
+      }
+    ]
+  },
+  {
+    "saleNumber": 6,
+    "date": "2024-11-06",
+    "time": "12:00:42",
+    "totalPrice": "12.01",
+    "employeeID": null,
+    "items": [
+      {
+        "plateSize": "Bigger Plate",
+        "items": [
+          "Chow Mein",
+          "White Steamed Rice",
+          "SweetFire Chicken",
+          "Mushroom Chicken",
+          "Beijing Beef"
+        ]
+      }
+    ]
+  }
+]
