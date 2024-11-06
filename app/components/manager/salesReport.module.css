@@ -20,7 +20,7 @@
 .fetchButton {
     margin-top: 20px;
     padding: 10px 20px;
-    background-color: #28a745;
+    background-color: var(--secondary-color);
     color: white;
     border: none;
     cursor: pointer;
@@ -30,12 +30,12 @@
     height: 50px;
 }
 .fetchButton:hover {
-    background-color: #218838;
+    background-color: var(--secondary-color-hover);
 }
 .closeButton {
     margin-top: 20px;
     padding: 10px 15px;
-    background-color: #d9534f;
+    background-color: var(--primary-color);
     color: white;
     border: none;
     cursor: pointer;
@@ -44,7 +44,7 @@
     transition: background-color 0.3s ease;
 }
 .closeButton:hover {
-    background-color: #c9302c;
+    background-color: var(--primary-color-hover);
 }
 .errorText {
     color: red;

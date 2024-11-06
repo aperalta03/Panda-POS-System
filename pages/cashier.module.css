@@ -7,13 +7,13 @@
 .layout {
   display: flex;
   gap: 10px;
-  background-color:#e0e0e0;
+  background-color:var(--background-color);
 }
 /* Button Grid */
 .buttonGrid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 10px;
+  gap: 20px;
   padding: 20px;
   flex: 1;
   max-height: calc(100vh - 192px);
@@ -23,15 +23,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #e0e0e0;
+  background-color: var(--background-color-hover);
   padding: 10px;
   border-radius: 8px;
-  border: 2px solid black;
+  box-shadow: 0.1px 0.1px 10px #131313;
   position: relative;
   justify-content: space-between;
 }
 .itemButton {
-  background-color: #cb0632;
+  background-color: var(--primary-color);
   color: white;
   border: 1px solid black;
   border-radius: 10px;
@@ -40,6 +40,9 @@
   font-size: 1rem;
   z-index: 1;
   width: 100%;
+}
+.itemButton:hover {
+  background-color: var(--primary-color-hover);
 }
 .itemButtonDisabled {
   opacity: 0.5; 
@@ -76,15 +79,16 @@
 }
 /* Order Panel */
 .orderPanel {
-  border: 2px solid #000;
+  box-shadow: 0.1px 0.1px 10px #131313;
   padding: 10px;
   margin-left: 20px;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
   border-radius: 10px;
   max-width: 300px;
   min-width: 300px;
   max-height: 80vh;
+  background-color: var(--background-color-hover);
 }
 .orderRow {
   display: flex;
@@ -100,12 +104,15 @@
   background-color: #ffffff;
 }
 .deleteButton {
-  background-color: #ff4d4d;
+  background-color: var(--primary-color);
   color: white;
   border: none;
   padding: 4px 8px;
   cursor: pointer;
   border-radius: 4px;
+}
+.deleteButton:hover {
+  background-color: var(--primary-color-hover);
 }
 /* Bottom Panel */
 .bottomPanel {
