@@ -1,4 +1,4 @@
-import tempSalesData from '../../app/data/salesRecord';
+import tempSalesData from '../../app/context/salesRecord';
 
 export default function handler(req, res) {
     if (req.method === 'GET') {
