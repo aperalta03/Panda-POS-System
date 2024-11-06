@@ -82,7 +82,7 @@ const Navbar = () => {
                 onClick={handleLogoff}
                 aria-label="Log Off"
             >
-                Log Off
+                Log Out
             </button>
             <button
                 className={`${styles.pageButton} ${role === "manager" ? styles.visible : ''}`}

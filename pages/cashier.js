@@ -245,7 +245,6 @@ const BottomPanel = ({
         {seasonalItemActive ? "DELETE MENU ITEM" : "ADD MENU ITEM"}
       </button>
       <button onClick={handleAdjust} className={styles.adjustButton}>ADJUST ITEM</button>
-      <button className={styles.closeButton}>LOG OUT</button>
     </div>
   </div>
 );

@@ -65,12 +65,20 @@
 }
 .closeButton {
     margin-top: 20px;
+    border-radius: 5px;
+    padding: 8px 20px 8px 20px;
     background-color: #ddd;
 }
 .addButton {
     margin-top: 20px;
+    margin-right: 20px;
+    padding: 5px;
+    border-radius: 5px;
     background-color: #000;
     color: #ddd;
+}
+.addButton:hover {
+    cursor: pointer;
 }
 .errorText {
     color: red;
