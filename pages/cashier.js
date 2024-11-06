@@ -88,6 +88,7 @@ const ButtonGrid = ({
       setIsEnterEnabled(true);
       setEnabledItems(foodItems);
       setDisabledItems(plateSizes);
+      updatedAssociatedItems = []; // Reset associated items for a new A La Carte order
     } else if (plateSizes.includes(item)) {
       // Reset when a plate size is selected
       setCurrPlate(item);
@@ -99,7 +100,6 @@ const ButtonGrid = ({
       // Add side to associated items and increment the quantity
       updatedAssociatedItems.push(item);
       setPlateQuantity((prev) => prev + incrementAmount);
-
       if (plateQuantity + incrementAmount >= 1 && currPlate != "A La Carte") {
         setEnabledItems(entrees);
         setDisabledItems([...menuItems.filter((i) => !entrees.includes(i))]);
