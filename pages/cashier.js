@@ -7,6 +7,8 @@ const ButtonGrid = ({
   quantities,
   setQuantities,
   addOrderToPanel,
+  seasonalItemName,
+  seasonalItemActive,
 }) => {
   const menuItems = [
     "Bowl",
@@ -136,12 +138,15 @@ const ButtonGrid = ({
       currentPlate !== "A La Carte" &&
       currentPlateQuantity >= requiredQuantities[currentPlate]
     ) {
-      addOrderToPanel(currentPlate, [...items]);
+      const updatedItems = items.map((item) =>
+        item === "Seasonal Item" ? seasonalItemName : item
+      );
+      addOrderToPanel(currentPlate, updatedItems);
       setDisabledItems(foodItems);
       setEnabledItems(plateSizes);
       setCurrPlate("");
       setPlateQuantity(0);
-      setAssociatedItems([]); // Reset associated items after adding order
+      setAssociatedItems([]);
       setNetCost((prev) => prev + priceMap[currentPlate]);
     }
   };
@@ -151,15 +156,13 @@ const ButtonGrid = ({
       const updatedItems = associatedItems.map((item) =>
         item === "Seasonal Item" ? seasonalItemName : item
       );
-      console.log("associatedItems on Enter Click: ", associatedItems);
       const aLaCarteCost = associatedItems.reduce(
         (total, item) => total + priceMap[item],
         0
       );
 
       setNetCost((prevNetCost) => prevNetCost + aLaCarteCost);
-
-      addOrderToPanel("A La Carte", updatedItems);
+      addOrderToPanel("A La Carte", associatedItems);
 
       setDisabledItems(foodItems);
       setEnabledItems(plateSizes);
@@ -172,38 +175,52 @@ const ButtonGrid = ({
 
   return (
     <div className={styles.buttonGrid}>
-      {menuItems.map((item) => (
-        <div key={item} className={styles.gridItem}>
-          <button
-            onClick={() => updateQuantity(item, 1)}
-            className={`${styles.itemButton} ${
-              disabledItems.includes(item) ? styles.itemButtonDisabled : ""
-            } ${enabledItems.includes(item) ? styles.itemButtonEnabled : ""}`}
-            disabled={disabledItems.includes(item)}
-          >
-            {item}
-          </button>
-          <span className={styles.quantity}>{quantities[item]}</span>
-          {!plateSizes.includes(item) && (
-            <button
-              onClick={() => updateQuantity(item, -1)}
-              className={styles.minusButton}
-            >
-              –
-            </button>
-          )}
-          {item === "A La Carte" && isEnterEnabled && (
-            <button onClick={handleEnterClick} className={styles.enterButton}>
-              Enter
-            </button>
-          )}
-        </div>
-      ))}
+      {menuItems.map(
+        (item) =>
+          (item !== "Seasonal Item" || seasonalItemActive) && (
+            <div key={item} className={styles.gridItem}>
+              <button
+                onClick={() => updateQuantity(item, 1)}
+                className={`${styles.itemButton} ${
+                  disabledItems.includes(item) ? styles.itemButtonDisabled : ""
+                } ${
+                  enabledItems.includes(item) ? styles.itemButtonEnabled : ""
+                }`}
+                disabled={disabledItems.includes(item)}
+              >
+                {item === "Seasonal Item" ? seasonalItemName : item}{" "}
+                {/* Use seasonal item name */}
+              </button>
+              <span className={styles.quantity}>{quantities[item]}</span>
+              {!plateSizes.includes(item) && (
+                <button
+                  onClick={() => updateQuantity(item, -1)}
+                  className={styles.minusButton}
+                >
+                  –
+                </button>
+              )}
+              {item === "A La Carte" && isEnterEnabled && (
+                <button
+                  onClick={handleEnterClick}
+                  className={styles.enterButton}
+                >
+                  Enter
+                </button>
+              )}
+            </div>
+          )
+      )}
     </div>
   );
 };
 
-const BottomPanel = ({ netCost, handlePayClick }) => (
+const BottomPanel = ({
+  netCost,
+  handlePayClick,
+  handleSeasonalAddDelete,
+  seasonalItemActive,
+}) => (
   <div className={styles.bottomPanel}>
     <div className={styles.leftPanel}>
       <h2 className={styles.netLabel}>Net: ${netCost.toFixed(2)}</h2>
@@ -216,19 +233,27 @@ const BottomPanel = ({ netCost, handlePayClick }) => (
       Pay
     </button>
     <div className={styles.rightPanel}>
-      <button className={styles.addItem}>Add Menu Item</button>
+      <button onClick={handleSeasonalAddDelete} className={styles.addItem}>
+        {seasonalItemActive ? "Delete Menu Item" : "Add Menu Item"}
+      </button>
       <button className={styles.closeButton}>Log Out</button>
     </div>
   </div>
 );
 
-const OrderPanel = ({ orders, onDelete }) => {
+const OrderPanel = ({ orders, onDelete, seasonalItemName }) => {
   return (
     <div className={styles.orderPanel}>
       {orders.map((order, index) => (
         <div key={index} className={styles.orderRow}>
           <span>
-            {order.plateSize} ({order.items.join(", ")})
+            {order.plateSize} (
+            {order.items
+              .map((item) =>
+                item === "Seasonal Item" ? seasonalItemName : item
+              )
+              .join(", ")}
+            )
           </span>
           <button
             onClick={() => onDelete(index)}
@@ -276,7 +301,7 @@ const CashierPage = () => {
 
   const [orders, setOrders] = useState([]);
 
-  const priceMap = {
+  const [priceMap, setPriceMap] = useState({
     Bowl: 8.3,
     Plate: 9.8,
     "Bigger Plate": 11.3,
@@ -304,7 +329,10 @@ const CashierPage = () => {
     "White Steamed Rice": 5.5,
     "Super Greens": 5.5,
     "Seasonal Item": 0.0,
-  };
+  });
+
+  const [itemIngredientsMap, setItemIngredientsMap] = useState({});
+  const [seasonalItemName, setSeasonalItemName] = useState("Seasonal Item");
 
   const handlePayClick = () => {
     setNetCost(0); // Reset net cost to zero
@@ -337,20 +365,84 @@ const CashierPage = () => {
     setOrders((prevOrders) => prevOrders.filter((_, i) => i !== index));
   };
 
+  const [seasonalItemActive, setSeasonalItemActive] = useState(false);
+  const handleSeasonalAddDelete = () => {
+    if (seasonalItemActive) {
+      setSeasonalItemName("Seasonal Item");
+      setPriceMap((prevPriceMap) => ({
+        ...prevPriceMap,
+        ["Seasonal Item"]: 0.0,
+      }));
+      setItemIngredientsMap((prevItemIngredientsMap) => {
+        const { ["Seasonal Item"]: _, ...newMap } = prevItemIngredientsMap;
+        return newMap;
+      });
+      setQuantities((prevQuantities) => ({
+        ...prevQuantities,
+        ["Seasonal Item"]: 0,
+      }));
+      setSeasonalItemActive(false);
+    } else {
+      const itemName = prompt("Enter the seasonal item name:");
+      const itemPrice = parseFloat(
+        prompt("Enter the price of the seasonal item:")
+      );
+      if (isNaN(itemPrice)) {
+        alert("Invalid price entered. Please try again.");
+        return;
+      }
+
+      setSeasonalItemName(itemName);
+      const itemIngredients = prompt(
+        "Enter the seasonal item ingredients (seperated by commas):"
+      );
+
+      setPriceMap((prevPriceMap) => ({
+        ...prevPriceMap,
+        ["Seasonal Item"]: itemPrice,
+      }));
+
+      setItemIngredientsMap((prevItemIngredientsMap) => ({
+        ...prevItemIngredientsMap,
+        [itemName]: itemIngredients
+          .split(",")
+          .map((ingredient) => ingredient.trim()),
+      }));
+
+      setQuantities((prevQuantities) => ({
+        ...prevQuantities,
+        ["Seasonal Item"]: 0,
+      }));
+
+      setSeasonalItemActive(true);
+    }
+  };
+
   return (
     <div>
       <h1>Order Total:</h1>
       <div className={styles.layout}>
-        <OrderPanel orders={orders} onDelete={deleteOrder} />
+        <OrderPanel
+          orders={orders}
+          onDelete={deleteOrder}
+          seasonalItemName={seasonalItemName}
+        />
         <ButtonGrid
           setNetCost={setNetCost}
           priceMap={priceMap}
           quantities={quantities}
           setQuantities={setQuantities}
           addOrderToPanel={addOrderToPanel}
+          seasonalItemName={seasonalItemName}
+          seasonalItemActive={seasonalItemActive}
         />
       </div>
-      <BottomPanel netCost={netCost} handlePayClick={handlePayClick} />
+      <BottomPanel
+        netCost={netCost}
+        handlePayClick={handlePayClick}
+        handleSeasonalAddDelete={handleSeasonalAddDelete}
+        seasonalItemActive={seasonalItemActive}
+      />
     </div>
   );
 };
