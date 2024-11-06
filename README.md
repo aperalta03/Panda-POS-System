@@ -40,8 +40,15 @@ Link: [https://pos-system-ecru-tau.vercel.app/login]
     - add functionality to add and remove employees in the manager view. (Anson)
     - add functionality to the chart (Anson)
 4. Kitchen Page
+    - Alonso
+    - Anson
+    - Connor
 5. Menu Board Page
+    - Alonso
 6. Customer Page
+    - Uzair
+    - Brandon
+    - Andrew
 
 ## Deploy on Vercel
 
