@@ -82,7 +82,10 @@ const ButtonGrid = ({
     // Temporary variable to hold the updated associated items
     let updatedAssociatedItems = [...associatedItems];
 
-    if (item === "A La Carte") {
+    if (incrementAmount < 0) {
+      updatedAssociatedItems = updatedAssociatedItems.filter((i) => i !== item);
+    }
+    else if (item === "A La Carte") {
       // Special handling for A La Carte
       setCurrPlate("A La Carte");
       setIsEnterEnabled(true);
@@ -220,23 +223,28 @@ const BottomPanel = ({
   handlePayClick,
   handleSeasonalAddDelete,
   seasonalItemActive,
+  handleAdjust,
 }) => (
   <div className={styles.bottomPanel}>
     <div className={styles.leftPanel}>
-      <h2 className={styles.netLabel}>Net: ${netCost.toFixed(2)}</h2>
-      <h2 className={styles.taxLabel}>Tax: ${(netCost * 0.0625).toFixed(2)}</h2>
-      <h1 className={styles.totalLabel}>
-        Total: ${(netCost + netCost * 0.0625).toFixed(2)}
-      </h1>
-    </div>
-    <button onClick={handlePayClick} className={styles.payButton}>
-      Pay
+      <div className={styles.labels}>
+        <h2 className={styles.netLabel}>Net: ${netCost.toFixed(2)}</h2>
+        <h2 className={styles.taxLabel}>Tax: ${(netCost * 0.0625).toFixed(2)}</h2>
+        <h1 className={styles.totalLabel}>
+          TOTAL | ${(netCost + netCost * 0.0625).toFixed(2)}
+        </h1>
+      </div>
+      <button onClick={handlePayClick} className={styles.payButton}>
+      PAY
     </button>
+    </div>
+
     <div className={styles.rightPanel}>
       <button onClick={handleSeasonalAddDelete} className={styles.addItem}>
-        {seasonalItemActive ? "Delete Menu Item" : "Add Menu Item"}
+        {seasonalItemActive ? "DELETE MENU ITEM" : "ADD MENU ITEM"}
       </button>
-      <button className={styles.closeButton}>Log Out</button>
+      <button onClick={handleAdjust} className={styles.adjustButton}>ADJUST ITEM</button>
+      <button className={styles.closeButton}>LOG OUT</button>
     </div>
   </div>
 );
@@ -244,8 +252,14 @@ const BottomPanel = ({
 const OrderPanel = ({ orders, onDelete, seasonalItemName }) => {
   return (
     <div className={styles.orderPanel}>
+      <h1>ORDER TOTAL </h1>
       {orders.map((order, index) => (
-        <div key={index} className={styles.orderRow}>
+        <div
+        key={index}
+        className={`${styles.orderRow} ${
+          index % 2 === 0 ? styles.evenRow : styles.oddRow
+        }`}
+      >
           <span>
             {order.plateSize} (
             {order.items
@@ -259,7 +273,7 @@ const OrderPanel = ({ orders, onDelete, seasonalItemName }) => {
             onClick={() => onDelete(index)}
             className={styles.deleteButton}
           >
-            Delete
+            DELETE
           </button>
         </div>
       ))}
@@ -419,6 +433,25 @@ const CashierPage = () => {
     setOrders((prevOrders) => prevOrders.filter((_, i) => i !== index));
   };
 
+  const handleAdjust = () => {
+    const adjustItem = prompt ("Enter the name of the menu item to adjust:");
+    if (!(adjustItem in priceMap)) {
+      alert("Please enter a valid menu item name.");
+      return;
+    }
+    
+    const adjustedPrice = parseFloat(prompt("Enter the adjusted price for the selected item:"));
+    if (isNaN(adjustedPrice)) {
+      alert("Invalid price entered. Please try again.");
+      return;
+    }
+
+    setPriceMap(prevPriceMap => ({
+      ...prevPriceMap,
+      [adjustItem]: adjustedPrice
+    }));
+  };
+
   const [seasonalItemActive, setSeasonalItemActive] = useState(false);
   const handleSeasonalAddDelete = () => {
     if (seasonalItemActive) {
@@ -474,7 +507,6 @@ const CashierPage = () => {
 
   return (
     <div>
-      <h1>Order Total:</h1>
       <div className={styles.layout}>
         <OrderPanel
           orders={orders}
@@ -496,6 +528,7 @@ const CashierPage = () => {
         handlePayClick={handlePayClick}
         handleSeasonalAddDelete={handleSeasonalAddDelete}
         seasonalItemActive={seasonalItemActive}
+        handleAdjust={handleAdjust}
       />
     </div>
   );

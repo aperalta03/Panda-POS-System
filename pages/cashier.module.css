@@ -3,14 +3,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #d32f2f; /* Red background */
+  background-color: #cb0632; /* Red background */
   color: white;
   padding: 10px 20px;
 }
 
 .navButton {
   background-color: white;
-  color: #d32f2f;
+  color: #cb0632;
   border: none;
   padding: 5px 10px;
   cursor: pointer;
@@ -33,6 +33,8 @@
   grid-template-columns: repeat(5, 1fr); /* Adjust for column count */
   gap: 10px;
   padding: 20px;
+  /*flex: 0.8;*/
+  flex-grow: 1;
 }
 
 .gridItem {
@@ -42,15 +44,21 @@
   background-color: #e0e0e0;
   padding: 10px;
   border-radius: 8px;
+  border: 2px solid black;
+  position: relative; /* Keeps the structure of the grid item intact */
+  justify-content: space-between;
 }
 
 .itemButton {
-  background-color: #d32f2f; /* Red for main button */
+  background-color: #cb0632; /* Red for main button */
   color: white;
-  border: none;
-  padding: 5px 10px;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 15px 10px;
   cursor: pointer;
   font-size: 1rem;
+  z-index: 1;
+  width: 100%;
 }
 
 .itemButtonDisabled {
@@ -66,30 +74,50 @@
 .quantity {
   font-size: 1.2rem;
   margin: 10px 0;
+  z-index: 2;
 }
 
 .minusButton {
-  background-color: #9e9e9e; /* Gray for minus button */
-  color: white;
-  border: none;
+  background-color:#e0e0e0;; /* black for minus button */
+  color: #cb0632;
+  border: 1px solid black;
+  border-radius: 5px;
   padding: 5px 10px;
+  width: 60px;
   cursor: pointer;
+  font-weight: bold;
+  z-index: 2;
 }
 
 .enterButton {
-  background-color: #d32f2f; /* Red for main button */
+  background-color: #cb0632; /* Red for main button */
   color: white;
-  border: none;
+  border: 1px solid black;
+  border-radius: 5px;
   padding: 5px 10px;
   cursor: pointer;
   /*font-size: 1rem;*/
+  z-index: 2;
 }
 
 .orderPanel {
-  width: 300px; /* Width of the left panel */
-  border: 1px solid #ccc; /* Add a border */
+  width: 250px; /* Width of the left panel */
+  border: 2px solid #000; /* Add a border */
   padding: 10px;
   margin-left: 20px; /* Space from the button grid */
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  /*flex: 0.2;*/
+}
+
+.orderPanel h1 {
+  font-size: 2.1rem; /* Adjust the font size as needed */
+  font-weight: bold; /* Make it bold */
+  text-align: center; /* Center align if desired */
+  color: #cb0632; /* Change to your preferred color */
+  margin-bottom: 15px; /* Add spacing below the header */ /* Make text uppercase if needed */
+  letter-spacing: 1px; /* Adjust letter spacing */
 }
 
 .orderRow {
@@ -97,40 +125,68 @@
   justify-content: space-between;
   align-items: center;
   padding: 5px;
+  border-radius: 10px;
 }
 
 .evenRow {
   background-color: #f0f0f0; /* Light gray for even rows */
+  border: 1px solid black;
 }
 
 .oddRow {
   background-color: #ffffff; /* White for odd rows */
+  border: 1px solid black;
 }
 
 .deleteButton {
-  background-color: red; /* Red background */
+  background-color: #cb0632;/* Red background */
   color: white; /* White text */
   border: none;
   padding: 5px;
   cursor: pointer;
+  border-radius: 10px;
+  border: 1px solid black;
+  width: 75px;
+  height: 40px;
+  font-weight: bold;
+  margin-left: 10px;
 }
 
+.layout {
+  display: flex;
+  /*flex-direction: row;*/
+  /*justify-content: space-between;*/
+  gap: 10px;
+  background-color:#e0e0e0;;
+}
 
+.layout > div {
+  flex: 1;
+}
 
 /* Bottom Panel styling */
 .bottomPanel {
   display: flex;
   align-items: center;
-  background-color: #d32f2f; /* Match red color */
+  background-color: #cb0632; /* Match red color */
   padding: 10px;
   color: white;
+  border-top: solid black 2px;
 }
 
 .leftPanel {
   display: flex;
-  flex-direction: column;
+  /*flex-direction: column;*/
+  align-items: center; 
   margin-right: auto;
 }
+
+.labels {
+  display: flex;
+  flex-direction: column;
+  margin-right: 20px; /* Space between labels and the "Pay" button */
+}
+
 
 .label {
   font-family: 'Arial, sans-serif';
@@ -148,15 +204,21 @@
 .totalLabel {
   font-size: 24px;
   font-weight: bold;
+  color: black;
 }
 
 .payButton {
   font-size: 20px;
   font-weight: bold;
   padding: 10px;
-  background-color: white;
-  color: #d32f2f;
+  background-color: black;
+  color: white;
   margin-right: 10px;
+  width: 120px;
+  height: 60px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: solid black 1px;
 }
 
 .rightPanel {
@@ -167,8 +229,31 @@
 .addItem {
   font-size: 16px;
   margin-right: 10px;
+  cursor: pointer;
+  background-color: white;
+  border-radius: 10px;
+  border: 1px solid black;
+  height: 50px;
+  width: 150px;
 }
 
 .closeButton {
   font-size: 16px;
+  cursor: pointer;
+  background-color: white;
+  border-radius: 10px;
+  border: 1px solid black;
+  height: 50px;
+  width: 100px;
+}
+
+.adjustButton {
+  font-size: 16px;
+  cursor: pointer;
+  background-color: white;
+  border-radius: 10px;
+  border: 1px solid black;
+  height: 50px;
+  width: 140px;
+  margin-right: 10px;
 }
