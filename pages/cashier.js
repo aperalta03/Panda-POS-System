@@ -44,10 +44,25 @@ const ButtonGrid = ({
     "White Steamed Rice",
     "Fried Rice",
   ];
+  const entrees = [
+    "Orange Chicken",
+    "Black Pepper Sirloin Steak",
+    "Honey Walnut Shrimp",
+    "Grilled Teriyaki Chicken",
+    "Broccoli Beef",
+    "Kung Pao Chicken",
+    "Honey Sesame Chicken",
+    "Beijing Beef",
+    "Mushroom Chicken",
+    "SweetFire Chicken",
+    "String Bean Chicken",
+    "Black Pepper Chicken",
+    "Seasonal Item",
+  ];
   const plateSizes = ["Bowl", "Plate", "Bigger Plate", "A La Carte"];
   const foodItems = menuItems.filter((item) => !plateSizes.includes(item));
 
-  const [disabledItems, setDisabledItems] = useState([]);
+  const [disabledItems, setDisabledItems] = useState(foodItems);
   const [enabledItems, setEnabledItems] = useState(plateSizes);
   const [plateQuantity, setPlateQuantity] = useState(0);
   const [currPlate, setCurrPlate] = useState("");
@@ -62,43 +77,66 @@ const ButtonGrid = ({
       [item]: Math.max(prev[item] + incrementAmount, 0),
     }));
 
-    if (foodItems.includes(item)) {
-      setPlateQuantity((prev) => {
-        const newPlateQuantity = Math.max(prev + incrementAmount, 0);
-        checkQuantity(newPlateQuantity, currPlate, [...associatedItems, item]);
-        return newPlateQuantity;
-      });
-      setAssociatedItems((prev) => [...prev, item]);
-    }
+    // Temporary variable to hold the updated associated items
+    let updatedAssociatedItems = [...associatedItems];
 
     if (item === "A La Carte") {
+      // Special handling for A La Carte
       setCurrPlate("A La Carte");
       setIsEnterEnabled(true);
-      setDisabledItems(["Bowl", "Plate", "Bigger Plate", "A La Carte"]);
+      setEnabledItems(foodItems);
+      setDisabledItems(plateSizes);
     } else if (plateSizes.includes(item)) {
+      // Reset when a plate size is selected
       setCurrPlate(item);
-      setDisabledItems([
-        "Bowl",
-        "Plate",
-        "Bigger Plate",
-        "A La Carte",
-        "Chicken Egg Roll",
-        "Veggie Egg Roll",
-        "Cream Cheese Rangoon",
-        "Apple Pie Roll",
-        "Fountain Drink",
-        "Bottled Drink",
-      ]);
+      setEnabledItems(sides);
+      setDisabledItems([...menuItems.filter((i) => !sides.includes(i))]);
+      updatedAssociatedItems = []; // Start fresh for the new plate
+      setPlateQuantity(0);
+    } else if (sides.includes(item)) {
+      // Add side to associated items and increment the quantity
+      updatedAssociatedItems.push(item);
+      setPlateQuantity((prev) => prev + incrementAmount);
+
+      if (plateQuantity + incrementAmount >= 1 && currPlate != "A La Carte") {
+        setEnabledItems(entrees);
+        setDisabledItems([...menuItems.filter((i) => !entrees.includes(i))]);
+      }
+    } else if (entrees.includes(item)) {
+      // Add entree to associated items and increment the plate quantity
+      updatedAssociatedItems.push(item);
+      setPlateQuantity((prev) => prev + incrementAmount);
+
+      // Run the final check with the updated associated items
+      checkQuantity(
+        plateQuantity + incrementAmount,
+        currPlate,
+        updatedAssociatedItems
+      );
+    } else if (
+      currPlate === "A La Carte" &&
+      !sides.includes(item) &&
+      !entrees.includes(item)
+    ) {
+      // Case for adding non-side, non-entree items to A La Carte
+      updatedAssociatedItems.push(item);
     }
+
+    // Update the associated items state after modifications
+    setAssociatedItems(updatedAssociatedItems);
   };
 
   const checkQuantity = (currentPlateQuantity, currentPlate, items) => {
+    const requiredQuantities = {
+      Bowl: 2,
+      Plate: 3,
+      "Bigger Plate": 4,
+    };
     if (
-      (currentPlateQuantity === 2 && currentPlate === "Bowl") ||
-      (currentPlateQuantity === 3 && currentPlate === "Plate") ||
-      (currentPlateQuantity === 4 && currentPlate === "Bigger Plate")
+      currentPlate !== "A La Carte" &&
+      currentPlateQuantity >= requiredQuantities[currentPlate]
     ) {
-      addOrderToPanel(currentPlate, items);
+      addOrderToPanel(currentPlate, [...items]);
       setDisabledItems(foodItems);
       setEnabledItems(plateSizes);
       setCurrPlate("");
@@ -110,19 +148,25 @@ const ButtonGrid = ({
 
   const handleEnterClick = () => {
     if (currPlate === "A La Carte") {
+      const updatedItems = associatedItems.map((item) =>
+        item === "Seasonal Item" ? seasonalItemName : item
+      );
+      console.log("associatedItems on Enter Click: ", associatedItems);
       const aLaCarteCost = associatedItems.reduce(
         (total, item) => total + priceMap[item],
         0
       );
+
       setNetCost((prevNetCost) => prevNetCost + aLaCarteCost);
-      addOrderToPanel("A La Carte", associatedItems);
+
+      addOrderToPanel("A La Carte", updatedItems);
 
       setDisabledItems(foodItems);
       setEnabledItems(plateSizes);
       setCurrPlate("");
       setPlateQuantity(0);
       setIsEnterEnabled(false);
-      setAssociatedItems([]); // Reset associated items after adding order
+      setAssociatedItems([]);
     }
   };
 
@@ -233,8 +277,8 @@ const CashierPage = () => {
   const [orders, setOrders] = useState([]);
 
   const priceMap = {
-    "Bowl": 8.3,
-    "Plate": 9.8,
+    Bowl: 8.3,
+    Plate: 9.8,
     "Bigger Plate": 11.3,
     "A La Carte": 0.0,
     "Fountain Drink": 2.9,
