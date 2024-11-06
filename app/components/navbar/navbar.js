@@ -6,6 +6,7 @@ import WbSunnyIcon from '@mui/icons-material/WbSunny';
 import CloudIcon from '@mui/icons-material/Cloud';
 import ThunderstormIcon from '@mui/icons-material/Thunderstorm';
 import AcUnitIcon from '@mui/icons-material/AcUnit';
+import Image from 'next/image';
 import styles from './navbar.module.css';
 
 const Navbar = () => {
@@ -82,7 +83,7 @@ const Navbar = () => {
                 onClick={handleLogoff}
                 aria-label="Log Off"
             >
-                Log Off
+                Log Out
             </button>
             <button
                 className={`${styles.pageButton} ${role === "manager" ? styles.visible : ''}`}
@@ -99,7 +100,13 @@ const Navbar = () => {
                         <div className={styles.weatherTemp}>{weather.temp}</div>
                     </div>
                 )}
-                <img className={styles.logo} src='chickenmaxxing_logo.png' alt="Chicken Maxxing Logo"/>
+                <Image 
+                    className={styles.logo} 
+                    src='/chickenmaxxing_logo.png' 
+                    alt="Chicken Maxxing Logo" 
+                    width={100}
+                    height={50} 
+                />
             </div>
         </div>
     );

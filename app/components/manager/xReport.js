@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Modal from '@mui/material/Modal';
 import styles from './xReport.module.css';
 
@@ -8,7 +8,7 @@ const XReportModal = ({ isOpen, onClose }) => {
 
   const halfItems = ["Super Greens", "Chow Mein", "White Steamed Rice", "Fried Rice"];
 
-  const fetchSalesData = async () => {
+  const fetchSalesData = useCallback(async () => {
     try {
       const response = await fetch('/api/salesRecord');
       if (!response.ok) {
@@ -51,21 +51,19 @@ const XReportModal = ({ isOpen, onClose }) => {
     } catch (error) {
       console.error("Error fetching sales data:", error);
     }
-  };
+  }, [halfItems]);
 
   useEffect(() => {
     if (isOpen) {
       fetchSalesData();
     }
-  }, [isOpen]);
+  }, [isOpen, fetchSalesData]);
 
   return (
     <Modal open={isOpen} onClose={onClose}>
       <div className={styles.modalBox}>
-        {/* Use className for h2 instead of global selector */}
         <h2 className={styles.modalTitle}>X Report</h2>
-
-        {/* Scrollable content area for the table */}
+        
         <div className={styles.scrollableContent}>
           <table className={styles.reportTable}>
             <thead>
@@ -93,7 +91,6 @@ const XReportModal = ({ isOpen, onClose }) => {
           </table>
         </div>
 
-        {/* Total sales and close button are fixed at the bottom */}
         <div className={styles.bottomContainer}>
           <div className={styles.totalContainer}>
             <strong>Total Sales: ${totalSales}</strong>
