@@ -4,7 +4,7 @@ import path from "path";
 export default function handler(req, res) {
   if (req.method === "POST") {
     const newSale = req.body;
-    const filePath = path.join(process.cwd(), "app", "data", "salesRecord.json");
+    const filePath = path.join(process.cwd(), "app", "context", "salesRecord.json");
     fs.readFile(filePath, "utf8", (err, data) => {
       if (err) {
         console.error("Error reading salesRecord.json:", err);
