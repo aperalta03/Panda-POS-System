@@ -583,7 +583,7 @@ const CashierPage = () => {
             value={seasonalItemIngredients}
             onChange={(e) => setSeasonalItemIngredients(e.target.value)}
           />
-          <Button onClick={handleModalSubmit} variant="contained" color="primary" fullWidth>
+          <Button onClick={handleModalSubmit} className={styles.modalSubmitButton}>
             Submit
           </Button>
         </Box>
@@ -607,7 +607,7 @@ const CashierPage = () => {
             value={adjustItemPrice}
             onChange={(e) => setAdjustItemPrice(e.target.value)}
           />
-          <Button onClick={handleAdjustSubmit} variant="contained" color="primary" fullWidth>
+          <Button onClick={handleAdjustSubmit} className={styles.modalSubmitButton}>
             Submit
           </Button>
         </Box>
