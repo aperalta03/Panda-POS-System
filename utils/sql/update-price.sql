@@ -1,0 +1,1 @@
+UPDATE menu SET price = $1 WHERE name = $2;
