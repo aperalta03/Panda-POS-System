@@ -106,21 +106,36 @@ const ButtonGrid = ({
       setDisabledItems([...menuItems.filter((i) => !sides.includes(i))]);
       updatedAssociatedItems = [];
       setPlateQuantity(0);
+    } else if (currPlate === "A La Carte") {
+      // Modified handling for A La Carte items (sides and entrees)
+      if (incrementAmount < 0) {
+        // If decrementing, remove the item from associatedItems
+        updatedAssociatedItems = updatedAssociatedItems.filter(
+          (associatedItem, index) => {
+            // Only remove one instance of the item
+            if (associatedItem === item) {
+              // Skip the first matching instance
+              return index !== updatedAssociatedItems.indexOf(item);
+            }
+            return true;
+          }
+        );
+      } else {
+        // If incrementing, add the item to associatedItems
+        updatedAssociatedItems.push(item);
+      }
     } else if (sides.includes(item)) {
-      // Check if decrement is unsuccessful
+      // Keep the existing logic for sides
       const currentQuantity = quantities[item];
       const minQuantity = minQuantities[item] || 0;
       if (!(incrementAmount < 0 && currentQuantity <= minQuantity)) {
-        // Only update plateQuantity if the decrement is valid
         setPlateQuantity((prev) => prev + incrementAmount);
 
         if (incrementAmount < 0) {
-          // Remove the item from associatedItems if decrementing
           updatedAssociatedItems = updatedAssociatedItems.filter(
             (i) => i !== item
           );
         } else {
-          // Add the item to associatedItems if incrementing
           updatedAssociatedItems.push(item);
         }
       }
@@ -130,20 +145,17 @@ const ButtonGrid = ({
         setDisabledItems([...menuItems.filter((i) => !entrees.includes(i))]);
       }
     } else if (entrees.includes(item)) {
-      // Check if decrement is unsuccessful
+      // Keep the existing logic for entrees
       const currentQuantity = quantities[item];
       const minQuantity = minQuantities[item] || 0;
       if (!(incrementAmount < 0 && currentQuantity <= minQuantity)) {
-        // Only update plateQuantity if the decrement is valid
         setPlateQuantity((prev) => prev + incrementAmount);
 
         if (incrementAmount < 0) {
-          // Remove the item from associatedItems if decrementing
           updatedAssociatedItems = updatedAssociatedItems.filter(
             (i) => i !== item
           );
         } else {
-          // Add the item to associatedItems if incrementing
           updatedAssociatedItems.push(item);
         }
         // Run the final check with the updated associated items
@@ -152,21 +164,6 @@ const ButtonGrid = ({
           currPlate,
           updatedAssociatedItems
         );
-      }
-    } else if (
-      currPlate === "A La Carte" &&
-      !sides.includes(item) &&
-      !entrees.includes(item)
-    ) {
-      // Handle adding or removing non-side, non-entree items for A La Carte
-      if (incrementAmount < 0) {
-        // Remove the item from associatedItems if decrementing
-        updatedAssociatedItems = updatedAssociatedItems.filter(
-          (i) => i !== item
-        );
-      } else {
-        // Add the item to associatedItems if incrementing
-        updatedAssociatedItems.push(item);
       }
     }
 
