@@ -403,6 +403,17 @@ const CashierPage = () => {
   const [employeeID, setEmployeeID] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [seasonalItemActive, setSeasonalItemActive] = useState(false);
+
+  const [adjustModalOpen, setAdjustModalOpen] = useState(false);
+  const [adjustItemName, setAdjustItemName] = useState("");
+  const [adjustItemPrice, setAdjustItemPrice] = useState("");
+
+  const handleAdjustOpen = () => setAdjustModalOpen(true);
+  const handleAdjustClose = () => {
+    setAdjustItemName("");
+    setAdjustItemPrice("");
+    setAdjustModalOpen(false);
+  };
   const [minQuantities, setMinQuantities] = useState({});
 
   // Retrieve employeeID from localStorage on component mount
@@ -539,25 +550,36 @@ const CashierPage = () => {
     setOrders((prevOrders) => prevOrders.filter((_, i) => i !== index));
   };
 
-  const handleAdjust = () => {
-    const adjustItem = prompt("Enter the name of the menu item to adjust:");
-    if (!(adjustItem in priceMap)) {
-      alert("Please enter a valid menu item name.");
+  const handleAdjustSubmit = async () => {
+    if (!adjustItemName || isNaN(parseFloat(adjustItemPrice))) {
+      alert("Please enter a valid item name and price.");
       return;
     }
 
-    const adjustedPrice = parseFloat(
-      prompt("Enter the adjusted price for the selected item:")
-    );
-    if (isNaN(adjustedPrice)) {
-      alert("Invalid price entered. Please try again.");
-      return;
-    }
+    try {
+      const response = await fetch("/api/update-Price", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: adjustItemName,
+          price: parseFloat(adjustItemPrice),
+        }),
+      });
 
-    setPriceMap((prevPriceMap) => ({
-      ...prevPriceMap,
-      [adjustItem]: adjustedPrice,
-    }));
+      if (response.ok) {
+        setPriceMap((prevPriceMap) => ({
+          ...prevPriceMap,
+          [adjustItemName]: parseFloat(adjustItemPrice),
+        }));
+        handleAdjustClose();
+      } else {
+        console.error("Failed to update price");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   const handleModalOpen = () => setModalOpen(true);
@@ -645,7 +667,7 @@ const CashierPage = () => {
         handlePayClick={handlePayClick}
         handleSeasonalAddDelete={handleSeasonalAddDelete}
         seasonalItemActive={seasonalItemActive}
-        handleAdjust={handleAdjust}
+        handleAdjust={handleAdjustOpen}
       />
 
       <Modal open={modalOpen} onClose={handleModalClose}>
@@ -675,9 +697,34 @@ const CashierPage = () => {
           />
           <Button
             onClick={handleModalSubmit}
-            variant="contained"
-            color="primary"
+            className={styles.modalSubmitButton}
+          >
+            Submit
+          </Button>
+        </Box>
+      </Modal>
+
+      <Modal open={adjustModalOpen} onClose={handleAdjustClose}>
+        <Box className={styles.modalBox}>
+          <h2>Adjust Item Price</h2>
+          <TextField
+            label="Item Name"
             fullWidth
+            margin="normal"
+            value={adjustItemName}
+            onChange={(e) => setAdjustItemName(e.target.value)}
+          />
+          <TextField
+            label="New Price"
+            type="number"
+            fullWidth
+            margin="normal"
+            value={adjustItemPrice}
+            onChange={(e) => setAdjustItemPrice(e.target.value)}
+          />
+          <Button
+            onClick={handleAdjustSubmit}
+            className={styles.modalSubmitButton}
           >
             Submit
           </Button>
