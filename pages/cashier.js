@@ -10,6 +10,8 @@ const ButtonGrid = ({
   addOrderToPanel,
   seasonalItemName,
   seasonalItemActive,
+  minQuantities,
+  sides,
 }) => {
   const menuItems = [
     "Bowl",
@@ -40,13 +42,6 @@ const ButtonGrid = ({
     "Black Pepper Chicken",
     "Seasonal Item",
   ];
-
-  const sides = [
-    "Super Greens",
-    "Chow Mein",
-    "White Steamed Rice",
-    "Fried Rice",
-  ];
   const entrees = [
     "Orange Chicken",
     "Black Pepper Sirloin Steak",
@@ -75,57 +70,104 @@ const ButtonGrid = ({
   const updateQuantity = (item, amount) => {
     const incrementAmount = sides.includes(item) ? amount * 0.5 : amount;
 
-    setQuantities((prev) => ({
-      ...prev,
-      [item]: Math.max(prev[item] + incrementAmount, 0),
-    }));
+    setQuantities((prev) => {
+      const currentQuantity = prev[item];
+      const newQuantity = currentQuantity + incrementAmount;
+
+      // Ensure the quantity doesn't go below the minimum
+      const minQuantity = minQuantities[item] || 0;
+
+      // Check if decrementing would result in a quantity below the minimum
+      if (
+        incrementAmount < 0 &&
+        currentQuantity + incrementAmount < minQuantity
+      ) {
+        return prev; // Prevent decrement if it would drop below minQuantity
+      }
+
+      return {
+        ...prev,
+        [item]: Math.max(newQuantity, minQuantity),
+      };
+    });
 
     // Temporary variable to hold the updated associated items
     let updatedAssociatedItems = [...associatedItems];
 
-    if (incrementAmount < 0) {
-      updatedAssociatedItems = updatedAssociatedItems.filter((i) => i !== item);
-    }
-    else if (item === "A La Carte") {
-      // Special handling for A La Carte
+    if (item === "A La Carte") {
       setCurrPlate("A La Carte");
       setIsEnterEnabled(true);
       setEnabledItems(foodItems);
       setDisabledItems(plateSizes);
-      updatedAssociatedItems = []; // Reset associated items for a new A La Carte order
+      updatedAssociatedItems = [];
     } else if (plateSizes.includes(item)) {
-      // Reset when a plate size is selected
       setCurrPlate(item);
       setEnabledItems(sides);
       setDisabledItems([...menuItems.filter((i) => !sides.includes(i))]);
-      updatedAssociatedItems = []; // Start fresh for the new plate
+      updatedAssociatedItems = [];
       setPlateQuantity(0);
     } else if (sides.includes(item)) {
-      // Add side to associated items and increment the quantity
-      updatedAssociatedItems.push(item);
-      setPlateQuantity((prev) => prev + incrementAmount);
-      if (plateQuantity + incrementAmount >= 1 && currPlate != "A La Carte") {
+      // Check if decrement is unsuccessful
+      const currentQuantity = quantities[item];
+      const minQuantity = minQuantities[item] || 0;
+      if (!(incrementAmount < 0 && currentQuantity <= minQuantity)) {
+        // Only update plateQuantity if the decrement is valid
+        setPlateQuantity((prev) => prev + incrementAmount);
+
+        if (incrementAmount < 0) {
+          // Remove the item from associatedItems if decrementing
+          updatedAssociatedItems = updatedAssociatedItems.filter(
+            (i) => i !== item
+          );
+        } else {
+          // Add the item to associatedItems if incrementing
+          updatedAssociatedItems.push(item);
+        }
+      }
+
+      if (plateQuantity + incrementAmount >= 1 && currPlate !== "A La Carte") {
         setEnabledItems(entrees);
         setDisabledItems([...menuItems.filter((i) => !entrees.includes(i))]);
       }
     } else if (entrees.includes(item)) {
-      // Add entree to associated items and increment the plate quantity
-      updatedAssociatedItems.push(item);
-      setPlateQuantity((prev) => prev + incrementAmount);
+      // Check if decrement is unsuccessful
+      const currentQuantity = quantities[item];
+      const minQuantity = minQuantities[item] || 0;
+      if (!(incrementAmount < 0 && currentQuantity <= minQuantity)) {
+        // Only update plateQuantity if the decrement is valid
+        setPlateQuantity((prev) => prev + incrementAmount);
 
-      // Run the final check with the updated associated items
-      checkQuantity(
-        plateQuantity + incrementAmount,
-        currPlate,
-        updatedAssociatedItems
-      );
+        if (incrementAmount < 0) {
+          // Remove the item from associatedItems if decrementing
+          updatedAssociatedItems = updatedAssociatedItems.filter(
+            (i) => i !== item
+          );
+        } else {
+          // Add the item to associatedItems if incrementing
+          updatedAssociatedItems.push(item);
+        }
+        // Run the final check with the updated associated items
+        checkQuantity(
+          plateQuantity + incrementAmount,
+          currPlate,
+          updatedAssociatedItems
+        );
+      }
     } else if (
       currPlate === "A La Carte" &&
       !sides.includes(item) &&
       !entrees.includes(item)
     ) {
-      // Case for adding non-side, non-entree items to A La Carte
-      updatedAssociatedItems.push(item);
+      // Handle adding or removing non-side, non-entree items for A La Carte
+      if (incrementAmount < 0) {
+        // Remove the item from associatedItems if decrementing
+        updatedAssociatedItems = updatedAssociatedItems.filter(
+          (i) => i !== item
+        );
+      } else {
+        // Add the item to associatedItems if incrementing
+        updatedAssociatedItems.push(item);
+      }
     }
 
     // Update the associated items state after modifications
@@ -193,13 +235,13 @@ const ButtonGrid = ({
                 disabled={disabledItems.includes(item)}
               >
                 {item === "Seasonal Item" ? seasonalItemName : item}{" "}
-                {/* Use seasonal item name */}
               </button>
               <span className={styles.quantity}>{quantities[item]}</span>
               {!plateSizes.includes(item) && (
                 <button
                   onClick={() => updateQuantity(item, -1)}
                   className={styles.minusButton}
+                  disabled={disabledItems.includes(item)}
                 >
                   –
                 </button>
@@ -230,21 +272,25 @@ const BottomPanel = ({
     <div className={styles.leftPanel}>
       <div className={styles.labels}>
         <h2 className={styles.netLabel}>Net: ${netCost.toFixed(2)}</h2>
-        <h2 className={styles.taxLabel}>Tax: ${(netCost * 0.0625).toFixed(2)}</h2>
+        <h2 className={styles.taxLabel}>
+          Tax: ${(netCost * 0.0625).toFixed(2)}
+        </h2>
         <h1 className={styles.totalLabel}>
           TOTAL | ${(netCost + netCost * 0.0625).toFixed(2)}
         </h1>
       </div>
       <button onClick={handlePayClick} className={styles.payButton}>
-      PAY
-    </button>
+        PAY
+      </button>
     </div>
 
     <div className={styles.rightPanel}>
       <button onClick={handleSeasonalAddDelete} className={styles.addItem}>
         {seasonalItemActive ? "DELETE MENU ITEM" : "ADD MENU ITEM"}
       </button>
-      <button onClick={handleAdjust} className={styles.adjustButton}>ADJUST ITEM</button>
+      <button onClick={handleAdjust} className={styles.adjustButton}>
+        ADJUST ITEM
+      </button>
     </div>
   </div>
 );
@@ -282,6 +328,14 @@ const OrderPanel = ({ orders, onDelete, seasonalItemName }) => {
 };
 
 const CashierPage = () => {
+  const plateSizes = ["Bowl", "Plate", "Bigger Plate", "A La Carte"]; // Define plateSizes here as passing as prop causes bugs
+  const sides = [
+    "Super Greens",
+    "Chow Mein",
+    "White Steamed Rice",
+    "Fried Rice",
+  ];
+
   const [netCost, setNetCost] = useState(0.0);
   const [quantities, setQuantities] = useState({
     Bowl: 0,
@@ -352,6 +406,7 @@ const CashierPage = () => {
   const [employeeID, setEmployeeID] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [seasonalItemActive, setSeasonalItemActive] = useState(false);
+  const [minQuantities, setMinQuantities] = useState({});
 
   // Retrieve employeeID from localStorage on component mount
   useEffect(() => {
@@ -380,7 +435,6 @@ const CashierPage = () => {
       employeeID, // Assume employeeID was retrieved from localStorage or context
       items: orders,
     };
-    console.log("orderDetails: ", orderDetails);
     // Send order details to the API route
     try {
       const response = await fetch(
@@ -416,6 +470,24 @@ const CashierPage = () => {
 
   const addOrderToPanel = (plateSize, items) => {
     setOrders((prevOrders) => [...prevOrders, { plateSize, items }]);
+
+    // Ensure minQuantities is set correctly for plate sizes and items
+    setMinQuantities((prevMin) => {
+      const updatedMin = { ...prevMin };
+
+      // Increment the minimum quantity for each item in the order
+      items.forEach((item) => {
+        if (sides.includes(item)) {
+          // Increment by 0.5 for sides
+          updatedMin[item] = (updatedMin[item] || 0) + 0.5;
+        } else {
+          // Increment by 1 for non-side items
+          updatedMin[item] = (updatedMin[item] || 0) + 1;
+        }
+      });
+
+      return updatedMin;
+    });
   };
 
   const deleteOrder = (index) => {
@@ -427,32 +499,67 @@ const CashierPage = () => {
 
     setNetCost((prev) => prev - orderCost);
 
+    // Create copies of the current quantities and minQuantities
     const updatedQuantities = { ...quantities };
-    updatedQuantities[orderToDelete.plateSize] -= 1;
-    orderToDelete.items.forEach((item) => {
-      updatedQuantities[item] = Math.max((updatedQuantities[item] || 0) - 1, 0);
-    });
-    setQuantities(updatedQuantities);
+    const updatedMinQuantities = { ...minQuantities };
 
+    // Decrease the quantity of the plate size by 1 if it is a plate size
+    if (plateSizes.includes(orderToDelete.plateSize)) {
+      updatedQuantities[orderToDelete.plateSize] = Math.max(
+        (updatedQuantities[orderToDelete.plateSize] || 0) - 1,
+        0
+      );
+    }
+
+    // Decrease the quantity of each item in the order
+    orderToDelete.items.forEach((item) => {
+      if (sides.includes(item)) {
+        // Decrement by 0.5 for side items
+        updatedQuantities[item] = Math.max(
+          (updatedQuantities[item] || 0) - 0.5,
+          0
+        );
+        updatedMinQuantities[item] = Math.max(
+          (updatedMinQuantities[item] || 0) - 0.5,
+          0
+        );
+      } else {
+        // Decrement by 1 for non-side items
+        updatedQuantities[item] = Math.max(
+          (updatedQuantities[item] || 0) - 1,
+          0
+        );
+        updatedMinQuantities[item] = Math.max(
+          (updatedMinQuantities[item] || 0) - 1,
+          0
+        );
+      }
+    });
+
+    // Update state with the modified quantities and minQuantities
+    setQuantities(updatedQuantities);
+    setMinQuantities(updatedMinQuantities);
     setOrders((prevOrders) => prevOrders.filter((_, i) => i !== index));
   };
 
   const handleAdjust = () => {
-    const adjustItem = prompt ("Enter the name of the menu item to adjust:");
+    const adjustItem = prompt("Enter the name of the menu item to adjust:");
     if (!(adjustItem in priceMap)) {
       alert("Please enter a valid menu item name.");
       return;
     }
-    
-    const adjustedPrice = parseFloat(prompt("Enter the adjusted price for the selected item:"));
+
+    const adjustedPrice = parseFloat(
+      prompt("Enter the adjusted price for the selected item:")
+    );
     if (isNaN(adjustedPrice)) {
       alert("Invalid price entered. Please try again.");
       return;
     }
 
-    setPriceMap(prevPriceMap => ({
+    setPriceMap((prevPriceMap) => ({
       ...prevPriceMap,
-      [adjustItem]: adjustedPrice
+      [adjustItem]: adjustedPrice,
     }));
   };
 
@@ -461,10 +568,10 @@ const CashierPage = () => {
 
   const handleModalSubmit = async () => {
     try {
-      const response = await fetch('/api/updateSeasonalItem', {
-        method: 'POST',
+      const response = await fetch("/api/updateSeasonalItem", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           name: seasonalItemName,
@@ -474,7 +581,7 @@ const CashierPage = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to update seasonal item');
+        throw new Error("Failed to update seasonal item");
       }
 
       setPriceMap((prevPriceMap) => ({
@@ -483,7 +590,9 @@ const CashierPage = () => {
       }));
       setItemIngredientsMap((prevItemIngredientsMap) => ({
         ...prevItemIngredientsMap,
-        ["Seasonal Item"]: seasonalItemIngredients.split(',').map((ingredient) => ingredient.trim()),
+        ["Seasonal Item"]: seasonalItemIngredients
+          .split(",")
+          .map((ingredient) => ingredient.trim()),
       }));
       setSeasonalItemActive(true);
       handleModalClose();
@@ -496,12 +605,18 @@ const CashierPage = () => {
   const handleSeasonalAddDelete = () => {
     if (seasonalItemActive) {
       setSeasonalItemName("Seasonal Item");
-      setPriceMap((prevPriceMap) => ({ ...prevPriceMap, ["Seasonal Item"]: 0.0 }));
+      setPriceMap((prevPriceMap) => ({
+        ...prevPriceMap,
+        ["Seasonal Item"]: 0.0,
+      }));
       setItemIngredientsMap((prevItemIngredientsMap) => {
         const { ["Seasonal Item"]: _, ...newMap } = prevItemIngredientsMap;
         return newMap;
       });
-      setQuantities((prevQuantities) => ({ ...prevQuantities, ["Seasonal Item"]: 0 }));
+      setQuantities((prevQuantities) => ({
+        ...prevQuantities,
+        ["Seasonal Item"]: 0,
+      }));
       setSeasonalItemActive(false);
     } else {
       handleModalOpen();
@@ -524,6 +639,8 @@ const CashierPage = () => {
           addOrderToPanel={addOrderToPanel}
           seasonalItemName={seasonalItemName}
           seasonalItemActive={seasonalItemActive}
+          minQuantities={minQuantities}
+          sides={sides}
         />
       </div>
       <BottomPanel
@@ -559,12 +676,16 @@ const CashierPage = () => {
             value={seasonalItemIngredients}
             onChange={(e) => setSeasonalItemIngredients(e.target.value)}
           />
-          <Button onClick={handleModalSubmit} variant="contained" color="primary" fullWidth>
+          <Button
+            onClick={handleModalSubmit}
+            variant="contained"
+            color="primary"
+            fullWidth
+          >
             Submit
           </Button>
         </Box>
       </Modal>
-
     </div>
   );
 };
