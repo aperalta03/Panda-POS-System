@@ -19,6 +19,13 @@
   max-height: calc(100vh - 192px);
   overflow-y: auto;
 }
+.buttonGrid::-webkit-scrollbar {
+  display: none;
+}
+.buttonGrid {
+  scrollbar-width: none;
+  -ms-overflow-style: none; 
+}
 .gridItem {
   display: flex;
   flex-direction: column;
@@ -152,7 +159,7 @@
   font-size: 20px;
   font-weight: bold;
   padding: 10px;
-  background-color: black;
+  background-color: var(--secondary-color);
   color: white;
   margin-right: 10px;
   width: 120px;
@@ -160,6 +167,9 @@
   border-radius: 10px;
   cursor: pointer;
   border: solid black 1px;
+}
+.payButton:hover {
+  background-color: var(--secondary-color-hover);
 }
 .rightPanel {
   display: flex;
@@ -169,11 +179,15 @@
   font-size: 16px;
   margin-right: 10px;
   cursor: pointer;
-  background-color: white;
+  background-color: var(--secondary-color);
+  color: white;
   border-radius: 10px;
   border: 1px solid black;
   height: 50px;
   width: 150px;
+}
+.addItem:hover {
+  background-color: var(--secondary-color-hover);
 }
 .closeButton {
   font-size: 16px;
@@ -187,12 +201,16 @@
 .adjustButton {
   font-size: 16px;
   cursor: pointer;
-  background-color: white;
+  background-color: var(--secondary-color);
+  color: white;
   border-radius: 10px;
   border: 1px solid black;
   height: 50px;
   width: 140px;
   margin-right: 10px;
+}
+.adjustButton:hover {
+  background-color: var(--secondary-color-hover);
 }
 .modalBox {
   position: absolute;
