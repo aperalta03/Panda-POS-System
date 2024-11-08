@@ -71,6 +71,8 @@ const Navbar = () => {
             router.push('/cashier');
         } else if (router.pathname === '/kitchen') {
             router.push('/kitchenTV');
+        } else if (router.pathname === '/kitchenTV') {
+            router.push('/kitchen');
         } else {
             router.push('/manager');
         }
@@ -92,7 +94,7 @@ const Navbar = () => {
             {/* Switch View Button */}
             <button
                 className={`${styles.pageButton} ${
-                    (role === 'manager' || router.pathname === '/kitchen') && router.pathname !== '/kiosk' && router.pathname !== '/menu'
+                    (role === 'manager' || router.pathname === '/kitchen' || router.pathname === '/kitchenTV') && router.pathname !== '/kiosk' && router.pathname !== '/menu'
                         ? styles.visible
                         : ''
                 }`}
