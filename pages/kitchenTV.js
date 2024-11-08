@@ -8,7 +8,7 @@ const KitchenTV = () => {
     useEffect(() => {
         let orderCount = 1;
         const initialOrders = salesData
-            //! Change Source for salesRecord.json (Cashier <-> Kiosk)
+            //! Change which sales/orders display here --> Cashier or Kiosk
             .filter((sale) => sale.source === 'Kiosk')
             .flatMap((sale) =>
                 sale.items.map((item) => ({
@@ -26,29 +26,9 @@ const KitchenTV = () => {
         setOrders(initialOrders);
     }, []);
 
-    const handleStartOrder = (index) => {
-        setOrders((prevOrders) =>
-            prevOrders.map((order, i) =>
-                i === index ? { ...order, status: 'making' } : order
-            )
-        );
-    };
-
-    const handleDeleteOrder = (index) => {
-        setOrders((prevOrders) => prevOrders.filter((_, i) => i !== index));
-    };
-
-    const handleCompleteOrder = (index) => {
-        setOrders((prevOrders) =>
-            prevOrders.map((order, i) =>
-                i === index ? { ...order, status: 'completed' } : order
-            )
-        );
-    };
-
     return (
         <div className={styles.gridContainer}>
-            {orders.map((order, index) => (
+            {orders.map((order) => (
                 <div className={styles.orderBox} key={`${order.saleNumber}-${order.orderNumber}`}>
                     <div className={styles.orderHeader}>
                         SALE #{order.saleNumber} - ORDER #{order.orderNumber}
@@ -60,39 +40,18 @@ const KitchenTV = () => {
                                 : 'NOT STARTED'}
                         </span>
                     </div>
-
-                    {/* Order Details - For Other Page */}
-                    {/* <div className={styles.orderDetails}>
+                    <div className={styles.orderDetails}>
                         <p>Plate Size: {order.plateSize}</p>
-                        <p>Items: {order.items.join(', ')}</p>
+                        <p>Items:</p>
+                        <ul>
+                            {order.items.map((item, index) => (
+                                <li key={index}>{item}</li>
+                            ))}
+                        </ul>
+
                         <p>Total Price: ${order.totalPrice}</p>
                         <p>Time: {order.time}</p>
-                    </div> */}
-
-                    <button
-                        className={`${styles.startOrderButton} ${
-                            order.status === 'making' && styles.activeStart
-                        }`}
-                        onClick={() => handleStartOrder(index)}
-                        disabled={order.status === 'completed'}
-                    >
-                        START ORDER
-                    </button>
-                    <button
-                        className={`${styles.completeButton} ${
-                            order.status === 'completed' && styles.activeComplete
-                        }`}
-                        onClick={() => handleCompleteOrder(index)}
-                        disabled={order.status === 'completed'}
-                    >
-                        COMPLETE
-                    </button>
-                    <button
-                        className={styles.deleteButton}
-                        onClick={() => handleDeleteOrder(index)}
-                    >
-                        DELETE
-                    </button>
+                    </div>
                 </div>
             ))}
         </div>

@@ -2,16 +2,14 @@ import React, { useState, useEffect } from 'react';
 import styles from './kitchen.module.css';
 import salesData from '/app/context/salesRecord.json';
 
-//! TODO: Add View Page (Second Design in Google Docs), Only Updating Page is there. 
-
 const KitchenPage = () => {
     const [orders, setOrders] = useState([]);
 
     useEffect(() => {
         let orderCount = 1;
         const initialOrders = salesData
-            //! Change Source for salesRecord.json (Cashier <-> Kiosk)
-            .filter((sale) => sale.source === 'Cashier')
+            //! Change which sales/orders display here --> Cashier or Kiosk
+            .filter((sale) => sale.source === 'Kiosk')
             .flatMap((sale) =>
                 sale.items.map((item) => ({
                     saleNumber: sale.saleNumber,
@@ -62,15 +60,6 @@ const KitchenPage = () => {
                                 : 'NOT STARTED'}
                         </span>
                     </div>
-
-                    {/* Order Details - For Other Page */}
-                    {/* <div className={styles.orderDetails}>
-                        <p>Plate Size: {order.plateSize}</p>
-                        <p>Items: {order.items.join(', ')}</p>
-                        <p>Total Price: ${order.totalPrice}</p>
-                        <p>Time: {order.time}</p>
-                    </div> */}
-
                     <button
                         className={`${styles.startOrderButton} ${
                             order.status === 'making' && styles.activeStart
