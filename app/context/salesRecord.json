@@ -1,55 +1,36 @@
 [
   {
-    "saleNumber": 8,
-    "date": "2024-11-06",
-    "time": "16:58:22",
-    "totalPrice": "98.17",
+    "saleNumber": 15,
+    "date": "2024-11-08",
+    "time": "11:14:47",
+    "totalPrice": "26.46",
     "employeeID": "01",
     "items": [
       {
-        "plateSize": "Plate",
+        "plateSize": "Bowl",
         "items": [
           "Super Greens",
           "Super Greens",
-          "Honey Walnut Shrimp",
-          "Honey Walnut Shrimp"
+          "Orange Chicken"
         ]
       },
       {
-        "plateSize": "Bigger Plate",
+        "plateSize": "Bowl",
         "items": [
-          "Chow Mein",
-          "Chow Mein",
-          "Honey Walnut Shrimp",
-          "Honey Walnut Shrimp",
-          "Honey Walnut Shrimp"
+          "Fried Rice",
+          "Fried Rice",
+          "Orange Chicken"
         ]
       },
       {
-        "plateSize": "A La Carte",
+        "plateSize": "Bowl",
         "items": [
-          "White Steamed Rice",
-          "White Steamed Rice",
-          "White Steamed Rice",
-          "White Steamed Rice",
-          "White Steamed Rice",
-          "Broccoli Beef",
-          "Broccoli Beef",
-          "Broccoli Beef",
-          "Broccoli Beef",
-          "Broccoli Beef"
-        ]
-      },
-      {
-        "plateSize": "Bigger Plate",
-        "items": [
-          "Chow Mein",
-          "Chow Mein",
-          "Grilled Teriyaki Chicken",
-          "Grilled Teriyaki Chicken",
-          "Grilled Teriyaki Chicken"
+          "Fried Rice",
+          "Fried Rice",
+          "Orange Chicken"
         ]
       }
-    ]
+    ],
+    "source": "Cashier"
   }
 ]
