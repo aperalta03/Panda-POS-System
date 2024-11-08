@@ -10,6 +10,7 @@ const KitchenPage = () => {
     useEffect(() => {
         let orderCount = 1;
         const initialOrders = salesData
+            //! Change Source for salesRecord.json (Cashier <-> Kiosk)
             .filter((sale) => sale.source === 'Cashier')
             .flatMap((sale) =>
                 sale.items.map((item) => ({
