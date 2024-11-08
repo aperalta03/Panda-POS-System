@@ -1,0 +1,100 @@
+/* Main Container */
+.menuContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    background-color: #1c1c1c;
+    color: #ffffff;
+}
+.menuContainer::-webkit-scrollbar {
+    display: none;
+}
+.menuContainer {
+    scrollbar-width: none;
+    -ms-overflow-style: none; 
+}
+/* Menu Item */
+.menuSection {
+    padding: 20px 20px 20px 20px;
+}
+.menuItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.menuItemTitle {
+    display: flex;
+    flex-direction: column;
+    max-width: 50%;
+}
+.sectionTitle {
+    font-weight: bold;
+    color: var(--primary-color);
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 7rem;
+}
+.sectionTitleBig {
+    font-weight: bold;
+    color: var(--primary-color);
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 6.5rem;
+}
+.sectionTextBox {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10%;
+}
+.sectionText {
+    width: 100%;
+    font-size: 2.5rem;
+}  
+.price {
+    font-weight: bold;
+    color: white;
+    font-size: 3rem;
+}
+/* Dividers */
+.divider {
+    margin: 10px 0;
+    background-color: #444;
+    height: 2px;
+}  
+.verticalDivider {
+    background-color: #444;
+    width: 2px;
+    height: 100%;
+    align-self: stretch;
+    justify-self: center;
+}
+/* Right Column */
+.itemName {
+    font-size: 2rem;
+    color: white;
+}
+.premium {
+    color: gold;
+}
+.calories {
+    font-size: 2rem;
+}
+.seasonalBox {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+.seasonalItem {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 100%;
+    justify-content: center;
+}
+.seasonalImage {
+    width: 40%;
+    height: auto;
+}

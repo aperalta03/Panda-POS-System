@@ -1,12 +1,221 @@
 import React from 'react';
+import { Box, Typography, Divider, Grid } from '@mui/material';
+import Image from 'next/image';
 import styles from './menu.module.css';
 
-const MenuPage = () => {
-    return (
-        <div>
-            HELLO
-        </div>
-    )
-}
+//> TODO: Connect to Database to Stop using Hashmap
+//! Will Do ASAP - Alonso
 
-export default MenuPage;
+const menuItems = {
+  appetizers: [
+    { name: 'Chicken Egg Roll', price: '$2.50', calories: '200 cal' },
+    { name: 'Vegetable Spring Roll', price: '$2.50', calories: '190 cal' },
+    { name: 'Cream Cheese Rangoon', price: '$2.50', calories: '190 cal' },
+  ],
+  sides: [
+    { name: 'Chow Mein', calories: '510 cal' },
+    { name: 'Fried Rice', calories: '520 cal' },
+    { name: 'Steamed White Rice', calories: '380 cal' },
+    { name: 'Steamed Brown Rice', calories: '420 cal' },
+    { name: 'Super Greens', calories: '90 cal' },
+  ],
+  entrees: [
+    { name: 'Orange Chicken', calories: '490 cal' },
+    { name: 'Beijing Beef', calories: '470 cal' },
+    { name: 'Kung Pao Chicken', calories: '290 cal' },
+    { name: 'Broccoli Beef', calories: '150 cal' },
+    { name: 'Grilled Teriyaki Chicken', calories: '300 cal' },
+    { name: 'Mushroom Chicken', calories: '220 cal' },
+    { name: 'Honey Sesame Chicken Breast', calories: '490 cal' },
+    { name: 'Black Pepper Chicken', calories: '280 cal' },
+    { name: 'SweetFire Chicken Breast', calories: '380 cal' },
+    { name: 'String Bean Chicken Breast', calories: '190 cal' },
+    { name: 'Eggplant Tofu', calories: '340 cal' },
+    { name: 'Honey Walnut Shrimp', calories: '360 cal', isPremium: true },
+    { name: 'Black Pepper Angus Steak', calories: '180 cal', isPremium: true },
+  ],
+};
+
+
+const Menu = () => {
+  return (
+    <Box className={styles.menuContainer}>
+      <Grid container spacing={0} display={"flex"} flexDirection={"row"}>
+        {/* Left Column */}
+        <Grid item xs={12} md={6.5}>
+          {/* Bowl Section */}
+          <Box className={styles.menuSection}>
+            <Box className={styles.menuItem}>
+              <Box className={styles.menuItemTitle}>
+                <Typography variant="h4" className={styles.sectionTitle}>BOWL</Typography>
+                <Typography variant="h5" className={styles.price}>$9.50</Typography>
+              </Box>
+              <Box className={styles.sectionTextBox}>
+                <Typography variant="body1" className={styles.sectionText}>
+                    1 Entrees + Side(s) <br />
+                </Typography>
+                <Typography variant="body1" className={styles.sectionText}>
+                    240 - 1010 cal
+                </Typography>
+              </Box>
+            </Box>
+            <Divider className={styles.divider} />
+          </Box>
+
+          {/* Plate Section */}
+          <Box className={styles.menuSection}>
+            <Box className={styles.menuItem}>
+              <Box className={styles.menuItemTitle}>
+                <Typography variant="h4" className={styles.sectionTitle}>PLATE</Typography>
+                <Typography variant="h5" className={styles.price}>$11.50</Typography>
+              </Box>
+              <Box className={styles.sectionTextBox}>
+                <Typography variant="body1" className={styles.sectionText}>
+                    2 Entrees + Side(s) <br />
+                </Typography>
+                <Typography variant="body1" className={styles.sectionText}>
+                    240 - 1010 cal
+                </Typography>
+               </Box>
+            </Box>
+            <Divider className={styles.divider} />
+          </Box>
+
+          {/* Bigger Plate Section */}
+          <Box className={styles.menuSection}>
+            <Box className={styles.menuItem}>
+              <Box className={styles.menuItemTitle}>
+                <Typography variant="h4" className={styles.sectionTitle}>BIGGER PLATE</Typography>
+                <Typography variant="h5" className={styles.price}>$13.50</Typography>
+              </Box>
+              <Box className={styles.sectionTextBox}>
+                <Typography variant="body1" className={styles.sectionText}>
+                    3 Entrees + Side(s) <br />
+                </Typography>
+                <Typography variant="body1" className={styles.sectionText}>
+                    240 - 1010 cal
+                </Typography>
+               </Box>
+            </Box>
+            <Divider className={styles.divider} />
+          </Box>
+
+            {/* A La Carte Section */}
+            <Box className={styles.menuSection}>
+                <Box className={styles.menuItem}>
+                <Typography variant="h4" className={styles.sectionTitle}>A LA CARTE</Typography>
+                <Typography variant="h5" className={styles.price}>Price Varies</Typography>
+                </Box>
+                <Divider className={styles.divider} />
+            </Box>
+
+          {/* Appetizers Section */}
+          <Box className={styles.menuSection}>
+            <Box className={styles.menuItem}>
+              <Typography variant="h4" className={styles.sectionTitle}>APPETIZERS</Typography>
+              <Typography variant="h5" className={styles.price}>$2.90</Typography>
+            </Box>
+            <Divider className={styles.divider} />
+          </Box>
+
+          {/* Sides Section */}
+          <Box className={styles.menuSection}>
+            <Box className={styles.menuItem}>
+                <Typography variant="h4" className={styles.sectionTitle}>SIDES</Typography>
+                <Typography variant="h5" className={styles.price}>$5.50</Typography>
+            </Box>
+            <Divider className={styles.divider} />
+          </Box>
+
+          {/* Entrees Section */}
+          <Box className={styles.menuSection}>
+            <Box className={styles.menuItem}>
+              <Box minWidth="100%" className={styles.menuItemTitle}>
+                <Typography variant="h4" className={styles.sectionTitleBig}>ENTREE | PREMIUM</Typography>
+                <Typography variant="h5" className={styles.price}>$6.50 | $8.50</Typography>
+              </Box>
+            </Box>
+            <Divider className={styles.divider} />
+          </Box>
+
+          {/* Drinks Section */}
+          <Box className={styles.menuSection}>
+            <Box className={styles.menuItem}>
+              <Box minWidth="100%" className={styles.menuItemTitle}>
+                <Typography variant="h4"  className={styles.sectionTitleBig}>DRINK | FOUNTAIN</Typography>
+                <Typography variant="h5" className={styles.price}>$2.90 | $3.90</Typography>
+              </Box>
+            </Box>
+          </Box>
+        </Grid>
+
+        {/* Vertical Divider */}
+        <Grid item xs={12} md={1}>
+            <Divider orientation="vertical" flexItem className={styles.verticalDivider} />
+        </Grid>
+
+        {/* Right Column */}
+        <Grid item xs={12} md={4}>
+          {/* Appetizers Section */}
+          <Box className={styles.menuSection}>
+            <Typography variant="h4" className={styles.sectionTitle}>APPETIZERS</Typography>
+            {menuItems.appetizers.map((item, index) => (
+              <Box key={index} className={styles.menuItem}>
+                <Typography variant="h5" className={styles.itemName}>{item.name}</Typography>
+                <Box className={styles.itemDetails}>
+                  <Typography variant="body2" className={styles.calories}>{item.calories}</Typography>
+                </Box>
+              </Box>
+            ))}
+            <Divider className={styles.divider} />
+          </Box>
+
+          {/* Sides Section */}
+          <Box className={styles.menuSection}>
+            <Typography variant="h4" className={styles.sectionTitle}>SIDES</Typography>
+            {menuItems.sides.map((item, index) => (
+              <Box key={index} className={styles.menuItem}>
+                <Typography variant="h5" className={styles.itemName}>{item.name}</Typography>
+                <Typography variant="body2" className={styles.calories}>{item.calories}</Typography>
+              </Box>
+            ))}
+            <Divider className={styles.divider} />
+          </Box>
+
+          {/* Entrees Section */}
+          <Box className={styles.menuSection}>
+            <Typography variant="h4" className={styles.sectionTitle}>ENTREES</Typography>
+            {menuItems.entrees.map((item, index) => (
+              <Box key={index} className={styles.menuItem}>
+                <Typography
+                  variant="h5"
+                  className={`${styles.itemName} ${item.isPremium ? styles.premium : ''}`}
+                >
+                  {item.name}
+                </Typography>
+                <Typography variant="body2" className={styles.calories}>{item.calories}</Typography>
+              </Box>
+            ))}
+            <Divider className={styles.divider} />
+          </Box>
+
+          {/* Seasonal Menu Item Section */}
+          <Box className={styles.menuSection}>
+            <Typography variant="h4" className={styles.sectionTitle}>SEASONAL</Typography>
+              <Box className={styles.seasonalBox}>
+                <Box className={styles.seasonalItem}>
+                  <Typography variant="h5" className={styles.itemName} >
+                    Seasonal Item - LIMITED TIME
+                  </Typography>
+                  <Typography variant="body2" className={styles.calories}>69 cal</Typography>
+                </Box>
+                <Image src="/specialoffer.png" width={200} height={200} className={styles.seasonalImage} />
+              </Box>
+          </Box>
+        </Grid>
+      </Grid>
+    </Box>
+  );
+};
+
+export default Menu;
