@@ -8,7 +8,6 @@ export default async function handler(req, res) {
 
     try {
       const filePath = path.join(process.cwd(), 'utils', 'sql', 'sales-report.sql');
-      //console.log("SQL file path:", filePath); 
       const queryText = fs.readFileSync(filePath, 'utf-8');
 
       const result = await database.query(queryText, [startDate, endDate]);
