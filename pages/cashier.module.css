@@ -1,7 +1,7 @@
 /* Main Container */
 .mainContainer {
   width: 100%;
-  height: 70vh;
+  height: 100%;
 }
 /* Secondary Container */
 .layout {
@@ -89,13 +89,19 @@
   box-shadow: 0.1px 0.1px 10px #131313;
   padding: 10px;
   margin-left: 20px;
-  margin-top: 20px;
+  margin-top: 35px;
   margin-bottom: 20px;
   border-radius: 10px;
   max-width: 300px;
   min-width: 300px;
-  max-height: 80vh;
+  max-height: 75vh;
   background-color: var(--background-color-hover);
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.orderPanel::-webkit-scrollbar {
+  display: none;
 }
 .orderRow {
   display: flex;

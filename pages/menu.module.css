@@ -2,10 +2,10 @@
 .menuContainer {
     display: flex;
     flex-direction: column;
-    padding: 20px;
-    width: 100%;
-    height: 100%;
-    margin: 0 auto;
+    padding: 20px !important;
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 auto !important;
     background-color: #1c1c1c;
     color: #ffffff;
 }
@@ -18,7 +18,7 @@
 }
 /* Menu Item */
 .menuSection {
-    padding: 20px 20px 20px 20px;
+    padding: 20px 20px 20px 20px !important;
 }
 .menuItem {
     display: flex;
@@ -28,18 +28,18 @@
 .menuItemTitle {
     display: flex;
     flex-direction: column;
-    max-width: 50%;
+    max-width: 50% !important;
 }
 .sectionTitle {
-    font-weight: bold;
+    font-weight: bold !important;
     color: var(--primary-color);
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif !important;
     font-size: 7rem !important;
 }
 .sectionTitleBig {
     font-weight: bold;
     color: var(--primary-color);
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif !important;
     font-size: 6.5rem !important;
 }
 .sectionTextBox {
