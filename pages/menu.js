@@ -1,10 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Typography, Divider, Grid } from '@mui/material';
 import Image from 'next/image';
 import styles from './menu.module.css';
-
-//> TODO: Connect to Database to Stop using Hashmap
-//! Will Do ASAP - Alonso
 
 const menuItems = {
   appetizers: [
@@ -38,6 +35,28 @@ const menuItems = {
 
 
 const Menu = () => {
+
+  const [seasonalItem, setSeasonalItem] = useState(null);
+
+  useEffect(() => {
+    const fetchSeasonalItem = async () => {
+      try {
+        const response = await fetch('/api/menu-get-seasonal');
+        const data = await response.json();
+
+        if (response.ok) {
+          setSeasonalItem(data.seasonalItem);
+        } else {
+          console.error('Error fetching seasonal item:', data.error);
+        }
+      } catch (error) {
+        console.error('Error fetching seasonal item:', error);
+      }
+    };
+
+    fetchSeasonalItem();
+  }, []);
+
   return (
     <Box className={styles.menuContainer}>
       <Grid container spacing={0} display={"flex"} flexDirection={"row"}>
@@ -202,16 +221,24 @@ const Menu = () => {
           {/* Seasonal Menu Item Section */}
           <Box className={styles.menuSection}>
             <Typography variant="h4" className={styles.sectionTitle}>SEASONAL</Typography>
+            {seasonalItem ? (
               <Box className={styles.seasonalBox}>
                 <Box className={styles.seasonalItem}>
-                  <Typography variant="h5" className={styles.itemName} >
-                    Seasonal Item - LIMITED TIME
+                  <Typography variant="h5" className={styles.itemName}>
+                    {seasonalItem.name}
+                  </Typography>
+                  <Typography variant="h5" className={styles.itemName}>
+                    ${seasonalItem.price}
                   </Typography>
                   <Typography variant="body2" className={styles.calories}>69 cal</Typography>
                 </Box>
                 <Image src="/specialoffer.png" width={200} height={200} className={styles.seasonalImage} />
               </Box>
+            ) : (
+              <Typography variant="body1">Seasonal item not available.</Typography>
+            )}
           </Box>
+          
         </Grid>
       </Grid>
     </Box>
