@@ -11,7 +11,7 @@ export const OrdersProvider = ({ children }) => {
     let orderCount = 1;
     const initialOrders = salesData
     //! Change to Cashier or Kiosk for Source of Orders.
-      .filter((sale) => sale.source === 'Kiosk')
+      .filter((sale) => sale.source === 'Cashier')
       .flatMap((sale) =>
         sale.items.map((item) => {
           const orderId = `${sale.saleNumber}-${orderCount++}`;
