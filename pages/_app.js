@@ -3,14 +3,17 @@ import styles from './_app.module.css';
 import Navbar from '../app/components/navbar/navbar';
 import { RoleProvider } from '../app/context/roleProvider';
 import { UserProvider } from '../app/context/currentUser';
+import { OrdersProvider } from '../app/context/ordersContext';
 
 function MyApp({ Component, pageProps }) {
   return (
     <RoleProvider>
       <UserProvider>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+        <OrdersProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </OrdersProvider>
       </UserProvider>
     </RoleProvider>
   );

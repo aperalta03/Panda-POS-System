@@ -2,7 +2,14 @@
 .layoutContainer {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 100vh;;
+}
+.layoutContainer::-webkit-scrollbar {
+    display: none;
+}
+.layoutContainer {
+    scrollbar-width: none;
+    -ms-overflow-style: none; 
 }
 /* Navbar */
 .navbarContainer {
