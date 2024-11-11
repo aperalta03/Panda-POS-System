@@ -70,7 +70,7 @@ const DropDowns = () => {
       {/* Reset Confirmation Modal */}
       <Modal open={isResetModalOpen} onClose={closeResetModal}>
         <Box className={styles.modalBox}>
-          <Typography variant="h6">Are you sure you want to reset 'salesRecord' and 'saleItems' tables Current day Data?</Typography>
+          <Typography variant="h6">Are you sure you want to reset &apos;salesRecord&apos; and &apos;saleItems&apos; tables Current day Data?</Typography>
           <Button onClick={handleResetSalesData} color="error" variant="contained" sx={{ mt: 2 }}>
             Yes, Reset Data
           </Button>
