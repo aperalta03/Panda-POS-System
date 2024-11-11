@@ -95,12 +95,14 @@ const KitchenPage = () => {
       <Modal open={openModal} onClose={closeModal}>
         <div className={styles.modalContent}>
           <h2>Are you sure you want to cancel this order?</h2>
-          <Button variant="contained" color="primary" onClick={handleCancelOrder}>
-            Yes
-          </Button>
-          <Button variant="outlined" onClick={closeModal}>
-            No
-          </Button>
+          <div className={styles.modalButtons}>
+            <Button className={styles.modalButton} onClick={handleCancelOrder}>
+                Yes
+            </Button>
+            <Button className={styles.modalButton} onClick={closeModal}>
+                No
+            </Button>
+          </div>
         </div>
       </Modal>
     </div>

@@ -79,10 +79,30 @@
 }
 /* Confirmation Modal */
 .modalContent {
-    background: white;
+    background: var(--secondary-color-hover);
+    color: white;
     padding: 20px;
     border-radius: 8px;
     text-align: center;
     width: 300px;
     margin: 100px auto;
+    top: 40%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    left: 50%;
+}
+.modalButtons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+}
+.modalButton {
+    background-color: var(--primary-color) !important;
+    border: var(--secondary-color) 1px solid !important;
+    color: white !important;
+    padding: 10px 20px !important;
+}
+.modalButton:hover {
+    background-color: var(--primary-color-hover) !important;
 }
