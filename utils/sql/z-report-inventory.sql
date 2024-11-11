@@ -1,5 +1,5 @@
-UPDATE inventory i 
-SET curr_amount = curr_amount - $1
-FROM menu m 
-JOIN menu_inventory j on m.menu_item_id = j.menu_item_id 
-WHERE j.inventory_id = i.inventory_id AND m.name = $2;
+SELECT si.itemname AS item_name, COUNT(si.itemname) AS quantity_sold, SUM(sr.totalprice) AS total_price
+FROM saleItems si
+JOIN salesRecord sr ON si.salenumber = sr.salenumber
+GROUP BY si.itemname
+ORDER BY quantity_sold DESC;

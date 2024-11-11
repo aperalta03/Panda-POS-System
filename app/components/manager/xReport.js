@@ -6,52 +6,23 @@ const XReportModal = ({ isOpen, onClose }) => {
   const [reportData, setReportData] = useState([]);
   const [totalSales, setTotalSales] = useState(0);
 
-  const halfItems = ["Super Greens", "Chow Mein", "White Steamed Rice", "Fried Rice"];
-
   const fetchSalesData = useCallback(async () => {
     try {
-      const response = await fetch('/api/salesRecord');
+      const response = await fetch('/api/x-report');
       if (!response.ok) {
         throw new Error('Failed to fetch sales data');
       }
-      const salesData = await response.json();
+      
+      const data = await response.json();
+      const salesData = data.data; // Ensure correct structure
 
-      const aggregatedData = {};
-      let totalPrice = 0;
-
-      salesData.forEach(sale => {
-        sale.items.forEach(itemCategory => {
-          itemCategory.items.forEach(item => {
-            const itemPrice = parseFloat(sale.totalPrice) / itemCategory.items.length;
-            const isHalfItem = halfItems.includes(item);
-            const itemCount = isHalfItem ? 0.5 : 1;
-
-            if (aggregatedData[item]) {
-              aggregatedData[item].count += itemCount;
-              aggregatedData[item].totalPrice += itemPrice;
-            } else {
-              aggregatedData[item] = {
-                count: itemCount,
-                totalPrice: itemPrice,
-              };
-            }
-          });
-        });
-      });
-
-      const report = Object.entries(aggregatedData).map(([itemName, { count, totalPrice }]) => ({
-        itemName,
-        count: count.toFixed(1),
-        totalPrice: totalPrice.toFixed(2),
-      }));
-
-      const total = report.reduce((acc, item) => acc + parseFloat(item.totalPrice), 0).toFixed(2);
-      setReportData(report);
+      const total = salesData.reduce((acc, sale) => acc + sale.sales, 0).toFixed(2);
+      setReportData(salesData);
       setTotalSales(total);
     } catch (error) {
       console.error("Error fetching sales data:", error);
     }
-  }, [halfItems]);
+  }, []);
 
   useEffect(() => {
     if (isOpen) {
@@ -68,22 +39,20 @@ const XReportModal = ({ isOpen, onClose }) => {
           <table className={styles.reportTable}>
             <thead>
               <tr>
-                <th>Item</th>
-                <th>Quantity Sold</th>
-                <th>Total Price</th>
+                <th>Hour</th>
+                <th>Sales</th>
               </tr>
             </thead>
             <tbody>
               {reportData.length === 0 ? (
                 <tr>
-                  <td colSpan="3">No data available</td>
+                  <td colSpan="2">No data available</td>
                 </tr>
               ) : (
                 reportData.map((data, index) => (
                   <tr key={index}>
-                    <td>{data.itemName}</td>
-                    <td>{data.count}</td>
-                    <td>${data.totalPrice}</td>
+                    <td>{data.hour}:00</td>
+                    <td>${data.sales.toFixed(2)}</td>
                   </tr>
                 ))
               )}

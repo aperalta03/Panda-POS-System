@@ -6,57 +6,27 @@ const ZReportModal = ({ isOpen, onClose }) => {
   const [reportData, setReportData] = useState([]);
   const [totalSales, setTotalSales] = useState(0);
 
-  // Function to fetch and process the latest sales data
   const fetchSalesData = async () => {
     try {
-      const response = await fetch('/api/salesRecord');
+      const response = await fetch('/api/z-report');
+      if (!response.ok) throw new Error('Failed to fetch sales data');
+      
       const salesData = await response.json();
-
-      // Aggregate sales data
-      const aggregatedData = {};
-      let totalPrice = 0;
-
-      salesData.forEach(sale => {
-        sale.items.forEach(itemCategory => {
-          itemCategory.items.forEach(item => {
-            const itemPrice = parseFloat(sale.totalPrice) / itemCategory.items.length;
-
-            if (aggregatedData[item]) {
-              aggregatedData[item].count += 1;
-              aggregatedData[item].totalPrice += itemPrice;
-            } else {
-              aggregatedData[item] = {
-                count: 1,
-                totalPrice: itemPrice,
-              };
-            }
-          });
-        });
-      });
-
-      const report = Object.entries(aggregatedData).map(([itemName, { count, totalPrice }]) => ({
-        itemName,
-        count,
-        totalPrice: totalPrice.toFixed(2),
-      }));
-
-      const total = report.reduce((acc, item) => acc + parseFloat(item.totalPrice), 0).toFixed(2);
-
-      setReportData(report);
-      setTotalSales(total);
+      setReportData(salesData.report || []);
+      setTotalSales(salesData.total || 0);
     } catch (error) {
       console.error("Error fetching sales data:", error);
+      setReportData([]);
+      setTotalSales(0);
     }
   };
 
-  // Fetch sales data every time the modal is opened
   useEffect(() => {
     if (isOpen) {
       fetchSalesData();
     }
   }, [isOpen]);
 
-  // Function to generate the Z report
   const generateZReport = async () => {
     try {
       const response = await fetch('/api/generate-z-report', { method: 'POST' });
@@ -67,7 +37,7 @@ const ZReportModal = ({ isOpen, onClose }) => {
       } else {
         alert('Error generating Z Report');
       }
-      onClose(); // Close the modal after generating the report
+      onClose();
     } catch (error) {
       console.error('Error generating Z report:', error);
       alert('Error generating Z Report');
@@ -77,10 +47,7 @@ const ZReportModal = ({ isOpen, onClose }) => {
   return (
     <Modal open={isOpen} onClose={onClose}>
       <div className={styles.modalBox}>
-        {/* Title of the report */}
         <h2 className={styles.reportTitle}>Z Report</h2>
-
-        {/* Scrollable content area for the table */}
         <div className={styles.scrollableContent}>
           <table className={styles.reportTable}>
             <thead>
@@ -108,7 +75,6 @@ const ZReportModal = ({ isOpen, onClose }) => {
           </table>
         </div>
 
-        {/* Bottom section with total sales and buttons */}
         <div className={styles.bottomContainer}>
           <div className={styles.totalContainer}>
             <strong>Total Sales: ${totalSales}</strong>
