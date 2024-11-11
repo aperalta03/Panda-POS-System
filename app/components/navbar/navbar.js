@@ -18,9 +18,7 @@ const Navbar = () => {
     useEffect(() => {
         const updateTime = () => {
             const now = new Date();
-            setTime(
-                now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
-            );
+            setTime(now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }));
         };
         updateTime();
         const timer = setInterval(updateTime, 60000); // Update every minute
@@ -71,6 +69,10 @@ const Navbar = () => {
     const toggleView = () => {
         if (router.pathname === '/manager') {
             router.push('/cashier');
+        } else if (router.pathname === '/kitchen') {
+            router.push('/kitchenTV');
+        } else if (router.pathname === '/kitchenTV') {
+            router.push('/kitchen');
         } else {
             router.push('/manager');
         }
@@ -78,20 +80,31 @@ const Navbar = () => {
 
     return (
         <div className={styles.mainContainer}>
+            {/* Logoff Button */}
             <button
-                className={`${styles.logoffButton} ${role ? styles.visible : ''}`}
+                className={`${styles.logoffButton} ${
+                    role && router.pathname !== '/kiosk' ? styles.visible : ''
+                }`}
                 onClick={handleLogoff}
                 aria-label="Log Off"
             >
                 Log Out
             </button>
+
+            {/* Switch View Button */}
             <button
-                className={`${styles.pageButton} ${role === "manager" ? styles.visible : ''}`}
+                className={`${styles.pageButton} ${
+                    (role === 'manager' || router.pathname === '/kitchen' || router.pathname === '/kitchenTV') && router.pathname !== '/kiosk' && router.pathname !== '/menu'
+                        ? styles.visible
+                        : ''
+                }`}
                 onClick={toggleView}
             >
                 Switch View
             </button>
+
             <h1 className={styles.title}>WELCOME TO PANDA EXPRESS</h1>
+
             <div className={styles.detailsBox}>
                 <div className={styles.timestamp}>{time}</div>
                 {weather.temp && weather.condition && (
