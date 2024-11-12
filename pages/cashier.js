@@ -442,7 +442,7 @@ const CashierPage = () => {
       totalPrice: (netCost + netCost * 0.0625).toFixed(2),
       employeeID, // Assume employeeID was retrieved from localStorage or context
       items: orders,
-      source: 'Cashier',
+      source: "Cashier",
     };
     // Send order details to the API route
     try {
