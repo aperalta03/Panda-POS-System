@@ -421,8 +421,12 @@ const CashierPage = () => {
     const storedEmployeeID = localStorage.getItem("employeeID");
     if (storedEmployeeID) {
       setEmployeeID(storedEmployeeID);
+      console.log("Employee ID loaded from localStorage:", storedEmployeeID);
+    } else {
+      console.log("No Employee ID found in localStorage");
     }
   }, []);
+  
 
   const handlePayClick = async () => {
     // Get current date and time
@@ -435,7 +439,7 @@ const CashierPage = () => {
       saleDate,
       saleTime,
       totalPrice: (netCost + netCost * 0.0625).toFixed(2),
-      employeeID,  // Ensure employeeID is not undefined here
+      employeeID, 
       items: orders,
       source: 'Cashier',
     };
