@@ -8,6 +8,7 @@ const Login = () => {
     const router = useRouter();
     const { setRole } = useRole();
     const { setLoggedInName } = useUser();
+    const { setEmployeeID } = useUser();
     const [input, setInput] = useState("");
     const [employeeMap, setEmployeeMap] = useState({});
 
@@ -57,7 +58,8 @@ const Login = () => {
         } else {
             const employee = employeeMap[input];
 
-            setLoggedInName(employee.name);
+            setLoggedInName(employee.name);       
+            setEmployeeID(input);                 
 
             if (employee.isManager) {
                 setRole("manager");
