@@ -427,48 +427,56 @@ const CashierPage = () => {
   const handlePayClick = async () => {
     // Get current date and time
     const now = new Date();
-    const saleDate = now.toISOString().split("T")[0]; // YYYY-MM-DD format
-    const saleTime = now.toTimeString().split(" ")[0]; // HH:MM:SS format
-
+    const saleDate = now.toISOString().split("T")[0];
+    const saleTime = now.toTimeString().split(" ")[0];
+  
     // Prepare the order details
     const orderDetails = {
       saleDate,
       saleTime,
       totalPrice: (netCost + netCost * 0.0625).toFixed(2),
-      employeeID,
+      employeeID,  // Ensure employeeID is not undefined here
       items: orders,
       source: 'Cashier',
     };
-
+  
+    // Check if critical fields are present before making the request
+    if (!saleDate || !saleTime || !employeeID || !orderDetails.items.length) {
+      console.error("Missing critical order details:", { saleDate, saleTime, employeeID, items: orderDetails.items });
+      alert("Order details are incomplete. Please try again.");
+      return;
+    }
+  
     try {
-      const response = await fetch(
-        `${window.location.origin}/api/updateSalesRecord`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(orderDetails),
-        }
-      );
-
+      const response = await fetch(`${window.location.origin}/api/updateSalesRecord`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(orderDetails),
+      });
+  
       if (response.ok) {
         console.log("Order saved successfully");
       } else {
+        // Log detailed error message from the response
         const errorData = await response.json();
         console.error("Failed to save order", errorData);
+        alert(`Error saving order: ${errorData.message || "Unknown error"}`);
       }
     } catch (error) {
+      // Log any error from fetch or network issues
       console.error("Error:", error);
+      alert("A network error occurred. Please check your connection and try again.");
     }
-
+  
     // Reset UI state after payment
     setNetCost(0);
     setQuantities(
       Object.keys(quantities).reduce((acc, item) => ({ ...acc, [item]: 0 }), {})
     );
     setOrders([]); // Clear all orders in the UI
-  };
+  };  
 
   const addOrderToPanel = (plateSize, items) => {
     setOrders((prevOrders) => [...prevOrders, { plateSize, items }]);

@@ -6,25 +6,16 @@ export default async function handler(req, res) {
   if (req.method === 'POST') {
     const { saleDate, saleTime, totalPrice, employeeID, source, items } = req.body;
 
-    console.log('Received data:', {
-      saleDate,
-      saleTime,
-      totalPrice,
-      employeeID,
-      source,
-      items,
-    });
-
-    if (!saleDate || !saleTime) {
-      console.error('Missing saleDate or saleTime in request body');
-      return res.status(400).json({ error: 'Missing saleDate or saleTime' });
+    if (!saleDate || !saleTime || !employeeID) {
+      console.error('Missing saleDate, saleTime, or employeeID in request body');
+      return res.status(400).json({ error: 'Missing required fields: saleDate, saleTime, or employeeID' });
     }
 
     try {
       const filePath = path.join(process.cwd(), 'utils', 'sql', 'insert-salesRecord.sql');
       const insertScript = fs.readFileSync(filePath, 'utf8');
 
-      console.log('Running SQL script:', insertScript);
+      console.log('Executing SQL script:', insertScript);
 
       const response = await database.query(insertScript, [
         saleDate,
