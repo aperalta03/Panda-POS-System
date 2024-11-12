@@ -4,18 +4,25 @@ import path from 'path';
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    const { saleDate, saleTime, totalPrice, employeeID, source, items } = req.body;
+    // Update destructuring to match the new data structure
+    const { saleDate, saleTime, totalPrice, employeeID, source, orders } = req.body;
 
     if (!saleDate || !saleTime || !employeeID) {
       console.error('Missing saleDate, saleTime, or employeeID in request body');
       return res.status(400).json({ error: 'Missing required fields: saleDate, saleTime, or employeeID' });
     }
 
+    console.log("Order JSON Structure:", JSON.stringify(req.body, null, 2));
+
     try {
       const filePath = path.join(process.cwd(), 'utils', 'sql', 'insert-salesRecord.sql');
       const insertScript = fs.readFileSync(filePath, 'utf8');
 
-      console.log('Executing SQL script:', insertScript);
+      // Prepare the data to match the expected structure in the SQL script
+      const itemsData = orders.map(({ plateSize, components }) => ({
+        plateSize,
+        components,
+      }));
 
       const response = await database.query(insertScript, [
         saleDate,
@@ -23,9 +30,7 @@ export default async function handler(req, res) {
         totalPrice,
         employeeID,
         source,
-        JSON.stringify(
-          items.flatMap(({ plateSize, items }) => items.map(itemName => ({ plateSize, itemName })))
-        ),
+        JSON.stringify(itemsData),  // Ensure itemsData is a JSON string
       ]);
 
       console.log('SQL script executed successfully:', response);

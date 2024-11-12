@@ -307,7 +307,7 @@ const OrderPanel = ({ orders, onDelete, seasonalItemName }) => {
         >
           <span>
             {order.plateSize} (
-            {order.items
+            {order.components
               .map((item) =>
                 item === "Seasonal Item" ? seasonalItemName : item
               )
@@ -429,16 +429,16 @@ const CashierPage = () => {
       saleTime,
       totalPrice: (netCost + netCost * 0.0625).toFixed(2),
       employeeID,
-      items: orders,
+      orders: orders,
       source: 'Cashier',
     };
 
-    if (!saleDate || !saleTime || !employeeID || !orderDetails.items.length) {
+    if (!saleDate || !saleTime || !employeeID || !orderDetails.orders.length) {
       console.error("Missing critical order details:", {
         saleDate,
         saleTime,
         employeeID,
-        items: orderDetails.items,
+        orders: orderDetails.orders,
       });
       alert("Order details are incomplete. Please try again.");
       return;
@@ -466,15 +466,15 @@ const CashierPage = () => {
     setOrders([]);
   };
 
-  const addOrderToPanel = (plateSize, items) => {
-    setOrders((prevOrders) => [...prevOrders, { plateSize, items }]);
+  const addOrderToPanel = (plateSize, components) => {
+    setOrders((prevOrders) => [...prevOrders, { plateSize, components }]);
 
     // Ensure minQuantities is set correctly for plate sizes and items
     setMinQuantities((prevMin) => {
       const updatedMin = { ...prevMin };
 
       // Increment the minimum quantity for each item in the order
-      items.forEach((item) => {
+      components.forEach((item) => {
         if (sides.includes(item)) {
           // Increment by 0.5 for sides
           updatedMin[item] = (updatedMin[item] || 0) + 0.5;
@@ -492,7 +492,7 @@ const CashierPage = () => {
     const orderToDelete = orders[index];
     const orderCost =
       orderToDelete.plateSize === "A La Carte"
-        ? orderToDelete.items.reduce((total, item) => total + priceMap[item], 0)
+        ? orderToDelete.components.reduce((total, item) => total + priceMap[item], 0)
         : priceMap[orderToDelete.plateSize];
 
     setNetCost((prev) => prev - orderCost);
@@ -510,7 +510,7 @@ const CashierPage = () => {
     }
 
     // Decrease the quantity of each item in the order
-    orderToDelete.items.forEach((item) => {
+    orderToDelete.components.forEach((item) => {
       if (sides.includes(item)) {
         // Decrement by 0.5 for side items
         updatedQuantities[item] = Math.max(
