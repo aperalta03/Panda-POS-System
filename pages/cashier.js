@@ -440,6 +440,12 @@ const CashierPage = () => {
       source: 'Cashier',
     };
   
+    // Log each field to verify
+    console.log("saleDate:", saleDate);
+    console.log("saleTime:", saleTime);
+    console.log("employeeID:", employeeID);
+    console.log("items:", orders);
+  
     // Check if critical fields are present before making the request
     if (!saleDate || !saleTime || !employeeID || !orderDetails.items.length) {
       console.error("Missing critical order details:", { saleDate, saleTime, employeeID, items: orderDetails.items });
@@ -459,15 +465,11 @@ const CashierPage = () => {
       if (response.ok) {
         console.log("Order saved successfully");
       } else {
-        // Log detailed error message from the response
         const errorData = await response.json();
         console.error("Failed to save order", errorData);
-        alert(`Error saving order: ${errorData.message || "Unknown error"}`);
       }
     } catch (error) {
-      // Log any error from fetch or network issues
       console.error("Error:", error);
-      alert("A network error occurred. Please check your connection and try again.");
     }
   
     // Reset UI state after payment
