@@ -1,36 +1,35 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './kitchenTV.module.css';
-import { OrdersContext } from '../app/context/ordersContext';
 import { Divider } from '@mui/material';
 
 const KitchenTV = () => {
-  const { orders } = useContext(OrdersContext);
+  const [orders, setOrders] = useState([]);
   const [completedOrders, setCompletedOrders] = useState([]);
 
   useEffect(() => {
-    const storedCompletedOrders = JSON.parse(localStorage.getItem('completedOrders')) || [];
-    setCompletedOrders(storedCompletedOrders);
+    const fetchOrders = async () => {
+      try {
+        const response = await fetch('/api/kitchen-get-orders');
+        const data = await response.json();
+        setOrders(data.orders.filter(order => order.status !== 'Completed'));
+        setCompletedOrders(data.orders.filter(order => order.status === 'Completed'));
+      } catch (error) {
+        console.error('Error fetching orders:', error);
+      }
+    };
+
+    fetchOrders();
   }, []);
-
-  useEffect(() => {
-    const newCompletedOrders = orders
-      .filter((order) => order.status === 'completed')
-      .slice(-8);
-    setCompletedOrders(newCompletedOrders);
-    localStorage.setItem('completedOrders', JSON.stringify(newCompletedOrders));
-  }, [orders]);
-
-  const currentOrders = orders.filter((order) => order.status !== 'completed' && order.status !== 'canceled');
 
   return (
     <div className={styles.tvContainer}>
       <div className={styles.gridContainer}>
-        {currentOrders.map((order) => (
-          <div className={styles.orderBox} key={order.id}>
+        {orders.map((order) => (
+          <div className={styles.orderBox} key={order.saleNumber}>
             <div className={styles.orderHeader}>
-              SALE #{order.saleNumber} - ORDER #{order.orderNumber}
+              SALE #{order.saleNumber} - ORDER #1
               <span className={styles.orderStatus}>
-                {order.status === 'making' ? 'MAKING...' : 'NOT STARTED'}
+                {order.status === 'Cooking' ? 'COOKING...' : 'NOT STARTED'}
               </span>
             </div>
             <div className={styles.orderDetails}>
@@ -42,7 +41,7 @@ const KitchenTV = () => {
                 ))}
               </ul>
               <p>Total Price: ${order.totalPrice}</p>
-              <p>Time: {order.time}</p>
+              <p>Time: {order.saleTime}</p>
             </div>
           </div>
         ))}
@@ -52,9 +51,9 @@ const KitchenTV = () => {
 
       <div className={styles.completedContainer}>
         {completedOrders.map((order) => (
-          <div className={styles.completedBox} key={order.id}>
+          <div className={styles.completedBox} key={order.saleNumber}>
             <div className={styles.completedHeader}>
-              SALE #{order.saleNumber} - ORDER #{order.orderNumber}
+              SALE #{order.saleNumber} - ORDER #1
               <span className={styles.completedStatus}>COMPLETED</span>
             </div>
             <div className={styles.orderDetails}>
@@ -66,7 +65,7 @@ const KitchenTV = () => {
                 ))}
               </ul>
               <p>Total Price: ${order.totalPrice}</p>
-              <p>Time: {order.time}</p>
+              <p>Time: {order.saleTime}</p>
             </div>
           </div>
         ))}
