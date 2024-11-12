@@ -1,12 +1,14 @@
-// kitchen.js
-import React, { useState, useEffect, useContext } from 'react';
+//! TODO:
+// 1. Complete 'Completed' Button - When Complete it dissapears in kitchen.js
+
+import React, { useState, useEffect } from 'react';
 import styles from './kitchen.module.css';
 import { Modal, Button } from '@mui/material';
 
 const KitchenPage = () => {
   const [orders, setOrders] = useState([]);
   const [openModal, setOpenModal] = useState(false);
-  const [cancelOrderId, setCancelOrderId] = useState(null);
+  const [cancelOrderDetails, setCancelOrderDetails] = useState({ saleNumber: null, orderNumber: null });
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -22,18 +24,27 @@ const KitchenPage = () => {
     fetchOrders();
   }, []);
 
-  const updateOrderStatus = async (orderId, newStatus) => {
+  const updateOrderStatus = async (saleNumber, orderNumber, newStatus) => {
     try {
       const response = await fetch('/api/kitchen-update-order-status', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ saleNumber: orderId, status: newStatus }),
+        body: JSON.stringify({ saleNumber, orderNumber, status: newStatus }),
       });
 
       if (response.ok) {
         setOrders((prevOrders) =>
-          prevOrders.map((order) =>
-            order.saleNumber === orderId ? { ...order, status: newStatus } : order
+          prevOrders.map(order =>
+            order.saleNumber === saleNumber
+              ? {
+                  ...order,
+                  items: order.items.map(item =>
+                    item.orderNumber === orderNumber
+                      ? { ...item, status: newStatus }
+                      : item
+                  ),
+                }
+              : order
           )
         );
       } else {
@@ -44,22 +55,48 @@ const KitchenPage = () => {
     }
   };
 
-  const handleStartOrder = (orderId) => {
-    updateOrderStatus(orderId, 'Cooking');
+  const handleStartOrder = (saleNumber, orderNumber) => {
+    updateOrderStatus(saleNumber, orderNumber, 'Cooking');
   };
 
-  const handleCompleteOrder = (orderId) => {
-    updateOrderStatus(orderId, 'Completed');
+  const handleCompleteOrder = (saleNumber, orderNumber) => {
+    updateOrderStatus(saleNumber, orderNumber, 'Completed');
   };
 
-  const openCancelModal = (orderId) => {
-    setCancelOrderId(orderId);
+  const openCancelModal = (saleNumber, orderNumber) => {
+    setCancelOrderDetails({ saleNumber, orderNumber });
     setOpenModal(true);
   };
 
-  const handleCancelOrder = () => {
-    updateOrderStatus(cancelOrderId, 'Canceled');
-    setOpenModal(false);
+  const handleCancelOrder = async () => {
+    try {
+      const response = await fetch('/api/kitchen-cancel-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(cancelOrderDetails),
+      });
+
+      if (response.ok) {
+        setOrders((prevOrders) =>
+          prevOrders
+            .map(order => 
+              order.saleNumber === cancelOrderDetails.saleNumber 
+              ? {
+                  ...order,
+                  items: order.items.filter(item => item.orderNumber !== cancelOrderDetails.orderNumber),
+                }
+              : order
+            )
+            .filter(order => order.items.length > 0)
+        );
+      } else {
+        console.error('Failed to cancel order');
+      }
+    } catch (error) {
+      console.error('Error cancelling order:', error);
+    } finally {
+      setOpenModal(false);
+    }
   };
 
   const closeModal = () => {
@@ -68,41 +105,49 @@ const KitchenPage = () => {
 
   return (
     <div className={styles.gridContainer}>
-      {orders
-        .filter((order) => order.status !== 'Canceled')
-        .map((order) => (
-          <div className={styles.orderBox} key={order.saleNumber}>
-            <div className={styles.orderHeader}>
-              SALE #{order.saleNumber} - ORDER #1
-              <span className={styles.orderStatus}>
-                {order.status === 'Completed'
-                  ? 'COMPLETED'
-                  : order.status === 'Cooking'
-                  ? 'COOKING...'
-                  : 'NOT STARTED'}
-              </span>
+      {orders.map(order => 
+        order.items
+          .filter(item => item.status !== 'Canceled')
+          .map(item => (
+            <div className={styles.orderBox} key={`${order.saleNumber}-${item.orderNumber}`}>
+              <div className={styles.orderHeader}>
+                SALE #{order.saleNumber} - ORDER #{item.orderNumber}
+                <span className={styles.orderStatus}>
+                  {item.status === 'Completed'
+                    ? 'COMPLETED'
+                    : item.status === 'Cooking'
+                    ? 'COOKING...'
+                    : 'NOT STARTED'}
+                </span>
+              </div>
+              <button 
+                className={`${styles.startOrderButton} ${
+                  item.status === 'Cooking' && styles.activeStart
+                }`}
+                onClick={() => handleStartOrder(order.saleNumber, item.orderNumber)}
+                disabled={item.status !== 'Not Started'}
+              >
+                START ORDER
+              </button>
+              <button
+                className={`${styles.completeButton} ${
+                  item.status === 'Completed' && styles.activeComplete
+                }`}
+                onClick={() => handleCompleteOrder(order.saleNumber, item.orderNumber)}
+                disabled={item.status !== 'Cooking'}
+              >
+                COMPLETE
+              </button>
+              <button 
+                className={styles.cancelButton} 
+                onClick={() => openCancelModal(order.saleNumber, item.orderNumber)}
+                disabled={item.status === 'Completed'}
+              >
+                CANCEL
+              </button>
             </div>
-            <button 
-              className={`${styles.startOrderButton} ${
-                order.status === 'Cooking' && styles.activeStart
-              }`}
-              onClick={() => handleStartOrder(order.saleNumber)} disabled={order.status !== 'Not Started'}
-            >
-              START ORDER
-            </button>
-            <button
-              className={`${styles.completeButton} ${
-                order.status === 'Completed' && styles.activeComplete
-              }`}
-              onClick={() => handleCompleteOrder(order.saleNumber)} disabled={order.status !== 'Cooking'}
-            >
-              COMPLETE
-            </button>
-            <button className={styles.cancelButton} onClick={() => openCancelModal(order.saleNumber)} disabled={order.status === 'Completed'}>
-              CANCEL
-            </button>
-          </div>
-        ))}
+          ))
+      )}
 
       <Modal open={openModal} onClose={closeModal}>
         <div className={styles.modalContent}>

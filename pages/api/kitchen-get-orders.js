@@ -3,7 +3,7 @@ import database from '../../utils/database';
 export default async function handler(req, res) {
   if (req.method === 'GET') {
     try {
-      //! Change between 'Kiosk' and 'Cashier'
+      //! Change to 'Kiosk' and 'Cashier'
       const salesQuery = `
         SELECT 
           sr.saleNumber,
@@ -12,13 +12,14 @@ export default async function handler(req, res) {
           sr.totalPrice,
           sr.employeeID,
           sr.source,
-          sr.status,
           si.plateSize,
-          si.itemName
+          si.components,
+          si.status,
+          si.orderNumber
         FROM salesRecord sr
         LEFT JOIN saleItems si ON sr.saleNumber = si.saleNumber
         WHERE sr.source = 'Cashier'
-        ORDER BY sr.saleNumber, si.itemid;
+        ORDER BY sr.saleNumber, si.orderNumber;
       `;
 
       const result = await database.query(salesQuery);
@@ -34,12 +35,16 @@ export default async function handler(req, res) {
             totalPrice: row.totalprice,
             employeeID: row.employeeid,
             source: row.source,
-            status: row.status,
-            plateSize: row.platesize,
             items: [],
           };
         }
-        orders[row.salenumber].items.push(row.itemname);
+        
+        orders[row.salenumber].items.push({
+          orderNumber: row.ordernumber,
+          plateSize: row.platesize,
+          components: row.components,
+          status: row.status
+        });
       });
 
       res.status(200).json({ orders: Object.values(orders) });

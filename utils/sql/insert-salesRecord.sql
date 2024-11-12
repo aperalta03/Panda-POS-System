@@ -21,13 +21,14 @@ max_order_number AS (
   SELECT COALESCE(MAX(orderNumber), 0) AS maxOrderNumber
   FROM saleItems
 )
--- Insert into saleItems, one row per order, with orderNumber
-INSERT INTO saleItems (saleNumber, plateSize, components, orderNumber)
+-- Insert into saleItems, one row per order, with orderNumber and status
+INSERT INTO saleItems (saleNumber, plateSize, components, orderNumber, status)
 SELECT
   s.saleNumber,
   order_data->>'plateSize' AS plateSize,
   order_data->'components' AS components,
-  (SELECT maxOrderNumber FROM max_order_number) + ROW_NUMBER() OVER () AS orderNumber
+  (SELECT maxOrderNumber FROM max_order_number) + ROW_NUMBER() OVER () AS orderNumber,
+  'Not Started' AS status 
 FROM
   new_sale s,
   jsonb_array_elements($6::jsonb) AS order_data;

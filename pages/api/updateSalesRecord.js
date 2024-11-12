@@ -12,8 +12,6 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Missing required fields: saleDate, saleTime, or employeeID' });
     }
 
-    console.log("Order JSON Structure:", JSON.stringify(req.body, null, 2));
-
     try {
       const filePath = path.join(process.cwd(), 'utils', 'sql', 'insert-salesRecord.sql');
       const insertScript = fs.readFileSync(filePath, 'utf8');
@@ -33,7 +31,6 @@ export default async function handler(req, res) {
         JSON.stringify(itemsData),  // Ensure itemsData is a JSON string
       ]);
 
-      console.log('SQL script executed successfully:', response);
       res.status(200).json({ message: 'Sale recorded successfully' });
     } catch (error) {
       console.error('Error writing sales record:', error);
