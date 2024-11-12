@@ -427,24 +427,19 @@ const CashierPage = () => {
   const handlePayClick = async () => {
     // Get current date and time
     const now = new Date();
-    const date = now.toISOString().split("T")[0];
-    const time = now.toTimeString().split(" ")[0];
-
-    // Retrieve and increment sale number
-    let saleNumber = parseInt(localStorage.getItem("latestSaleNumber")) || 0;
-    saleNumber += 1;
+    const saleDate = now.toISOString().split("T")[0]; // YYYY-MM-DD format
+    const saleTime = now.toTimeString().split(" ")[0]; // HH:MM:SS format
 
     // Prepare the order details
     const orderDetails = {
-      saleNumber, // Use as the primary key
-      date,
-      time,
+      saleDate,
+      saleTime,
       totalPrice: (netCost + netCost * 0.0625).toFixed(2),
-      employeeID, // Assume employeeID was retrieved from localStorage or context
+      employeeID,
       items: orders,
       source: "Cashier",
     };
-    // Send order details to the API route
+
     try {
       const response = await fetch(
         `${window.location.origin}/api/updateSalesRecord`,
@@ -460,16 +455,14 @@ const CashierPage = () => {
       if (response.ok) {
         console.log("Order saved successfully");
       } else {
-        console.error("Failed to save order");
+        const errorData = await response.json();
+        console.error("Failed to save order", errorData);
       }
     } catch (error) {
       console.error("Error:", error);
     }
 
-    // Increment and save the latest sale number in localStorage
-    localStorage.setItem("latestSaleNumber", saleNumber.toString());
-
-    // Reset net cost and quantities after payment
+    // Reset UI state after payment
     setNetCost(0);
     setQuantities(
       Object.keys(quantities).reduce((acc, item) => ({ ...acc, [item]: 0 }), {})

@@ -5,16 +5,16 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          <link rel="icon" href="/logo.ico" />
+          <link rel="icon" href="/webLogo.ico" />
           {/* Add any global styles or scripts here */}
           <link rel="preconnect" href="https://fonts.googleapis.com" />
-          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
           <link
             href="https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap"
-            rel="stylesheet"
+            rel="stylesheet" 
           />
         </Head>
-        <body>
+        <body className="no-scrollbar">
           <Main />
           <NextScript />
         </body>
