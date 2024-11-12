@@ -6,6 +6,15 @@ export default async function handler(req, res) {
   if (req.method === 'POST') {
     const { saleDate, saleTime, totalPrice, employeeID, source, items } = req.body;
 
+    console.log('Received data:', {
+      saleDate,
+      saleTime,
+      totalPrice,
+      employeeID,
+      source,
+      items,
+    });
+
     if (!saleDate || !saleTime) {
       console.error('Missing saleDate or saleTime in request body');
       return res.status(400).json({ error: 'Missing saleDate or saleTime' });
@@ -15,7 +24,9 @@ export default async function handler(req, res) {
       const filePath = path.join(process.cwd(), 'utils', 'sql', 'insert-salesRecord.sql');
       const insertScript = fs.readFileSync(filePath, 'utf8');
 
-      await database.query(insertScript, [
+      console.log('Running SQL script:', insertScript);
+
+      const response = await database.query(insertScript, [
         saleDate,
         saleTime,
         totalPrice,
@@ -26,10 +37,11 @@ export default async function handler(req, res) {
         ),
       ]);
 
+      console.log('SQL script executed successfully:', response);
       res.status(200).json({ message: 'Sale recorded successfully' });
     } catch (error) {
       console.error('Error writing sales record:', error);
-      res.status(500).json({ message: 'Error writing sales record' });
+      res.status(500).json({ message: 'Error writing sales record', error: error.message });
     }
   } else {
     res.setHeader('Allow', ['POST']);
