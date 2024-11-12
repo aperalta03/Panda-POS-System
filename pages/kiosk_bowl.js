@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import styles from './kiosk_bowl.module.css';
 import { useRouter } from "next/router";
-import { useGlobalState } from './context/GlobalStateContext';
+import { useGlobalState } from '../app/context/GlobalStateContext';
 
-const TopBar = ({handleCartClick}) => {
+const TopBar = ({handleCartClick, numTrackedSides, numTrackedEntrees}) => {
     const router = useRouter();
     return (
         <div className = {styles.KioskItemPanel}>
@@ -17,9 +17,9 @@ const TopBar = ({handleCartClick}) => {
                 <button className = {styles.circleButton} onClick={handleCartClick}>
                 🛒
                 </button>
-                <h2 className = {styles.sideQuant}>0.5</h2>
+                <h2 className = {styles.sideQuant}>{numTrackedSides}</h2>
                 <h2 className = {styles.sideQuantLabel}>Side</h2>
-                <h2 className = {styles.entreeQuant}>2</h2>
+                <h2 className = {styles.entreeQuant}>{numTrackedEntrees}</h2>
                 <h2 className = {styles.entreeQuantLabel}>Entree</h2>
             </div>
         </div>
@@ -28,6 +28,7 @@ const TopBar = ({handleCartClick}) => {
 
 const KioskBowlPage = () => {
     const router = useRouter();
+    const { menu, priceMap, numTrackedSides, numTrackedEntrees, totalItemCount } = useGlobalState();
     
     const handleCartClick = () => {
         router.push("/kiosk_item");
@@ -36,9 +37,11 @@ const KioskBowlPage = () => {
     return (
         <div className= {styles.layout}>
             <div className= {styles.topHeader}>
-                <TopBar>
+                <TopBar
                     handleCartClick = {handleCartClick}
-                </TopBar>
+                    numTrackedSides={numTrackedSides} 
+                    numTrackedEntrees={numTrackedEntrees} 
+                />
             </div>
         </div>
     );
