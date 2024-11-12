@@ -330,7 +330,7 @@ const CashierPage = () => {
 
   const { employeeID } = useUser();
 
-  const plateSizes = ["Bowl", "Plate", "Bigger Plate", "A La Carte"]; // Define plateSizes here as passing as prop causes bugs
+  const plateSizes = ["Bowl", "Plate", "Bigger Plate", "A La Carte"];
   const sides = [
     "Super Greens",
     "Chow Mein",
