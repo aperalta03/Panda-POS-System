@@ -5,15 +5,17 @@ import { RoleProvider } from '../app/context/roleProvider';
 import { UserProvider } from '../app/context/currentUser';
 import { OrdersProvider } from '../app/context/ordersContext';
 import { useRouter } from 'next/router';
-
+import { GlobalStateProvider } from  '../app/context/GlobalStateContext';
 function MyApp({ Component, pageProps }) {
   return (
     <RoleProvider>
       <UserProvider>
         <OrdersProvider>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
+          <GlobalStateProvider>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </GlobalStateProvider>
         </OrdersProvider>
       </UserProvider>
     </RoleProvider>
