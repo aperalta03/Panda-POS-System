@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import styles from "./cashier.module.css";
 import { Modal, Box, TextField, Button } from "@mui/material";
 
+import { useUser } from '../app/context/userProvider';
+
 const ButtonGrid = ({
   setNetCost,
   priceMap,
@@ -325,6 +327,9 @@ const OrderPanel = ({ orders, onDelete, seasonalItemName }) => {
 };
 
 const CashierPage = () => {
+
+  const { employeeID } = useUser();
+
   const plateSizes = ["Bowl", "Plate", "Bigger Plate", "A La Carte"]; // Define plateSizes here as passing as prop causes bugs
   const sides = [
     "Super Greens",
@@ -400,7 +405,6 @@ const CashierPage = () => {
   const [seasonalItemName, setSeasonalItemName] = useState("Seasonal Item");
   const [seasonalItemPrice, setSeasonalItemPrice] = useState(0.0);
   const [seasonalItemIngredients, setSeasonalItemIngredients] = useState("");
-  const [employeeID, setEmployeeID] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [seasonalItemActive, setSeasonalItemActive] = useState(false);
 
@@ -429,43 +433,36 @@ const CashierPage = () => {
   
 
   const handlePayClick = async () => {
-    // Get current date and time
     const now = new Date();
     const saleDate = now.toISOString().split("T")[0];
     const saleTime = now.toTimeString().split(" ")[0];
-  
-    // Prepare the order details
     const orderDetails = {
       saleDate,
       saleTime,
       totalPrice: (netCost + netCost * 0.0625).toFixed(2),
-      employeeID, 
+      employeeID,
       items: orders,
       source: 'Cashier',
     };
-  
-    // Log each field to verify
-    console.log("saleDate:", saleDate);
-    console.log("saleTime:", saleTime);
-    console.log("employeeID:", employeeID);
-    console.log("items:", orders);
-  
-    // Check if critical fields are present before making the request
+
     if (!saleDate || !saleTime || !employeeID || !orderDetails.items.length) {
-      console.error("Missing critical order details:", { saleDate, saleTime, employeeID, items: orderDetails.items });
+      console.error("Missing critical order details:", {
+        saleDate,
+        saleTime,
+        employeeID,
+        items: orderDetails.items,
+      });
       alert("Order details are incomplete. Please try again.");
       return;
     }
-  
+
     try {
       const response = await fetch(`${window.location.origin}/api/updateSalesRecord`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(orderDetails),
       });
-  
+
       if (response.ok) {
         console.log("Order saved successfully");
       } else {
@@ -475,14 +472,11 @@ const CashierPage = () => {
     } catch (error) {
       console.error("Error:", error);
     }
-  
-    // Reset UI state after payment
+
     setNetCost(0);
-    setQuantities(
-      Object.keys(quantities).reduce((acc, item) => ({ ...acc, [item]: 0 }), {})
-    );
-    setOrders([]); // Clear all orders in the UI
-  };  
+    setQuantities(Object.keys(quantities).reduce((acc, item) => ({ ...acc, [item]: 0 }), {}));
+    setOrders([]);
+  };
 
   const addOrderToPanel = (plateSize, items) => {
     setOrders((prevOrders) => [...prevOrders, { plateSize, items }]);

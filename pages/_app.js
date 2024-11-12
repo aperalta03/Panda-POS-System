@@ -2,7 +2,7 @@ import '../app/globals.css';
 import styles from './_app.module.css';
 import Navbar from '../app/components/navbar/navbar';
 import { RoleProvider } from '../app/context/roleProvider';
-import { UserProvider } from '../app/context/currentUser';
+import { UserProvider } from '../app/context/userProvider';
 import { OrdersProvider } from '../app/context/ordersContext';
 import { useRouter } from 'next/router';
 

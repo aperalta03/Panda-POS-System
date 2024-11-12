@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useRole } from '../app/context/roleProvider';
-import { useUser } from '../app/context/currentUser';  
+import { useUser } from '../app/context/userProvider';  
 import styles from './login.module.css';
 
 const Login = () => {
