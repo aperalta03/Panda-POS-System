@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styles from './kiosk_bowl.module.css';
 import { useRouter } from "next/router";
 import { useGlobalState } from '../app/context/GlobalStateContext';
+import ItemFrame from './itemFrame';
 
 const TopBar = ({handleCartClick, numTrackedSides, numTrackedEntrees}) => {
     const router = useRouter();
@@ -29,6 +30,10 @@ const TopBar = ({handleCartClick, numTrackedSides, numTrackedEntrees}) => {
 const KioskBowlPage = () => {
     const router = useRouter();
     const { menu, priceMap, numTrackedSides, numTrackedEntrees, totalItemCount } = useGlobalState();
+
+    useEffect(() => {
+        console.log("Menu items:", menu); // Check if menu items are fetched correctly
+    }, [menu]);
     
     const handleCartClick = () => {
         router.push("/kiosk_item");
@@ -43,6 +48,11 @@ const KioskBowlPage = () => {
                     numTrackedEntrees={numTrackedEntrees} 
                 />
             </div>
+            <div className={styles.itemsContainer}>
+                {menu.map(item => (
+                <ItemFrame key={item.name} item={item} />
+                ))}
+            </div>  
         </div>
     );
 };
