@@ -14,6 +14,35 @@ export const GlobalStateProvider = ({ children }) => {
     setTotalItemCount(numTrackedSides + numTrackedEntrees);
   };
 
+  const fetchMenuItems = async () => {
+    try {
+      const response = await fetch('/api/menu-get-item-price');
+      const data = await response.json();
+      
+      if (response.ok && data.menuItems) {
+        const items = data.menuItems;
+        setMenu(items);
+
+        const priceMapData = items.reduce((map, item) => {
+          map[item.name] = item.price;
+          return map;
+        }, {});
+
+        setPriceMap(priceMapData);
+      }
+      else {
+        console.error('Error fetching menu items:', data.error);
+      }
+    }
+    catch (error) {
+      console.error('Error fetching menu items:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchMenuItems();
+  }, []);
+
   return (
     <GlobalStateContext.Provider
       value={{ 
