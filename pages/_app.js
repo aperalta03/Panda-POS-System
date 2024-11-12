@@ -3,20 +3,17 @@ import styles from './_app.module.css';
 import Navbar from '../app/components/navbar/navbar';
 import { RoleProvider } from '../app/context/roleProvider';
 import { UserProvider } from '../app/context/userProvider';
-import { OrdersProvider } from '../app/context/ordersContext';
 import { useRouter } from 'next/router';
 import { GlobalStateProvider } from  '../app/context/GlobalStateContext';
 function MyApp({ Component, pageProps }) {
   return (
     <RoleProvider>
       <UserProvider>
-        <OrdersProvider>
-          <GlobalStateProvider>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </GlobalStateProvider>
-        </OrdersProvider>
+        <GlobalStateProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </GlobalStateProvider>
       </UserProvider>
     </RoleProvider>
   );
