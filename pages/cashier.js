@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./cashier.module.css";
 import { Modal, Box, TextField, Button } from "@mui/material";
 
-import { useUser } from '../app/context/userProvider';
+import { useUser } from "../app/context/userProvider";
 
 const ButtonGrid = ({
   setNetCost,
@@ -327,7 +327,6 @@ const OrderPanel = ({ orders, onDelete, seasonalItemName }) => {
 };
 
 const CashierPage = () => {
-
   const { employeeID } = useUser();
 
   const plateSizes = ["Bowl", "Plate", "Bigger Plate", "A La Carte"];
@@ -430,7 +429,7 @@ const CashierPage = () => {
       totalPrice: (netCost + netCost * 0.0625).toFixed(2),
       employeeID,
       orders: orders,
-      source: 'Cashier',
+      source: "Cashier",
     };
 
     if (!saleDate || !saleTime || !employeeID || !orderDetails.orders.length) {
@@ -445,11 +444,14 @@ const CashierPage = () => {
     }
 
     try {
-      const response = await fetch(`${window.location.origin}/api/updateSalesRecord`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(orderDetails),
-      });
+      const response = await fetch(
+        `${window.location.origin}/api/updateSalesRecord`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(orderDetails),
+        }
+      );
 
       if (response.ok) {
         console.log("Order saved successfully");
@@ -462,7 +464,9 @@ const CashierPage = () => {
     }
 
     setNetCost(0);
-    setQuantities(Object.keys(quantities).reduce((acc, item) => ({ ...acc, [item]: 0 }), {}));
+    setQuantities(
+      Object.keys(quantities).reduce((acc, item) => ({ ...acc, [item]: 0 }), {})
+    );
     setOrders([]);
   };
 
@@ -492,7 +496,10 @@ const CashierPage = () => {
     const orderToDelete = orders[index];
     const orderCost =
       orderToDelete.plateSize === "A La Carte"
-        ? orderToDelete.components.reduce((total, item) => total + priceMap[item], 0)
+        ? orderToDelete.components.reduce(
+            (total, item) => total + priceMap[item],
+            0
+          )
         : priceMap[orderToDelete.plateSize];
 
     setNetCost((prev) => prev - orderCost);

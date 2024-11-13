@@ -12,7 +12,7 @@
 
 /*styling for decorative circle */
 .circle {
-    top: -10%;
+    top: 0%;
     left: 15vw;
     transform: translate(-42%, -52%);
     width: 700px;
@@ -27,7 +27,7 @@
 }
 
 /* adjust some elements based on resolution*/
-@media (min-width: 800px) {
+@media (min-width: 950px) {
     .circle {
         top: -8vh; 
         left: 15vw; 
