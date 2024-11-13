@@ -21,7 +21,7 @@ max_order_number AS (
   SELECT COALESCE(MAX(orderNumber), 0) AS maxOrderNumber
   FROM saleItems
 ),
--- Insert into saleItems, one row per order, with orderNumber and status
+-- Insert into saleItems, one row per order, with orderNumber, status, and quantity
 inserted_orders AS (
   INSERT INTO saleItems (saleNumber, plateSize, components, orderNumber, status)
   SELECT
@@ -34,10 +34,21 @@ inserted_orders AS (
     new_sale s,
     jsonb_array_elements($6::jsonb) AS order_data
   RETURNING components
+),
+-- Collect all items to be decremented, including ingredients from menu_ingredients
+items_to_decrement AS (
+  SELECT DISTINCT unnest(array_agg(i.item_name)) AS item_name, SUM(io.quantity) AS total_quantity
+  FROM (
+    SELECT jsonb_array_elements_text(io.components) AS component, (io.components->>'quantity')::int AS quantity
+    FROM inserted_orders io
+  ) AS components_list
+  LEFT JOIN menu_ingredients mi ON components_list.component = mi.item_name
+  LEFT JOIN LATERAL unnest(COALESCE(mi.ingredients, ARRAY[components_list.component])) AS i(item_name) ON true
+  GROUP BY i.item_name
 )
--- Update inventory table for each component in the components list
+
+-- Update inventory table for each item in items_to_decrement
 UPDATE inventory
-SET curr_amount = curr_amount - 1
-WHERE item_name IN (
-  SELECT jsonb_array_elements_text(components) FROM inserted_orders
-);
+SET curr_amount = curr_amount - total_quantity
+FROM items_to_decrement
+WHERE inventory.item_name = items_to_decrement.item_name;

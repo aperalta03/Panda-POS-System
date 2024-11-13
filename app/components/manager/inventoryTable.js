@@ -1,4 +1,3 @@
-// src/components/InventoryTable.js
 import React, { useState, useEffect } from 'react';
 import style from './inventoryTable.module.css';
 
@@ -6,6 +5,7 @@ const InventoryTable = () => {
     const [inventoryData, setInventoryData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [sortConfig, setSortConfig] = useState({ key: 'name', direction: 'ascending' });
 
     useEffect(() => {
         const fetchData = async () => {
@@ -33,6 +33,30 @@ const InventoryTable = () => {
         fetchData();
     }, []);
 
+    const sortedData = React.useMemo(() => {
+        if (!sortConfig.key) return inventoryData;
+
+        const sorted = [...inventoryData].sort((a, b) => {
+            if (a[sortConfig.key] < b[sortConfig.key]) {
+                return sortConfig.direction === 'ascending' ? -1 : 1;
+            }
+            if (a[sortConfig.key] > b[sortConfig.key]) {
+                return sortConfig.direction === 'ascending' ? 1 : -1;
+            }
+            return 0;
+        });
+
+        return sorted;
+    }, [inventoryData, sortConfig]);
+
+    const requestSort = (key) => {
+        let direction = 'ascending';
+        if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+            direction = 'descending';
+        }
+        setSortConfig({ key, direction });
+    };
+
     if (loading) return <p>Loading...</p>;
     if (error) return <p>{error}</p>;
 
@@ -42,15 +66,15 @@ const InventoryTable = () => {
                 <table className={style.InventoryTable}>
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Item Name</th>
-                            <th>Stocked</th>
-                            <th>Required</th>
-                            <th>To Order</th>
+                            <th onClick={() => requestSort('id')} className={style.clickableHeader}>ID</th>
+                            <th onClick={() => requestSort('name')} className={style.clickableHeader}>Item Name</th>
+                            <th onClick={() => requestSort('stocked')} className={style.clickableHeader}>Stocked</th>
+                            <th onClick={() => requestSort('required')} className={style.clickableHeader}>Required</th>
+                            <th onClick={() => requestSort('to_order')} className={style.clickableHeader}>To Order</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {inventoryData.map((item, index) => (
+                        {sortedData.map((item, index) => (
                             <tr key={index}>
                                 <td>{item.id}</td>
                                 <td>{item.name}</td>

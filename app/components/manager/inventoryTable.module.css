@@ -36,6 +36,10 @@
 .InventoryTable tbody td {
     color: #333;
 }
+.clickableHeader:hover {
+    cursor: pointer;
+    background-color: #444;
+}
 /* Scrollable Table Container */
 .scrollableTableContainer {
     flex-grow: 1;

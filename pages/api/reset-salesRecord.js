@@ -4,7 +4,7 @@ export default async function handler(req, res) {
   if (req.method === 'POST') {
     try {
 
-      // SQL Transaction
+      //! TODO: Need to Re-Add Inventory when you Delete... delete is only for testing so not high priority
       await database.query('BEGIN');
       await database.query('TRUNCATE TABLE saleItems, salesRecord CASCADE');
       await database.query('COMMIT');
