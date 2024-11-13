@@ -1,5 +1,3 @@
-
-// pages/api/items.js
 import database from '../../utils/database';
 
 export default async function handler(req, res) {
