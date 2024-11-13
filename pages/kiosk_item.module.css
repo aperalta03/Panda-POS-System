@@ -112,7 +112,7 @@
     text-align: left;
     font-weight: bold;
     color: white;
-    background-color: #cb0632;;
+    background-color: #cb0632;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -120,7 +120,7 @@
     text-transform: uppercase;
     width: 400px;
     justify-content: center;
-    align-items: center; /* Center content vertically */
+    align-items: center;
 }
 
 .checkOut:hover {
@@ -165,9 +165,9 @@
     transition: background-color 0.3s;
     width: 80vw;
     height: 12vh;
-    overflow-x: visible; /* Allow horizontal overflow */
-    overflow-y: hidden; /* Hide vertical overflow */
-    position: relative; /* Make the button container a relative position */
+    overflow-x: visible;
+    overflow-y: hidden;
+    position: relative;
 }
 
 .itemButtons button:hover {
@@ -203,7 +203,7 @@
     color: white;
     display: block;
     margin-bottom: 5px;
-    display: block; /* Each .itemRight element is on its own line */
+    display: block;
     font-weight: bold;
 }
 
@@ -216,8 +216,8 @@
     color: white;
     text-align: center;
     text-transform: uppercase;
-    white-space: nowrap; /* Prevent the text from wrapping */
-    overflow: hidden; /* Hide any overflow if the text doesn't fit */
+    white-space: nowrap;
+    overflow: hidden; 
     text-overflow: ellipsis;
     padding-bottom: 70px;
     border-top: 1px solid #cb0632;
