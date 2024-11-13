@@ -194,6 +194,8 @@ const Welcome = ({ toItemPage }) => {
           className={styles.accessibility}
         />
       </div>
+      <div className={styles.circle}></div>
+      <div className={styles.bottomPanel}></div>
     </div>
   );
 };
@@ -204,6 +206,16 @@ const KioskPage = () => {
   const toItemPage = () => {
     router.push("/kiosk_item");
   };
+  useEffect(() => {
+    const newWindow = window.open(
+      window.location.href,
+      "_blank",
+      "width=950,height=1000"
+    );
+    if (newWindow) {
+      window.close(); // Close the original window if needed
+    }
+  }, []);
 
   return (
     <TranslationProvider>
@@ -214,7 +226,6 @@ const KioskPage = () => {
         }}
       >
         <Welcome toItemPage={toItemPage} />
-        <div className={styles.circle}></div>
       </div>
     </TranslationProvider>
   );

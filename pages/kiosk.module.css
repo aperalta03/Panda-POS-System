@@ -1,172 +1,153 @@
-/* General Layout */
 .layout {
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  background-color: rgb(36, 36, 36);
   overflow: hidden;
+  width: 100vw;
+  height: 100vh;
   max-width: 1920px;
   max-height: 1920px;
+  background-color: rgb(36, 36, 36);
 }
 
 .circle {
-  top: 10%;
-  left: 50%;
-  bottom: 0;
-  transform: translate(-50%, 40%);
-  width: 100vw;
-  height: 100vw;
-  background-color: #cb0632;
-  border-radius: 50%;
-  color: #cb0632;
   position: absolute;
+  bottom: 0;
+  left: 50%;
   z-index: 0;
-  border: 1px solid #cb0632;
+  transform: translateX(-60%);
+  width: 59vw; /* Increase width slightly to extend the curve */
+  height: 37vh; /* Increase height for a more pronounced curve */
+  border-top-left-radius: 60vw;
+  border-top-right-radius: 60vw;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  background-color: #cb0632;
+  color: #cb0632;
   overflow: hidden;
 }
 
-/* Header Styles */
 .welcomeHeader {
-  font-size: 5rem;
-  color: black; /* Inside text color */
-  text-align: center;
+  display: block;
   margin-top: 30px;
+  font-size: 5rem;
   font-weight: bold;
+  text-align: center;
+  color: black;
   text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff,
-    1px 1px 0 #fff; /* White border effect */
+    1px 1px 0 #fff;
 }
 
 .orderHeader {
-  font-size: 1.5rem;
-  color: white;
-  text-align: center;
+  display: block;
   margin-top: 10px;
-}
-
-/* Button Styles */
-.accessibility {
-  background-color: #d42f2f;
+  font-size: 1.5rem;
+  text-align: center;
   color: white;
-  border: none;
-  border-radius: 25px;
-  font-size: 1.2rem;
-  padding: 10px 20px;
-  cursor: pointer;
-  margin: 10px;
 }
 
 .translateButton {
-  width: 180px; /* Adjust width to fit the design */
-  height: 50px; /* Adjust height */
-  background-color: #d42f2f;
-  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 180px;
+  height: 50px;
+  margin: 20px auto;
+  padding: 0 20px;
   border: none;
   border-radius: 25px;
+  background-color: #d42f2f;
+  color: white;
   font-size: 1.2rem;
   text-align: center;
   cursor: pointer;
-  margin: 20px auto; /* Center the dropdown horizontally */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 20px; /* Add padding for better alignment */
 }
 
-/* Add custom arrow styling if needed */
 .translateButton::after {
-  content: "▼"; /* Unicode for a down arrow */
+  content: "▼";
   font-size: 0.8rem;
   color: white;
-  margin-left: 10px;
 }
 
 .languageDropdown {
-  background-color: white;
+  display: block;
+  width: 180px;
+  margin: 10px auto;
+  padding: 10px;
   border: none;
   border-radius: 5px;
-  padding: 10px;
+  background-color: white;
   font-size: 1rem;
-  margin-top: 10px;
   cursor: pointer;
-  width: 180px; /* Same width as the button */
-  display: block;
-  margin: 10px auto; /* Center the dropdown horizontally */
 }
 
 .accessibility {
-  background-color: white;
-  height: 100px;
-  width: 150px;
-  margin: 0 auto;
   display: block;
-}
-
-/* Language Dropdown */
-.languageDropdown {
-  background-color: white;
+  width: 150px;
+  height: 100px;
+  margin: 0 auto;
+  padding: 10px 20px;
   border: none;
-  border-radius: 5px;
-  padding: 5px 10px;
-  font-size: 1rem;
+  border-radius: 25px;
+  color: white;
+  font-size: 1.2rem;
   cursor: pointer;
 }
 
-/* Clock and Logo Styles */
-.clockLogoContainer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  padding: 10px;
-}
-
 .logo {
-  background-color: white;
-  height: 200px;
-  width: 200px;
-  margin: 0 auto;
   display: block;
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+  background-color: white;
 }
 
 .logoWrapper {
-  width: 200px; /* Adjust size as needed */
-  height: 200px; /* Adjust size as needed */
-  border-radius: 50%; /* Makes the wrapper circular */
-  overflow: hidden; /* Hides the parts of the image outside the circle */
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto; /* Centers the wrapper horizontally */
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+  border-radius: 50%;
+  overflow: hidden;
 }
 
 .handicapWrapper {
-  width: 70px; /* Adjust size as needed */
-  height: 70px; /* Adjust size to make it a perfect circle */
-  border-radius: 50%; /* Makes the wrapper circular */
-  overflow: hidden; /* Hides anything outside the circle */
+  position: fixed;
+  bottom: 20px;
+  left: 70px;
+  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: black; /* Black background color */
-  margin: 20px auto; /* Centers the button horizontally */
-  position: fixed; /* Fixes the button to a position on the screen */
-  bottom: 20px; /* Adjust position as needed */
-  left: 70px; /* Adjust position as needed */
-  z-index: 2; /* Ensures it stays above other elements */
+  width: 70px;
+  height: 70px;
+  margin: 20px auto;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: black;
 }
 
 .clockLogoContainer {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
   position: absolute;
   top: 160px;
   right: 160px;
-  color: white;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
   font-size: 1.2rem;
+  color: white;
 }
 
 .timestamp {
-  margin-left: 10px; /* Adds spacing between the icon and the time */
+  margin-left: 10px;
   font-size: 1.6rem;
+}
+
+.bottomPanel {
+  flex: 0 0 15%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
 }
