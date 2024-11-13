@@ -1,28 +1,4 @@
-INSERT INTO menu_inventory (menu_item_id, inventory_id) 
-VALUES
-    (1, 5),
-    (2, 7),
-    (3, 8),
-    (4, 15),
-    (5, 9),
-    (6, 6),
-    (7, 10),
-    (8, 11),
-    (9, 12),
-    (10, 13),
-    (11, 14),
-    (12, 16),
-    (13, 4),
-    (14, 1),
-    (15, 2),
-    (16, 3),
-    (17, 38),
-    (18, 30),
-    (19, 17),
-    (20, 18),
-    (21, 19),
-    (22, 20),
-    (23, 34),
-    (24, 35),
-    (25, 36),
-    (26, 6); --need to update the inventory for seasonal item
+INSERT INTO menu_inventory (menu_item_id, inventory_id)
+SELECT m.menu_item_id, i.inventory_id
+FROM menu m
+JOIN inventory i ON m.name = i.item_name;
