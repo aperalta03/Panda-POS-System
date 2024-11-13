@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import styles from "./kiosk.module.css";
 import {
   TranslationProvider,
@@ -131,21 +131,54 @@ class Order {
   */
 
 const Welcome = ({ toItemPage }) => {
-  return (
-    <div onClick={toItemPage} className={styles.body}>
-      <h1 className={styles.welcomeHeader}>We Wok for You</h1>
-      <h1 className={styles.orderHeader}>Tap to Order Now</h1>
+  const { translations, translateAllText } = useContext(TranslationContext);
+  const [selectedLanguage, setSelectedLanguage] = useState("en");
+  const [time, setTime] = useState("");
 
-      <div className={styles.bottomPanel}>
-        <button className={styles.accessibility}>
-          {translations["accessibility"] || "accessibility"}
-        </button>
+  const handleLanguageChange = (e) => {
+    const newLanguage = e.target.value;
+    setSelectedLanguage(newLanguage);
+    translateAllText(
+      ["We Wok for You", "Tap to Order Now", "accessibility"],
+      newLanguage
+    );
+  };
+
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      setTime(
+        now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+      );
+    };
+    updateTime();
+    const timer = setInterval(updateTime, 60000); // Update every minute
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <div className={styles.layout}>
+      <div className={styles.clockLogoContainer}>
+        <div className={styles.timestamp}>{time}</div>
       </div>
+      <div className={styles.logoWrapper}>
+        <img
+          src="/panda_express.png"
+          alt="Panda Express Logo"
+          className={styles.logo}
+        />
+      </div>
+      <h1 className={styles.welcomeHeader}>
+        {translations["We Wok For You"] || "We Wok For You"}
+      </h1>
+      <h1 onClick={toItemPage} className={styles.orderHeader}>
+        {translations["Tap to Order Now"] || "Tap to Order Now"}
+      </h1>
 
       <select
         value={selectedLanguage}
-        onChange={(e) => setSelectedLanguage(e.target.value)}
-        className={styles.languageDropdown}
+        onChange={handleLanguageChange}
+        className={styles.translateButton} // Use the button styling for the dropdown
       >
         <option value="en">English</option>
         <option value="es">Spanish</option>
@@ -153,12 +186,14 @@ const Welcome = ({ toItemPage }) => {
         <option value="de">German</option>
         <option value="zh">Chinese (Simplified)</option>
         <option value="ja">Japanese</option>
-        {/* Add more languages as needed */}
       </select>
-
-      <button onClick={handleTranslate} className={styles.translateButton}>
-        Translate
-      </button>
+      <div className={styles.handicapWrapper}>
+        <img
+          src="/handicap_button.jpg"
+          alt="Handicap Logo"
+          className={styles.accessibility}
+        />
+      </div>
     </div>
   );
 };
@@ -172,8 +207,14 @@ const KioskPage = () => {
 
   return (
     <TranslationProvider>
-      <div>
+      <div
+        style={{
+          height: "100vh", // Full height of the viewport
+          overflow: "hidden", // Prevent scrolling
+        }}
+      >
         <Welcome toItemPage={toItemPage} />
+        <div className={styles.circle}></div>
       </div>
     </TranslationProvider>
   );
