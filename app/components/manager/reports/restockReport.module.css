@@ -1,0 +1,66 @@
+.modalBox {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 35%;
+    max-height: 80%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);  
+}
+.modalTitle {
+    margin: 0 0 20px;
+    font-size: 1.5rem;
+    text-align: left;
+}
+.scrollableContent {
+    flex-grow: 1;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+.scrollableContent::-webkit-scrollbar {
+    display: none;
+}
+.scrollableContent {
+    scrollbar-width: none;
+}
+.reportTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+.reportTable th, .reportTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+.reportTable th {
+    background-color: black;
+    color: white;
+    border: 1px solid red;
+}
+.reportTable tr:nth-child(odd) {
+    background-color: #f5f5f5;
+}
+.reportTable tr:nth-child(even) {
+    background-color: #e0e0e0;
+}
+.lowStock {
+    color: red;
+}
+.closeButton {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+    padding: 8px 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+.closeButton:hover {
+    background-color: var(--primary-color-hover);
+}
