@@ -39,7 +39,6 @@ items_to_decrement AS (
   LEFT JOIN LATERAL unnest(COALESCE(mi.ingredients, ARRAY[components_list.component])) AS i(item_name) ON true
   GROUP BY i.item_name
 )
-
 -- Update inventory table for each item in items_to_decrement
 UPDATE inventory
 SET curr_amount = curr_amount - items_to_decrement.total_quantity
