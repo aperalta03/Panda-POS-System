@@ -108,6 +108,13 @@
     margin-right : 95px;
 }
 
+.accessImage {
+    width: 140%;
+    height: 140%;
+    object-fit: contain;
+    border-radius: 50%;
+}
+
 .rightButtons {
     display: flex;
     flex-direction: column;

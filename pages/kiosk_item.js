@@ -10,13 +10,13 @@ const TopBar = ({handleCartClick, handleOptionsClick}) => {
         <div className={styles.leftButtons}>
             <div className={styles.cartAndPriceContainer}>
                 <button className={styles.circleButton} onClick={handleCartClick}>
-                    <img src="/cart2_img.png" alt="Cart" className={styles.cartImage} />
+                    <img src="/cart2_img.png" alt="Cart Icon" className={styles.cartImage} />
                 </button>
                 <h1 className={styles.priceLabel}>$11.20</h1>
         </div>
             <div className={styles.gearButtonContainer}>
                 <button className={styles.circleButton} onClick={handleOptionsClick}>
-                    ⚙️
+                    <img src="/handicap_button.jpg" alt="Accessible Icon" className={styles.accessImage} />
                 </button>
             </div>
         </div>
