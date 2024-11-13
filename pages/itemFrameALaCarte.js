@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useGlobalState } from '../app/context/GlobalStateContext'; //import global state
-import styles from './itemFrame.module.css';
+import styles from './itemFrameALaCarte.module.css';
 
 const ItemFrame = ({ item, isDone }) => {
   const { 
@@ -11,7 +11,8 @@ const ItemFrame = ({ item, isDone }) => {
     numTrackedEntrees, 
     setNumTrackedEntrees,
     setNumTrackedOthers,
-    numTrackedOthers 
+    numTrackedOthers,
+    priceMap 
   } = useGlobalState();
 
   const [showDescription, setShowDescription] = useState(false); //var to show description of an item
@@ -89,12 +90,16 @@ const ItemFrame = ({ item, isDone }) => {
   const designationClass = item.designation ? `${styles[item.designation.toLowerCase() + 'designation']}` : ''; //setting designation style class based on icon
   //console.log(designationClass); 
 
+  const price = priceMap[item.name];
+
   return (
     <div className={`${styles.itemFrame}`}>
       <img src={item.image} alt={item.name} className={styles.itemImage} />
       
       <h3 className = {styles.name}>{item.name}</h3>
       <p className = {styles.calories}>{item.calories} Cal.</p>
+      {price && <p className = {styles.price}>${price.toFixed(2)}</p>} {/* Display the price with 2 decimal points */}
+
 
       <div className={styles.infoButtonContainer}>
         {designationIcon && (
