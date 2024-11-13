@@ -7,21 +7,25 @@ const TopBar = ({handleCartClick, handleOptionsClick}) => {
     const router = useRouter();
     return (
         <div className = {styles.KioskItemPanel}>
-            <div className = {styles.leftButtons}>
-                <button className = {styles.circleButton} onClick={handleCartClick}>
-                🛒
+        <div className={styles.leftButtons}>
+            <div className={styles.cartAndPriceContainer}>
+                <button className={styles.circleButton} onClick={handleCartClick}>
+                    <img src="/cart2_img.png" alt="Cart" className={styles.cartImage} />
                 </button>
-                <button className = {styles.circleButton} onClick={handleOptionsClick}>
-                ⚙️
+                <h1 className={styles.priceLabel}>$11.20</h1>
+        </div>
+            <div className={styles.gearButtonContainer}>
+                <button className={styles.circleButton} onClick={handleOptionsClick}>
+                    ⚙️
                 </button>
-                <h1 className = {styles.priceLabel}>$11.20</h1>
             </div>
+        </div>
             <div className = {styles.leftPanel}>
                 <div className = {styles.rightButtons}> 
                     <button className = {styles.checkOut} onClick={() => {router.push("/kiosk")}}>
                         Checkout
                     </button>
-                    <button className = {styles.checkOut} onClick={() => {router.push("/kiosk")}}>
+                    <button className = {styles.genStartOver} onClick={() => {router.push("/kiosk")}}>
                         <div className={styles.inlineText}>
                             <span className = {styles.x}>X</span>
                             <span className = {styles.startOver}>Start Over</span>
@@ -44,23 +48,31 @@ const KioskItemPanel = ({}) => {
             <div className = {styles.itemButtons}>
             <button onClick={() => {router.push("/kiosk_bowl")}}>
                 <p className = {styles.itemLeft}>Bowl | $9.50</p>
-                <p className = {styles.itemRight}>1 Side</p>
-                <p className = {styles.itemRight}>1 Entree</p>
+                <div className = {styles.itemRight}>
+                    <p className = {styles.itemRight}>1 Side</p>
+                    <p className = {styles.itemRight}>1 Entree</p>
+                </div>
             </button>
             <button onClick={() => {router.push("/kiosk_plate")}}>
                 <p className = {styles.itemLeft}>Plate | $11.50</p>
-                <p className = {styles.itemRight}>1 Side</p>
-                <p className = {styles.itemRight}>2 Entrees</p>
+                <div className = {styles.itemRight}>
+                    <p className = {styles.itemRight}>1 Side</p>
+                    <p className = {styles.itemRight}>2 Entrees</p>
+                </div>
             </button>
             <button onClick={() => {router.push("/kiosk_bigger_plate")}}>
                 <p className = {styles.itemLeft}>Bigger Plate | $13.50</p>
-                <p className = {styles.itemRight}>1 Side</p>
-                <p className = {styles.itemRight}>3 Entrees</p>
+                <div className = {styles.itemRight}>
+                    <p className = {styles.itemRight}>1 Side</p>
+                    <p className = {styles.itemRight}>3 Entrees</p>
+                </div>
             </button>
             <button onClick={() => {router.push("/kiosk_a_la_carte")}}>
                 <p className = {styles.itemLeft}>A La Carte</p>
-                <p className = {styles.itemRight}>Any Food Item</p>
-                <p className = {styles.itemRight}>Any Drink</p>
+                <div className = {styles.itemRight}>
+                    <p className = {styles.itemRight}>Any Food Item</p>
+                    <p className = {styles.itemRight}>Any Drink</p>
+                </div>
             </button>
             </div>
         </div>    
