@@ -47,17 +47,17 @@ const KioskItemPanel = ({}) => {
                 <p className = {styles.itemRight}>1 Side</p>
                 <p className = {styles.itemRight}>1 Entree</p>
             </button>
-            <button onClick={() => {router.push("/kiosk")}}>
+            <button onClick={() => {router.push("/kiosk_plate")}}>
                 <p className = {styles.itemLeft}>Plate | $11.50</p>
                 <p className = {styles.itemRight}>1 Side</p>
                 <p className = {styles.itemRight}>2 Entrees</p>
             </button>
-            <button onClick={() => {router.push("/kiosk")}}>
+            <button onClick={() => {router.push("/kiosk_bigger_plate")}}>
                 <p className = {styles.itemLeft}>Bigger Plate | $13.50</p>
                 <p className = {styles.itemRight}>1 Side</p>
                 <p className = {styles.itemRight}>3 Entrees</p>
             </button>
-            <button onClick={() => {router.push("/kiosk")}}>
+            <button onClick={() => {router.push("/kiosk_a_la_carte")}}>
                 <p className = {styles.itemLeft}>A La Carte</p>
                 <p className = {styles.itemRight}>Any Food Item</p>
                 <p className = {styles.itemRight}>Any Drink</p>

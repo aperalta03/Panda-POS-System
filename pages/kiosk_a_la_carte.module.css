@@ -12,7 +12,7 @@
 
 /*styling for decorative circle */
 .circle {
-    top: -10%;
+    top: 0%;
     left: 15vw;
     transform: translate(-42%, -52%);
     width: 700px;
@@ -27,7 +27,7 @@
 }
 
 /* adjust some elements based on resolution*/
-@media (min-width: 800px) {
+@media (min-width: 950px) {
     .circle {
         top: -8vh; 
         left: 15vw; 
@@ -46,7 +46,7 @@
         padding-top: 10px;
         padding-bottom: 10px;
         border-radius: 10px;
-        width:60vw;
+        width:50vw;
         margin-left: auto;
         margin-right: auto;
     }
@@ -110,13 +110,13 @@
 }
 
 /* styling for side and entree counter */
-.sideQuant, .entreeQuant {
+.sideQuant, .entreeQuant, .otherQuant {
     font-size: 40px;
     color: white;
     font-weight: bold;
 }
-.sideQuantLabel, .entreeQuantLabel {
-    font-size: 70px;
+.sideQuantLabel, .entreeQuantLabel, .otherQuantLabel {
+    font-size: 17px;
     color: #cb0632;
     font-weight: bold;
     text-transform: uppercase;
@@ -124,15 +124,16 @@
 .quantContainer {
     display: flex;
     align-items: center;
-    gap: 4rem;
+    gap: 3rem;
     background-color: black;
     margin-top: 10px;
-    padding: 0 80px;
+    margin-left: 20px;
+    padding: 0 40px;
     padding-top: 10px;
     padding-bottom: 10px;
     border-radius: 10px;
 }
-.sideContainer, .entreeContainer {
+.sideContainer, .entreeContainer, .otherContainer {
     display: flex;
     align-items: center;
     gap: 0.5rem;
