@@ -92,7 +92,7 @@ const KioskItemPage = () => {
     const [isOptionsOpens, setIsOptionsOpen] = useState(false);
 
     const handleCartClick = () => {
-        router.push("/kiosk_item");
+        router.push("/kiosk_cart");
     };
 
     const handleOptionsClick = () => {
