@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import styles from "./cashier.module.css";
 import { Modal, Box, TextField, Button } from "@mui/material";
 
+import { useUser } from "../app/context/userProvider";
+
 const ButtonGrid = ({
   setNetCost,
   priceMap,
@@ -305,7 +307,7 @@ const OrderPanel = ({ orders, onDelete, seasonalItemName }) => {
         >
           <span>
             {order.plateSize} (
-            {order.items
+            {order.components
               .map((item) =>
                 item === "Seasonal Item" ? seasonalItemName : item
               )
@@ -325,7 +327,9 @@ const OrderPanel = ({ orders, onDelete, seasonalItemName }) => {
 };
 
 const CashierPage = () => {
-  const plateSizes = ["Bowl", "Plate", "Bigger Plate", "A La Carte"]; // Define plateSizes here as passing as prop causes bugs
+  const { employeeID } = useUser();
+
+  const plateSizes = ["Bowl", "Plate", "Bigger Plate", "A La Carte"];
   const sides = [
     "Super Greens",
     "Chow Mein",
@@ -400,7 +404,6 @@ const CashierPage = () => {
   const [seasonalItemName, setSeasonalItemName] = useState("Seasonal Item");
   const [seasonalItemPrice, setSeasonalItemPrice] = useState(0.0);
   const [seasonalItemIngredients, setSeasonalItemIngredients] = useState("");
-  const [employeeID, setEmployeeID] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [seasonalItemActive, setSeasonalItemActive] = useState(false);
 
@@ -416,38 +419,36 @@ const CashierPage = () => {
   };
   const [minQuantities, setMinQuantities] = useState({});
 
-  // Retrieve employeeID from localStorage on component mount
-  useEffect(() => {
-    const storedEmployeeID = localStorage.getItem("employeeID");
-    if (storedEmployeeID) {
-      setEmployeeID(storedEmployeeID);
-    }
-  }, []);
-
   const handlePayClick = async () => {
-    // Get current date and time
     const now = new Date();
-    const saleDate = now.toISOString().split("T")[0]; // YYYY-MM-DD format
-    const saleTime = now.toTimeString().split(" ")[0]; // HH:MM:SS format
-
-    // Prepare the order details
+    const saleDate = now.toISOString().split("T")[0];
+    const saleTime = now.toTimeString().split(" ")[0];
     const orderDetails = {
       saleDate,
       saleTime,
       totalPrice: (netCost + netCost * 0.0625).toFixed(2),
       employeeID,
-      items: orders,
+      orders: orders,
       source: "Cashier",
     };
+
+    if (!saleDate || !saleTime || !employeeID || !orderDetails.orders.length) {
+      console.error("Missing critical order details:", {
+        saleDate,
+        saleTime,
+        employeeID,
+        orders: orderDetails.orders,
+      });
+      alert("Order details are incomplete. Please try again.");
+      return;
+    }
 
     try {
       const response = await fetch(
         `${window.location.origin}/api/updateSalesRecord`,
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(orderDetails),
         }
       );
@@ -462,23 +463,22 @@ const CashierPage = () => {
       console.error("Error:", error);
     }
 
-    // Reset UI state after payment
     setNetCost(0);
     setQuantities(
       Object.keys(quantities).reduce((acc, item) => ({ ...acc, [item]: 0 }), {})
     );
-    setOrders([]); // Clear all orders in the UI
+    setOrders([]);
   };
 
-  const addOrderToPanel = (plateSize, items) => {
-    setOrders((prevOrders) => [...prevOrders, { plateSize, items }]);
+  const addOrderToPanel = (plateSize, components) => {
+    setOrders((prevOrders) => [...prevOrders, { plateSize, components }]);
 
     // Ensure minQuantities is set correctly for plate sizes and items
     setMinQuantities((prevMin) => {
       const updatedMin = { ...prevMin };
 
       // Increment the minimum quantity for each item in the order
-      items.forEach((item) => {
+      components.forEach((item) => {
         if (sides.includes(item)) {
           // Increment by 0.5 for sides
           updatedMin[item] = (updatedMin[item] || 0) + 0.5;
@@ -496,7 +496,10 @@ const CashierPage = () => {
     const orderToDelete = orders[index];
     const orderCost =
       orderToDelete.plateSize === "A La Carte"
-        ? orderToDelete.items.reduce((total, item) => total + priceMap[item], 0)
+        ? orderToDelete.components.reduce(
+            (total, item) => total + priceMap[item],
+            0
+          )
         : priceMap[orderToDelete.plateSize];
 
     setNetCost((prev) => prev - orderCost);
@@ -514,7 +517,7 @@ const CashierPage = () => {
     }
 
     // Decrease the quantity of each item in the order
-    orderToDelete.items.forEach((item) => {
+    orderToDelete.components.forEach((item) => {
       if (sides.includes(item)) {
         // Decrement by 0.5 for side items
         updatedQuantities[item] = Math.max(

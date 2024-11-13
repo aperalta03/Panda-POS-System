@@ -1,5 +1,5 @@
 import React from 'react';
-import { useUser } from '../../../app/context/currentUser'; 
+import { useUser } from '../../context/userProvider'; 
 import styles from './managerProfile.module.css';
 
 const ManagerProfile = () => {

@@ -4,32 +4,37 @@ import path from 'path';
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    const { saleDate, saleTime, totalPrice, employeeID, source, items } = req.body;
+    // Update destructuring to match the new data structure
+    const { saleDate, saleTime, totalPrice, employeeID, source, orders } = req.body;
 
-    if (!saleDate || !saleTime) {
-      console.error('Missing saleDate or saleTime in request body');
-      return res.status(400).json({ error: 'Missing saleDate or saleTime' });
+    if (!saleDate || !saleTime || !employeeID) {
+      console.error('Missing saleDate, saleTime, or employeeID in request body');
+      return res.status(400).json({ error: 'Missing required fields: saleDate, saleTime, or employeeID' });
     }
 
     try {
       const filePath = path.join(process.cwd(), 'utils', 'sql', 'insert-salesRecord.sql');
       const insertScript = fs.readFileSync(filePath, 'utf8');
 
-      await database.query(insertScript, [
+      // Prepare the data to match the expected structure in the SQL script
+      const itemsData = orders.map(({ plateSize, components }) => ({
+        plateSize,
+        components,
+      }));
+
+      const response = await database.query(insertScript, [
         saleDate,
         saleTime,
         totalPrice,
         employeeID,
         source,
-        JSON.stringify(
-          items.flatMap(({ plateSize, items }) => items.map(itemName => ({ plateSize, itemName })))
-        ),
+        JSON.stringify(itemsData),  // Ensure itemsData is a JSON string
       ]);
 
       res.status(200).json({ message: 'Sale recorded successfully' });
     } catch (error) {
       console.error('Error writing sales record:', error);
-      res.status(500).json({ message: 'Error writing sales record' });
+      res.status(500).json({ message: 'Error writing sales record', error: error.message });
     }
   } else {
     res.setHeader('Allow', ['POST']);

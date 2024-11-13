@@ -1,7 +1,9 @@
+-- Get the next available saleNumber
 WITH max_sale_number AS (
   SELECT COALESCE(MAX(saleNumber), 0) AS maxSaleNumber
   FROM salesRecord
 ),
+-- Insert the new sale into salesRecord
 new_sale AS (
   INSERT INTO salesRecord (saleDate, saleTime, totalPrice, employeeID, source, saleNumber)
   VALUES (
@@ -14,18 +16,19 @@ new_sale AS (
   )
   RETURNING saleNumber
 ),
-max_item_id AS (
-  SELECT COALESCE(MAX(itemid), 0) AS maxItemId
+-- Get the current max orderNumber
+max_order_number AS (
+  SELECT COALESCE(MAX(orderNumber), 0) AS maxOrderNumber
   FROM saleItems
-),
-numbered_items AS (
-  SELECT 
-    (SELECT maxItemId FROM max_item_id) + ROW_NUMBER() OVER () AS newItemId,
-    (SELECT saleNumber FROM new_sale) AS saleNumber,
-    item->>'plateSize' AS plateSize,
-    item->>'itemName' AS itemName
-  FROM jsonb_array_elements($6::jsonb) AS item
 )
-INSERT INTO saleItems (itemid, saleNumber, plateSize, itemName)
-SELECT newItemId, saleNumber, plateSize, itemName
-FROM numbered_items;
+-- Insert into saleItems, one row per order, with orderNumber and status
+INSERT INTO saleItems (saleNumber, plateSize, components, orderNumber, status)
+SELECT
+  s.saleNumber,
+  order_data->>'plateSize' AS plateSize,
+  order_data->'components' AS components,
+  (SELECT maxOrderNumber FROM max_order_number) + ROW_NUMBER() OVER () AS orderNumber,
+  'Not Started' AS status 
+FROM
+  new_sale s,
+  jsonb_array_elements($6::jsonb) AS order_data;

@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useRole } from '../app/context/roleProvider';
-import { useUser } from '../app/context/currentUser';  
+import { useUser } from '../app/context/userProvider';  
 import styles from './login.module.css';
 
 const Login = () => {
     const router = useRouter();
     const { setRole } = useRole();
     const { setLoggedInName } = useUser();
+    const { setEmployeeID } = useUser();
     const [input, setInput] = useState("");
     const [employeeMap, setEmployeeMap] = useState({});
 
@@ -57,7 +58,8 @@ const Login = () => {
         } else {
             const employee = employeeMap[input];
 
-            setLoggedInName(employee.name);
+            setLoggedInName(employee.name);       
+            setEmployeeID(input);                 
 
             if (employee.isManager) {
                 setRole("manager");

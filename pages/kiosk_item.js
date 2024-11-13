@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from './kiosk_item.module.css';
 import { useRouter } from "next/router";
+import { useGlobalState } from '../app/context/GlobalStateContext';
 
 const TopBar = ({handleCartClick, handleOptionsClick}) => {
     const router = useRouter();
