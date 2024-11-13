@@ -18,7 +18,6 @@
     color: white;
     position: absolute;
     z-index: 0;
-    border: 1px solid #cb0632;
 }
 
 .topHeader, .bottomPanel {
@@ -31,8 +30,6 @@
 
 .topHeader {
     position: relative;
-    overflow: hidden;
-    height: 300%;
 }
 
 .midPanel {
@@ -50,15 +47,23 @@
     justify-content: space-between;
     align-items: center;
     position: relative;
+    margin-top: -20px;
 }
 
 .leftButtons {
-    margin-top: 50px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    z-index: 1;
+    margin-top: 50px;
     margin-left: 15px;
+    z-index: 1;
+    position: relative;
+}
+
+.cartAndPriceContainer {
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
 
 .circleButton {
@@ -73,28 +78,45 @@
     justify-content: center;
     border: none;
     cursor: pointer;
-    margin-bottom: 10px;
     transition: background-color 0.3s;
+    margin-bottom: 10px;
 }
 
 .circleButton:hover {
-    background-color: #cb0632;
+    background-color: black;
+    color: #cb0632;
+    border: 1px solid #cb0632;
+}
+
+.cartImage {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 50%;
 }
 
 .priceLabel {
-    font-size: 24px;
-    margin-top: 5px;
+    font-size: 30px;
     font-weight: bold;
     color: #cb0632;
-    z-index: 2;
-    position: relative;
+}
+
+.gearButtonContainer {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-right : 95px;
 }
 
 .rightButtons {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center; 
     z-index: 1;
+    width: 100%;
+    max-width: 50vw;
+    margin: auto;
 }
 
 .inlineText {
@@ -104,14 +126,15 @@
 }
 
 
-.checkOut {
-    width: 100px;
+.checkOut, .genStartOver{
+    flex: 1;
+    width: 100%;
     padding: 10px;
     margin-bottom: 10px;
     font-size: 16px;
     text-align: left;
     font-weight: bold;
-    color: white;
+    color: black;
     background-color: #cb0632;
     border: none;
     border-radius: 5px;
@@ -130,19 +153,27 @@
     border: 1px solid;
 }
 
+
+.genStartOver:hover {
+    background-color: black;
+    color:#cb0632;
+    border-color: #cb0632;
+    border: 1px solid;
+
+    .startOver {
+        color: #cb0632;
+    }
+}
+
 .x {
     font-weight: bold;
-    color: white; /* Different color for 'X' */
+    color: white;
 }
 
 .startOver {
     font-size: 16px;
     color: black;
     text-transform: uppercase;
-}
-
-.startOver:hover {
-    color: #cb0632;
 }
 
 /* Middle Panel - Kiosk Item Buttons */
@@ -173,6 +204,11 @@
 .itemButtons button:hover {
     background-color: black;
     border: 1px solid #cb0632;
+    
+    .itemLeft {
+        background-color: #cb0632;
+        color: white;
+    }
 }
 
 .itemLeft {
@@ -189,22 +225,23 @@
     
 }
 
-.itemLeft:hover {
-    background-color: #cb0632;
-    color: white;
-}
-
 
 .itemRight {
     text-align: left;
     flex: 1;
-    font-size: 14px;
+    font-size: 16px;
     margin-left: 20px;
     color: white;
     display: block;
+    margin-top: 5px;
     margin-bottom: 5px;
     display: block;
     font-weight: bold;
+}
+
+.itemImg {
+    width: 10px;
+    height: 10px;
 }
 
 
