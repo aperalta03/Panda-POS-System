@@ -62,6 +62,22 @@ const KioskALaCartePage = () => {
 
     //should go to CART FIXMEEEEE
     const handleCartClick = () => {
+        resetTrackedSides();
+        resetTrackedEntrees();
+        resetTrackedOthers();
+        setCurrentStep("sides"); 
+
+        setTimeout(() => setCurrentStep("sides"), 0);
+        router.push("/kiosk_cart");
+    };
+
+    const handleBackToMenu = () => {
+        resetTrackedSides();
+        resetTrackedEntrees();
+        resetTrackedOthers();
+        setCurrentStep("sides"); 
+
+        setTimeout(() => setCurrentStep("sides"), 0);
         router.push("/kiosk_item");
     };
 
@@ -89,15 +105,28 @@ const KioskALaCartePage = () => {
                 <ItemFrame key={item.name} item={item} />
                 ))}
             </div> 
-             {/* Creates and renders a sticky bottom bar */ }
-                <div className={styles.bottomBar}>
-                    <button
-                        className={styles.doneButton}
-                        onClick={handleDone}
-                    >
-                        Done
-                    </button>
-                </div>
+
+            {/* Creates and renders a sticky bottom bar */}
+            <div className={styles.bottomBar}>
+                
+                {/* For sides step */}
+                {currentStep === "sides" && (
+                    <>
+                        <button className={styles.backToMenuButton} onClick={handleBackToMenu}>
+                            <div className={styles.inlineText}>
+                                <span className={styles.x}>&gt; </span>
+                                <span className={styles.backMenu}>Back to Menu</span>
+                            </div>
+                        </button>
+                        <button
+                            className={styles.doneButton}
+                            onClick={handleDone}
+                        >
+                            Done
+                        </button>
+                    </>
+                )}
+            </div>
 
         </div>
     );

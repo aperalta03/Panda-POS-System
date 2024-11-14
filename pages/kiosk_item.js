@@ -3,13 +3,13 @@ import styles from './kiosk_item.module.css';
 import { useRouter } from "next/router";
 import { useGlobalState } from '../app/context/GlobalStateContext';
 
-const TopBar = ({handleCartClick, handleOptionsClick}) => {
+const TopBar = ({handleOptionsClick}) => {
     const router = useRouter();
     return (
         <div className = {styles.KioskItemPanel}>
         <div className={styles.leftButtons}>
             <div className={styles.cartAndPriceContainer}>
-                <button className={styles.circleButton} onClick={handleCartClick}>
+                <button className={styles.circleButton} onClick={() => {router.push("/kiosk_cart")}}>
                     <img src="/cart2_img.png" alt="Cart Icon" className={styles.cartImage} />
                 </button>
                 <h1 className={styles.priceLabel}>$11.20</h1>
@@ -22,7 +22,7 @@ const TopBar = ({handleCartClick, handleOptionsClick}) => {
         </div>
             <div className = {styles.leftPanel}>
                 <div className = {styles.rightButtons}> 
-                    <button className = {styles.checkOut} onClick={() => {router.push("/kiosk")}}>
+                    <button className = {styles.checkOut} onClick={() => {router.push("/kiosk_cart")}}>
                         Checkout
                     </button>
                     <button className = {styles.genStartOver} onClick={() => {router.push("/kiosk")}}>
@@ -91,10 +91,6 @@ const KioskItemPage = () => {
     const router = useRouter();
     const [isOptionsOpens, setIsOptionsOpen] = useState(false);
 
-    const handleCartClick = () => {
-        router.push("/kiosk_cart");
-    };
-
     const handleOptionsClick = () => {
         setIsOptionsOpen(!isOptionsOpen);
     };
@@ -106,7 +102,6 @@ const KioskItemPage = () => {
             </div>
             <div className= {styles.topHeader}>
                 <TopBar>
-                    handleCartClick = {handleCartClick}
                     handleOptionsClick = {handleOptionsClick}
                 </TopBar>
             </div>

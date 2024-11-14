@@ -4,6 +4,9 @@ import { useRouter } from "next/router";
 import { useGlobalState } from '../app/context/GlobalStateContext'; //import global state
 import ItemFrame from './itemFrame';
 
+////////////////// ADD BACK TO SELECTION BUTTON //////////////////
+///////////////// USE STICKY BAR //////////////////
+
 
 //top bar containing panel info, tracker of items selected, etc.
 const TopBar = ({handleCartClick, numTrackedSides, numTrackedEntrees}) => {
@@ -85,6 +88,20 @@ const KioskBowlPage = () => {
 
     //should go to CART FIXMEEEEE
     const handleCartClick = () => {
+        resetTrackedSides();
+        resetTrackedEntrees();
+        setCurrentStep("sides"); 
+
+        setTimeout(() => setCurrentStep("sides"), 0);
+        router.push("/kiosk_cart");
+    };
+
+    const handleBackToMenu = () => {
+        resetTrackedSides();
+        resetTrackedEntrees();
+        setCurrentStep("sides"); 
+
+        setTimeout(() => setCurrentStep("sides"), 0);
         router.push("/kiosk_item");
     };
 
@@ -118,21 +135,54 @@ const KioskBowlPage = () => {
                 <ItemFrame key={item.name} item={item} isDone={isDone} />
                 ))}
             </div> 
-             {/* Creates and renders a sticky bottom bar */ }
-             {currentStep === "entrees" && (
-                <div className={styles.bottomBar}>
-                    <button className={styles.bottomButton} onClick={handleBackToSides}>
-                        Back to Sides
-                    </button>
-                    <button
-                        className={styles.doneButton}
-                        onClick={handleDone}
-                        disabled={numTrackedSides !== 1 || numTrackedEntrees !== 1}
-                    >
-                        Done
-                    </button>
-                </div>
-            )}
+            
+            {/* Creates and renders a sticky bottom bar */}
+            <div className={styles.bottomBar}>
+                
+                {/* For sides step */}
+                {currentStep === "sides" && (
+                    <>
+                        <button className={styles.backToMenuButton} onClick={handleBackToMenu}>
+                            <div className={styles.inlineText}>
+                                <span className={styles.x}>&gt; </span>
+                                <span className={styles.backMenu}>Back to Menu</span>
+                            </div>
+                        </button>
+                        <button
+                            className={styles.doneButton}
+                            onClick={handleDone}
+                            disabled={numTrackedSides !== 1 || numTrackedEntrees !== 1}
+                        >
+                            Done
+                        </button>
+                    </>
+                )}
+
+                {/* For entrees step */}
+                {currentStep === "entrees" && (
+                    <>
+                        <button className={styles.bottomButton} onClick={handleBackToSides}>
+                            <div className={styles.inlineText}>
+                                <span className={styles.x}>&gt; </span>
+                                <span className={styles.backSides}>Back to Sides</span>
+                            </div>
+                        </button>
+                        <button className={styles.backToMenuButton} onClick={handleBackToMenu}>
+                            <div className={styles.inlineText}>
+                                <span className={styles.x}>&gt; </span>
+                                <span className={styles.backMenu}>Back to Menu</span>
+                            </div>
+                        </button>
+                        <button
+                            className={styles.doneButton}
+                            onClick={handleDone}
+                            disabled={numTrackedSides !== 1 || numTrackedEntrees !== 1}
+                        >
+                            Done
+                        </button>
+                    </>
+                )}
+            </div>
 
         </div>
     );
