@@ -4,7 +4,6 @@ import path from 'path';
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    // Update destructuring to match the new data structure
     const { saleDate, saleTime, totalPrice, employeeID, source, orders } = req.body;
 
     if (!saleDate || !saleTime || !employeeID) {
@@ -16,19 +15,18 @@ export default async function handler(req, res) {
       const filePath = path.join(process.cwd(), 'utils', 'sql', 'insert-salesRecord.sql');
       const insertScript = fs.readFileSync(filePath, 'utf8');
 
-      // Prepare the data to match the expected structure in the SQL script
       const itemsData = orders.map(({ plateSize, components }) => ({
         plateSize,
         components,
       }));
-
+      
       const response = await database.query(insertScript, [
         saleDate,
         saleTime,
         totalPrice,
         employeeID,
         source,
-        JSON.stringify(itemsData),  // Ensure itemsData is a JSON string
+        JSON.stringify(itemsData),
       ]);
 
       res.status(200).json({ message: 'Sale recorded successfully' });

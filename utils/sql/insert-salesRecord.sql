@@ -14,7 +14,7 @@ max_order_number AS (
   SELECT COALESCE(MAX(orderNumber), 0) AS maxOrderNumber
   FROM saleItems
 ),
--- Insert into saleItems, one row per order, with orderNumber, status, and quantity
+-- Insert into saleItems, one row per order
 inserted_orders AS (
   INSERT INTO saleItems (saleNumber, plateSize, components, orderNumber, status)
   SELECT s.saleNumber,
@@ -23,23 +23,40 @@ inserted_orders AS (
          (SELECT maxOrderNumber FROM max_order_number) + ROW_NUMBER() OVER () AS orderNumber,
          'Not Started' AS status
   FROM new_sale s, jsonb_array_elements($6::jsonb) AS order_data
-  RETURNING components
+  RETURNING plateSize, components
 ),
--- Collect all items to be decremented, including ingredients from menu_ingredients
+-- Collect all items to be decremented, including both the items and their ingredients
 items_to_decrement AS (
-  SELECT DISTINCT 
-    unnest(array_agg(i.item_name)) AS item_name, 
-    COALESCE(SUM(components_list.quantity), 0) AS total_quantity
+  SELECT 
+    item_name,
+    SUM(quantity) AS total_quantity
   FROM (
-    SELECT jsonb_array_elements_text(io.components) AS component,
-           (io.components->>'quantity')::int AS quantity
-    FROM inserted_orders AS io
-  ) AS components_list
-  LEFT JOIN menu_ingredients mi ON components_list.component = mi.item_name
-  LEFT JOIN LATERAL unnest(COALESCE(mi.ingredients, ARRAY[components_list.component])) AS i(item_name) ON true
-  GROUP BY i.item_name
+    SELECT 
+      unnest(
+        ARRAY[cl.item_name] || COALESCE(mi.ingredients, '{}')
+      ) AS item_name,
+      cl.quantity
+    FROM (
+      -- Process components
+      SELECT 
+        component AS item_name,
+        COUNT(*) AS quantity
+      FROM inserted_orders io,
+           jsonb_array_elements_text(io.components) AS component
+      GROUP BY component
+      UNION ALL
+      -- Process plateSizes
+      SELECT
+        io.plateSize AS item_name,
+        COUNT(*) AS quantity
+      FROM inserted_orders io
+      GROUP BY io.plateSize
+    ) AS cl
+    LEFT JOIN menu_ingredients mi ON cl.item_name = mi.item_name
+  ) AS all_items
+  GROUP BY item_name
 )
--- Update inventory table for each item in items_to_decrement
+-- Update inventory
 UPDATE inventory
 SET curr_amount = curr_amount - items_to_decrement.total_quantity
 FROM items_to_decrement
