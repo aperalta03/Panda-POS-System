@@ -1,120 +1,290 @@
+/* Styling for body panel */
 .cartContainer {
     padding: 20px;
     flex-wrap: wrap;
     gap: 25px;
     background-color: white;
     height: 100%;
-    overflow-y: auto;
+
+    overflow: hidden;
+    position: relative;
 }
 
+/*styling for decorative circle */
+.circle {
+    bottom: 0;
+    right: 15vw;
+    transform: translate(38%, 50%);
+    width: 800px;
+    height: 800px;
+    background-color: #cb0632;
+    border-radius: 50%;
+    color: #cb0632;
+    position: absolute;
+    z-index: 0;
+    border: 1px solid #cb0632;
+    position: absolute;
+    overflow-x: hidden;
+}
+
+/* Styling for top bar of buttons */
 .topBar {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
+    width: 800px;
+}
+@media (max-width: 900px) {
+    .topBar {
+        max-width: 400px;
+    }
 }
 
-.backButton {
+/* Set z-index on top-level elements to ensure they appear above .circle */
+.orderItem, .addItemButton, .topBar, .orderSummary {
+    z-index: 1;
+    position: relative;
+}
+
+/* Back to Menu Button Styling & its elements */
+.backButton{
+    flex: 1;
+    width: 75%;
+    padding: 10px;
     font-size: 16px;
-    color: white;
+    text-align: left;
+    font-weight: bold;
+    color: black;
     background-color: black;
-    padding: 10px 15px;
     border: none;
     cursor: pointer;
+    transition: background-color 0.3s;
+    text-transform: uppercase;
+    justify-content: center;
+    align-items: center;
+    border-top-left-radius: 20px;
 }
-
-.startOverButton {
+.x2 {
+    font-weight: bold;
+    color: #cb0632;
+}
+.backMenu {
     font-size: 16px;
     color: white;
-    background-color: #cb0632;
-    padding: 10px 15px;
-    border: none;
-    cursor: pointer;
+    text-transform: uppercase;
 }
 
-.orderItem {
+/* Styling for back to menu hover */
+.backButton:hover {
+    border: 1px solid #cb0632;
+
+    .backMenu {
+        color: #cb0632;
+    }
+}
+
+/*Styling for start over button & its elements */
+.startOverButton{
+    flex: 1;
+    width: 75%;
+    padding: 25px;
+    font-size: 16px;
+    text-align: left;
+    font-weight: bold;
+    color: black;
+    background-color: #cb0632;
+    border: none;
+    border-bottom-right-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-transform: uppercase;
+    justify-content: center;
+    align-items: center;
+}
+.inlineText {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 8px;
+}
+.x {
+    font-weight: bold;
+    color: white;
+}
+.startOver {
+    font-size: 16px;
+    color: black;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+/* Styling for start over hover */
+.startOverButton:hover {
+    background-color: black;
+    border: 1px solid white;
+
+    .startOver {
+        color: white;
+    }
+}
+
+/* Styling order item frame */
+.orderItem {
     background-color: #000;
     color: white;
     padding: 15px;
     margin-bottom: 10px;
-    position: relative;
+    z-index: 1;
 }
 
+/* Container for item type and remove button */
+.itemHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%; /* Make header span full width of order item */
+}
+
+/* Styling for item category header */
 .itemType {
-    font-size: 18px;
+    font-size: 25px;
     font-weight: bold;
     color: #cb0632;
     margin: 0;
 }
 
+/* Styling for item details (associated items) */
 .itemDetails {
-    font-size: 18px;
+    font-size: 15px;
     line-height: 1.5;
-    position:relative;
+    margin-top: 5px;
+    padding-left: 5px; /* Optional indent for details */
+}
+
+/* Styling for remove button */
+.removeButton {
+    font-size: 25px;
+    color: black;
+    background-color: #cb0632;
+    border: none;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
     justify-content: center;
 }
 
-.removeButton {
-    text-align: center;
-    font-size: 20px;
+
+/* Styling for remove button hover */
+.removeButton:hover {
+    background-color: black;
     color: #cb0632;
-    background: none;
-    border: none;
-    cursor: pointer;
+    border: 1px solid #cb0632;
 }
 
+/* Styling for order summary */
 .orderSummary {
-    text-align: center;
-    background-color: #cb0632;
-    color: white;
+    color: black;
     padding: 20px;
     border-radius: 15px;
     margin-top: 20px;
     position: fixed;
-    left: 0;
+    right: 0; /* Adjusted to position on the right side */
     bottom: 0;
     height: 25%;
     width: 100%;
-}
-
-.priceDetail {
+    z-index: 1;
     display: flex;
-    justify-content: space-between;
-    font-size: 16px;
-    margin-bottom: 5px;
+    flex-direction: column;
+    align-items: flex-end; /* Aligns contents to the right side */
 }
 
-.totalPrice {
-    font-size: 24px;
-    font-weight: bold;
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-}
 
+/* Styling for the order button */
 .placeOrderButton {
-    font-size: 18px;
+    font-size: 40px;
     font-weight: bold;
-    color: black;
-    background-color: white;
+    color: rgb(10, 10, 10);
+    background-color: black;
     padding: 10px 20px;
     border: none;
     cursor: pointer;
-    border-radius: 5px;
+    text-transform: uppercase;
+    border-top-left-radius: 20px;
+    text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+    align-self: flex-end;
+    margin-bottom: -10px;
+}
+
+/*Styling for hover on order button */
+.placeOrderButton:hover {
+    text-shadow: -1px -1px 0 #cb0632, 1px -1px 0 #cb0632, -1px 1px 0 #cb0632, 1px 1px 0 #cb0632;
+    border: 1px solid white;
+}
+
+/* Container for price summary details and total */
+.priceSummary {
+    display: flex;
+    margin-top: 20px;
+    gap: 20px;
+    color: black;
+    align-items: flex-start;
+}
+
+/* Left-aligned container for price details */
+.priceDetailsContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+/* Styling for individual price details */
+.priceDetail {
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+    margin-bottom: 5px;
+    padding: 0 10px;
+    align-self: flex-end;
+    gap: 5px;
+    margin-top: 5px;
+    color: white;
+}
+.priceDetail span:first-child {
+    font-weight: bold;
+}
+
+/* Styling for container with total price */
+.priceContainer {
+    background-color: black;
+    padding: 15px;
+    color: #cb0632;
+    border-top-left-radius: 20px;
+    width: 300px;
+}
+
+/* Styling for total price labels */
+.totalPrice {
+    font-size: 27px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
     text-transform: uppercase;
 }
 
+/* ONLY USED FOR TESTING */
 .addItemButton {
     display: block;
     margin: 20px auto;
     font-size: 16px;
     font-weight: bold;
-    color: black;
-    background-color: #cb0632;
+    color: white;
+    background-color: black;
     padding: 10px 20px;
     border: none;
     cursor: pointer;
     border-radius: 5px;
+    z-index: 1;
 }

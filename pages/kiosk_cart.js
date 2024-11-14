@@ -62,48 +62,66 @@ const CartPage = () => {
 
     return (
         <div className={styles.cartContainer}>
+            <div className={styles.circle}></div>
+
             <div className={styles.topBar}>
                 <button className={styles.backButton} onClick={handleBackToMenu}>
-                    &gt; Back to Menu
+                    <div className={styles.inlineText}>
+                        <span className = {styles.x2}> &gt; </span>
+                        <span className = {styles.backMenu}>Back To Menu</span>
+                    </div>
                 </button>
+
                 <button className={styles.startOverButton} onClick={handleStartOver}>
-                    X Start Over
+                    <div className={styles.inlineText}>
+                        <span className = {styles.x}>X</span>
+                        <span className = {styles.startOver}>Start Over</span>
+                    </div>
                 </button>
             </div>
 
             {cart.map((item) => (
                 <div key={item.id} className={styles.orderItem}>
-                    <h2 className={styles.itemType}>{item.type} | ${item.price.toFixed(2)}</h2>
+                    <div className={styles.itemHeader}>
+                        <h2 className={styles.itemType}>{item.type} | ${item.price.toFixed(2)}</h2>
+                        <button className={styles.removeButton} onClick={() => handleRemoveItem(item.id)}>
+                            -
+                        </button>
+                    </div>
                     <div className={styles.itemDetails}>
                         {item.details.map((detail, index) => (
                             <p key={index}>{detail}</p>
                         ))}
                     </div>
-                    <button className={styles.removeButton} onClick={() => handleRemoveItem(item.id)}>
-                        Remove
-                    </button>
                 </div>
             ))}
 
             <div className={styles.orderSummary}>
-                <div className={styles.priceDetail}>
-                    <span>Subtotal:</span>
-                    <span>${subtotal.toFixed(2)}</span>
-                </div>
-                <div className={styles.priceDetail}>
-                    <span>Tax:</span>
-                    <span>${tax.toFixed(2)}</span>
-                </div>
-                <div className={styles.totalPrice}>
-                    <span>Total</span>
-                </div>
-                <div className={styles.totalPrice}>
-                    <span>${total.toFixed(2)}</span>
-                </div>
                 <button className={styles.placeOrderButton} onClick={handlePlaceOrder}>
                     Place Order
                 </button>
+
+                <div className={styles.priceSummary}>
+                    <div className={styles.priceDetailsContainer}>
+                        <div className={styles.priceDetail}>
+                            <span>Subtotal:</span>
+                            <span>${subtotal.toFixed(2)}</span>
+                        </div>
+                        <div className={styles.priceDetail}>
+                            <span>Tax:</span>
+                            <span>${tax.toFixed(2)}</span>
+                        </div>
+                    </div>
+                    
+                    <div className={styles.priceContainer}>
+                        <div className={styles.totalPrice}>
+                            <span>Total | </span>
+                            <span>${total.toFixed(2)}</span>
+                        </div>
+                    </div>
+                </div>
             </div>
+
 
             {/* Button to add item for demonstration purposes */}
             <button className={styles.addItemButton} onClick={handleAddItem}>

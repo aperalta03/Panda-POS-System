@@ -10,23 +10,6 @@
   background-color: rgb(10, 10, 10);
 }
 
-/*.circle {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  z-index: 0;
-  transform: translateX(-60%);
-  width: 59vw; /* Increase width slightly to extend the curve */
-  /*height: 37vh; /* Increase height for a more pronounced curve */
-  /*border-top-left-radius: 60vw;
-  border-top-right-radius: 60vw;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-  background-color: #cb0632;
-  color: #cb0632;
-  overflow: hidden;
-}*/
-
 /*styling for decorative circle */
 .circle {
   bottom: 0;
