@@ -7,58 +7,69 @@ const ButtonGrid = ({
   quantities,
   setQuantities,
   addOrderToPanel,
-  seasonalItemName,
-  seasonalItemActive,
   minQuantities,
   sides,
 }) => {
   const menuItems = [
+    // Plate sizes
     "Bowl",
     "Plate",
     "Bigger Plate",
     "A La Carte",
+
+    // Drinks
+    "Bottle Drink",
     "Fountain Drink",
-    "Bottled Drink",
+
+    // Appetizers
+    "Chicken Egg Roll",
+    "Veggie Spring Roll",
+    "Cream Cheese Rangoon",
+
+    // Dessert
+    "Apple Pie Roll",
+
+    // Sides
     "Super Greens",
     "Chow Mein",
-    "White Steamed Rice",
     "Fried Rice",
-    "Chicken Egg Roll",
-    "Veggie Egg Roll",
-    "Cream Cheese Rangoon",
-    "Apple Pie Roll",
-    "Orange Chicken",
-    "Black Pepper Sirloin Steak",
-    "Honey Walnut Shrimp",
-    "Grilled Teriyaki Chicken",
-    "Broccoli Beef",
-    "Kung Pao Chicken",
-    "Honey Sesame Chicken",
-    "Beijing Beef",
-    "Mushroom Chicken",
-    "SweetFire Chicken",
-    "String Bean Chicken",
-    "Black Pepper Chicken",
-    "Seasonal Item",
-  ];
+    "White Steamed Rice",
 
-  const entrees = [
+    // Entrees
     "Orange Chicken",
-    "Black Pepper Sirloin Steak",
     "Honey Walnut Shrimp",
     "Grilled Teriyaki Chicken",
     "Broccoli Beef",
     "Kung Pao Chicken",
+    "Black Pepper Sirloin Steak",
     "Honey Sesame Chicken",
     "Beijing Beef",
     "Mushroom Chicken",
     "SweetFire Chicken",
     "String Bean Chicken",
     "Black Pepper Chicken",
-    "Seasonal Item",
+
+    // Seasonal item
+    "Dumplings",
   ];
 
   const plateSizes = ["Bowl", "Plate", "Bigger Plate", "A La Carte"];
+  const entrees = [
+    "Orange Chicken",
+    "Honey Walnut Shrimp",
+    "Grilled Teriyaki Chicken",
+    "Broccoli Beef",
+    "Kung Pao Chicken",
+    "Black Pepper Sirloin Steak",
+    "Honey Sesame Chicken",
+    "Beijing Beef",
+    "Mushroom Chicken",
+    "SweetFire Chicken",
+    "String Bean Chicken",
+    "Black Pepper Chicken",
+    "Dumplings", // Seasonal item at the end
+  ];
+
   const foodItems = menuItems.filter((item) => !plateSizes.includes(item));
 
   const [disabledItems, setDisabledItems] = useState(foodItems);
@@ -79,10 +90,7 @@ const ButtonGrid = ({
       const minQuantity = minQuantities[item] || 0;
 
       // Check if decrementing would result in a quantity below the minimum
-      if (
-        incrementAmount < 0 &&
-        currentQuantity + incrementAmount < minQuantity
-      ) {
+      if (incrementAmount < 0 && currentQuantity + incrementAmount < minQuantity) {
         return prev; // Prevent decrement if it would drop below minQuantity
       }
 
@@ -92,7 +100,6 @@ const ButtonGrid = ({
       };
     });
 
-    // Temporary variable to hold the updated associated items
     let updatedAssociatedItems = [...associatedItems];
 
     if (item === "A La Carte") {
@@ -108,34 +115,26 @@ const ButtonGrid = ({
       updatedAssociatedItems = [];
       setPlateQuantity(0);
     } else if (currPlate === "A La Carte") {
-      // Modified handling for A La Carte items (sides and entrees)
       if (incrementAmount < 0) {
-        // If decrementing, remove the item from associatedItems
         updatedAssociatedItems = updatedAssociatedItems.filter(
           (associatedItem, index) => {
-            // Only remove one instance of the item
             if (associatedItem === item) {
-              // Skip the first matching instance
               return index !== updatedAssociatedItems.indexOf(item);
             }
             return true;
           }
         );
       } else {
-        // If incrementing, add the item to associatedItems
         updatedAssociatedItems.push(item);
       }
     } else if (sides.includes(item)) {
-      // Keep the existing logic for sides
       const currentQuantity = quantities[item];
       const minQuantity = minQuantities[item] || 0;
       if (!(incrementAmount < 0 && currentQuantity <= minQuantity)) {
         setPlateQuantity((prev) => prev + incrementAmount);
 
         if (incrementAmount < 0) {
-          updatedAssociatedItems = updatedAssociatedItems.filter(
-            (i) => i !== item
-          );
+          updatedAssociatedItems = updatedAssociatedItems.filter((i) => i !== item);
         } else {
           updatedAssociatedItems.push(item);
         }
@@ -146,29 +145,20 @@ const ButtonGrid = ({
         setDisabledItems([...menuItems.filter((i) => !entrees.includes(i))]);
       }
     } else if (entrees.includes(item)) {
-      // Keep the existing logic for entrees
       const currentQuantity = quantities[item];
       const minQuantity = minQuantities[item] || 0;
       if (!(incrementAmount < 0 && currentQuantity <= minQuantity)) {
         setPlateQuantity((prev) => prev + incrementAmount);
 
         if (incrementAmount < 0) {
-          updatedAssociatedItems = updatedAssociatedItems.filter(
-            (i) => i !== item
-          );
+          updatedAssociatedItems = updatedAssociatedItems.filter((i) => i !== item);
         } else {
           updatedAssociatedItems.push(item);
         }
-        // Run the final check with the updated associated items
-        checkQuantity(
-          plateQuantity + incrementAmount,
-          currPlate,
-          updatedAssociatedItems
-        );
+        checkQuantity(plateQuantity + incrementAmount, currPlate, updatedAssociatedItems);
       }
     }
 
-    // Update the associated items state after modifications
     setAssociatedItems(updatedAssociatedItems);
   };
 
@@ -178,13 +168,8 @@ const ButtonGrid = ({
       Plate: 3,
       "Bigger Plate": 4,
     };
-    if (
-      currentPlate !== "A La Carte" &&
-      currentPlateQuantity >= requiredQuantities[currentPlate]
-    ) {
-      const updatedItems = items.map((item) =>
-        item === "Seasonal Item" ? seasonalItemName : item
-      );
+    if (currentPlate !== "A La Carte" && currentPlateQuantity >= requiredQuantities[currentPlate]) {
+      const updatedItems = items.map((item) => item);
       addOrderToPanel(currentPlate, updatedItems);
       setDisabledItems(foodItems);
       setEnabledItems(plateSizes);
@@ -197,13 +182,8 @@ const ButtonGrid = ({
 
   const handleEnterClick = () => {
     if (currPlate === "A La Carte") {
-      const updatedItems = associatedItems.map((item) =>
-        item === "Seasonal Item" ? seasonalItemName : item
-      );
-      const aLaCarteCost = associatedItems.reduce(
-        (total, item) => total + priceMap[item],
-        0
-      );
+      const updatedItems = associatedItems.map((item) => item);
+      const aLaCarteCost = associatedItems.reduce((total, item) => total + priceMap[item], 0);
 
       setNetCost((prevNetCost) => prevNetCost + aLaCarteCost);
       addOrderToPanel("A La Carte", associatedItems);
@@ -219,44 +199,34 @@ const ButtonGrid = ({
 
   return (
     <div className={styles.buttonGrid}>
-      {menuItems.map(
-        (item) =>
-          (item !== "Seasonal Item" || seasonalItemActive) && (
-            <div key={item} className={styles.gridItem}>
-              <button
-                onClick={() => updateQuantity(item, 1)}
-                className={`${styles.itemButton} ${
-                  disabledItems.includes(item)
-                    ? styles.itemButtonDisabled
-                    : ""
-                } ${
-                  enabledItems.includes(item) ? styles.itemButtonEnabled : ""
-                }`}
-                disabled={disabledItems.includes(item)}
-              >
-                {item === "Seasonal Item" ? seasonalItemName : item}{" "}
-              </button>
-              <span className={styles.quantity}>{quantities[item]}</span>
-              {!plateSizes.includes(item) && (
-                <button
-                  onClick={() => updateQuantity(item, -1)}
-                  className={styles.minusButton}
-                  disabled={disabledItems.includes(item)}
-                >
-                  –
-                </button>
-              )}
-              {item === "A La Carte" && isEnterEnabled && (
-                <button
-                  onClick={handleEnterClick}
-                  className={styles.enterButton}
-                >
-                  Enter
-                </button>
-              )}
-            </div>
-          )
-      )}
+      {menuItems.map((item) => (
+        <div key={item} className={styles.gridItem}>
+          <button
+            onClick={() => updateQuantity(item, 1)}
+            className={`${styles.itemButton} ${
+              disabledItems.includes(item) ? styles.itemButtonDisabled : ""
+            } ${enabledItems.includes(item) ? styles.itemButtonEnabled : ""}`}
+            disabled={disabledItems.includes(item)}
+          >
+            {item}
+          </button>
+          <span className={styles.quantity}>{quantities[item]}</span>
+          {!plateSizes.includes(item) && (
+            <button
+              onClick={() => updateQuantity(item, -1)}
+              className={styles.minusButton}
+              disabled={disabledItems.includes(item)}
+            >
+              –
+            </button>
+          )}
+          {item === "A La Carte" && isEnterEnabled && (
+            <button onClick={handleEnterClick} className={styles.enterButton}>
+              Enter
+            </button>
+          )}
+        </div>
+      ))}
     </div>
   );
 };
