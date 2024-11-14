@@ -284,7 +284,6 @@
     background-color: black;
     /*border: 1px solid white;*/
     cursor: pointer;
-    border-radius: 5px;
     font-weight: bold;
     transition: background-color 0.3s ease;
     text-transform: uppercase;

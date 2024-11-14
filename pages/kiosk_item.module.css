@@ -89,6 +89,7 @@
     cursor: pointer;
     transition: background-color 0.3s;
     margin-bottom: 10px;
+    overflow: hidden;
 }
 
 /* Styling for circle button hover*/
@@ -181,6 +182,7 @@
     .genStartOver {
         width: 700px;
         align-items: right;
+        margin-right: -30%;
     }
     .checkOut {
         width: 900px;
@@ -249,7 +251,8 @@
     flex: 1;
     font-size: 20px;
     border-radius: 8px 0 0 8px;
-    padding: 35px;
+    padding-top: 45px;
+    height: 12vh;
     border: none;
     background: white;
     text-transform: uppercase;
