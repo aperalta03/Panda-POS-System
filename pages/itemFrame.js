@@ -80,6 +80,8 @@ const ItemFrame = ({ item, isDone }) => {
         return 'S';
       case 'Veggie':
         return 'V';
+      case 'Seasonal':
+        return 'L';
       default:
         return null;
     }

@@ -52,8 +52,8 @@ export const GlobalStateProvider = ({ children }) => {
       if (response.ok && data.menuItems) {
         console.log("Fetched menu items:", data.menuItems);
 
-        //constructs data to tack onto a menu item, includes: CALORIE, DESCRIPTION, COUNT (in one item order), DESGINATION, IMAGE 
-        const itemSpecifications = {
+        //IS ALREADY CONSTRUCTED IN DB, HERE TO VIEW, DO NOT UNCOMMENT
+        /*const itemSpecifications = {
           'Orange Chicken': { type: 'entree', calories: 510, description: "Our signature dish. Crispy chicken wok-tossed in a sweet and spicy orange sauce.", designation: "Spicy", image: 'Chicken_OrangeChicken.png' },
           'Honey Walnut Shrimp': { type: 'entree', calories: 430, description: "Large tempura-battered shrimp, wok-tossed in a honey sauce and topped with glazed walnuts.", designation: "Premium", image: 'Seafood_HoneyWalnutShrimp.png' },
           'Grilled Teriyaki Chicken': { type: 'entree', calories: 275, description: "Grilled chicken hand-sliced to order and served with teriyaki sauce.", designation: "None", image: 'Chicken_GrilledTeriyakiChicken.png' },
@@ -78,19 +78,10 @@ export const GlobalStateProvider = ({ children }) => {
           'Veggie Spring Roll': { type: 'other', calories: 240, description: "Cabbage, carrots, green onions and Chinese noodles in a crispy wonton wrapper.", designation: "Veggie", image: 'Veggie_SpringRoll.png' },
           'Cream Cheese Rangoon': { type: 'other', calories: 190, description: "Wonton wrappers filled with cream cheese and served with sweet and sour sauce.", designation: "Veggie", image: 'Cream_CheeseRangoon.png' },
           'Apple Pie Roll': { type: 'other', calories: 150, description: "Jucy apples and fall spices in a crispy rolled pastry, finished with cinnamon sugar.", designation: "Veggie", image: 'Apple_PieRoll.png' },
-        };
+        };*/
 
         const items = data.menuItems.map((item) => {
           item.count = 0; //setting initial count for each item
-    
-          if (itemSpecifications[item.name]) {
-            const specs = itemSpecifications[item.name];
-            item.calories = specs.calories;
-            item.description = specs.description;
-            item.designation = specs.designation;
-            item.image = specs.image;
-            item.type = specs.type;
-          }
           return item;
         });
 
