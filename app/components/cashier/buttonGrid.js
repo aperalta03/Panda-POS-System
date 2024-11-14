@@ -9,68 +9,15 @@ const ButtonGrid = ({
   addOrderToPanel,
   minQuantities,
   sides,
+  menuItems,
 }) => {
-  const menuItems = [
-    // Plate sizes
-    "Bowl",
-    "Plate",
-    "Bigger Plate",
-    "A La Carte",
-
-    // Drinks
-    "Bottle Drink",
-    "Fountain Drink",
-
-    // Appetizers
-    "Chicken Egg Roll",
-    "Veggie Spring Roll",
-    "Cream Cheese Rangoon",
-
-    // Dessert
-    "Apple Pie Roll",
-
-    // Sides
-    "Super Greens",
-    "Chow Mein",
-    "Fried Rice",
-    "White Steamed Rice",
-
-    // Entrees
-    "Orange Chicken",
-    "Honey Walnut Shrimp",
-    "Grilled Teriyaki Chicken",
-    "Broccoli Beef",
-    "Kung Pao Chicken",
-    "Black Pepper Sirloin Steak",
-    "Honey Sesame Chicken",
-    "Beijing Beef",
-    "Mushroom Chicken",
-    "SweetFire Chicken",
-    "String Bean Chicken",
-    "Black Pepper Chicken",
-
-    // Seasonal item
-    "Dumplings",
-  ];
-
   const plateSizes = ["Bowl", "Plate", "Bigger Plate", "A La Carte"];
-  const entrees = [
-    "Orange Chicken",
-    "Honey Walnut Shrimp",
-    "Grilled Teriyaki Chicken",
-    "Broccoli Beef",
-    "Kung Pao Chicken",
-    "Black Pepper Sirloin Steak",
-    "Honey Sesame Chicken",
-    "Beijing Beef",
-    "Mushroom Chicken",
-    "SweetFire Chicken",
-    "String Bean Chicken",
-    "Black Pepper Chicken",
-    "Dumplings", // Seasonal item at the end
-  ];
-
-  const foodItems = menuItems.filter((item) => !plateSizes.includes(item));
+  const entrees = menuItems
+    .filter(({ type }) => type === "entree" || type === "seasonal")
+    .map(({ name }) => name);
+  const foodItems = menuItems.filter(
+    ({ name }) => !plateSizes.includes(name)
+  ).map(({ name }) => name);
 
   const [disabledItems, setDisabledItems] = useState(foodItems);
   const [enabledItems, setEnabledItems] = useState(plateSizes);
@@ -86,12 +33,9 @@ const ButtonGrid = ({
       const currentQuantity = prev[item];
       const newQuantity = currentQuantity + incrementAmount;
 
-      // Ensure the quantity doesn't go below the minimum
       const minQuantity = minQuantities[item] || 0;
-
-      // Check if decrementing would result in a quantity below the minimum
       if (incrementAmount < 0 && currentQuantity + incrementAmount < minQuantity) {
-        return prev; // Prevent decrement if it would drop below minQuantity
+        return prev;
       }
 
       return {
@@ -111,18 +55,13 @@ const ButtonGrid = ({
     } else if (plateSizes.includes(item)) {
       setCurrPlate(item);
       setEnabledItems(sides);
-      setDisabledItems([...menuItems.filter((i) => !sides.includes(i))]);
+      setDisabledItems([...menuItems.filter(({ name }) => !sides.includes(name)).map(({ name }) => name)]);
       updatedAssociatedItems = [];
       setPlateQuantity(0);
     } else if (currPlate === "A La Carte") {
       if (incrementAmount < 0) {
         updatedAssociatedItems = updatedAssociatedItems.filter(
-          (associatedItem, index) => {
-            if (associatedItem === item) {
-              return index !== updatedAssociatedItems.indexOf(item);
-            }
-            return true;
-          }
+          (associatedItem, index) => associatedItem !== item || index !== updatedAssociatedItems.indexOf(item)
         );
       } else {
         updatedAssociatedItems.push(item);
@@ -142,7 +81,7 @@ const ButtonGrid = ({
 
       if (plateQuantity + incrementAmount >= 1 && currPlate !== "A La Carte") {
         setEnabledItems(entrees);
-        setDisabledItems([...menuItems.filter((i) => !entrees.includes(i))]);
+        setDisabledItems(menuItems.filter(({ name }) => !entrees.includes(name)).map(({ name }) => name));
       }
     } else if (entrees.includes(item)) {
       const currentQuantity = quantities[item];
@@ -199,28 +138,28 @@ const ButtonGrid = ({
 
   return (
     <div className={styles.buttonGrid}>
-      {menuItems.map((item) => (
-        <div key={item} className={styles.gridItem}>
+      {menuItems.map(({ name }) => (
+        <div key={name} className={styles.gridItem}>
           <button
-            onClick={() => updateQuantity(item, 1)}
+            onClick={() => updateQuantity(name, 1)}
             className={`${styles.itemButton} ${
-              disabledItems.includes(item) ? styles.itemButtonDisabled : ""
-            } ${enabledItems.includes(item) ? styles.itemButtonEnabled : ""}`}
-            disabled={disabledItems.includes(item)}
+              disabledItems.includes(name) ? styles.itemButtonDisabled : ""
+            } ${enabledItems.includes(name) ? styles.itemButtonEnabled : ""}`}
+            disabled={disabledItems.includes(name)}
           >
-            {item}
+            {name}
           </button>
-          <span className={styles.quantity}>{quantities[item]}</span>
-          {!plateSizes.includes(item) && (
+          <span className={styles.quantity}>{quantities[name]}</span>
+          {!plateSizes.includes(name) && (
             <button
-              onClick={() => updateQuantity(item, -1)}
+              onClick={() => updateQuantity(name, -1)}
               className={styles.minusButton}
-              disabled={disabledItems.includes(item)}
+              disabled={disabledItems.includes(name)}
             >
               –
             </button>
           )}
-          {item === "A La Carte" && isEnterEnabled && (
+          {name === "A La Carte" && isEnterEnabled && (
             <button onClick={handleEnterClick} className={styles.enterButton}>
               Enter
             </button>
