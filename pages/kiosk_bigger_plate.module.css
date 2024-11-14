@@ -45,8 +45,9 @@
         padding: 0 80px;
         padding-top: 10px;
         padding-bottom: 10px;
-        border-radius: 10px;
-        width:60vw;
+        border-top-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+        width:600px;
         margin-left: auto;
         margin-right: auto;
     }
@@ -84,9 +85,10 @@
     padding-top: 20px;
     padding-bottom: 20px;
     font-size: 45px;
-    border-radius: 15px;
     z-index: 1;
     border: 1px solid white;
+    border-top-left-radius: 20px;
+    border-bottom-right-radius: 20px;
 }
 
 /* styling for each all item container*/
@@ -130,7 +132,9 @@
     padding: 0 80px;
     padding-top: 10px;
     padding-bottom: 10px;
-    border-radius: 10px;
+    width: 550px;
+    border-top-left-radius: 20px;
+    border-bottom-right-radius: 20px;
 }
 .sideContainer, .entreeContainer {
     display: flex;
@@ -281,12 +285,13 @@
     background-color: black;
     /*border: 1px solid white;*/
     cursor: pointer;
-    border-radius: 5px;
     font-weight: bold;
     transition: background-color 0.3s ease;
     text-transform: uppercase;
     padding-left: 60px;
     padding-right: 60px;
+    border-top-left-radius: 20px;
+    border-bottom-right-radius: 20px;
 }
 
 .doneButton:enabled {

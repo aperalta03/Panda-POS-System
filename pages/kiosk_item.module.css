@@ -5,8 +5,10 @@
     height: 100vh;
     background-color: black;
     overflow: hidden;
+    position: relative;
 }
 
+/* Styling for decorative circle */
 .circle {
     top: -10%;
     left: 15%;
@@ -20,6 +22,7 @@
     z-index: 0;
 }
 
+/* Gen styling for top and bottom panels */
 .topHeader, .bottomPanel {
     flex: 0 0 15%;
     display: flex;
@@ -28,10 +31,12 @@
     z-index: 1;
 }
 
+/* Setting for circle position */
 .topHeader {
     position: relative;
 }
 
+/* Styling for middle panel */
 .midPanel {
     flex: 1;
     display: flex;
@@ -50,6 +55,7 @@
     margin-top: -20px;
 }
 
+/* Gen styling for top left buttons */
 .leftButtons {
     display: flex;
     flex-direction: column;
@@ -60,12 +66,15 @@
     position: relative;
 }
 
+/* Styling for top left buttons container*/
 .cartAndPriceContainer {
     display: flex;
     align-items: center;
     gap: 15px;
+    margin-top: -70px;
 }
 
+/* Styling for left circle buttons */
 .circleButton {
     width: 50px;
     height: 50px;
@@ -82,12 +91,14 @@
     margin-bottom: 10px;
 }
 
+/* Styling for circle button hover*/
 .circleButton:hover {
     background-color: black;
     color: #cb0632;
     border: 1px solid #cb0632;
 }
 
+/* Styling for cart image */
 .cartImage {
     width: 100%;
     height: 100%;
@@ -95,12 +106,14 @@
     border-radius: 50%;
 }
 
+/* Styling for price label */
 .priceLabel {
     font-size: 30px;
     font-weight: bold;
     color: #cb0632;
 }
 
+/* Styling for access icon container */
 .gearButtonContainer {
     display: flex;
     justify-content: center;
@@ -108,6 +121,7 @@
     margin-right : 95px;
 }
 
+/* Styling for access image */
 .accessImage {
     width: 140%;
     height: 140%;
@@ -115,6 +129,7 @@
     border-radius: 50%;
 }
 
+/* Styling for top right buttons */
 .rightButtons {
     display: flex;
     flex-direction: column;
@@ -125,42 +140,61 @@
     max-width: 50vw;
     margin: auto;
 }
-
 .inlineText {
     display: flex;
     align-items: center;
     gap: 8px;
 }
-
-
 .checkOut, .genStartOver{
     flex: 1;
-    width: 100%;
     padding: 10px;
-    margin-bottom: 10px;
-    font-size: 16px;
+    margin-top: 40px;
+    font-size: 35px;
     text-align: left;
     font-weight: bold;
     color: black;
     background-color: #cb0632;
     border: none;
-    border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
     text-transform: uppercase;
-    width: 400px;
+    width: 700px;
     justify-content: center;
     align-items: center;
+
+    border-top-left-radius: 20px;
+    padding-bottom: 30px;
+    padding-top: 30px;
 }
 
+/*Styling for start over button */
+.genStartOver {
+    margin-top: 15px;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    width: 550px;
+}
+
+/*Styling depending on resolution */
+@media (min-width: 900px) {
+    .genStartOver {
+        width: 700px;
+        align-items: right;
+    }
+    .checkOut {
+        width: 900px;
+        align-items: right;
+    }
+}
+
+/* Styling on top right buttons for hover */
 .checkOut:hover {
     background-color: black;
     color:#cb0632;
     border-color: #cb0632;
     border: 1px solid;
 }
-
-
 .genStartOver:hover {
     background-color: black;
     color:#cb0632;
@@ -172,13 +206,13 @@
     }
 }
 
+/* Styling for start over text */
 .x {
     font-weight: bold;
     color: white;
 }
-
 .startOver {
-    font-size: 16px;
+    font-size: 25px;
     color: black;
     text-transform: uppercase;
 }
@@ -188,8 +222,10 @@
     display: flex;
     flex-direction: column;
     gap: 30px;
+    margin-bottom: 30px;
 }
 
+/* Styling for item selection buttons */
 .itemButtons button {
     display: flex;
     justify-content: space-between;
@@ -207,17 +243,6 @@
     overflow-y: hidden;
     position: relative;
 }
-
-.itemButtons button:hover {
-    background-color: black;
-    border: 1px solid #cb0632;
-    
-    .itemLeft {
-        background-color: #cb0632;
-        color: white;
-    }
-}
-
 .itemLeft {
     text-align: center;
     font-weight: bold;
@@ -231,8 +256,6 @@
     font-weight: bold;
     
 }
-
-
 .itemRight {
     text-align: left;
     flex: 1;
@@ -245,12 +268,21 @@
     display: block;
     font-weight: bold;
 }
-
-.itemImg {
+.itemImg {  /* NOT USED FIXMEEEEEEE */
     width: 10px;
     height: 10px;
 }
 
+/* Styling for item button hover action */
+.itemButtons button:hover {
+    background-color: black;
+    border: 1px solid #cb0632;
+    
+    .itemLeft {
+        background-color: #cb0632;
+        color: white;
+    }
+}
 
 /* Bottom Panel */
 .bottomHeader {
