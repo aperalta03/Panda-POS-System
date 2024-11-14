@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./cashier.module.css";
+import styles from "./cashierComponents.module.css";
 
 const OrderPanel = ({ orders, onDelete, seasonalItemName }) => {
   return (

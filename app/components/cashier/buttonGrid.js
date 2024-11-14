@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import styles from "./cashier.module.css";
+import styles from "./cashierComponents.module.css";
 
 const ButtonGrid = ({
   setNetCost,

@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "@mui/material";
-import styles from "./cashier.module.css";
+import styles from "./cashierComponents.module.css";
 
 const BottomPanel = ({ netCost, handlePayClick }) => {
   return (
