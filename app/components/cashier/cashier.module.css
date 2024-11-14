@@ -164,20 +164,20 @@
   color: black;
 }
 .payButton {
-  font-size: 20px;
-  font-weight: bold;
-  padding: 10px;
-  background-color: var(--secondary-color);
-  color: white;
-  margin-right: 10px;
-  width: 120px;
-  height: 60px;
-  border-radius: 10px;
-  cursor: pointer;
-  border: solid black 1px;
+  font-size: 20px !important;
+  font-weight: bold !important;
+  padding: 10px !important;
+  background-color: var(--secondary-color) !important;
+  color: white !important;
+  margin-right: 10px !important;
+  width: 120px !important;
+  height: 60px !important;
+  border-radius: 10px !important;
+  cursor: pointer !important;
+  border: solid black 1px !important;
 }
 .payButton:hover {
-  background-color: var(--secondary-color-hover);
+  background-color: var(--secondary-color-hover) !important;
 }
 .rightPanel {
   display: flex;

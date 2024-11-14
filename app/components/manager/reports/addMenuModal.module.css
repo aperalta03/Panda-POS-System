@@ -1,0 +1,19 @@
+.modalBox {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    background-color: white;
+    padding: 24px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}  
+.modalSubmitButton {
+    background-color: var(--primary-color) !important;
+    width: 100%;
+    color: white !important;
+}  
+.modalSubmitButton:hover {
+    background-color: var(--primary-color-hover) !important;
+}  
