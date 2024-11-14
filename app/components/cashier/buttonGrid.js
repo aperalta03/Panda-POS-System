@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import styles from "./cashier.module.css";
 
 const ButtonGrid = ({
@@ -12,13 +12,19 @@ const ButtonGrid = ({
   menuItems,
 }) => {
   const plateSizes = ["Bowl", "Plate", "Bigger Plate", "A La Carte"];
-  const entrees = menuItems
-    .filter(({ type }) => type === "entree" || type === "seasonal")
-    .map(({ name }) => name);
-  const foodItems = menuItems.filter(
-    ({ name }) => !plateSizes.includes(name)
-  ).map(({ name }) => name);
+  
+  // Memoize foodItems and entrees to avoid recalculating on every render
+  const entrees = useMemo(
+    () => menuItems.filter(({ type }) => type === "entree" || type === "seasonal").map(({ name }) => name),
+    [menuItems]
+  );
+  
+  const foodItems = useMemo(
+    () => menuItems.filter(({ name }) => !plateSizes.includes(name)).map(({ name }) => name),
+    [menuItems]
+  );
 
+  // Initial state
   const [disabledItems, setDisabledItems] = useState(foodItems);
   const [enabledItems, setEnabledItems] = useState(plateSizes);
   const [plateQuantity, setPlateQuantity] = useState(0);
@@ -26,26 +32,37 @@ const ButtonGrid = ({
   const [associatedItems, setAssociatedItems] = useState([]);
   const [isEnterEnabled, setIsEnterEnabled] = useState(false);
 
+  // Run this effect once menuItems has loaded to set initial disabled items
+  useEffect(() => {
+    setDisabledItems(foodItems);
+  }, [foodItems]);
+
   const updateQuantity = (item, amount) => {
     const incrementAmount = sides.includes(item) ? amount * 0.5 : amount;
-
+  
+    // Debug log to track updates
+    console.log("Updating quantity for:", item, "by amount:", incrementAmount);
+  
     setQuantities((prev) => {
       const currentQuantity = prev[item];
       const newQuantity = currentQuantity + incrementAmount;
-
+  
       const minQuantity = minQuantities[item] || 0;
       if (incrementAmount < 0 && currentQuantity + incrementAmount < minQuantity) {
-        return prev;
+        console.log(`Preventing decrement below minimum for ${item}`);
+        return prev; // Prevent decrement if it would drop below minQuantity
       }
-
+  
+      console.log(`Setting new quantity for ${item}:`, Math.max(newQuantity, minQuantity));
       return {
         ...prev,
         [item]: Math.max(newQuantity, minQuantity),
       };
     });
-
+  
     let updatedAssociatedItems = [...associatedItems];
-
+  
+    // Handle specific logic for different types of items
     if (item === "A La Carte") {
       setCurrPlate("A La Carte");
       setIsEnterEnabled(true);
@@ -55,7 +72,7 @@ const ButtonGrid = ({
     } else if (plateSizes.includes(item)) {
       setCurrPlate(item);
       setEnabledItems(sides);
-      setDisabledItems([...menuItems.filter(({ name }) => !sides.includes(name)).map(({ name }) => name)]);
+      setDisabledItems(menuItems.filter(({ name }) => !sides.includes(name)).map(({ name }) => name));
       updatedAssociatedItems = [];
       setPlateQuantity(0);
     } else if (currPlate === "A La Carte") {
@@ -71,14 +88,14 @@ const ButtonGrid = ({
       const minQuantity = minQuantities[item] || 0;
       if (!(incrementAmount < 0 && currentQuantity <= minQuantity)) {
         setPlateQuantity((prev) => prev + incrementAmount);
-
+  
         if (incrementAmount < 0) {
           updatedAssociatedItems = updatedAssociatedItems.filter((i) => i !== item);
         } else {
           updatedAssociatedItems.push(item);
         }
       }
-
+  
       if (plateQuantity + incrementAmount >= 1 && currPlate !== "A La Carte") {
         setEnabledItems(entrees);
         setDisabledItems(menuItems.filter(({ name }) => !entrees.includes(name)).map(({ name }) => name));
@@ -88,7 +105,7 @@ const ButtonGrid = ({
       const minQuantity = minQuantities[item] || 0;
       if (!(incrementAmount < 0 && currentQuantity <= minQuantity)) {
         setPlateQuantity((prev) => prev + incrementAmount);
-
+  
         if (incrementAmount < 0) {
           updatedAssociatedItems = updatedAssociatedItems.filter((i) => i !== item);
         } else {
@@ -97,7 +114,7 @@ const ButtonGrid = ({
         checkQuantity(plateQuantity + incrementAmount, currPlate, updatedAssociatedItems);
       }
     }
-
+  
     setAssociatedItems(updatedAssociatedItems);
   };
 
