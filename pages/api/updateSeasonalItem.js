@@ -1,3 +1,5 @@
+import fs from 'fs';
+import path from 'path';
 import database from '../../utils/database';
 
 export default async function handler(req, res) {
@@ -6,38 +8,45 @@ export default async function handler(req, res) {
     return res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 
-  const { name, price, ingredients } = req.body;
+  const { name, price, calories, description = null, ingredients } = req.body;
 
-  if (!name || price === undefined || !ingredients || typeof ingredients !== 'string') {
-    return res.status(400).json({ error: 'Name, price, and ingredients (as a comma-separated string) are required' });
+  // Validate inputs
+  if (!name || price === undefined || calories === undefined || !ingredients || typeof ingredients !== 'string') {
+    return res.status(400).json({ error: 'Name, price, calories, and ingredients (as a comma-separated string) are required' });
   }
 
   try {
-    // Start a transaction
+    // Convert ingredients to an array
+    const ingredientsArray = ingredients.split(',').map((ingredient) => ingredient.trim());
+
+    // Read and split the SQL file by sections
+    const sqlFilePath = path.join(process.cwd(), 'utils', 'sql', 'update-seasonal-item.sql');
+    const sqlFileContent = fs.readFileSync(sqlFilePath, 'utf-8');
+    const [fetchMenuIdQuery, fetchInventoryIdQuery, updateMenuQuery, updateIngredientsQuery, updateInventoryQuery] = sqlFileContent.split('--');
+
+    //
     await database.query('BEGIN');
 
-    // Update Menu Table, ID = 25
-    const updateMenuQuery = `
-      UPDATE menu
-      SET name = $1, price = $2
-      WHERE menu_item_id = 25
-    `;
-    await database.query(updateMenuQuery, [name, price]);
+    const seasonalMenuResult = await database.query(fetchMenuIdQuery);
+    if (seasonalMenuResult.rows.length === 0) {
+      throw new Error('No seasonal item found in the menu');
+    }
+    const seasonalMenuItemId = seasonalMenuResult.rows[0].menu_item_id;
+    const menuInventoryResult = await database.query(fetchInventoryIdQuery, [seasonalMenuItemId]);
+    if (menuInventoryResult.rows.length === 0) {
+      throw new Error('No matching inventory item found for the seasonal menu item');
+    }
+    const inventoryId = menuInventoryResult.rows[0].inventory_id;
 
-    // Update Inventory Table, ID = 79
-    const updateInventoryQuery = `
-      UPDATE inventory
-      SET item_name = $1, ingredients = $2
-      WHERE inventory_id = 79
-    `;
-    await database.query(updateInventoryQuery, [name, ingredients]);
+    await database.query(updateMenuQuery, [seasonalMenuItemId, name, price, calories, description]);
+    await database.query(updateIngredientsQuery, [seasonalMenuItemId, name, ingredientsArray]);
+    await database.query(updateInventoryQuery, [name, inventoryId]);
 
-    // Commit the transaction
     await database.query('COMMIT');
+    console.log("Transaction committed successfully.");
     res.status(200).json({ message: 'Seasonal item and ingredients updated successfully' });
-
+    //
   } catch (error) {
-    // Rollback the transaction in case of an error
     await database.query('ROLLBACK');
     console.error('Error updating seasonal item:', error);
     res.status(500).json({ error: 'Failed to update seasonal item' });
