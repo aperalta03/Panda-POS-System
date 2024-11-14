@@ -90,7 +90,9 @@ const CartPage = () => {
                     </div>
                     <div className={styles.itemDetails}>
                         {item.details.map((detail, index) => (
-                            <p key={index}>{detail}</p>
+                            <p key={index}>
+                                <span className= {styles.boldX}>x </span> 
+                            {detail}</p>
                         ))}
                     </div>
                 </div>

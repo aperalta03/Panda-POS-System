@@ -160,6 +160,12 @@
     padding-left: 5px; /* Optional indent for details */
 }
 
+/* Bold styling for the "x" */
+.boldX {
+    font-weight: bold;
+    color:#cb0632;
+}
+
 /* Styling for remove button */
 .removeButton {
     font-size: 25px;
