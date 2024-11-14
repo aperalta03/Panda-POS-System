@@ -22,7 +22,7 @@ const ResetSalesDataModal = ({ isOpen, onClose }) => {
     <Modal open={isOpen} onClose={onClose}>
       <Box className={styles.modalBox}>
         <Typography variant="h6">
-          Are you sure you want to reset 'salesRecord' and 'saleItems' tables Current day Data?
+          Are you sure you want to reset &apos;salesRecord&apos; and &apos;saleItems&apos; tables for the current day data?
         </Typography>
         <Button onClick={handleResetSalesData} color="error" variant="contained" sx={{ mt: 2 }}>
           Yes, Reset Data
