@@ -1,0 +1,120 @@
+.cartContainer {
+    padding: 20px;
+    flex-wrap: wrap;
+    gap: 25px;
+    background-color: white;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.topBar {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.backButton {
+    font-size: 16px;
+    color: white;
+    background-color: black;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+}
+
+.startOverButton {
+    font-size: 16px;
+    color: white;
+    background-color: #cb0632;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+}
+
+.orderItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #000;
+    color: white;
+    padding: 15px;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.itemType {
+    font-size: 18px;
+    font-weight: bold;
+    color: #cb0632;
+    margin: 0;
+}
+
+.itemDetails {
+    font-size: 18px;
+    line-height: 1.5;
+    position:relative;
+    justify-content: center;
+}
+
+.removeButton {
+    text-align: center;
+    font-size: 20px;
+    color: #cb0632;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.orderSummary {
+    text-align: center;
+    background-color: #cb0632;
+    color: white;
+    padding: 20px;
+    border-radius: 15px;
+    margin-top: 20px;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    height: 25%;
+    width: 100%;
+}
+
+.priceDetail {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.totalPrice {
+    font-size: 24px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.placeOrderButton {
+    font-size: 18px;
+    font-weight: bold;
+    color: black;
+    background-color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    text-transform: uppercase;
+}
+
+.addItemButton {
+    display: block;
+    margin: 20px auto;
+    font-size: 16px;
+    font-weight: bold;
+    color: black;
+    background-color: #cb0632;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}

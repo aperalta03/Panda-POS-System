@@ -2,28 +2,56 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  position: relative;
   width: 100vw;
   height: 100vh;
   max-width: 1920px;
   max-height: 1920px;
-  background-color: rgb(36, 36, 36);
+  background-color: rgb(10, 10, 10);
 }
 
-.circle {
+/*.circle {
   position: absolute;
   bottom: 0;
   left: 50%;
   z-index: 0;
   transform: translateX(-60%);
   width: 59vw; /* Increase width slightly to extend the curve */
-  height: 37vh; /* Increase height for a more pronounced curve */
-  border-top-left-radius: 60vw;
+  /*height: 37vh; /* Increase height for a more pronounced curve */
+  /*border-top-left-radius: 60vw;
   border-top-right-radius: 60vw;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
   background-color: #cb0632;
   color: #cb0632;
   overflow: hidden;
+}*/
+
+/*styling for decorative circle */
+.circle {
+  bottom: 0;
+  left: 15vw;
+  transform: translate(-42%, 40%);
+  width: 700px;
+  height: 700px;
+  background-color: #cb0632;
+  border-radius: 50%;
+  color: #cb0632;
+  position: absolute;
+  z-index: 0;
+  border: 1px solid #cb0632;
+  position: absolute;
+  overflow-x: hidden;
+}
+
+@media (min-width: 800px) {
+  .circle {
+      top: 0; 
+      left: 15vw; 
+      transform: translate(-3%, 50%); 
+      width: 1000px; 
+      height: 1000px;
+  }
 }
 
 .welcomeHeader {
@@ -32,9 +60,11 @@
   font-size: 5rem;
   font-weight: bold;
   text-align: center;
-  color: black;
+  color: rgb(10, 10, 10);
   text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff,
     1px 1px 0 #fff;
+  text-transform: uppercase;
+  z-index: 1;
 }
 
 .orderHeader {
@@ -43,6 +73,7 @@
   font-size: 1.5rem;
   text-align: center;
   color: white;
+  z-index: 1;
 }
 
 .translateButton {
@@ -55,11 +86,17 @@
   padding: 0 20px;
   border: none;
   border-radius: 25px;
-  background-color: #d42f2f;
+  background-color: #cb0632;
   color: white;
   font-size: 1.2rem;
   text-align: center;
   cursor: pointer;
+  z-index: 1;
+  border: 1px solid white;
+}
+
+.translateButton:hover {
+  background-color: black;
 }
 
 .translateButton::after {
@@ -91,6 +128,10 @@
   color: white;
   font-size: 1.2rem;
   cursor: pointer;
+}
+
+.handicapWrapper:hover {
+  border-color: 1px solid white;
 }
 
 .logo {
@@ -131,7 +172,7 @@
 .clockLogoContainer {
   position: absolute;
   top: 160px;
-  right: 160px;
+  right: 70px;
   display: flex;
   justify-content: flex-end;
   align-items: center;
