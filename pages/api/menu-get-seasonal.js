@@ -8,8 +8,8 @@ export default async function handler(req, res) {
       const filePath = path.join(process.cwd(), 'utils', 'sql', 'menu-get-seasonal.sql');
       const queryText = fs.readFileSync(filePath, 'utf-8');
 
-      // Seasonal Menu Item ID = 25
-      const values = [25];
+      // Seasonal Menu Item ID = 7
+      const values = [7];
       const result = await database.query(queryText, values);
 
       if (result.rows.length > 0) {

@@ -1,4 +1,3 @@
--- utils/sql/get-seasonal-item.sql
-SELECT name, price
+SELECT name, price, calories
 FROM menu
 WHERE menu_item_id = $1;

@@ -230,7 +230,7 @@ const Menu = () => {
                   <Typography variant="h5" className={styles.itemName}>
                     ${seasonalItem.price}
                   </Typography>
-                  <Typography variant="body2" className={styles.calories}>69 cal</Typography>
+                  <Typography variant="body2" className={styles.calories}>{seasonalItem.calories} cal</Typography>
                 </Box>
                 <Image src="/specialoffer.png" width={200} height={200} className={styles.seasonalImage} />
               </Box>
