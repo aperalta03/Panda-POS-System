@@ -21,11 +21,11 @@ function MyApp({ Component, pageProps }) {
 
 const Layout = ({ children }) => {
   const router = useRouter();
-  const isKiosk = router.pathname === '/kiosk';
+  const showNavbar = router.pathname === '/login' || router.pathname === '/cashier' || router.pathname === '/manager' || router.pathname === '/kitchen' || router.pathname === '/kitchenTV' || router.pathname === '/menu';
 
   return (
     <div className={styles.layoutContainer}>
-      {!isKiosk && (
+      {showNavbar && (
         <div className={styles.navbarContainer}>
           <Navbar />
         </div>
