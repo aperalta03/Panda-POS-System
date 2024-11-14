@@ -13,6 +13,8 @@ const BottomPanel = ({
   const [modalOpen, setModalOpen] = useState(false);
   const [seasonalItemName, setSeasonalItemName] = useState("Seasonal Item");
   const [seasonalItemPrice, setSeasonalItemPrice] = useState(0.0);
+  const [seasonalItemCalories, setSeasonalItemCalories] = useState(0);
+  const [seasonalItemDescription, setSeasonalItemDescription] = useState("");
   const [seasonalItemIngredients, setSeasonalItemIngredients] = useState("");
   const [adjustModalOpen, setAdjustModalOpen] = useState(false);
   const [adjustItemName, setAdjustItemName] = useState("");
@@ -32,6 +34,8 @@ const BottomPanel = ({
         body: JSON.stringify({
           name: seasonalItemName,
           price: seasonalItemPrice,
+          calories: seasonalItemCalories,
+          description: seasonalItemDescription || null,
           ingredients: seasonalItemIngredients,
         }),
       });
@@ -40,9 +44,10 @@ const BottomPanel = ({
         throw new Error("Failed to update seasonal item");
       }
 
+      // Update local price map for UI consistency
       setPriceMap((prevPriceMap) => ({
         ...prevPriceMap,
-        ["Seasonal Item"]: seasonalItemPrice,
+        [seasonalItemName]: seasonalItemPrice,
       }));
 
       setModalOpen(false);
@@ -152,6 +157,21 @@ const BottomPanel = ({
             margin="normal"
             value={seasonalItemPrice}
             onChange={(e) => setSeasonalItemPrice(parseFloat(e.target.value))}
+          />
+          <TextField
+            label="Calories"
+            type="number"
+            fullWidth
+            margin="normal"
+            value={seasonalItemCalories}
+            onChange={(e) => setSeasonalItemCalories(parseInt(e.target.value, 10))}
+          />
+          <TextField
+            label="Description (optional)"
+            fullWidth
+            margin="normal"
+            value={seasonalItemDescription}
+            onChange={(e) => setSeasonalItemDescription(e.target.value)}
           />
           <TextField
             label="Ingredients (comma-separated)"
