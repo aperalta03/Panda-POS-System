@@ -80,23 +80,32 @@ const CartPage = () => {
                 </button>
             </div>
 
-            {cart.map((item) => (
-                <div key={item.id} className={styles.orderItem}>
-                    <div className={styles.itemHeader}>
-                        <h2 className={styles.itemType}>{item.type} | ${item.price.toFixed(2)}</h2>
-                        <button className={styles.removeButton} onClick={() => handleRemoveItem(item.id)}>
-                            -
-                        </button>
+            {/* Scrollable order list container */}
+            <div className={styles.scrollableOrderList}>
+                {cart.map((item) => (
+                    <div key={item.id} className={styles.orderItem}>
+                        <div className={styles.itemHeader}>
+                            <h2 className={styles.itemType}>
+                                {item.type} | ${item.price.toFixed(2)}
+                            </h2>
+                            <button
+                                className={styles.removeButton}
+                                onClick={() => handleRemoveItem(item.id)}
+                            >
+                                -
+                            </button>
+                        </div>
+                        <div className={styles.itemDetails}>
+                            {item.details.map((detail, index) => (
+                                <p key={index}>
+                                    <span className={styles.boldX}>x </span>
+                                    {detail}
+                                </p>
+                            ))}
+                        </div>
                     </div>
-                    <div className={styles.itemDetails}>
-                        {item.details.map((detail, index) => (
-                            <p key={index}>
-                                <span className= {styles.boldX}>x </span> 
-                            {detail}</p>
-                        ))}
-                    </div>
-                </div>
-            ))}
+                ))}
+            </div>
 
             <div className={styles.orderSummary}>
                 <button className={styles.placeOrderButton} onClick={handlePlaceOrder}>
