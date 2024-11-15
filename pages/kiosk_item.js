@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+    import React, { useState, useEffect } from "react";
 import styles from './kiosk_item.module.css';
 import { useRouter } from "next/router";
 import { useGlobalState } from '../app/context/GlobalStateContext';
@@ -39,39 +39,47 @@ const TopBar = ({handleOptionsClick}) => {
 
 const KioskItemPanel = ({}) => {
     const router = useRouter();
-    //<a href="#" className={styles.itemImg}><img src="/bowl_img.png" alt="Image of Panda Express Bowl"/></a>
-    //<a href="#" className={styles.itemImg}><img src="/plate_img.png" alt="Image of Panda Express Plate"/></a>
-    //<a href="#" className={styles.itemImg}><img src="/bigger_plate_img.png" alt="Image of Panda Express Bigger Plate"/></a>
-    //<a href="#" className={styles.itemImg}><img src="/a_la_carte_img.png" alt="Image of Panda Express A La Carte Item"/></a>
     return (
         <div className = {styles.midPanel}>
             <div className = {styles.itemButtons}>
             <button onClick={() => {router.push("/kiosk_bowl")}}>
                 <p className = {styles.itemLeft}>Bowl | $9.50</p>
                 <div className = {styles.itemRight}>
-                    <p className = {styles.itemRight}>1 Side</p>
-                    <p className = {styles.itemRight}>1 Entree</p>
+                    <div className={styles.itemText}>
+                        <p>1 Side</p>
+                        <p>1 Entree</p>
+                    </div>
+                    <img src="/bowl_img.png" alt="" className={styles.itemImg}/>
                 </div>
             </button>
             <button onClick={() => {router.push("/kiosk_plate")}}>
                 <p className = {styles.itemLeft}>Plate | $11.50</p>
                 <div className = {styles.itemRight}>
-                    <p className = {styles.itemRight}>1 Side</p>
-                    <p className = {styles.itemRight}>2 Entrees</p>
+                    <div className={styles.itemText}>
+                        <p>1 Side</p>
+                        <p>2 Entree</p>
+                    </div>
+                    <img src="/plate_img.png" alt="Panda Express Plate" className={styles.itemImg}/>
                 </div>
             </button>
             <button onClick={() => {router.push("/kiosk_bigger_plate")}}>
                 <p className = {styles.itemLeft}>Bigger Plate | $13.50</p>
                 <div className = {styles.itemRight}>
-                    <p className = {styles.itemRight}>1 Side</p>
-                    <p className = {styles.itemRight}>3 Entrees</p>
+                    <div className={styles.itemText}>
+                        <p>1 Side</p>
+                        <p>3 Entree</p>
+                    </div>
+                    <img src="/bigger_plate_img.png" alt="Panda Express Bigger Plate" className={styles.itemImg}/>
                 </div>
             </button>
             <button onClick={() => {router.push("/kiosk_a_la_carte")}}>
                 <p className = {styles.itemLeft}>A La Carte</p>
                 <div className = {styles.itemRight}>
-                    <p className = {styles.itemRight}>Any Food Item</p>
-                    <p className = {styles.itemRight}>Any Drink</p>
+                    <div className={styles.itemText}>
+                        <p>Any Food Item</p>
+                        <p>Any Drink</p>
+                    </div>
+                    <img src="/a_la_carte_img.png" alt="Panda Express A La Carte" className={styles.itemImg}/>
                 </div>
             </button>
             </div>
