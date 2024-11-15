@@ -167,7 +167,6 @@
     padding-bottom: 30px;
     padding-top: 30px;
 }
-
 /*Styling for start over button */
 .genStartOver {
     margin-top: 15px;
@@ -176,7 +175,6 @@
     padding-top: 20px;
     width: 550px;
 }
-
 /*Styling depending on resolution */
 @media (min-width: 900px) {
     .genStartOver {
@@ -189,7 +187,6 @@
         align-items: right;
     }
 }
-
 /* Styling on top right buttons for hover */
 .checkOut:hover {
     background-color: black;
@@ -207,7 +204,6 @@
         color: #cb0632;
     }
 }
-
 /* Styling for start over text */
 .x {
     font-weight: bold;
@@ -218,7 +214,6 @@
     color: black;
     text-transform: uppercase;
 }
-
 /* Middle Panel - Kiosk Item Buttons */
 .itemButtons {
     display: flex;
@@ -226,7 +221,6 @@
     gap: 30px;
     margin-bottom: 30px;
 }
-
 /* Styling for item selection buttons */
 .itemButtons button {
     display: flex;
@@ -270,23 +264,32 @@
     margin-bottom: 5px;
     display: block;
     font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    overflow-x: none;
 }
-.itemImg {  /* NOT USED FIXMEEEEEEE */
-    width: 10px;
-    height: 10px;
+.itemText {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    margin-left: 5%;
+    text-align: left;
 }
-
+.itemImg {
+    width: 275px;
+    height: auto;
+    margin-right: 0%;
+}
 /* Styling for item button hover action */
 .itemButtons button:hover {
     background-color: black;
     border: 1px solid #cb0632;
-    
     .itemLeft {
         background-color: #cb0632;
         color: white;
     }
 }
-
 /* Bottom Panel */
 .bottomHeader {
     text-transform: uppercase;
