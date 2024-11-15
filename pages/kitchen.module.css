@@ -1,83 +1,174 @@
 /* Main Container */
 .gridContainer {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    /* Prevent wrapping of columns */
     gap: 25px;
     padding: 16px;
     background-color: #222;
     height: 100%;
-    overflow-y: auto;
+    overflow-x: auto;
+    /* Enable horizontal scrolling for columns */
+    overflow-y: hidden;
 }
+
 .gridContainer::-webkit-scrollbar {
     display: none;
+    /* Hide the scrollbar for WebKit browsers */
 }
+
 .gridContainer {
     scrollbar-width: none;
-    -ms-overflow-style: none; 
+    /* Hide scrollbar for Firefox */
+    -ms-overflow-style: none;
+    /* Hide scrollbar for IE/Edge */
 }
+
+/* Sale Container */
+.saleContainer {
+    display: flex;
+    flex-direction: column;
+    /* Stack contents vertically within each sale */
+    background-color: #444;
+    border: 2px solid #fff;
+    border-radius: 8px;
+    padding: 16px;
+    gap: 16px;
+    min-width: 400px;
+    /* Ensure each column has a fixed width */
+}
+
+/* Sale Header */
+.saleHeader {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    border-bottom: 2px solid #fff;
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+}
+
+/* Orders Column */
+.orderColumn {
+    display: flex;
+    flex-direction: column;
+    /* Stack orders vertically within each sale */
+    gap: 20px;
+    /* Space between orders */
+    justify-content: flex-start;
+}
+
 /* Order Item */
 .orderBox {
     display: flex;
-    height: 45%;
-    width: 24%;
     flex-direction: column;
+    justify-content: space-between;
     align-items: center;
+    height: 100%;
+    width: 100%;
+    /* Full width of the container */
     border: 2px solid #fff;
     border-radius: 5px;
     padding: 16px;
     color: #fff;
     background-color: #333;
-}
-/* Order Contents */
-.orderHeader {
-    font-weight: bold;
-    font-size: 2rem;
-    margin-bottom: 8px;
     text-align: center;
 }
+
+/* Order Header */
+.orderHeader {
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+}
+
 .orderStatus {
     display: block;
-    font-size: 0.9em;
-    color: #ff3333;
+    font-size: 1rem;
     margin-top: 4px;
 }
-.startOrderButton, .completeButton, .cancelButton {
+
+/* Lighter colors help reading on dark background */
+.statusNotStarted {
+    color: #ff3333;
+
+}
+
+.statusCooking {
+    color: #fdd835;
+}
+
+.statusCompleted {
+    color: #4caf50;
+}
+
+/* Buttons */
+.removeSaleButton,
+.startOrderButton,
+.completeButton,
+.cancelButton {
     border: none;
     padding: 8px;
     height: 30%;
     width: 100%;
     margin: 4px 0;
-    font-size: 1.5rem;
+    font-size: 1rem;
     font-weight: bold;
     border-radius: 5px;
     transition: all 0.3s ease;
 }
-.startOrderButton:hover, .completeButton:hover, .cancelButton:hover {
+
+.removeSaleButton:hover,
+.startOrderButton:hover,
+.completeButton:hover,
+.cancelButton:hover {
     cursor: pointer;
     border-radius: 20px;
 }
+
+.removeSaleButton:hover {
+    background-color: red;
+    color: black;
+}
+
+.removeSaleButton {
+    height: 8%;
+    font-size: 2rem;
+    background-color: #555;
+    color: red;
+    border: 2px solid #fff;
+    border-radius: 5px;
+    padding: 16px;
+    background-color: #333;
+}
+
 .startOrderButton {
     background-color: #555;
-    color: #fdd835;
+    color: yellow;
 }
+
 .startOrderButton.activeStart {
     background-color: yellow;
     color: #333;
 }
+
 .cancelButton {
     background-color: red;
     color: white;
-    border: none;
 }
+
 .completeButton {
     background-color: #555;
     color: #cfd8dc;
 }
+
 .completeButton.activeComplete {
     background-color: green;
     color: white;
 }
-/* Confirmation Modal */
+
+/* Modal */
 .modalContent {
     background: var(--secondary-color-hover);
     color: white;
@@ -91,18 +182,21 @@
     transform: translate(-50%, -50%);
     left: 50%;
 }
+
 .modalButtons {
     display: flex;
     gap: 20px;
     justify-content: center;
     margin-top: 20px;
 }
+
 .modalButton {
     background-color: var(--primary-color) !important;
     border: var(--secondary-color) 1px solid !important;
     color: white !important;
     padding: 10px 20px !important;
 }
+
 .modalButton:hover {
     background-color: var(--primary-color-hover) !important;
 }

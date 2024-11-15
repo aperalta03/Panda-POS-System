@@ -21,13 +21,36 @@
     scrollbar-width: none;
     -ms-overflow-style: none;
 }
+/* Sale Header */
+.saleHeader {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    border-bottom: 2px solid #fff;
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+}
+.saleContainer {
+    display: flex;
+    flex-direction: column;
+    /* Stack contents vertically within each sale */
+    background-color: #444;
+    border: 2px solid #fff;
+    border-radius: 8px;
+    padding: 16px;
+    gap: 16px;
+    min-width: 400px;
+    /* Ensure each column has a fixed width */
+}
+
 /* Order Item */
 .orderBox, .completedBox {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 24%;
-    height: 50%;
+    width: 100%;
+    height: 30%;
     padding: 16px;
     border: 2px solid #fff;
     border-radius: 5px;
@@ -43,12 +66,23 @@
     flex-direction: column;
 }
 .orderStatus {
-    color: #ff3333;
-    font-size: 0.9em;
+    display: block;
+    font-size: 2rem;
+    margin-top: 4px;
 }
-.completedStatus {
-    color: green;
-    font-size: 0.9em;
+
+/* Lighter colors help reading on dark background */
+.statusNotStarted {
+    color: #ff3333;
+
+}
+
+.statusCooking {
+    color: #fdd835;
+}
+
+.statusCompleted {
+    color: #4caf50;
 }
 /* Divider Styling */
 .divider {
