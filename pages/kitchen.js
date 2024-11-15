@@ -52,6 +52,31 @@ const KitchenPage = () => {
         }
     };
 
+    
+    const removeSale = async (saleNumber) => {
+        try {
+            const response = await fetch('/api/kitchen-remove-sale', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ saleNumber }),
+            });
+
+            if (response.ok) {
+                setOrders((prevOrders) =>
+                    prevOrders.filter(order => order.saleNumber !== saleNumber)
+                );
+            } else {
+                console.error('Failed to remove sale');
+            }
+        } catch (error) {
+            console.error('Error removing sale:', error);
+        }
+    };
+
+    const handleRemoveSale = (saleNumber) => {
+        removeSale(saleNumber);
+    };
+    
     const handleStartOrder = (saleNumber, orderNumber) => {
         updateOrderStatus(saleNumber, orderNumber, 'Cooking');
     };
@@ -105,6 +130,14 @@ const KitchenPage = () => {
             {orders.map(order => (
                 <div className={styles.saleContainer} key={order.saleNumber}>
                     <div className={styles.saleHeader}>SALE #{order.saleNumber}</div>
+                    {order.items.every(item => item.status === 'Completed') && (
+                        <button
+                            className={`${styles.removeSaleButton}`}
+                            onClick={() => handleRemoveSale(order.saleNumber)} // Add your handler for removing the sale
+                        >
+                            REMOVE SALE
+                        </button>
+                    )}
                     <div className={styles.orderColumn}>
                         {order.items
                             .filter(item => item.status !== 'Canceled')
@@ -114,10 +147,10 @@ const KitchenPage = () => {
                                         ORDER #{item.orderNumber}
                                         <span
                                             className={`${styles.orderStatus} ${item.status === 'Completed'
-                                                    ? styles.statusCompleted
-                                                    : item.status === 'Cooking'
-                                                        ? styles.statusCooking
-                                                        : styles.statusNotStarted
+                                                ? styles.statusCompleted
+                                                : item.status === 'Cooking'
+                                                    ? styles.statusCooking
+                                                    : styles.statusNotStarted
                                                 }`}
                                         >
                                             {item.status === 'Completed'

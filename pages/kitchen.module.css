@@ -92,7 +92,7 @@
 /* Lighter colors help reading on dark background */
 .statusNotStarted {
     color: #ff3333;
-    
+
 }
 
 .statusCooking {
@@ -104,6 +104,7 @@
 }
 
 /* Buttons */
+.removeSaleButton,
 .startOrderButton,
 .completeButton,
 .cancelButton {
@@ -117,12 +118,27 @@
     border-radius: 5px;
     transition: all 0.3s ease;
 }
-
+.removeSaleButton:hover,
 .startOrderButton:hover,
 .completeButton:hover,
 .cancelButton:hover {
     cursor: pointer;
     border-radius: 20px;
+}
+.removeSaleButton:hover{
+    background-color: red;
+    color: black;
+}
+
+.removeSaleButton{
+    height: 8%;
+    font-size: 2rem;
+    background-color: #555;
+    color: red;
+    border: 2px solid #fff;
+    border-radius: 5px;
+    padding: 16px;
+    background-color: #333;
 }
 
 .startOrderButton {
