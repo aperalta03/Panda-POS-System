@@ -118,6 +118,7 @@
     border-radius: 5px;
     transition: all 0.3s ease;
 }
+
 .removeSaleButton:hover,
 .startOrderButton:hover,
 .completeButton:hover,
@@ -125,12 +126,13 @@
     cursor: pointer;
     border-radius: 20px;
 }
-.removeSaleButton:hover{
+
+.removeSaleButton:hover {
     background-color: red;
     color: black;
 }
 
-.removeSaleButton{
+.removeSaleButton {
     height: 8%;
     font-size: 2rem;
     background-color: #555;
