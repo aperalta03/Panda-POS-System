@@ -13,6 +13,7 @@ const ItemFrame = ({ item, isDone }) => {
     setNumTrackedOthers,
     numTrackedOthers,
     priceMap,
+    translations,
   } = useGlobalState();
 
   const [showDescription, setShowDescription] = useState(false); //var to show description of an item
@@ -101,8 +102,10 @@ const ItemFrame = ({ item, isDone }) => {
   return (
     <div className={`${styles.itemFrame}`}>
       <img src={item.image} alt={item.name} className={styles.itemImage} />
-      <h3 className={styles.name}>{item.name}</h3>
-      <p className={styles.calories}>{item.calories} Cal.</p>
+      <h3 className={styles.name}>{translations[item.name] || item.name}</h3>
+      <p className={styles.calories}>
+        {item.calories} {translations["Calories"] || "Cal."}
+      </p>
       {price && <p className={styles.price}>${price.toFixed(2)}</p>}{" "}
       {/* Display the price with 2 decimal points */}
       <div className={styles.infoButtonContainer}>
@@ -118,13 +121,18 @@ const ItemFrame = ({ item, isDone }) => {
       {showDescription && (
         <div className={styles.popup}>
           <div className={styles.popupContent}>
-            <p>{item.description}</p>
+            <p>{translations[item.description] || item.description}</p>
             <p>
-              <span className={styles.designationLabel}>Designation:</span>{" "}
-              {item.designation ? item.designation : "No specific designation"}
+              <span className={styles.designationLabel}>
+                {translations["Designation:"] || "Designation:"}
+              </span>{" "}
+              {item.designation
+                ? translations[item.designation] || item.designation
+                : translations["No specific designation"] ||
+                  "No specific designation"}
             </p>
             <button onClick={toggleDescription} className={styles.closeButton}>
-              Close
+              {translations["Close"] || "Close"}
             </button>
           </div>
         </div>

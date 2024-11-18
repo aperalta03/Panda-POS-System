@@ -1,5 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
 import { useTranslate } from "./translateContext";
+import { textArray } from "./translateTextArray";
 
 const GlobalStateContext = createContext();
 
@@ -18,51 +19,7 @@ export const GlobalStateProvider = ({ children }) => {
 
   const changeLanguage = (language) => {
     setCurrentLanguage(language);
-    translateAllText(
-      [
-        "We Work For You",
-        "Tap to Order Now",
-        "accessibility",
-        "A La Carte",
-        "Select:",
-        "Any Item",
-        "Any Drink",
-        "Side",
-        "Sides",
-        "Entrees",
-        "Extras",
-        "Back to Menu",
-        "Done",
-        "Plate",
-        "Bigger Plate",
-        "1 Side",
-        "1 Entree",
-        "2 Entree",
-        "2 Entrees",
-        "3 Entree",
-        "3 Entrees",
-        "Back to Menu",
-        "Back to Sides",
-        "Bowl",
-        "Start Over",
-        "Place Order",
-        "Subtotal:",
-        "Tax:",
-        "Total |",
-        "+ Add Item",
-        "Choose A Meal Above",
-        "Select Items",
-        "Super Greens",
-        "Select Sides",
-        "Select Entrees",
-        "Checkout",
-        "Start Over",
-        "Bowl | $9.50",
-        "Plate | $11.50",
-        "Bigger Plate | $13.50",
-      ],
-      language
-    );
+    translateAllText(textArray, language);
   };
 
   //resetting side associated counts
