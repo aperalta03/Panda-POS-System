@@ -5,32 +5,44 @@
     background-color: #222;
     color: #ffffff;
 }
+
+/* Grid Container for Horizontal Scrolling */
 .gridContainer {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    /* Prevent wrapping to make containers render in a single row */
     gap: 25px;
     padding: 16px;
     background-color: #222;
     width: 100%;
-    overflow-y: auto;
+    height: 100%;
+    overflow-x: auto;
+    /* Enable horizontal scrolling */
+    overflow-y: hidden;
+    /* Prevent vertical scrolling */
 }
+
 .gridContainer::-webkit-scrollbar {
-    display: none;
+    height: 8px;
+    /* Set scrollbar height for horizontal scrolling */
+    background-color: #333;
+    /* Scrollbar background */
 }
+
+.gridContainer::-webkit-scrollbar-thumb {
+    background-color: #555;
+    /* Scrollbar thumb */
+    border-radius: 4px;
+}
+
 .gridContainer {
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+    scrollbar-width: thin;
+    /* Firefox: Make scrollbar thin */
+    scrollbar-color: #555 #333;
+    /* Firefox: Thumb and track color */
 }
-/* Sale Header */
-.saleHeader {
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: white;
-    text-align: center;
-    border-bottom: 2px solid #fff;
-    padding-bottom: 8px;
-    margin-bottom: 16px;
-}
+
+/* Sale Container (Fixed Width) */
 .saleContainer {
     display: flex;
     flex-direction: column;
@@ -41,23 +53,39 @@
     padding: 16px;
     gap: 16px;
     min-width: 400px;
-    /* Ensure each column has a fixed width */
+    /* Fixed width for consistent horizontal scrolling */
+    height: 100%;
+    /* Ensure height fills the container */
+}
+
+/* Sale Header */
+.saleHeader {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    border-bottom: 2px solid #fff;
+    padding-bottom: 8px;
+    margin-bottom: 16px;
 }
 
 /* Order Item */
-.orderBox, .completedBox {
+.orderBox,
+.completedBox {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
-    height: 30%;
+    height: 100%;
     padding: 16px;
     border: 2px solid #fff;
     border-radius: 5px;
     color: #fff;
     background-color: #333;
 }
-.orderHeader, .completedHeader {
+
+.orderHeader,
+.completedHeader {
     font-weight: bold;
     font-size: 2rem;
     margin-bottom: 8px;
@@ -65,6 +93,7 @@
     display: flex;
     flex-direction: column;
 }
+
 .orderStatus {
     display: block;
     font-size: 2rem;
@@ -74,7 +103,6 @@
 /* Lighter colors help reading on dark background */
 .statusNotStarted {
     color: #ff3333;
-
 }
 
 .statusCooking {
@@ -84,6 +112,7 @@
 .statusCompleted {
     color: #4caf50;
 }
+
 /* Divider Styling */
 .divider {
     width: 90%;
@@ -94,6 +123,7 @@
     justify-self: center;
     border-radius: 20px;
 }
+
 /* Completed Orders Container */
 .completedContainer {
     display: flex;
@@ -103,6 +133,7 @@
     background-color: #222;
     width: 100%;
 }
+
 .orderDetails {
     font-size: 1.8rem;
     font-weight: bold;
@@ -111,12 +142,14 @@
     width: 100%;
     text-align: left;
 }
+
 .orderDetails ul {
     list-style-type: disc;
     padding-left: 50px;
-    margin-top: 4px; 
+    margin-top: 4px;
     margin-bottom: 20px;
 }
+
 .orderDetails ul li {
     text-align: left;
     font-weight: normal;

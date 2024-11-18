@@ -75,7 +75,7 @@ const KitchenTV = () => {
 
             return {
                 time: `${formattedHours}:${formattedMinutes}:${formattedSeconds}`,
-                isOverFiveMinutes: minutes >= 5, // Check if elapsed time is greater than or equal to 5 minutes
+                isOverFiveMinutes: minutes >= 5 && hours > 0, // Check if elapsed time is greater than or equal to 5 minutes
             };
         } catch (error) {
             console.error("Error calculating time difference:", error);
