@@ -82,7 +82,7 @@ export const GlobalStateProvider = ({ children }) => {
 
         const items = data.menuItems.map((item) => {
           item.count = 0; //setting initial count for each item
-          item.designation = item.designation ?? "default"; //set to "default" if null or undefined
+          item.designation = item.designation || "default"; //set to "default" if null or undefined
           return item;
         });
 

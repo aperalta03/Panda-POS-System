@@ -84,11 +84,24 @@ const ItemFrame = ({ item, isDone }) => {
         return 'L';
       case 'Default':
           return 'D';
+      default:
+        return null;
     }
   };
 
-  const designationIcon = getDesignationIcon(item.designation);
-  const designationClass = item.designation ? `${styles[item.designation.toLowerCase() + 'designation']}` : ''; //setting designation style class based on icon
+
+  // Ensure item and designation are defined
+  if (!item || !item.designation) {
+    console.warn('Item or designation is undefined:', item);
+    return null; // Or a default placeholder
+  }
+  
+  //const designationIcon = getDesignationIcon(item.designation);
+  //const designationClass = item.designation ? `${styles[item.designation.toLowerCase() + 'designation']}` : ''; //setting designation style class based on icon
+  const designationIcon = item.designation ? getDesignationIcon(item.designation) : null;
+  const designationClass = item.designation
+  ? `${styles[item.designation.toLowerCase() + 'designation']}`
+  : '';
   //console.log(designationClass); 
 
   return (
