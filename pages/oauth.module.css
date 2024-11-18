@@ -37,46 +37,46 @@
     z-index: 2;
 }  
 .title {
-    margin-bottom: 1rem;
-    color: #000;
-    font-weight: bold;
+    margin-bottom: 1rem !important;
+    color: #000 !important;
+    font-weight: bold !important;
 }  
 .form {
-    margin-top: 1rem;
+    margin-top: 1rem !important;
 }  
 .input {
-    margin-bottom: 1rem;
+    margin-bottom: 1rem !important;
 }  
 .emailButton {
-    background-color: #d12727;
-    color: #fff;
-    text-transform: none;
-    font-size: 1rem;
-    font-weight: bold;
+    background-color: var(--primary-color) !important;
+    color: #fff !important;
+    text-transform: none !important;
+    font-weight: bold !important;
+    font-size: 1rem !important;
 }  
 .emailButton:hover {
-    background-color: #a41c1c;
+    background-color: var(--primary-color-hover) !important;
 }
 .googleButton {
-    margin: 1rem 0;
+    margin: 1rem 0 !important;
 }  
 .divider {
-    margin: 1rem 0;
-    color: #000;
+    margin: 1rem 0 !important;
+    color: #000 !important;
 }  
 .link {
-    margin-top: 0.5rem;
-    color: #d12727;
-    cursor: pointer;
-    font-size: 0.9rem;
+    margin-top: 0.5rem !important;
+    color: var(--primary-color) !important;
+    cursor: pointer !important;
+    font-size: 0.9rem !important;
 }  
 .link:hover {
-    text-decoration: underline;
+    text-decoration: underline !important;
 }
 .footer {
-    margin-top: 2rem;
-    font-size: 0.9rem;
-    color: #000;
+    margin-top: 2rem !important;
+    font-size: 0.9rem !important;
+    color: #000 !important;
 }  
 /* Blobs */
 .upBlob {
