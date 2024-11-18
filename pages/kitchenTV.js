@@ -6,43 +6,53 @@ const KitchenTV = () => {
     const [sales, setSales] = useState([]);
 
     useEffect(() => {
-        const fetchOrders = async () => {
+        const fetchSales = async () => {
             try {
                 const response = await fetch('/api/kitchen-get-orders');
                 const data = await response.json();
-                const salesArray = [];
+                console.log("API Response:", data);
 
-                data.orders.forEach(order => {
-                    const { saleNumber, saleTime, totalPrice, items } = order;
+                const salesArray = data.orders.map(order => {
+                    const {
+                        saleNumber,
+                        saleDate,
+                        saleTime,
+                        totalPrice,
+                        items,
+                    } = order;
 
-                    // Calculate price per order
-                    const pricePerOrder = Number(totalPrice) / items.length;
+                    // Combine saleDate and saleTime into a Date object
+                    const saleDateTime = new Date(`${saleDate}T${saleTime}`);
 
                     // Build sale object
-                    const sale = {
+                    return {
                         saleNumber,
-                        saleTime,
-                        items: items.map(item => ({
-                            saleNumber,
-                            orderNumber: item.orderNumber,
-                            plateSize: item.plateSize,
-                            components: item.components,
-                            status: item.status,
-                            totalPrice: pricePerOrder,
-                        })),
+                        saleDateTime,
+                        totalPrice,
+                        items,
                     };
-
-                    salesArray.push(sale);
                 });
 
                 setSales(salesArray);
             } catch (error) {
-                console.error('Error fetching orders:', error);
+                console.error('Error fetching sales:', error);
             }
         };
 
-        fetchOrders();
+        fetchSales();
     }, []);
+
+    const formatTime = (dateTime) => {
+        console.log("This is date" + dateTime);
+        if (!dateTime) return "Time Not Available";
+
+        try {
+            return dateTime.toLocaleString();
+        } catch (error) {
+            console.error("Error formatting time:", error);
+            return "Invalid Time";
+        }
+    };
 
     return (
         <div className={styles.tvContainer}>
@@ -51,7 +61,7 @@ const KitchenTV = () => {
                     <div className={styles.saleContainer} key={sale.saleNumber}>
                         <div className={styles.saleHeader}>
                             SALE #{sale.saleNumber}
-                            <p>Sale Time: {new Date(sale.saleTime).toLocaleString()}</p>
+                            <p>Sale Time: {formatTime(sale.saleDateTime)}</p>
                         </div>
 
                         {sale.items
@@ -69,10 +79,10 @@ const KitchenTV = () => {
                                         ORDER #{item.orderNumber}
                                         <span
                                             className={`${styles.orderStatus} ${item.status === 'Completed'
-                                                ? styles.statusCompleted
-                                                : item.status === 'Cooking'
-                                                    ? styles.statusCooking
-                                                    : styles.statusNotStarted
+                                                    ? styles.statusCompleted
+                                                    : item.status === 'Cooking'
+                                                        ? styles.statusCooking
+                                                        : styles.statusNotStarted
                                                 }`}
                                         >
                                             {item.status === 'Completed'
@@ -90,10 +100,6 @@ const KitchenTV = () => {
                                                 <li key={index}>{component}</li>
                                             ))}
                                         </ul>
-                                        {/* <p>
-                                            Total Price (Per Order): $
-                                            {item.totalPrice.toFixed(2)}
-                                        </p> */}
                                     </div>
                                 </div>
                             ))}
