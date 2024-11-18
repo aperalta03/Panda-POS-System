@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useRole } from '../app/context/roleProvider';
 import { useUser } from '../app/context/userProvider';  
-import styles from './login.module.css';
+import styles from './landing.module.css';
 
 const Login = () => {
     const router = useRouter();

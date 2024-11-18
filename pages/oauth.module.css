@@ -1,0 +1,149 @@
+.container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: var(--secondary-color);
+    overflow: hidden;
+}  
+.logo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100px;
+    height: 100px;
+    margin: 2rem;
+    border-radius: 25px;
+}
+.pandalogo {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100px;
+    height: 100px;
+    margin: 2rem;
+    border-radius: 50%;
+    background-color: white;
+}
+.card {
+    position: relative;
+    width: 400px;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    z-index: 2;
+}  
+.title {
+    margin-bottom: 1rem;
+    color: #000;
+    font-weight: bold;
+}  
+.form {
+    margin-top: 1rem;
+}  
+.input {
+    margin-bottom: 1rem;
+}  
+.emailButton {
+    background-color: #d12727;
+    color: #fff;
+    text-transform: none;
+    font-size: 1rem;
+    font-weight: bold;
+}  
+.emailButton:hover {
+    background-color: #a41c1c;
+}
+.googleButton {
+    margin: 1rem 0;
+}  
+.divider {
+    margin: 1rem 0;
+    color: #000;
+}  
+.link {
+    margin-top: 0.5rem;
+    color: #d12727;
+    cursor: pointer;
+    font-size: 0.9rem;
+}  
+.link:hover {
+    text-decoration: underline;
+}
+.footer {
+    margin-top: 2rem;
+    font-size: 0.9rem;
+    color: #000;
+}  
+/* Blobs */
+.upBlob {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    background-color: var(--primary-color);
+    border-radius: 30% 70% 50% 50% / 50% 40% 60% 30%;
+    z-index: 1;
+    animation: orbit 100s linear infinite;
+}  
+.downBlob {
+    position: absolute;
+
+    width: 150px;
+    height: 150px;
+    background-color: var(--primary-color);
+    border-radius: 70% 30% 50% 50% / 50% 60% 40% 30%;
+    z-index: 1;
+    animation: orbit 45s linear infinite;
+}  
+.centerBlob {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 500px;
+    background-color: var(--primary-color);
+    border-radius: 70% 60% 30% 80% / 60% 60% 40% 30%;
+    z-index: 1;
+}
+/* Orbit Animation */
+@keyframes orbit {
+    0% {
+      transform: rotate(0deg) translateX(550px) rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg) translateX(550px) rotate(-360deg);
+    }
+}
+/* Animations */
+@keyframes fadeInTop {
+    0% {
+      opacity: 0;
+      transform: translateY(-100%);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+}
+@keyframes fadeInBottom {
+    0% {
+      opacity: 0;
+      transform: translateY(100%);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+}
+@keyframes hoverEffect {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-30px);
+    }
+}
