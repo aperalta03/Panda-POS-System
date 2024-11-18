@@ -82,8 +82,8 @@ const ItemFrame = ({ item, isDone }) => {
         return 'V';
       case 'Seasonal':
         return 'L';
-      default:
-        return null;
+      case 'Default':
+          return 'D';
     }
   };
 
