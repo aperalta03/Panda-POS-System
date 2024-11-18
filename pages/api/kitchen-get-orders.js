@@ -3,35 +3,36 @@ import database from '../../utils/database';
 export default async function handler(req, res) {
     if (req.method === 'GET') {
         try {
-            //! Change to 'Kiosk' and 'Cashier'
             const salesQuery = `
-        SELECT 
-          sr.saleNumber,
-          sr.saleDate,
-          sr.saleTime,
-          sr.totalPrice,
-          sr.employeeID,
-          sr.source,
-          si.plateSize,
-          si.components,
-          si.status,
-          si.orderNumber
-        FROM salesRecord sr
-        LEFT JOIN saleItems si ON sr.saleNumber = si.saleNumber
-        WHERE sr.source = 'Cashier'
-        ORDER BY sr.saleNumber, si.orderNumber;
-      `;
+                SELECT 
+                    sr.saleNumber,
+                    sr.saleDate,
+                    sr.saleTime,
+                    sr.totalPrice,
+                    sr.employeeID,
+                    sr.source,
+                    si.plateSize,
+                    si.components,
+                    si.status,
+                    si.orderNumber
+                FROM salesRecord sr
+                LEFT JOIN saleItems si ON sr.saleNumber = si.saleNumber
+                WHERE sr.source = 'Cashier'
+                ORDER BY sr.saleNumber, si.orderNumber;
+            `;
 
             const result = await database.query(salesQuery);
 
             // Group items by saleNumber
             const orders = {};
             result.rows.forEach(row => {
-                if (!orders[row.salenumber]) {
-                    orders[row.salenumber] = {
-                        saleNumber: row.salenumber,
+                const saleNumber = row.salenumber;
+
+                if (!orders[saleNumber]) {
+                    orders[saleNumber] = {
+                        saleNumber,
                         saleDate: row.saledate,
-                        saleTime: row.saltime,
+                        saleTime: row.saletime, // Corrected from 'row.saltime' to 'row.saletime'
                         totalPrice: row.totalprice,
                         employeeID: row.employeeid,
                         source: row.source,
@@ -39,10 +40,21 @@ export default async function handler(req, res) {
                     };
                 }
 
-                orders[row.salenumber].items.push({
+                // Parse 'components' if it's a string
+                let components = row.components;
+                if (typeof components === 'string') {
+                    try {
+                        components = JSON.parse(components);
+                    } catch (e) {
+                        console.error('Error parsing components:', e);
+                        components = [];
+                    }
+                }
+
+                orders[saleNumber].items.push({
                     orderNumber: row.ordernumber,
                     plateSize: row.platesize,
-                    components: row.components,
+                    components,
                     status: row.status
                 });
             });
