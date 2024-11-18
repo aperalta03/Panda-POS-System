@@ -44,7 +44,7 @@
 
 @keyframes blobEffect {
   0%, 100% {
-    border-radius: 30% 70% 50% 50% / 50% 40% 60% 30%; /* Start and end with a circle */
+    border-radius: 30% 70% 50% 50% / 50% 40% 60% 30%; /* Start and End */
   }
   20% {
     border-radius: 50% 50% 70% 30% / 40% 60% 20% 80%; /* Stage 1 */
