@@ -127,7 +127,7 @@
 }
 
 /* Adding general styling for each designation */
-.spicydesignation, .premiumdesignation, .veggiedesignation, .seasonaldesignation {
+.spicydesignation, .premiumdesignation, .veggiedesignation, .seasonaldesignation, .defaultdesignation {
     color: white;
     border-radius: 50%;
     width: 40px;
@@ -161,6 +161,12 @@
 }
 .seasonaldesignation {
     background-color: #BC9C22; 
+    color: black;
+    font-style: italic;
+    font-weight: bold;
+}
+.defaultdesignation {
+    background-color: black; 
     color: black;
     font-style: italic;
     font-weight: bold;

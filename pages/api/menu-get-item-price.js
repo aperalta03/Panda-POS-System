@@ -12,6 +12,7 @@ export default async function handler(req, res) {
 
       if (result.rows.length > 0) {
         res.status(200).json({ menuItems: result.rows });
+        console.log("Fetched item:", data.menuItems);
       } else {
         res.status(404).json({ error: 'Menu items not found' });
       }
