@@ -5,6 +5,11 @@ import {
   TranslationContext,
 } from "@/app/context/translateContext";
 import { useRouter } from "next/router";
+import AirIcon from '@mui/icons-material/Air';
+import WbSunnyIcon from '@mui/icons-material/WbSunny';
+import CloudIcon from '@mui/icons-material/Cloud';
+import ThunderstormIcon from '@mui/icons-material/Thunderstorm';
+import AcUnitIcon from '@mui/icons-material/AcUnit';
 
 // Menu structure
 const menu = {
@@ -133,6 +138,7 @@ class Order {
 const Welcome = ({ toItemPage }) => {
   const { translations, translateAllText } = useContext(TranslationContext);
   const [selectedLanguage, setSelectedLanguage] = useState("en");
+  const [weather, setWeather] = useState({ temp: null, condition: null });
   const [time, setTime] = useState("");
 
   const handleLanguageChange = (e) => {
@@ -156,18 +162,56 @@ const Welcome = ({ toItemPage }) => {
     return () => clearInterval(timer);
   }, []);
 
+  useEffect(() => {
+    const fetchWeather = async () => {
+        try {
+            const response = await fetch("https://wttr.in/College+Station?format=%t+%C");
+            const data = await response.text();
+            
+            const match = data.match(/([+-]?\d+°[CF])\s+(.+)/);
+            
+            if (match) {
+                const temp = match[1].replace("+", "");
+                const condition = match[2];
+                setWeather({ temp, condition });
+            } else {
+                console.error("Unexpected weather data format:", data);
+            }
+        } catch (error) {
+            console.error("Error fetching weather data:", error);
+        }
+    };
+    fetchWeather();
+  }, []);
+
+  const getWeatherIcon = (condition) => {
+    if (condition.includes("Sunny") || condition.includes("Clear")) return <WbSunnyIcon />;
+    if (condition.includes("Partly cloudy")) return <CloudIcon />;
+    if (condition.includes("Cloudy") || condition.includes("Overcast")) return <CloudIcon />;
+    if (condition.includes("Rain") || condition.includes("Showers") || condition.includes("rain")) return <ThunderstormIcon />;
+    if (condition.includes("Thunderstorm") || condition.includes("Thunder")) return <ThunderstormIcon />;
+    if (condition.includes("Snow")) return <AcUnitIcon />;
+    if (condition.includes("Windy") || condition.includes("Breezy")) return <AirIcon />;
+    if (condition.includes("Fog") || condition.includes("Mist") || condition.includes("Haze")) return <CloudIcon />;
+    return null;
+  };
+
   return (
     <div className={styles.layout}>
       <div className={styles.clockLogoContainer}>
+        {weather.temp && weather.condition && (
+          <div className={styles.weatherBox}>
+              <div className={styles.weatherIcon}>{getWeatherIcon(weather.condition)}</div>
+              <div className={styles.weatherTemp}>{weather.temp}</div>
+          </div>
+        )}
         <div className={styles.timestamp}>{time}</div>
       </div>
-      <div className={styles.logoWrapper}>
-        <img
-          src="/panda_express.png"
-          alt="Panda Express Logo"
-          className={styles.logo}
-        />
-      </div>
+      <img
+        src="/panda_express.png"
+        alt="Panda Express Logo"
+        className={styles.logo}
+      />  
       <h1 className={styles.welcomeHeader}>
         {translations["We Wok For You"] || "We Wok For You"}
       </h1>
