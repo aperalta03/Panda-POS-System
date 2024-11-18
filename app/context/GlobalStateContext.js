@@ -1,38 +1,95 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
+import React, { createContext, useState, useContext, useEffect } from "react";
+import { useTranslate } from "./translateContext";
 
 const GlobalStateContext = createContext();
 
 //setting global vars
-export const GlobalStateProvider = ({ children }) => {  
+export const GlobalStateProvider = ({ children }) => {
   const [numTrackedSides, setNumTrackedSides] = useState(0); //tracks sides in one item order
   const [numTrackedEntrees, setNumTrackedEntrees] = useState(0); //tracks entrees in one item order
   const [numTrackedOthers, setNumTrackedOthers] = useState(0); //tracks other items in one item order
   const [isDone, setDone] = useState(false);
+  const {
+    currentLanguage,
+    setCurrentLanguage,
+    translations,
+    translateAllText,
+  } = useTranslate();
+
+  const changeLanguage = (language) => {
+    setCurrentLanguage(language);
+    translateAllText(
+      [
+        "We Work For You",
+        "Tap to Order Now",
+        "accessibility",
+        "A La Carte",
+        "Select:",
+        "Any Item",
+        "Any Drink",
+        "Side",
+        "Sides",
+        "Entrees",
+        "Extras",
+        "Back to Menu",
+        "Done",
+        "Plate",
+        "Bigger Plate",
+        "1 Side",
+        "1 Entree",
+        "2 Entree",
+        "2 Entrees",
+        "3 Entree",
+        "3 Entrees",
+        "Back to Menu",
+        "Back to Sides",
+        "Bowl",
+        "Start Over",
+        "Place Order",
+        "Subtotal:",
+        "Tax:",
+        "Total |",
+        "+ Add Item",
+        "Choose A Meal Above",
+        "Select Items",
+        "Super Greens",
+        "Select Sides",
+        "Select Entrees",
+        "Checkout",
+        "Start Over",
+        "Bowl | $9.50",
+        "Plate | $11.50",
+        "Bigger Plate | $13.50",
+      ],
+      language
+    );
+  };
 
   //resetting side associated counts
   const resetTrackedSides = () => {
     setNumTrackedSides(0);
-    setMenu(menu => menu.map(item => 
-        item.type === 'side' ? { ...item, count: 0 } : item
-    ));
+    setMenu((menu) =>
+      menu.map((item) => (item.type === "side" ? { ...item, count: 0 } : item))
+    );
   };
 
   //resetting entree associated counts
   const resetTrackedEntrees = () => {
     setNumTrackedEntrees(0);
-    setMenu(menu => menu.map(item => 
-        item.type === 'entree' ? { ...item, count: 0 } : item
-    ));
+    setMenu((menu) =>
+      menu.map((item) =>
+        item.type === "entree" ? { ...item, count: 0 } : item
+      )
+    );
   };
 
   //resetting other associated counts
   const resetTrackedOthers = () => {
     setNumTrackedOthers(0);
-    setMenu(menu => menu.map(item => 
-        item.type === 'other' ? { ...item, count: 0 } : item
-    ));
+    setMenu((menu) =>
+      menu.map((item) => (item.type === "other" ? { ...item, count: 0 } : item))
+    );
   };
-
 
   const [totalItemCount, setTotalItemCount] = useState(0); //tracks total items in an entire order
   const [priceMap, setPriceMap] = useState({}); //stores item prices
@@ -46,9 +103,9 @@ export const GlobalStateProvider = ({ children }) => {
   //fetching menu items
   const fetchMenuItems = async () => {
     try {
-      const response = await fetch('/api/menu-get-item-price');
+      const response = await fetch("/api/menu-get-item-price");
       const data = await response.json();
-      
+
       if (response.ok && data.menuItems) {
         console.log("Fetched menu items:", data.menuItems);
 
@@ -94,32 +151,36 @@ export const GlobalStateProvider = ({ children }) => {
         }, {});
 
         setPriceMap(priceMapData);
+      } else {
+        console.error(
+          "Error fetching menu items:",
+          data.error || "No menuItems found"
+        );
       }
-      else {
-        console.error('Error fetching menu items:', data.error || 'No menuItems found');
-      }
-    }
-    catch (error) {
-      console.error('Error fetching menu items:', error);
+    } catch (error) {
+      console.error("Error fetching menu items:", error);
     }
   };
 
-  useEffect(() => { //function call
+  useEffect(() => {
+    //function call
     fetchMenuItems();
   }, []);
 
-  useEffect(() => { //used to track in console
+  useEffect(() => {
+    //used to track in console
     console.log("GlobalStateProvider - Menu state after fetch:", menu);
   }, [menu]);
 
-  return ( //vars, funcs to be used globally
+  return (
+    //vars, funcs to be used globally
     <GlobalStateContext.Provider
-      value={{ 
-        numTrackedSides, 
-        setNumTrackedSides, 
-        numTrackedEntrees, 
-        setNumTrackedEntrees, 
-        totalItemCount, 
+      value={{
+        numTrackedSides,
+        setNumTrackedSides,
+        numTrackedEntrees,
+        setNumTrackedEntrees,
+        totalItemCount,
         setTotalItemCount,
         updateTotalItemCount,
         priceMap,
@@ -128,12 +189,17 @@ export const GlobalStateProvider = ({ children }) => {
         setMenu,
         resetTrackedSides,
         resetTrackedEntrees,
-        isDone, 
+        isDone,
         setDone,
         setNumTrackedOthers,
-        numTrackedOthers, 
-        resetTrackedOthers
-      }}>
+        numTrackedOthers,
+        resetTrackedOthers,
+        currentLanguage,
+        changeLanguage,
+        translations,
+        translateAllText,
+      }}
+    >
       {children}
     </GlobalStateContext.Provider>
   );

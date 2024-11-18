@@ -1,10 +1,15 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useContext } from "react";
 
-export const TranslationContext = createContext();
+export const TranslationContext = createContext({
+  currentLanguage: "en",
+  translations: {},
+  translateAllText: async () => {},
+});
 
 export const TranslationProvider = ({ children }) => {
+  const [currentLanguage, setCurrentLanguage] = useState("en");
   const [translations, setTranslations] = useState({});
-  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY; // Use environment variable
+  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY;
 
   const translateAllText = async (texts, targetLanguage) => {
     try {
@@ -27,21 +32,35 @@ export const TranslationProvider = ({ children }) => {
         (translation) => translation.translatedText
       );
 
-      // Map original texts to their translations
       const newTranslations = {};
       texts.forEach((text, index) => {
         newTranslations[text] = translatedTexts[index];
       });
 
-      setTranslations(newTranslations);
+      setTranslations((prev) => ({ ...prev, ...newTranslations }));
     } catch (error) {
       console.error("Error translating text:", error);
     }
   };
 
   return (
-    <TranslationContext.Provider value={{ translations, translateAllText }}>
+    <TranslationContext.Provider
+      value={{
+        currentLanguage,
+        setCurrentLanguage,
+        translations,
+        translateAllText,
+      }}
+    >
       {children}
     </TranslationContext.Provider>
   );
+};
+
+export const useTranslate = () => {
+  const context = useContext(TranslationContext);
+  if (!context) {
+    throw new Error("useTranslate must be used within a TranslationProvider.");
+  }
+  return context;
 };

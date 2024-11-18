@@ -1,9 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import styles from "./kiosk.module.css";
-import {
-  TranslationProvider,
-  TranslationContext,
-} from "@/app/context/translateContext";
+import { useGlobalState } from "@/app/context/GlobalStateContext";
 import { useRouter } from "next/router";
 
 // Menu structure
@@ -131,17 +128,13 @@ class Order {
   */
 
 const Welcome = ({ toItemPage }) => {
-  const { translations, translateAllText } = useContext(TranslationContext);
-  const [selectedLanguage, setSelectedLanguage] = useState("en");
+  const { currentLanguage, changeLanguage, translations } = useGlobalState();
   const [time, setTime] = useState("");
+  console.log("Kiosk test: ", translations["Tap to Order Now"]);
 
   const handleLanguageChange = (e) => {
     const newLanguage = e.target.value;
-    setSelectedLanguage(newLanguage);
-    translateAllText(
-      ["We Wok for You", "Tap to Order Now", "accessibility"],
-      newLanguage
-    );
+    changeLanguage(newLanguage);
   };
 
   useEffect(() => {
@@ -169,23 +162,23 @@ const Welcome = ({ toItemPage }) => {
         />
       </div>
       <h1 className={styles.welcomeHeader}>
-        {translations["We Wok For You"] || "We Wok For You"}
+        {translations["We Work For You"] || "We Wok For You"}
       </h1>
       <h1 onClick={toItemPage} className={styles.orderHeader}>
         {translations["Tap to Order Now"] || "Tap to Order Now"}
       </h1>
 
       <select
-        value={selectedLanguage}
+        value={currentLanguage}
         onChange={handleLanguageChange}
         className={styles.translateButton} // Use the button styling for the dropdown
       >
         <option value="en">English</option>
-        <option value="es">Spanish</option>
-        <option value="fr">French</option>
+        <option value="es">Español</option>
+        <option value="fr">Français</option>
         <option value="de">German</option>
-        <option value="zh">Chinese (Simplified)</option>
-        <option value="ja">Japanese</option>
+        <option value="zh">中国人</option>
+        <option value="ja">日本語</option>
       </select>
       <div className={styles.handicapWrapper}>
         <img
@@ -218,16 +211,14 @@ const KioskPage = () => {
   }, []);
 
   return (
-    <TranslationProvider>
-      <div
-        style={{
-          height: "100vh", // Full height of the viewport
-          overflow: "hidden", // Prevent scrolling
-        }}
-      >
-        <Welcome toItemPage={toItemPage} />
-      </div>
-    </TranslationProvider>
+    <div
+      style={{
+        height: "100vh", // Full height of the viewport
+        overflow: "hidden", // Prevent scrolling
+      }}
+    >
+      <Welcome toItemPage={toItemPage} />
+    </div>
   );
 };
 
