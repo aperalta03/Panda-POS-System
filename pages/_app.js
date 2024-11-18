@@ -21,7 +21,7 @@ function MyApp({ Component, pageProps }) {
 
 const Layout = ({ children }) => {
   const router = useRouter();
-  const showNavbar =  router.pathname === '/login' || 
+  const showNavbar =  router.pathname === '/landing' || 
                       router.pathname === '/cashier' || 
                       router.pathname === '/manager' || 
                       router.pathname === '/kitchen' || 
