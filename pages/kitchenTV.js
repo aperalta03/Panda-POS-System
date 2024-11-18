@@ -4,6 +4,7 @@ import { Divider } from '@mui/material';
 
 const KitchenTV = () => {
     const [sales, setSales] = useState([]);
+    const [currentTime, setCurrentTime] = useState(new Date());
 
     useEffect(() => {
         const fetchSales = async () => {
@@ -22,7 +23,8 @@ const KitchenTV = () => {
                     } = order;
 
                     // Combine saleDate and saleTime into a Date object
-                    const saleDateTime = new Date(`${saleDate}T${saleTime}`);
+                    const datePart = saleDate.split('T')[0]; // Extract the date part (YYYY-MM-DD)
+                    const saleDateTime = new Date(`${datePart}T${saleTime}`);
 
                     // Build sale object
                     return {
@@ -42,15 +44,45 @@ const KitchenTV = () => {
         fetchSales();
     }, []);
 
-    const formatTime = (dateTime) => {
-        console.log("This is date" + dateTime);
+    // Update the current time every second
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentTime(new Date());
+        }, 1000);
+
+        return () => clearInterval(interval); // Cleanup interval on unmount
+    }, []);
+
+    const orderTimer = (dateTime) => {
         if (!dateTime) return "Time Not Available";
 
         try {
-            return dateTime.toLocaleString();
+            const differenceInMilliseconds = currentTime - new Date(dateTime);
+
+            if (differenceInMilliseconds < 0) {
+                return "In the future";
+            }
+
+            const differenceInSeconds = Math.floor(differenceInMilliseconds / 1000);
+            const hours = Math.floor(differenceInSeconds / 3600); // 1 hour = 3600 seconds
+            const minutes = Math.floor((differenceInSeconds % 3600) / 60); // Remaining minutes
+            const seconds = differenceInSeconds % 60; // Remaining seconds
+
+            // Pad single digits with leading zeros
+            const formattedHours = String(hours).padStart(2, "0");
+            const formattedMinutes = String(minutes).padStart(2, "0");
+            const formattedSeconds = String(seconds).padStart(2, "0");
+
+            return {
+                time: `${formattedHours}:${formattedMinutes}:${formattedSeconds}`,
+                isOverFiveMinutes: minutes >= 5, // Check if elapsed time is greater than or equal to 5 minutes
+            };
         } catch (error) {
-            console.error("Error formatting time:", error);
-            return "Invalid Time";
+            console.error("Error calculating time difference:", error);
+            return {
+                time: "Invalid Time",
+                isOverFiveMinutes: false,
+            };
         }
     };
 
@@ -61,7 +93,16 @@ const KitchenTV = () => {
                     <div className={styles.saleContainer} key={sale.saleNumber}>
                         <div className={styles.saleHeader}>
                             SALE #{sale.saleNumber}
-                            <p>Sale Time: {formatTime(sale.saleDateTime)}</p>
+                            <p>
+                                <span style={{ color: "white" }}>Elapsed Time: </span>
+                                <span
+                                    style={{
+                                        color: orderTimer(sale.saleDateTime).isOverFiveMinutes ? "red" : "yellow",
+                                    }}
+                                >
+                                    {orderTimer(sale.saleDateTime).time}
+                                </span>
+                            </p>
                         </div>
 
                         {sale.items
