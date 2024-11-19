@@ -17,6 +17,10 @@ export default async function handler(req, res) {
 
         try {
             // SQL query to insert the new employee
+            const formattedDateOfBirth = new Date(date_of_birth);
+            const formattedDateString = formattedDateOfBirth.toISOString().split('T')[0];  // This formats it as YYYY-MM-DD
+
+            // SQL query to insert the new employee
             const filePath = path.join(process.cwd(), 'utils', 'sql', 'add-employee.sql');
             const queryText = fs.readFileSync(filePath, 'utf-8');
             
@@ -24,12 +28,12 @@ export default async function handler(req, res) {
                 employee_id, 
                 first_name,   
                 last_name,    
-                date_of_birth, 
+                formattedDateString,  // Use the formatted date string
                 phone_number,
                 hourly_rate,
                 is_manager,
                 is_parttime,
-                true // Assuming all new employees are active
+                true
             ];
 
             // Attempt to add the new employee to the database
