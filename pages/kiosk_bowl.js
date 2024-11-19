@@ -3,6 +3,7 @@ import styles from "./kiosk_bowl.module.css";
 import { useRouter } from "next/router";
 import { useGlobalState } from "../app/context/GlobalStateContext"; //import global state
 import ItemFrame from "./itemFrame";
+import TranslateButton from "@/app/components/kiosk/translateButton";
 
 ////////////////// ADD BACK TO SELECTION BUTTON //////////////////
 ///////////////// USE STICKY BAR //////////////////
@@ -11,6 +12,11 @@ import ItemFrame from "./itemFrame";
 const TopBar = ({ handleCartClick, numTrackedSides, numTrackedEntrees }) => {
   const router = useRouter();
   const { currentLanguage, changeLanguage, translations } = useGlobalState();
+
+  const handleLanguageChange = (e) => {
+    const newLanguage = e.target.value;
+    changeLanguage(newLanguage);
+  };
   return (
     <div className={styles.KioskItemPanel}>
       <div className={styles.leftTopPanel}>
@@ -26,9 +32,16 @@ const TopBar = ({ handleCartClick, numTrackedSides, numTrackedEntrees }) => {
         </h3>
       </div>
       <div className={styles.rightTopPanel}>
-        <button className={styles.checkOut} onClick={handleCartClick}>
-          <img src="/cart2_img.png" alt="Cart" className={styles.cartImage} />
-        </button>
+        <div className={styles.rightTopRow}>
+          <TranslateButton
+            currentLanguage={currentLanguage}
+            onLanguageChange={handleLanguageChange}
+            customStyles={{}}
+          />
+          <button className={styles.checkOut} onClick={handleCartClick}>
+            <img src="/cart2_img.png" alt="Cart" className={styles.cartImage} />
+          </button>
+        </div>
         <div className={styles.quantContainer}>
           <div className={styles.sideContainer}>
             <h2 className={styles.sideQuant}>{numTrackedSides}</h2>

@@ -2,10 +2,16 @@ import React, { useState } from "react";
 import styles from "./kiosk_cart.module.css";
 import { useRouter } from "next/router";
 import { useGlobalState } from "@/app/context/GlobalStateContext";
+import TranslateButton from "@/app/components/kiosk/translateButton";
 
 const CartPage = () => {
   const router = useRouter();
   const { currentLanguage, changeLanguage, translations } = useGlobalState();
+
+  const handleLanguageChange = (e) => {
+    const newLanguage = e.target.value;
+    changeLanguage(newLanguage);
+  };
   // Sample initial cart items
   const initialCart = [
     {
@@ -86,6 +92,12 @@ const CartPage = () => {
             </span>
           </div>
         </button>
+
+        <TranslateButton
+          currentLanguage={currentLanguage}
+          onLanguageChange={handleLanguageChange}
+          customStyles={{ "margin-left": "550px" }}
+        />
       </div>
 
       {/* Scrollable order list container */}

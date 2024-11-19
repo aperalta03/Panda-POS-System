@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import styles from "./kiosk.module.css";
 import { useGlobalState } from "@/app/context/GlobalStateContext";
 import { useRouter } from "next/router";
+import TranslateButton from "@/app/components/kiosk/translateButton";
 
 // Menu structure
 const menu = {
@@ -162,24 +163,16 @@ const Welcome = ({ toItemPage }) => {
         />
       </div>
       <h1 className={styles.welcomeHeader}>
-        {translations["We Work For You"] || "We Wok For You"}
+        {translations["We Wok For You"] || "We Wok For You"}
       </h1>
       <h1 onClick={toItemPage} className={styles.orderHeader}>
         {translations["Tap to Order Now"] || "Tap to Order Now"}
       </h1>
 
-      <select
-        value={currentLanguage}
-        onChange={handleLanguageChange}
-        className={styles.translateButton} // Use the button styling for the dropdown
-      >
-        <option value="en">English</option>
-        <option value="es">Español</option>
-        <option value="fr">Français</option>
-        <option value="de">German</option>
-        <option value="zh">中国人</option>
-        <option value="ja">日本語</option>
-      </select>
+      <TranslateButton
+        currentLanguage={currentLanguage}
+        onLanguageChange={handleLanguageChange}
+      />
       <div className={styles.handicapWrapper}>
         <img
           src="/handicap_button.jpg"
@@ -199,16 +192,6 @@ const KioskPage = () => {
   const toItemPage = () => {
     router.push("/kiosk_item");
   };
-  useEffect(() => {
-    const newWindow = window.open(
-      window.location.href,
-      "_blank",
-      "width=950,height=1000"
-    );
-    if (newWindow) {
-      window.close(); // Close the original window if needed
-    }
-  }, []);
 
   return (
     <div

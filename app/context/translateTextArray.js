@@ -1,5 +1,5 @@
 export const textArray = [
-  "We Work For You",
+  "We Wok For You",
   "Tap to Order Now",
   "accessibility",
   "A La Carte",

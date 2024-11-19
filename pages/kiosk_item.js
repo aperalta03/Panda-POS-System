@@ -2,10 +2,18 @@ import React, { useState, useEffect } from "react";
 import styles from "./kiosk_item.module.css";
 import { useRouter } from "next/router";
 import { useGlobalState } from "../app/context/GlobalStateContext";
+import TranslateButton from "@/app/components/kiosk/translateButton";
+import { Margin } from "@mui/icons-material";
 
 const TopBar = ({ handleOptionsClick }) => {
   const router = useRouter();
   const { currentLanguage, changeLanguage, translations } = useGlobalState();
+
+  const handleLanguageChange = (e) => {
+    const newLanguage = e.target.value;
+    changeLanguage(newLanguage);
+  };
+
   return (
     <div className={styles.KioskItemPanel}>
       <div className={styles.leftButtons}>
@@ -33,6 +41,11 @@ const TopBar = ({ handleOptionsClick }) => {
             />
           </button>
         </div>
+        <TranslateButton
+          currentLanguage={currentLanguage}
+          onLanguageChange={handleLanguageChange}
+          customStyles={{ margin: "10px" }}
+        />
       </div>
       <div className={styles.leftPanel}>
         <div className={styles.rightButtons}>

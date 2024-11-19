@@ -3,11 +3,18 @@ import styles from "./kiosk_bigger_plate.module.css";
 import { useRouter } from "next/router";
 import { useGlobalState } from "../app/context/GlobalStateContext"; //import global state
 import ItemFrame from "./itemFrame";
+import TranslateButton from "@/app/components/kiosk/translateButton";
 
 //top bar containing panel info, tracker of items selected, etc.
 const TopBar = ({ handleCartClick, numTrackedSides, numTrackedEntrees }) => {
   const router = useRouter();
   const { currentLanguage, changeLanguage, translations } = useGlobalState();
+
+  const handleLanguageChange = (e) => {
+    const newLanguage = e.target.value;
+    changeLanguage(newLanguage);
+  };
+
   return (
     <div className={styles.KioskItemPanel}>
       <div className={styles.leftTopPanel}>
@@ -25,9 +32,16 @@ const TopBar = ({ handleCartClick, numTrackedSides, numTrackedEntrees }) => {
         </h3>
       </div>
       <div className={styles.rightTopPanel}>
-        <button className={styles.checkOut} onClick={handleCartClick}>
-          <img src="/cart2_img.png" alt="Cart" className={styles.cartImage} />
-        </button>
+        <div className={styles.rightTopRow}>
+          <TranslateButton
+            currentLanguage={currentLanguage}
+            onLanguageChange={handleLanguageChange}
+            customStyles={{}}
+          />
+          <button className={styles.checkOut} onClick={handleCartClick}>
+            <img src="/cart2_img.png" alt="Cart" className={styles.cartImage} />
+          </button>
+        </div>
         <div className={styles.quantContainer}>
           <div className={styles.sideContainer}>
             <h2 className={styles.sideQuant}>{numTrackedSides}</h2>
@@ -38,7 +52,7 @@ const TopBar = ({ handleCartClick, numTrackedSides, numTrackedEntrees }) => {
           <div className={styles.entreeContainer}>
             <h2 className={styles.entreeQuant}>{numTrackedEntrees}</h2>
             <h2 className={styles.entreeQuantLabel}>
-              {translations["Entrees"] || "Entrees"}
+              {translations["Entree"] || "Entree"}
             </h2>
           </div>
         </div>

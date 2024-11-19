@@ -3,6 +3,7 @@ import styles from "./kiosk_a_la_carte.module.css";
 import { useRouter } from "next/router";
 import { useGlobalState } from "../app/context/GlobalStateContext"; //import global state
 import ItemFrame from "./itemFrameALaCarte";
+import TranslateButton from "@/app/components/kiosk/translateButton";
 
 //top bar containing panel info, tracker of items selected, etc.
 const TopBar = ({
@@ -13,6 +14,12 @@ const TopBar = ({
 }) => {
   const router = useRouter();
   const { currentLanguage, changeLanguage, translations } = useGlobalState();
+
+  const handleLanguageChange = (e) => {
+    const newLanguage = e.target.value;
+    changeLanguage(newLanguage);
+  };
+
   return (
     <div className={styles.KioskItemPanel}>
       <div className={styles.leftTopPanel}>
@@ -30,26 +37,27 @@ const TopBar = ({
         </h3>
       </div>
       <div className={styles.rightTopPanel}>
-        <button className={styles.checkOut} onClick={handleCartClick}>
-          <img src="/cart2_img.png" alt="Cart" className={styles.cartImage} />
-        </button>
+        <div className={styles.rightTopRow}>
+          <TranslateButton
+            currentLanguage={currentLanguage}
+            onLanguageChange={handleLanguageChange}
+            customStyles={{}}
+          />
+          <button className={styles.checkOut} onClick={handleCartClick}>
+            <img src="/cart2_img.png" alt="Cart" className={styles.cartImage} />
+          </button>
+        </div>
         <div className={styles.quantContainer}>
           <div className={styles.sideContainer}>
             <h2 className={styles.sideQuant}>{numTrackedSides}</h2>
             <h2 className={styles.sideQuantLabel}>
-              {translations["Sides"] || "Sides"}
+              {translations["Side"] || "Side"}
             </h2>
           </div>
           <div className={styles.entreeContainer}>
             <h2 className={styles.entreeQuant}>{numTrackedEntrees}</h2>
             <h2 className={styles.entreeQuantLabel}>
-              {translations["Entrees"] || "Entrees"}
-            </h2>
-          </div>
-          <div className={styles.otherContainer}>
-            <h2 className={styles.otherQuant}>{numTrackedOthers}</h2>
-            <h2 className={styles.otherQuantLabel}>
-              {translations["Extras"] || "Extras"}
+              {translations["Entree"] || "Entree"}
             </h2>
           </div>
         </div>
