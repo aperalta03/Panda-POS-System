@@ -18,13 +18,14 @@
   width: 700px;
   height: 700px;
   background-color: #cb0632;
-  border-radius: 50%;
+  border-radius: 30% 70% 50% 50% / 50% 40% 60% 30%;
   color: #cb0632;
   position: absolute;
   z-index: 0;
   border: 1px solid #cb0632;
   position: absolute;
   overflow-x: hidden;
+  transition: all 0.3s ease-in-out;
 }
 
 @media (min-width: 800px) {
@@ -34,6 +35,28 @@
       transform: translate(-3%, 50%); 
       width: 1000px; 
       height: 1000px;
+  }
+}
+
+.circle:hover {
+  animation: blobEffect 5s infinite ease-in-out; /* Apply blob animation */
+}
+
+@keyframes blobEffect {
+  0%, 100% {
+    border-radius: 30% 70% 50% 50% / 50% 40% 60% 30%; /* Start and End */
+  }
+  20% {
+    border-radius: 50% 50% 70% 30% / 40% 60% 20% 80%; /* Stage 1 */
+  }
+  40% {
+    border-radius: 30% 70% 50% 50% / 50% 40% 60% 30%; /* Stage 2 */
+  }
+  60% {
+    border-radius: 50% 50% 70% 30% / 40% 60% 20% 80%; /* Stage 3 */
+  }
+  80% {
+    border-radius: 30% 70% 50% 50% / 50% 40% 60% 30%;  /* Stage 4 */
   }
 }
 
@@ -110,7 +133,11 @@
   border-radius: 25px;
   color: white;
   font-size: 1.2rem;
-  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.accessibility:hover {
+  transform: scale(1.05);
 }
 
 .handicapWrapper:hover {
@@ -121,21 +148,16 @@
   display: block;
   width: 200px;
   height: 200px;
-  margin: 0 auto;
+  margin-top: 0%;
   background-color: white;
+  border-radius: 100%;
+  align-self: center;
+  margin-top: 2%;
+  transition: ease-in-out 0.3s;
 }
-
-.logoWrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 200px;
-  height: 200px;
-  margin: 0 auto;
-  border-radius: 50%;
-  overflow: hidden;
+.logo:hover {
+  transform: scale(1.05);
 }
-
 .handicapWrapper {
   position: fixed;
   bottom: 20px;
@@ -154,20 +176,34 @@
 
 .clockLogoContainer {
   position: absolute;
-  top: 160px;
-  right: 70px;
+  top: 5%;
+  right: 5%;
   display: flex;
+  flex-direction: column;
   justify-content: flex-end;
   align-items: center;
   font-size: 1.2rem;
   color: white;
+  gap: 25px;
 }
-
+.weatherBox {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.weatherIcon {
+  margin-bottom: 5px;
+}
+.weatherTemp {
+  font-size: 1.5rem;
+}
 .timestamp {
   margin-left: 10px;
   font-size: 1.6rem;
 }
-
 .bottomPanel {
   flex: 0 0 15%;
   display: flex;

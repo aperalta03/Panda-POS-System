@@ -63,7 +63,7 @@ const Navbar = () => {
     const handleLogoff = () => {
         setRole(null);
         localStorage.removeItem('role');
-        router.push('/login');
+        router.push('/login-oauth');
     };
 
     const toggleView = () => {
@@ -83,12 +83,18 @@ const Navbar = () => {
             {/* Logoff Button */}
             <button
                 className={`${styles.logoffButton} ${
-                    role && router.pathname !== '/kiosk' ? styles.visible : ''
+                (role && router.pathname !== '/kiosk') || router.pathname === '/landing' ? styles.visible : ''
                 }`}
-                onClick={handleLogoff}
-                aria-label="Log Off"
+                onClick={() => {
+                if (router.pathname === '/landing') {
+                    router.push('/login-oauth');
+                } else {
+                    router.push('/landing');
+                }
+                }}
+                aria-label={router.pathname === '/landing' ? 'Log Out' : 'Back'}
             >
-                Log Out
+                {router.pathname === '/landing' ? 'Log Out' : 'Back'}
             </button>
 
             {/* Switch View Button */}

@@ -7,7 +7,7 @@ const Loading = () => {
   const router = useRouter();
 
   useEffect(() => {
-    router.push('/login');
+    router.push('/login-oauth');
   }, [router]);
 
   return (
