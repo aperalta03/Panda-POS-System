@@ -335,3 +335,89 @@
   border-radius: 5px;
   z-index: 1;
 }
+
+/* Extras section container */
+.extrasSection {
+  margin-top: 20px;
+  text-align: center;
+  position: absolute;
+  left: 10;
+  bottom: 180px;
+}
+
+/* Title for the extras section */
+.extrasTitle {
+  font-size: 18px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+/* Grid layout for sauce cards */
+.sauceGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  justify-items: center;
+  display: flex;
+  /* margin-top: 0px; */
+}
+
+/* Individual sauce card */
+.sauceCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+
+/* Sauce card hover effect */
+.sauceCard:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Radio input hidden */
+.sauceInput {
+  display: none;
+}
+
+/* Sauce image */
+.sauceImage {
+  width: 70px;
+  height: 70px;
+  margin-bottom: 10px;
+  object-fit: contain;
+}
+
+/* Sauce label */
+.sauceLabel {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+}
+
+.selected {
+  border-color: #cb0632;
+  background-color: #cb0632;
+  color: white;
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(203, 6, 50, 0.6);
+}
+
+.selected .sauceLabel {
+  color: white;
+}
+
+.selected .sauceImage {
+  filter: brightness(0.9);
+}
