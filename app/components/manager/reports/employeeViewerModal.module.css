@@ -9,66 +9,85 @@
     border-radius: 8px;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
 }
-/* Table */
+
+/* Table Styles */
 .employeeTableContainer {
-    max-height: 750px; 
+    max-height: 750px;
     overflow-y: auto;
 }
+
 .employeeTableContainer::-webkit-scrollbar {
     display: none;
 }
+
 .employeeTableContainer {
     scrollbar-width: none;
 }
+
 .employeeTable {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
 }
-.employeeTable th, .employeeTable td {
+
+.employeeTable th,
+.employeeTable td {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: center;
 }
+
 .employeeTable th {
     background-color: black;
     color: white;
     border: 1px solid red;
 }
+
 .employeeTable tr:nth-child(odd) {
     background-color: #f5f5f5;
 }
+
 .employeeTable tr:nth-child(even) {
     background-color: #e0e0e0;
 }
+
+/* Employee Name Styling */
 .managerName {
     color: red;
 }
+
+/* Status Styling */
 .active {
     color: green;
     font-weight: bold;
 }
+
 .inactive {
     color: red;
     font-weight: bold;
 }
+
 /* Button Styles */
-.closeButton, .switchButton {
+.closeButton,
+.switchButton {
     padding: 5px 10px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
 }
+
 .switchButton {
     color: white;
     background: #131313;
 }
+
 .closeButton {
     margin-top: 20px;
     border-radius: 5px;
-    padding: 8px 20px 8px 20px;
+    padding: 8px 20px;
     background-color: #ddd;
 }
+
 .addButton {
     margin-top: 20px;
     margin-right: 20px;
@@ -77,11 +96,96 @@
     background-color: var(--primary-color);
     color: #ddd;
 }
+
 .addButton:hover {
     cursor: pointer;
     background-color: var(--primary-color-hover);
 }
+
+/* Error Text */
 .errorText {
     color: red;
     margin-bottom: 10px;
+}
+
+/* New Styles for Get Employee by ID */
+.employeeDataContainer {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.employeeDataContainer h3 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.employeeDataContainer pre {
+    background-color: #e0e0e0;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #333;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+/* Modal Open Button Styles */
+.addButton,
+.addButton:hover {
+    background-color: var(--primary-color);
+}
+
+/* Styling for the Get Employee ID Modal */
+.getEmployeeIdModal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    max-width: 100%;
+    z-index: 9999;
+}
+
+.getEmployeeIdModal h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.getEmployeeIdModal input {
+    padding: 10px;
+    width: 100%;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.getEmployeeIdModal button {
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.getEmployeeIdModal button:hover {
+    background-color: var(--primary-color-hover);
+}
+
+/* Additional Modal Close Button */
+.getEmployeeIdModal .closeButton {
+    background-color: #ddd;
+    padding: 8px 20px;
+    margin-top: 10px;
+}
+
+.getEmployeeIdModal .closeButton:hover {
+    background-color: #ccc;
 }

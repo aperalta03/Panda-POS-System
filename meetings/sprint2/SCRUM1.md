@@ -36,6 +36,6 @@ Before The Next Meeting
         - Write the outline for the team meeting - Conner
         - Start on backend once you have finished the front end - Everyone
 
-Minutes from Previous Meeting
+Minutes from this Meeting
     We are feeling good about our sprint so far. Our fist of five was 4.1. We have set ourselves up
     well for this sprint. The front end is going well and the backend is about to start. Our biggest blocker is having to prepare for the team meeting next week, but we are determined to be prepared for it.

@@ -39,5 +39,5 @@ Before The Next Meeting
         - Kiosk backend - Brandon/Uzair/Andrew
         - Get OAuth working - Conner
 
-Minutes from Previous Meeting
-    Our sprint goal is to get a functional version of each view. Our fist of five was a 4.5. We are confident we will be able to finish our goal by the end of sprint 2. One big blocker came up about how we were saving orders so the x and z report could see them. Alonso should have fixed by today's lab, and if he can't Brandon is going to help him out. We don't think this issue will affect our ability to get the product out.
+Minutes from this Meeting
+    Our sprint goal is to get a functional version of each view. Our fist of five was a 4.5. We are confident we will be able to finish our goal by the end of sprint 2. One big blocker came up about how we were saving orders so the x and z report could see them. Alonso should have it fixed by today's lab, and if he can't Brandon is going to help him out. We don't think this issue will affect our ability to get the product out.

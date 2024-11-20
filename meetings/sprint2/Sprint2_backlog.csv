@@ -1,0 +1,44 @@
+Set up OAuth API,Conner,3,3,Completed
+Create Way to Login with OAuth API,Conner,2,2,Completed
+Create landing page after login,Conner,1,1,Completed
+Create buttons to take you to different views once logged in,Conner,3,3,Completed
+Create frames,Uzair,2,2,Completed
+Create ‘cards’ for items,Uzair,3,3,Completed
+Add images,Brandon,1,N/A,In progress
+Implement animations,Brandon,2,N/A,In progress
+"Add data (image, name, price, tags)",Uzair,3,3,Completed
+Order customization,Andrew,3,4,In Progress
+Shopping Cart page,Andrew,4,4,Completed
+Shopping Cart editing,Andrew,2,2,Completed
+Payment Tab,Brandon,4,4,Completed
+Connect to Database,Brandon,1,1,Completed
+Update Database,Brandon,2,3,Completed
+Categorize items on type,Uzair,2,3,In Progress
+General search bar,Andrew,2,1,In Progress
+Filtering based on tags,Uzair,3,3,In Progress
+Order cancellation,Andrew,1,1,In Progress
+Confirmation Modals,Uzair,2,1,Completed
+User options in Navbar,Uzair,2,2,Completed
+User Login PopUp,Andrew,2,2,Completed
+Connect to OAuth API,Conner,1,1,Completed
+Error Modals,Uzair,1,1,Completed
+Implement ‘Queue’,Anson,2,2,Completed
+Create ‘card’ per order,Alonso,2,2,Completed
+Add order data to ‘cards’,Anson,2,3,Completed
+"Images, Names, price",Alonso,1,1,Completed
+Timestamp,Anson,1,1,Completed
+Priority flag based on time,Alonso,1,1,Completed
+Connect ‘queue’ to order inputs,Conner,3,5,Completed
+Create panel for order updating,Conner,2,2,Completed
+List of all current orders,Conner,2,2,Completed
+"Status button, dropdown",Anson,2,2,Completed
+"‘Ordered’, ‘In Progress’, ‘Completed’ options",Anson,2,2,Completed
+"Filter for ‘queue’ by time, type, etc.",Conner,2,2,Completed
+Panel Structure for food categories,Alonso,3,3,Completed
+"Add food data (images, names, prices)",Alonso,2,3,Completed
+Add smooth transitions,Alosno,2,2,Completed
+Promotional item section,Alonso,2,3,Completed
+OAuth API,Conner,4,4,Completed
+Weather API,Alonso,3,2,Completed
+Google Translate API,Brandon,4,4,Completed
+Update ‘Alts’ for all images,Uzair,2,N/A,In Progress
