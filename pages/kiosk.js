@@ -1,15 +1,13 @@
 import React, { useState, useContext, useEffect } from "react";
 import styles from "./kiosk.module.css";
-import {
-  TranslationProvider,
-  TranslationContext,
-} from "@/app/context/translateContext";
+import { useGlobalState } from "@/app/context/GlobalStateContext";
 import { useRouter } from "next/router";
-import AirIcon from '@mui/icons-material/Air';
-import WbSunnyIcon from '@mui/icons-material/WbSunny';
-import CloudIcon from '@mui/icons-material/Cloud';
-import ThunderstormIcon from '@mui/icons-material/Thunderstorm';
-import AcUnitIcon from '@mui/icons-material/AcUnit';
+import AirIcon from "@mui/icons-material/Air";
+import WbSunnyIcon from "@mui/icons-material/WbSunny";
+import CloudIcon from "@mui/icons-material/Cloud";
+import ThunderstormIcon from "@mui/icons-material/Thunderstorm";
+import AcUnitIcon from "@mui/icons-material/AcUnit";
+import TranslateButton from "@/app/components/kiosk/translateButton";
 
 // Menu structure
 const menu = {
@@ -136,18 +134,14 @@ class Order {
   */
 
 const Welcome = ({ toItemPage }) => {
-  const { translations, translateAllText } = useContext(TranslationContext);
-  const [selectedLanguage, setSelectedLanguage] = useState("en");
+  const { currentLanguage, changeLanguage, translations } = useGlobalState();
   const [weather, setWeather] = useState({ temp: null, condition: null });
   const [time, setTime] = useState("");
+  console.log("Kiosk test: ", translations["Tap to Order Now"]);
 
   const handleLanguageChange = (e) => {
     const newLanguage = e.target.value;
-    setSelectedLanguage(newLanguage);
-    translateAllText(
-      ["We Wok for You", "Tap to Order Now", "accessibility"],
-      newLanguage
-    );
+    changeLanguage(newLanguage);
   };
 
   useEffect(() => {
@@ -164,35 +158,51 @@ const Welcome = ({ toItemPage }) => {
 
   useEffect(() => {
     const fetchWeather = async () => {
-        try {
-            const response = await fetch("https://wttr.in/College+Station?format=%t+%C");
-            const data = await response.text();
-            
-            const match = data.match(/([+-]?\d+°[CF])\s+(.+)/);
-            
-            if (match) {
-                const temp = match[1].replace("+", "");
-                const condition = match[2];
-                setWeather({ temp, condition });
-            } else {
-                console.error("Unexpected weather data format:", data);
-            }
-        } catch (error) {
-            console.error("Error fetching weather data:", error);
+      try {
+        const response = await fetch(
+          "https://wttr.in/College+Station?format=%t+%C"
+        );
+        const data = await response.text();
+
+        const match = data.match(/([+-]?\d+°[CF])\s+(.+)/);
+
+        if (match) {
+          const temp = match[1].replace("+", "");
+          const condition = match[2];
+          setWeather({ temp, condition });
+        } else {
+          console.error("Unexpected weather data format:", data);
         }
+      } catch (error) {
+        console.error("Error fetching weather data:", error);
+      }
     };
     fetchWeather();
   }, []);
 
   const getWeatherIcon = (condition) => {
-    if (condition.includes("Sunny") || condition.includes("Clear")) return <WbSunnyIcon />;
+    if (condition.includes("Sunny") || condition.includes("Clear"))
+      return <WbSunnyIcon />;
     if (condition.includes("Partly cloudy")) return <CloudIcon />;
-    if (condition.includes("Cloudy") || condition.includes("Overcast")) return <CloudIcon />;
-    if (condition.includes("Rain") || condition.includes("Showers") || condition.includes("rain")) return <ThunderstormIcon />;
-    if (condition.includes("Thunderstorm") || condition.includes("Thunder")) return <ThunderstormIcon />;
+    if (condition.includes("Cloudy") || condition.includes("Overcast"))
+      return <CloudIcon />;
+    if (
+      condition.includes("Rain") ||
+      condition.includes("Showers") ||
+      condition.includes("rain")
+    )
+      return <ThunderstormIcon />;
+    if (condition.includes("Thunderstorm") || condition.includes("Thunder"))
+      return <ThunderstormIcon />;
     if (condition.includes("Snow")) return <AcUnitIcon />;
-    if (condition.includes("Windy") || condition.includes("Breezy")) return <AirIcon />;
-    if (condition.includes("Fog") || condition.includes("Mist") || condition.includes("Haze")) return <CloudIcon />;
+    if (condition.includes("Windy") || condition.includes("Breezy"))
+      return <AirIcon />;
+    if (
+      condition.includes("Fog") ||
+      condition.includes("Mist") ||
+      condition.includes("Haze")
+    )
+      return <CloudIcon />;
     return null;
   };
 
@@ -201,8 +211,10 @@ const Welcome = ({ toItemPage }) => {
       <div className={styles.clockLogoContainer}>
         {weather.temp && weather.condition && (
           <div className={styles.weatherBox}>
-              <div className={styles.weatherIcon}>{getWeatherIcon(weather.condition)}</div>
-              <div className={styles.weatherTemp}>{weather.temp}</div>
+            <div className={styles.weatherIcon}>
+              {getWeatherIcon(weather.condition)}
+            </div>
+            <div className={styles.weatherTemp}>{weather.temp}</div>
           </div>
         )}
         <div className={styles.timestamp}>{time}</div>
@@ -211,7 +223,7 @@ const Welcome = ({ toItemPage }) => {
         src="/panda_express.png"
         alt="Panda Express Logo"
         className={styles.logo}
-      />  
+      />
       <h1 className={styles.welcomeHeader}>
         {translations["We Wok For You"] || "We Wok For You"}
       </h1>
@@ -219,18 +231,10 @@ const Welcome = ({ toItemPage }) => {
         {translations["Tap to Order Now"] || "Tap to Order Now"}
       </h1>
 
-      <select
-        value={selectedLanguage}
-        onChange={handleLanguageChange}
-        className={styles.translateButton} // Use the button styling for the dropdown
-      >
-        <option value="en">English</option>
-        <option value="es">Spanish</option>
-        <option value="fr">French</option>
-        <option value="de">German</option>
-        <option value="zh">Chinese (Simplified)</option>
-        <option value="ja">Japanese</option>
-      </select>
+      <TranslateButton
+        currentLanguage={currentLanguage}
+        onLanguageChange={handleLanguageChange}
+      />
       <div className={styles.handicapWrapper}>
         <img
           src="/handicap_button.jpg"
@@ -250,28 +254,16 @@ const KioskPage = () => {
   const toItemPage = () => {
     router.push("/kiosk_item");
   };
-  useEffect(() => {
-    const newWindow = window.open(
-      window.location.href,
-      "_blank",
-      "width=950,height=1000"
-    );
-    if (newWindow) {
-      window.close(); // Close the original window if needed
-    }
-  }, []);
 
   return (
-    <TranslationProvider>
-      <div
-        style={{
-          height: "100vh", // Full height of the viewport
-          overflow: "hidden", // Prevent scrolling
-        }}
-      >
-        <Welcome toItemPage={toItemPage} />
-      </div>
-    </TranslationProvider>
+    <div
+      style={{
+        height: "100vh", // Full height of the viewport
+        overflow: "hidden", // Prevent scrolling
+      }}
+    >
+      <Welcome toItemPage={toItemPage} />
+    </div>
   );
 };
 
