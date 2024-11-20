@@ -2,11 +2,16 @@ import React, { useState, useEffect } from 'react';
 import Modal from '@mui/material/Modal';
 import styles from './employeeViewerModal.module.css';
 import AddEmployeeForm from './addEmployeeForm';
+import EmployeeIdModal from './employeeIdModal';  // Import the EmployeeIdModal
+import EditEmployeeModal from './editEmployeeModal';
 
 const EmployeeViewerModal = ({ isOpen, onClose }) => {
   const [employees, setEmployees] = useState([]);
   const [error, setError] = useState(null);
   const [isAddEmployeeFormOpen, setIsAddEmployeeFormOpen] = useState(false);
+  const [isEmployeeIdModalOpen, setIsEmployeeIdModalOpen] = useState(false);  // State to control EmployeeIdModal
+  const [isEditEmployeeModalOpen, setIsEditEmployeeModalOpen] = useState(false);
+  const [employeeToEdit, setEmployeeToEdit] = useState(null);
 
   // Fetch employee data when the modal opens
   useEffect(() => {
@@ -29,21 +34,23 @@ const EmployeeViewerModal = ({ isOpen, onClose }) => {
     }
   }, [isOpen]);
 
-  // Calculate age based on date of birth
-  const calculateAge = (dob) => {
-    const birthDate = new Date(dob);
-    const today = new Date();
-    const age = today.getFullYear() - birthDate.getFullYear();
-    const monthDifference = today.getMonth() - birthDate.getMonth();
-    const dayDifference = today.getDate() - birthDate.getDate();
-
-    if (monthDifference < 0 || (monthDifference === 0 && dayDifference < 0)) {
-      return age - 1;
-    }
-    return age;
+  // Handle submitting employee ID (this is where you'll integrate fetching data for a specific employee)
+  const handleEmployeeIdSubmit = (id) => {
+    // Implement fetch logic here to get employee details by ID
+    console.log(`Employee ID submitted: ${id}`);
   };
 
-  // Toggle active status for an employee
+  // Open Employee ID Modal
+  const openEmployeeIdModal = () => {
+    setIsEmployeeIdModalOpen(true);
+  };
+
+  const handleAddEmployee = (newEmployee) => {
+    setEmployees((prevEmployees) => [...prevEmployees, newEmployee]);
+    setIsAddEmployeeFormOpen(false);
+    onClose();
+  }
+
   const toggleEmployeeStatus = async (employeeId, currentStatus) => {
     try {
       const response = await fetch('/api/toggle-employee', {
@@ -76,11 +83,38 @@ const EmployeeViewerModal = ({ isOpen, onClose }) => {
     }
   };
 
-  // Handle adding a new employee
-  const handleAddEmployee = (newEmployee) => {
-    setEmployees((prevEmployees) => [...prevEmployees, newEmployee]);
-    setIsAddEmployeeFormOpen(false);
-    onClose();
+  const calculateAge = (dob) => {
+    const birthDate = new Date(dob);
+    const today = new Date();
+    const age = today.getFullYear() - birthDate.getFullYear();
+    const monthDifference = today.getMonth() - birthDate.getMonth();
+    const dayDifference = today.getDate() - birthDate.getDate();
+
+    if (monthDifference < 0 || (monthDifference === 0 && dayDifference < 0)) {
+      return age - 1;
+    }
+    return age;
+  };
+
+  const onEmployeeFound = (employeeData) => {
+    setEmployeeToEdit(employeeData);
+    setIsEmployeeIdModalOpen(false);  // Close EmployeeIdModal
+    setIsEditEmployeeModalOpen(true);  // Open EditEmployeeModal
+  };
+
+  const handleSaveEmployee = (updatedEmployeeData) => {
+    // You can now handle saving the updated employee data here.
+    // For example, you can update the employee in the local state or send it to the API.
+    console.log('Updated employee data:', updatedEmployeeData);
+  
+    // Update the employee in the local state if you're using it for rendering.
+    setEmployees((prevEmployees) =>
+      prevEmployees.map((employee) =>
+        employee.employee_id === updatedEmployeeData.employee_id
+          ? { ...employee, ...updatedEmployeeData }
+          : employee
+      )
+    );
   };
 
   return (
@@ -109,7 +143,6 @@ const EmployeeViewerModal = ({ isOpen, onClose }) => {
             <tbody>
               {employees.length > 0 ? (
                 employees.map((employee) => {
-                  if (!employee) return null;
                   const is18OrOlder = calculateAge(employee?.date_of_birth) >= 18;
                   const nameClass = employee.is_manager ? styles.managerName : styles.regularName;
 
@@ -144,6 +177,11 @@ const EmployeeViewerModal = ({ isOpen, onClose }) => {
           </table>
         </div>
 
+        {/* Button to open Employee ID Modal */}
+        <button onClick={openEmployeeIdModal} className={styles.addButton}>
+          Edit Employee
+        </button>
+
         {/* Button to open Add Employee Form Modal */}
         <button onClick={() => setIsAddEmployeeFormOpen(true)} className={styles.addButton}>
           Add New Employee
@@ -162,6 +200,20 @@ const EmployeeViewerModal = ({ isOpen, onClose }) => {
             onSubmit={handleAddEmployee}
           />
         )}
+
+        {/* Employee ID Modal */}
+        <EmployeeIdModal
+          isOpen={isEmployeeIdModalOpen}
+          onClose={() => setIsEmployeeIdModalOpen(false)}
+          onSubmit={(onEmployeeFound)}
+        />
+
+        <EditEmployeeModal
+          isOpen={isEditEmployeeModalOpen}
+          onClose={() => setIsEditEmployeeModalOpen(false)}
+          employeeData={employeeToEdit} // Pass the employee data
+          onSave={handleSaveEmployee} // Handle saving the updated data
+        />
       </div>
     </Modal>
   );

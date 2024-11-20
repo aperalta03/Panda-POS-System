@@ -7,11 +7,23 @@ import TranslateButton from "@/app/components/kiosk/translateButton";
 const CartPage = () => {
   const router = useRouter();
   const { currentLanguage, changeLanguage, translations } = useGlobalState();
+  const [selectedSauces, setSelectedSauces] = useState([]);
 
   const handleLanguageChange = (e) => {
     const newLanguage = e.target.value;
     changeLanguage(newLanguage);
   };
+
+  const handleSauceToggle = (id) => {
+    if (selectedSauces.includes(id)) {
+      // If the sauce is already selected, deselect it
+      setSelectedSauces(selectedSauces.filter((sauce) => sauce !== id));
+    } else {
+      // Otherwise, select it
+      setSelectedSauces([...selectedSauces, id]);
+    }
+  };
+
   // Sample initial cart items
   const initialCart = [
     {
@@ -50,6 +62,7 @@ const CartPage = () => {
 
   const handlePlaceOrder = () => {
     // Functionality to place the order, e.g., redirect or call API
+    setSelectedSauces([]);
     alert("Order placed!");
   };
 
@@ -96,7 +109,7 @@ const CartPage = () => {
         <TranslateButton
           currentLanguage={currentLanguage}
           onLanguageChange={handleLanguageChange}
-          customStyles={{ "margin-left": "550px" }}
+          customStyles={{ position: "fixed", right: "30px" }}
         />
       </div>
 
@@ -125,6 +138,61 @@ const CartPage = () => {
             </div>
           </div>
         ))}
+      </div>
+
+      <div className={styles.extrasSection}>
+        <h3 className={styles.extrasTitle}>
+          {translations["Extras:"] || "Extras:"}
+        </h3>
+        <div className={styles.sauceGrid}>
+          {[
+            { id: "soy", name: "Soy Sauce", imgSrc: "/soy-sauce.png" },
+            {
+              id: "sweet_sour",
+              name: "Sweet & Sour Sauce",
+              imgSrc: "/sweet-sour-sauce.png",
+            },
+            {
+              id: "chili",
+              name: "Chili Sauce",
+              imgSrc: "/chili-sauce.png",
+            },
+            {
+              id: "teriyaki",
+              name: "Teriyaki Sauce",
+              imgSrc: "/teriyaki-sauce.png",
+            },
+            {
+              id: "hot_mustard",
+              name: "Hot Mustard",
+              imgSrc: "/hot-mustard.png",
+            },
+          ].map((sauce) => (
+            <label
+              key={sauce.id}
+              className={`${styles.sauceCard} ${
+                selectedSauces.includes(sauce.id) ? styles.selected : ""
+              }`}
+            >
+              <input
+                type="checkbox"
+                name="sauce"
+                value={sauce.id}
+                checked={selectedSauces.includes(sauce.id)}
+                onChange={() => handleSauceToggle(sauce.id)} // Handle toggle on change
+                className={styles.sauceInput}
+              />
+              <img
+                src={sauce.imgSrc}
+                alt={sauce.name}
+                className={styles.sauceImage}
+              />
+              <span className={styles.sauceLabel}>
+                {translations[sauce.name] || sauce.name}
+              </span>
+            </label>
+          ))}
+        </div>
       </div>
 
       <div className={styles.orderSummary}>

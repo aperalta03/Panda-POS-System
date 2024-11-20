@@ -1,0 +1,125 @@
+.modalBox {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;  /* White background */
+  padding: 20px;
+  border-radius: 8px;  /* Rounded corners */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  width: 500px;  /* Adjust width */
+  max-width: 90%;
+  overflow: auto;  /* Ensure content doesn't overflow */
+}
+
+/* Title for the modal */
+.modalBox h2 {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  color: #333;  /* Dark text color for better readability */
+}
+
+/* Form styling */
+.modalBox form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;  /* Space between the form fields */
+}
+
+/* Form input fields */
+.modalBox input {
+  width: 100%;
+  padding: 12px;  /* Larger padding for bigger text fields */
+  font-size: 16px;  /* Bigger text for better readability */
+  border: 1px solid #ccc;
+  border-radius: 6px;  /* Rounded input fields */
+  box-sizing: border-box;  /* Ensures padding is included in width calculation */
+}
+
+/* Label for the inputs */
+.modalBox label {
+  display: flex;
+  align-items: center;
+}
+
+.modalBox label input[type="checkbox"] {
+  display: none;  /* Hide native checkbox */
+}
+
+.modalBox label span {
+  width: 40px;
+  height: 20px;
+  border: 2px solid #ccc;
+  border-radius: 10px;  /* Rounded corners for the rectangle */
+  background-color: white;
+  position: relative;
+  transition: background-color 0.3s, border 0.3s;
+}
+
+.modalBox label input[type="checkbox"]:checked + span {
+  background-color: #f44336;  /* Color for checked checkbox */
+  border-color: #f44336;  /* Border color for checked state */
+}
+
+.modalBox label span::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: white;
+  transition: transform 0.3s;
+}
+
+.modalBox label input[type="checkbox"]:checked + span::before {
+  transform: translate(-50%, -50%) translateX(20px);  /* Move the circle to the right when checked */
+}
+
+/* Button styling */
+.modalBox button {
+  padding: 12px 24px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* Submit button (Save) */
+.modalBox button[type="submit"] {
+  background-color: #f44336;  /* Green background for submit */
+  color: white;
+  align-self: flex-end;  /* Align the submit button to the right */
+}
+
+/* Default button styling (could be cancel button in the future) */
+.modalBox button[type="button"] {
+  background-color: #f44336;  /* Red background for cancel */
+  color: white;
+  align-self: flex-end;
+}
+
+/* Hover effect for the buttons */
+.modalBox button:hover {
+  opacity: 0.8;
+}
+
+/* Flexbox for alignment of the fields */
+.modalBox .field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Styling for field labels */
+.modalBox .field label {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
