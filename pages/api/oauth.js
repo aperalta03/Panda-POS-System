@@ -45,7 +45,7 @@ const sendEmail = async (email, subject, text, html) => {
     to: email,
     subject,
     text,
-    html,
+    html, 
   });
 };
 
@@ -64,14 +64,18 @@ const findUserByEmail = async (email) => {
 const createNewUser = async (employee_id, email, password) => {
   try {
     const hashedPassword = await hashPassword(password);
+    console.log("Hashed password:", hashedPassword);
+
     const result = await database.query(
       'INSERT INTO employee_login (employee_id, email, password, verified) VALUES ($1, $2, $3, false) RETURNING *',
       [employee_id, email, hashedPassword]
     );
+
+    console.log("User inserted into database:", result.rows[0]);
     return result.rows[0];
   } catch (error) {
-    console.error('Error creating new user:', error);
-    throw new Error('Database error');
+    console.error("Database error during user creation:", error.message, error.stack);
+    throw new Error('Database error while creating user');
   }
 };
 
@@ -146,34 +150,48 @@ export default async function handler(req, res) {
 
     //** E/P SignUp **//
     if (action === 'signup' && employee_id && email && password) {
-      const existingUser = await findUserByEmail(email);
-      if (existingUser) {
-        return res.status(400).json({ error: 'User already exists' });
+      try {
+        console.log("Signup initiated with:", { employee_id, email, password });
+
+        const existingUser = await findUserByEmail(email);
+        if (existingUser) {
+          console.log("Signup Error: User already exists");
+          return res.status(400).json({ error: 'User already exists' });
+        }
+
+        // Log before creating user
+        console.log("Creating new user...");
+        const newUser = await createNewUser(employee_id, email, password);
+        console.log("New user created successfully:", newUser);
+
+        // Generate a verification token and send an email
+        console.log("Generating verification token...");
+        const verificationToken = generateToken();
+        console.log("Saving verification token...");
+        await saveVerificationToken(email, verificationToken);
+
+        const verificationLink = `${process.env.APP_URL}/verify-email?token=${verificationToken}`;
+        const emailHTML = `
+          <p>Click the button below to verify your email:</p>
+          <a href="${verificationLink}" style="display: inline-block; padding: 10px 20px; color: white; background-color: green; text-decoration: none; border-radius: 5px;">Verify Email</a>
+          <p>If the button doesn't work, you can copy and paste this link into your browser:</p>
+          <p>${verificationLink}</p>
+        `;
+
+        console.log("Sending verification email...");
+        await sendEmail(
+          email,
+          'Verify Your Email',
+          `Click this link to verify your email: ${verificationLink}`,
+          emailHTML
+        );
+
+        console.log("Signup completed successfully.");
+        return res.status(201).json({ message: 'Verification email sent. Please verify your email to complete signup.' });
+      } catch (error) {
+        console.error("Signup Error:", error.message, error.stack);
+        return res.status(500).json({ error: 'Internal server error during signup.' });
       }
-
-      // Create the user but keep them unverified until email verification
-      await createNewUser(employee_id, email, password);
-
-      // Generate a verification token and send an email
-      const verificationToken = generateToken();
-      await saveVerificationToken(email, verificationToken);
-
-      const verificationLink = `${process.env.APP_URL}/verify-email?token=${verificationToken}`;
-      const emailHTML = `
-        <p>Click the button below to verify your email:</p>
-        <a href="${verificationLink}" style="display: inline-block; padding: 10px 20px; color: white; background-color: green; text-decoration: none; border-radius: 5px;">Verify Email</a>
-        <p>If the button doesn't work, you can copy and paste this link into your browser:</p>
-        <p>${verificationLink}</p>
-      `;
-
-      await sendEmail(
-        email,
-        'Verify Your Email',
-        `Click this link to verify your email: ${verificationLink}`,
-        emailHTML
-      );
-
-      return res.status(201).json({ message: 'Verification email sent. Please verify your email to complete signup.' });
     }
 
     //** Verify Email **//
