@@ -45,8 +45,9 @@ const CashierPage = () => {
 
   const handlePayClick = async () => {
     const now = new Date();
-    const saleDate = now.toISOString().split("T")[0];
+    const saleDate = now.toLocaleDateString('en-CA'); //need this for the correct time zone
     const saleTime = now.toTimeString().split(" ")[0];
+    console.log(saleDate);
     const orderDetails = {
       saleDate,
       saleTime,

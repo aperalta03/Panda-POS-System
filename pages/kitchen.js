@@ -73,6 +73,77 @@ const KitchenPage = () => {
         }
     };
 
+    
+    const textToSpeech = async (saleNumber) => {
+
+        const saleToSpeech = orders.find(order => order.saleNumber === saleNumber);
+
+        if (saleToSpeech) {
+
+            const { items } = saleToSpeech;
+
+            items.forEach(item => {
+
+                if (item.status === "Completed") {
+                    return;
+                }
+
+                const { orderNumber, plateSize, components } = item;
+
+                // Count the frequency of components
+                const componentCounts = components.reduce((acc, component) => {
+                    acc[component] = (acc[component] || 0) + 1;
+                    return acc;
+                }, {});
+
+                // Adjust for special rules (Super Greens, Chow Mein, Fried Rice, White Steamed Rice)
+                const specialComponents = ["Super Greens", "Chow Mein", "Fried Rice", "White Steamed Rice"];
+                specialComponents.forEach(side => {
+                    if (componentCounts[side]) {
+                        const count = componentCounts[side];
+                        if (count === 1) {
+                            componentCounts[side] = 0.5; // Single = half
+                        } else if (count === 2) {
+                            componentCounts[side] = 1; // Double = one
+                        } else if (count > 2) {
+                            componentCounts[side] = 1 + (count - 2); // Two = one, extras count normally
+                        }
+                    }
+                });
+
+                // Construct the component description
+                const componentsArray = Object.entries(componentCounts)
+                    .map(([component, count]) => {
+                        if (count === 2) return `double ${component}`;
+                        if (count === 3) return `triple ${component}`;
+                        if (count === 0.5) return `half ${component}`;
+                        return count > 3 ? `${count} times ${component}` : component;
+                    });
+
+                // Add "and" before the final component
+                const componentDescription = componentsArray.length > 1
+                    ? `${componentsArray.slice(0, -1).join(', ')}, and ${componentsArray[componentsArray.length - 1]}`
+                    : componentsArray[0] || '';
+
+                // Construct the speech message
+                const message = `Order number ${orderNumber}: ${plateSize} with ${componentDescription}`;
+                console.log(message); // For debugging
+
+                // Speak the message
+                const utterance = new SpeechSynthesisUtterance(message);
+                window.speechSynthesis.speak(utterance);
+            });
+        } else {
+            console.log("No matching order found.");
+            const utterance = new SpeechSynthesisUtterance(`No matching order found for sale number ${saleNumber}`);
+            window.speechSynthesis.speak(utterance);
+        }
+    };
+
+    const handleTextToSpeech = (saleNumber) => {
+        textToSpeech(saleNumber);
+    };
+
     const handleRemoveSale = (saleNumber) => {
         removeSale(saleNumber);
     };
@@ -89,6 +160,8 @@ const KitchenPage = () => {
         setCancelOrderDetails({ saleNumber, orderNumber });
         setOpenModal(true);
     };
+
+   
 
     const handleCancelOrder = async () => {
         try {
@@ -130,12 +203,19 @@ const KitchenPage = () => {
             {orders.map(order => (
                 <div className={styles.saleContainer} key={order.saleNumber}>
                     <div className={styles.saleHeader}>SALE #{order.saleNumber}</div>
-                    {order.items.every(item => item.status === 'Completed') && (
+                    {order.items.every(item => item.status === 'Completed') ? (
                         <button
                             className={`${styles.removeSaleButton}`}
                             onClick={() => handleRemoveSale(order.saleNumber)} // Add your handler for removing the sale
                         >
                             REMOVE SALE
+                        </button>
+                    ) : (
+                        <button
+                            className={`${styles.textToSpeechButton}`} // Apply appropriate styling for this button
+                            onClick={() => handleTextToSpeech(order.saleNumber)} // Add your handler for text-to-speech functionality
+                        >
+                            TEXT TO SPEECH
                         </button>
                     )}
                     <div className={styles.orderColumn}>

@@ -1,4 +1,4 @@
-/* Main Container */
+/* ------------------ Main Container ------------------ */
 .gridContainer {
     display: flex;
     flex-wrap: nowrap;
@@ -14,7 +14,7 @@
 
 .gridContainer::-webkit-scrollbar {
     display: none;
-    /* Hide the scrollbar for WebKit browsers */
+    /* Hide scrollbar for WebKit browsers */
 }
 
 .gridContainer {
@@ -24,21 +24,20 @@
     /* Hide scrollbar for IE/Edge */
 }
 
-/* Sale Container */
+/* ------------------ Sale Container ------------------ */
 .saleContainer {
     display: flex;
     flex-direction: column;
-    /* Stack contents vertically within each sale */
+    /* Stack contents vertically */
     background-color: #444;
     border: 2px solid #fff;
     border-radius: 8px;
     padding: 16px;
     gap: 16px;
     min-width: 400px;
-    /* Ensure each column has a fixed width */
+    /* Fixed width for columns */
 }
 
-/* Sale Header */
 .saleHeader {
     font-size: 2.5rem;
     font-weight: bold;
@@ -49,17 +48,16 @@
     margin-bottom: 16px;
 }
 
-/* Orders Column */
+/* ------------------ Orders Column ------------------ */
 .orderColumn {
     display: flex;
     flex-direction: column;
-    /* Stack orders vertically within each sale */
+    /* Stack orders vertically */
     gap: 20px;
     /* Space between orders */
     justify-content: flex-start;
 }
 
-/* Order Item */
 .orderBox {
     display: flex;
     flex-direction: column;
@@ -76,7 +74,6 @@
     text-align: center;
 }
 
-/* Order Header */
 .orderHeader {
     font-weight: bold;
     font-size: 1.5rem;
@@ -89,10 +86,9 @@
     margin-top: 4px;
 }
 
-/* Lighter colors help reading on dark background */
+/* ------------------ Status Colors ------------------ */
 .statusNotStarted {
     color: #ff3333;
-
 }
 
 .statusCooking {
@@ -103,7 +99,8 @@
     color: #4caf50;
 }
 
-/* Buttons */
+/* ------------------ Buttons ------------------ */
+.textToSpeechButton,
 .removeSaleButton,
 .startOrderButton,
 .completeButton,
@@ -119,28 +116,32 @@
     transition: all 0.3s ease;
 }
 
-.removeSaleButton:hover,
-.startOrderButton:hover,
-.completeButton:hover,
-.cancelButton:hover {
-    cursor: pointer;
-    border-radius: 20px;
+.textToSpeechButton {
+    height: 8%;
+    font-size: 2rem;
+    background-color: #333;
+    color: white;
+    border: 2px solid #fff;
+    padding: 16px;
 }
 
-.removeSaleButton:hover {
-    background-color: red;
+.textToSpeechButton:hover {
+    background-color: #4caf50;
     color: black;
 }
 
 .removeSaleButton {
     height: 8%;
     font-size: 2rem;
-    background-color: #555;
+    background-color: #333;
     color: red;
     border: 2px solid #fff;
-    border-radius: 5px;
     padding: 16px;
-    background-color: #333;
+}
+
+.removeSaleButton:hover {
+    background-color: red;
+    color: black;
 }
 
 .startOrderButton {
@@ -168,7 +169,17 @@
     color: white;
 }
 
-/* Modal */
+/* ------------------ Hover States ------------------ */
+.textToSpeechButton:hover,
+.removeSaleButton:hover,
+.startOrderButton:hover,
+.completeButton:hover,
+.cancelButton:hover {
+    cursor: pointer;
+    border-radius: 20px;
+}
+
+/* ------------------ Modal ------------------ */
 .modalContent {
     background: var(--secondary-color-hover);
     color: white;
@@ -177,10 +188,10 @@
     text-align: center;
     width: 300px;
     margin: 100px auto;
-    top: 40%;
     position: absolute;
-    transform: translate(-50%, -50%);
+    top: 40%;
     left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .modalButtons {
