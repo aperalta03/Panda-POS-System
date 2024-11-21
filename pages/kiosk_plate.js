@@ -74,6 +74,7 @@ const KioskPlatePage = () => {
     translations,
   } = useGlobalState();
   const [currentStep, setCurrentStep] = useState("sides"); //step var to indicate whether selecting sides or entrees
+  const { cart, addItemToCart, removeItemFromCart, clearCart, newItem, removeNewItem } = useGlobalState();
 
   useEffect(() => {
     if (numTrackedSides === 1 && numTrackedEntrees === 2) {
@@ -110,12 +111,16 @@ const KioskPlatePage = () => {
   const handleDone = () => {
     resetTrackedSides();
     resetTrackedEntrees();
-    setCurrentStep("sides");
+    setCurrentStep("sides"); 
+    newItem.type = "PLATE";
+    newItem.price += 11.50;
+    addItemToCart(newItem);
+    removeNewItem();
 
     setTimeout(() => setCurrentStep("sides"), 0);
 
     router.push("/kiosk_item");
-  };
+};
 
   //should go to CART FIXMEEEEE
   const handleCartClick = () => {

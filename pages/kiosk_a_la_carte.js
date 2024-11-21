@@ -80,7 +80,7 @@ const KioskALaCartePage = () => {
     resetTrackedOthers,
     translations,
   } = useGlobalState();
-  const [currentStep, setCurrentStep] = useState("sides"); //step var to indicate whether selecting sides or entrees
+  const { cart, addItemToCart, removeItemFromCart, clearCart, newItem, removeNewItem } = useGlobalState();
 
   //checking if menu items are fetched correctly
   useEffect(() => {
@@ -94,6 +94,9 @@ const KioskALaCartePage = () => {
     setCurrentStep("sides");
     resetTrackedOthers();
     setTimeout(() => setCurrentStep("sides"), 0);
+    newItem.type = "A LA CARTE";
+    addItemToCart(newItem);
+    removeNewItem();
 
     router.push("/kiosk_item");
   };
