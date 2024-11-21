@@ -8,6 +8,7 @@ const CartPage = () => {
   const router = useRouter();
   const { currentLanguage, changeLanguage, translations } = useGlobalState();
   const [selectedSauces, setSelectedSauces] = useState([]);
+  const { cart, addItemToCart, removeItemFromCart, clearCart, newItem, removeNewItem, setCart } = useGlobalState();
 
   const handleLanguageChange = (e) => {
     const newLanguage = e.target.value;
