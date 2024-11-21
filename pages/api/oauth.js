@@ -64,14 +64,10 @@ const findUserByEmail = async (email) => {
 const createNewUser = async (employee_id, email, password) => {
   try {
     const hashedPassword = await hashPassword(password);
-    console.log("Hashed password:", hashedPassword);
-
     const result = await database.query(
-      'INSERT INTO employee_login (employee_id, email, password, verified) VALUES ($1, $2, $3, false) RETURNING *',
-      [employee_id, email, hashedPassword]
+      'INSERT INTO employee_login (employee_id, email, password) VALUES ($1, $2, $3) RETURNING *',
+      [employee_id || null, email, hashedPassword]
     );
-
-    console.log("User inserted into database:", result.rows[0]);
     return result.rows[0];
   } catch (error) {
     console.error("Database error during user creation:", error.message, error.stack);
