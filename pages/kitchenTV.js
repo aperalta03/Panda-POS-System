@@ -55,10 +55,12 @@ const KitchenTV = () => {
 
     const orderTimer = (dateTime) => {
         if (!dateTime) return "Time Not Available";
+        
+        
 
         try {
             const differenceInMilliseconds = currentTime - new Date(dateTime);
-
+            
             if (differenceInMilliseconds < 0) {
                 return "In the future";
             }
@@ -72,6 +74,7 @@ const KitchenTV = () => {
             const formattedHours = String(hours).padStart(2, "0");
             const formattedMinutes = String(minutes).padStart(2, "0");
             const formattedSeconds = String(seconds).padStart(2, "0");
+            
 
             return {
                 time: `${formattedHours}:${formattedMinutes}:${formattedSeconds}`,
