@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "./kiosk_cart.module.css";
+import styles from './kiosk_cart.module.css';
 import { useRouter } from "next/router";
 import { useGlobalState } from "@/app/context/GlobalStateContext";
 import TranslateButton from "@/app/components/kiosk/translateButton";
@@ -24,26 +24,6 @@ const CartPage = () => {
     }
   };
 
-  // Sample initial cart items
-  const initialCart = [
-    {
-      id: 1,
-      type: "BOWL",
-      price: 9.5,
-      details: ["0.5 Fried Rice", "0.5 Super Greens", "1 Orange Chicken"],
-      quantity: 1,
-    },
-    {
-      id: 2,
-      type: "A LA CARTE",
-      price: 8.0,
-      details: ["1 Apple Pie Roll", "1 Honey Sesame Chicken"],
-      quantity: 1,
-    },
-  ];
-
-  const [cart, setCart] = useState(initialCart);
-
   // Calculate subtotal and tax
   const subtotal = cart.reduce(
     (total, item) => total + item.price * item.quantity,
@@ -52,40 +32,39 @@ const CartPage = () => {
   const tax = subtotal * 0.15;
   const total = subtotal + tax;
 
-  const handleBackToMenu = () => {
-    router.push("/kiosk_item");
-  };
-
-  const handleStartOver = () => {
-    setCart([]); // Clear the cart
-  };
-
-  const handlePlaceOrder = () => {
-    // Functionality to place the order, e.g., redirect or call API
-    setSelectedSauces([]);
-    alert("Order placed!");
-  };
-
-  // Remove an item from the cart
-  const handleRemoveItem = (id) => {
-    setCart(cart.filter((item) => item.id !== id));
-  };
-
-  // Add an item to the cart (for demonstration, adds a hard-coded item)
-  const handleAddItem = () => {
-    const newItem = {
-      id: Date.now(),
-      type: "NEW ITEM",
-      price: 5.0,
-      details: ["Sample Detail 1", "Sample Detail 2"],
-      quantity: 1,
+    const handleBackToMenu = () => {
+        router.push("/kiosk_item");
     };
-    setCart([...cart, newItem]);
-  };
 
-  return (
-    <div className={styles.cartContainer}>
-      <div className={styles.circle}></div>
+    const handleStartOver = () => {
+        setCart([]); // Clear the cart
+    };
+
+    const handlePlaceOrder = () => {
+        // Functionality to place the order, e.g., redirect or call API
+        alert("Order placed!");
+    };
+
+    // Remove an item from the cart
+    const handleRemoveItem = (id) => {
+        setCart(cart.filter((item) => item.id !== id));
+    };
+
+    // Add an item to the cart (for demonstration, adds a hard-coded item)
+    const handleAddItem = () => {
+        const newItem = {
+            id: Date.now(),
+            type: "NEW ITEM",
+            price: 5.0,
+            details: ["Sample Detail 1", "Sample Detail 2"],
+            quantity: 1,
+        };
+        setCart([...cart, newItem]);
+    };
+
+    return (
+        <div className={styles.cartContainer}>
+            <div className={styles.circle}></div>
 
       <div className={styles.topBar}>
         <button className={styles.backButton} onClick={handleBackToMenu}>

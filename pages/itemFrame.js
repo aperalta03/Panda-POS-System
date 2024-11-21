@@ -13,13 +13,30 @@ const ItemFrame = ({ item, isDone }) => {
     setNumTrackedOthers,
     numTrackedOthers,
     translations,
+    cart,
+    newItem,
+    setNewItem,
+    removeNewItem,
+    setCart,
+    addItemToCart,
+    removeItemFromCart,
+    clearCart,
   } = useGlobalState();
 
   const [showDescription, setShowDescription] = useState(false); //var to show description of an item
 
   //handles incrementation
   const handleIncrement = () => {
-    if (isDone && item.type === "entree") return;
+    if (isDone && item.type === 'entree') return;
+    if (newItem === 0) {
+      addItemToCart({
+        id: Date.now(),
+        type: "NEW ITEM",
+        price: 0.0,
+        details: [],
+        quantity: 1,
+      });
+    }
     const updatedMenu = menu.map((menuItem) => {
       if (menuItem.name === item.name) {
         const incrementAmount = item.type === "side" ? 0.5 : 1;
@@ -30,10 +47,19 @@ const ItemFrame = ({ item, isDone }) => {
 
         if (item.type === "side") {
           setNumTrackedSides(numTrackedSides + 0.5);
-        } else if (item.type === "entree") {
+          newItem.details = [...newItem.details, "0.5 " + item.name];
+        } 
+        else if (item.type === 'entree') {
           setNumTrackedEntrees(numTrackedEntrees + 1);
-        } else if (item.type === "other") {
+          newItem.details = [...newItem.details, "1 " + item.name];
+          if (item.designation === 'Premium') {
+            newItem.price += 2.50;
+          }
+        }
+        else if (item.type === 'other') {
           setNumTrackedOthers(numTrackedOthers + 1);
+          newItem.details = [...newItem.details, "1 " + item.name];
+          newItem.price += item.price;
         }
 
         return updatedItem;
@@ -55,10 +81,19 @@ const ItemFrame = ({ item, isDone }) => {
 
         if (item.type === "side" && numTrackedSides > 0) {
           setNumTrackedSides(numTrackedSides - 0.5);
-        } else if (item.type === "entree" && numTrackedEntrees > 0) {
+          newItem.details.pop();
+        } 
+        else if (item.type === 'entree' && numTrackedEntrees > 0) {
           setNumTrackedEntrees(numTrackedEntrees - 1);
-        } else if (item.type === "other" && numTrackedOthers > 0) {
+          newItem.details.pop();
+          if (item.designation === 'Premium') {
+            newItem.price -= 2.50;
+          }
+        }
+        else if (item.type === 'other' && numTrackedOthers > 0) {
           setNumTrackedOthers(numTrackedOthers - 1);
+          newItem.details.pop();
+          newItem.price -= item.price;
         }
 
         return updatedItem;
