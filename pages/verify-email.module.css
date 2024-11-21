@@ -9,10 +9,10 @@
     overflow: hidden;
 }  
 .title {
-    margin-bottom: 2rem;
-    font-size: 4rem;
-    color: white;
-    font-weight: bold;
+    margin-bottom: 2rem !important;  
+    font-size: 4rem !important;
+    color: white !important;
+    font-weight: bold !important;
 } 
 /* Blobs */
 .leftBlob {
