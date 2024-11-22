@@ -14,6 +14,7 @@
     overflow: hidden;
     box-shadow: 0 10px 8px rgba(0, 0, 0, 0.3);
     border: solid 2px var(--text-color-light);
+    z-index: 3;
 }
 .chatOrb:hover {
     width: 30%;
