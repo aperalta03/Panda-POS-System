@@ -90,7 +90,7 @@ export const GlobalStateProvider = ({ children }) => {
   //fetching menu items
   const fetchMenuItems = async () => {
     try {
-      const response = await fetch("/api/menu-get-item-price");
+      const response = await fetch("/api/menu-get-items");
       const data = await response.json();
 
       if (response.ok && data.menuItems) {
