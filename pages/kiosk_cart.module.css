@@ -277,6 +277,14 @@
   gap: 20px;
   color: black;
   align-items: flex-start;
+  position: relative;
+  z-index: 1; /* Keep it below extrasSection */
+  pointer-events: none; /* Ignore pointer events */
+}
+
+.priceDetailsContainer,
+.placeOrderButton {
+  pointer-events: auto; /* Allow interaction with specific elements */
 }
 
 /* Left-aligned container for price details */
@@ -342,7 +350,8 @@
   text-align: center;
   position: absolute;
   left: 10;
-  bottom: 180px;
+  bottom: 5px;
+  z-index: 2; /* Ensure it's above the price summary */
 }
 
 /* Title for the extras section */

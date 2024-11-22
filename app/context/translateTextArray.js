@@ -97,4 +97,9 @@ export const textArray = [
   "Chili Sauce",
   "Teriyaki Sauce",
   "Hot Mustard",
+  "Any Food Item",
+  "BOWL",
+  "PLATE",
+  "BIGGER PLATE",
+  "A LA CARTE",
 ];

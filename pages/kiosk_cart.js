@@ -70,7 +70,6 @@ const CartPage = () => {
   const handleRemoveItem = (id) => {
     setCart(cart.filter((item) => item.id !== id));
   };
-
   // Add an item to the cart (for demonstration, adds a hard-coded item)
   const handleAddItem = () => {
     const newItem = {
@@ -119,7 +118,8 @@ const CartPage = () => {
           <div key={item.id} className={styles.orderItem}>
             <div className={styles.itemHeader}>
               <h2 className={styles.itemType}>
-                {item.type} | ${item.price.toFixed(2)}
+                {translations[item.type]?.toUpperCase() || item.type} | $
+                {item.price.toFixed(2)}
               </h2>
               <button
                 className={styles.removeButton}
@@ -129,12 +129,18 @@ const CartPage = () => {
               </button>
             </div>
             <div className={styles.itemDetails}>
-              {item.details.map((detail, index) => (
-                <p key={index}>
-                  <span className={styles.boldX}>x </span>
-                  {detail}
-                </p>
-              ))}
+              {item.details.map((detail, index) => {
+                const [quantity, ...rest] = detail.split(" ");
+                const description = rest.join(" ");
+                const translatedDescription =
+                  translations[description] || description;
+                return (
+                  <p key={index}>
+                    <span className={styles.boldX}>x </span>
+                    {`${quantity} ${translatedDescription}`}
+                  </p>
+                );
+              })}
             </div>
           </div>
         ))}
