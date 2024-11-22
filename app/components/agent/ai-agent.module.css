@@ -1,0 +1,159 @@
+/* Main Orb Container */
+.chatOrb {
+    position: fixed;
+    bottom: 5%;
+    left: 3%;
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    box-shadow: 0 10px 8px rgba(0, 0, 0, 0.3);
+    border: solid 2px var(--text-color-light);
+    z-index: 3;
+}
+.chatOrb:hover {
+    width: 30%;
+    height: 40%;
+    border-radius: 20px;
+    box-shadow: 0 20px 15px rgba(0, 0, 0, 0.3);
+}
+/* Before Expansion */
+.orbContent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-color-dark);
+    font-size: 2rem;
+    transition: opacity 0.3s ease;
+}
+.chatOrb:hover .orbContent {
+    opacity: 0;
+    width: 0;
+}
+/* After Expansion */
+.chatContent {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.3s ease;
+}
+.chatOrb:hover .chatContent {
+    display: flex;
+    opacity: 1;
+    transform: scale(1);
+}
+/* Chatbox */
+.chatbox {
+    flex: 1;
+    width: 100%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 5px;
+    position: relative;
+}
+.chatbox::-webkit-scrollbar {
+    width: 10px;
+}
+.chatbox::-webkit-scrollbar-track {
+    background: var(--primary-color);
+}
+.chatbox::-webkit-scrollbar-thumb {
+    background-color: var(--secondary-color-hover);
+    border-radius: 10px;
+    border: 4px solid var(--primary-color);
+}
+/* Messages */
+.userMessageContainer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 5px;
+}
+.botMessageContainer {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 10px;
+}
+.messageIcon {
+    font-size: 1.5rem;
+    color: var(--text-color-dark);
+}
+.userMessage {
+    background-color: var(--secondary-color-hover);
+    color: var(--text-color-dark);
+    font-family: var(--font-family);
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    margin-left: 10px;
+}
+.botMessage {
+    background-color: var(--secondary-color-hover);
+    color: var(--text-color-dark);
+    font-family: var(--font-family);
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    margin-right: 10px;
+}
+.botMessage ul {
+    padding-left: 2%;
+    margin: 0;
+}
+.botMessage li {
+    list-style-type: disc;
+    color: var(--text-color-dark);
+    margin-left: 10px;
+}
+/* Input Area */
+.form {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    position: relative;
+}
+.form::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 26px;
+  pointer-events: none;
+}
+.form::after {
+  top: -30px;
+  background: linear-gradient(to bottom, transparent, var(--primary-color));
+}
+.inputField {
+    flex: 1;
+    font-size: 1rem;
+}
+.sendButton {
+    background-color: var(--secondary-color) !important;
+    color: white !important;
+    height: 100%;
+    width: fit-content;
+    border-radius: 10px !important;
+    padding: 10px;
+    transition: all 0.2s ease-in-out;
+}
+.sendButton:hover {
+    background-color: var(--secondary-color-hover) !important;
+}  

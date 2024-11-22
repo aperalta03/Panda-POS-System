@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import styles from './oauth.module.css';
+import Image from 'next/image';
 
 const SignOAuth = () => {
   const [employee_id, setEmployeeId] = useState('');
@@ -40,6 +41,11 @@ const SignOAuth = () => {
 
   return (
     <Box className={styles.container}>
+      <Image src="/chickenmaxxing_logo.png" alt="Logo" width={100} height={100} className={styles.logo} />
+      <Image src="/panda_express.png" alt="Logo" width={100} height={100} className={styles.pandalogo} />
+      <div className={styles.upBlob}></div>
+      <div className={styles.downBlob}></div>
+      <div className={styles.centerBlob}></div>
       <Box className={styles.card}>
         <Typography variant="h4" className={styles.title}>
           Sign Up

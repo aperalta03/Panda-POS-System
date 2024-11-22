@@ -8,11 +8,17 @@ import { Margin } from "@mui/icons-material";
 const TopBar = ({ handleOptionsClick }) => {
   const router = useRouter();
   const { currentLanguage, changeLanguage, translations } = useGlobalState();
+  const { cart } = useGlobalState();
+
+  const subtotal = cart.reduce((total, item) => total + item.price * item.quantity, 0);
+  const tax = subtotal * 0.15;
+  const total = subtotal + tax;
 
   const handleLanguageChange = (e) => {
     const newLanguage = e.target.value;
     changeLanguage(newLanguage);
   };
+
 
   return (
     <div className={styles.KioskItemPanel}>
@@ -30,7 +36,7 @@ const TopBar = ({ handleOptionsClick }) => {
               className={styles.cartImage}
             />
           </button>
-          <h1 className={styles.priceLabel}>$11.20</h1>
+          <h1 className={styles.priceLabel}>${total.toFixed(2)}</h1>
         </div>
         <div className={styles.gearButtonContainer}>
           <button className={styles.circleButton} onClick={handleOptionsClick}>

@@ -10,6 +10,25 @@ const LoginOAuth = () => {
   const [password, setPassword] = useState('');
   const router = useRouter();
 
+  const handleForgotPassword = () => {
+    const email = prompt('Enter your email:');
+    if (!email) return;
+  
+    fetch('/api/oauth', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'forgot-password', email }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.error) {
+          alert('Failed to send password reset email.');
+        } else {
+          alert('Password reset email sent!');
+        }
+      });
+  };  
+
   const handleCredentialResponse = (response) => {
     const id_token = response.credential;
 
@@ -43,20 +62,20 @@ const LoginOAuth = () => {
       },
       body: JSON.stringify({ action: 'login', email, password }),
     })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.error) {
-          console.error('Login Error:', data.error);
-          alert('Login failed: ' + data.error);
-        } else {
-          router.push('/landing');
+      .then(async (res) => {
+        const data = await res.json();
+  
+        if (!res.ok) {
+          alert(`Login failed: ${data.error}`);
+          return;
         }
+        router.push('/landing');
       })
       .catch((error) => {
         console.error('Login Error:', error);
-        alert('An error occurred during login.');
+        alert('An unexpected error occurred. Please try again.');
       });
-  };
+  };  
 
   useEffect(() => {
     const initializeGoogleSignIn = () => {
@@ -130,7 +149,7 @@ const LoginOAuth = () => {
             >
               Log in
             </Button>
-            <Typography className={styles.link} onClick={() => alert('Forgot Password')}>
+            <Typography className={styles.link} onClick={handleForgotPassword}>
               Forgot your password?
             </Typography>
             <Divider className={styles.divider}>OR</Divider>

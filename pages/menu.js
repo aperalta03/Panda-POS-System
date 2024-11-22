@@ -3,58 +3,45 @@ import { Box, Typography, Divider, Grid } from '@mui/material';
 import Image from 'next/image';
 import styles from './menu.module.css';
 
-const menuItems = {
-  appetizers: [
-    { name: 'Chicken Egg Roll', price: '$2.50', calories: '200 cal' },
-    { name: 'Vegetable Spring Roll', price: '$2.50', calories: '190 cal' },
-    { name: 'Cream Cheese Rangoon', price: '$2.50', calories: '190 cal' },
-  ],
-  sides: [
-    { name: 'Chow Mein', calories: '510 cal' },
-    { name: 'Fried Rice', calories: '520 cal' },
-    { name: 'Steamed White Rice', calories: '380 cal' },
-    { name: 'Steamed Brown Rice', calories: '420 cal' },
-    { name: 'Super Greens', calories: '90 cal' },
-  ],
-  entrees: [
-    { name: 'Orange Chicken', calories: '490 cal' },
-    { name: 'Beijing Beef', calories: '470 cal' },
-    { name: 'Kung Pao Chicken', calories: '290 cal' },
-    { name: 'Broccoli Beef', calories: '150 cal' },
-    { name: 'Grilled Teriyaki Chicken', calories: '300 cal' },
-    { name: 'Mushroom Chicken', calories: '220 cal' },
-    { name: 'Honey Sesame Chicken Breast', calories: '490 cal' },
-    { name: 'Black Pepper Chicken', calories: '280 cal' },
-    { name: 'SweetFire Chicken Breast', calories: '380 cal' },
-    { name: 'String Bean Chicken Breast', calories: '190 cal' },
-    { name: 'Eggplant Tofu', calories: '340 cal' },
-    { name: 'Honey Walnut Shrimp', calories: '360 cal', isPremium: true },
-    { name: 'Black Pepper Angus Steak', calories: '180 cal', isPremium: true },
-  ],
-};
-
-
 const Menu = () => {
 
+  const [menuItems, setMenuItems] = useState({ appetizers: [], sides: [], entrees: [] });
   const [seasonalItem, setSeasonalItem] = useState(null);
 
   useEffect(() => {
-    const fetchSeasonalItem = async () => {
+    const fetchMenuItems = async () => {
       try {
-        const response = await fetch('/api/menu-get-seasonal');
+        const response = await fetch('/api/menu-get-items');
         const data = await response.json();
 
         if (response.ok) {
-          setSeasonalItem(data.seasonalItem);
+          const categorizedMenu = {
+            appetizers: [],
+            sides: [],
+            entrees: [],
+          };
+
+          data.menuItems.forEach((item) => {
+            if (item.type === 'appetizer') {
+              categorizedMenu.appetizers.push(item);
+            } else if (item.type === 'side') {
+              categorizedMenu.sides.push(item);
+            } else if (item.type === 'entree') {
+              categorizedMenu.entrees.push(item);
+            } else if (item.type === 'seasonal') {
+              setSeasonalItem(item);
+            }
+          });
+
+          setMenuItems(categorizedMenu);
         } else {
-          console.error('Error fetching seasonal item:', data.error);
+          console.error('Error fetching menu items:', data.error);
         }
       } catch (error) {
-        console.error('Error fetching seasonal item:', error);
+        console.error('Error fetching menu items:', error);
       }
     };
-
-    fetchSeasonalItem();
+    fetchMenuItems();
   }, []);
 
   return (
@@ -175,15 +162,14 @@ const Menu = () => {
 
         {/* Right Column */}
         <Grid item xs={12} md={4}>
+
           {/* Appetizers Section */}
           <Box className={styles.menuSection}>
             <Typography variant="h4" className={styles.sectionTitle}>APPETIZERS</Typography>
             {menuItems.appetizers.map((item, index) => (
               <Box key={index} className={styles.menuItem}>
                 <Typography variant="h5" className={styles.itemName}>{item.name}</Typography>
-                <Box className={styles.itemDetails}>
-                  <Typography variant="body2" className={styles.calories}>{item.calories}</Typography>
-                </Box>
+                <Typography variant="body2" className={styles.calories}>{item.calories} cal</Typography>
               </Box>
             ))}
             <Divider className={styles.divider} />
@@ -195,7 +181,7 @@ const Menu = () => {
             {menuItems.sides.map((item, index) => (
               <Box key={index} className={styles.menuItem}>
                 <Typography variant="h5" className={styles.itemName}>{item.name}</Typography>
-                <Typography variant="body2" className={styles.calories}>{item.calories}</Typography>
+                <Typography variant="body2" className={styles.calories}>{item.calories} cal</Typography>
               </Box>
             ))}
             <Divider className={styles.divider} />
@@ -208,11 +194,11 @@ const Menu = () => {
               <Box key={index} className={styles.menuItem}>
                 <Typography
                   variant="h5"
-                  className={`${styles.itemName} ${item.isPremium ? styles.premium : ''}`}
+                  className={`${styles.itemName}  ${item.designation === 'Premium' ? styles.premium : ''}`}
                 >
                   {item.name}
                 </Typography>
-                <Typography variant="body2" className={styles.calories}>{item.calories}</Typography>
+                <Typography variant="body2" className={styles.calories}>{item.calories} cal</Typography>
               </Box>
             ))}
             <Divider className={styles.divider} />

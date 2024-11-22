@@ -5,14 +5,14 @@ import database from '../../utils/database';
 export default async function handler(req, res) {
   if (req.method === 'GET') {
     try {
-      const filePath = path.join(process.cwd(), 'utils', 'sql', 'menu-get-item-price.sql');
+      const filePath = path.join(process.cwd(), 'utils', 'sql', 'menu-get-items.sql');
       const queryText = fs.readFileSync(filePath, 'utf-8');
 
       const result = await database.query(queryText);
 
       if (result.rows.length > 0) {
         res.status(200).json({ menuItems: result.rows });
-        console.log("Fetched item:", result.rows);
+        //console.log("Fetched item:", result.rows);
       } else {
         res.status(404).json({ error: 'Menu items not found' });
       }      

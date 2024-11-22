@@ -21,6 +21,36 @@ export const GlobalStateProvider = ({ children }) => {
     setCurrentLanguage(language);
     translateAllText(textArray, language);
   };
+  const [cart, setCart] = useState([]);
+  const [newItem, setNewItem] = useState({
+    id: Date.now(),
+    type: "NEW ITEM",
+    price: 0.0,
+    details: [],
+    quantity: 1,
+  });
+
+  const addItemToCart = (item) => {
+    setCart([...cart, item]);
+  };
+
+  const removeNewItem = () => {
+    setNewItem({
+      id: Date.now(),
+      type: "NEW ITEM",
+      price: 0.0,
+      details: [],
+      quantity: 1,
+    });
+  }
+
+  const removeItemFromCart = (id) => {
+    setCart(cart.filter((item) => item.id !== id));
+  };
+
+  const clearCart = () => {
+    setCart([]);
+  };
 
   //resetting side associated counts
   const resetTrackedSides = () => {
@@ -60,7 +90,7 @@ export const GlobalStateProvider = ({ children }) => {
   //fetching menu items
   const fetchMenuItems = async () => {
     try {
-      const response = await fetch("/api/menu-get-item-price");
+      const response = await fetch("/api/menu-get-items");
       const data = await response.json();
 
       if (response.ok && data.menuItems) {
@@ -156,8 +186,18 @@ export const GlobalStateProvider = ({ children }) => {
         changeLanguage,
         translations,
         translateAllText,
-      }}
-    >
+        numTrackedOthers, 
+        resetTrackedOthers,
+        /* Cart Vars and Funcs */
+        cart,
+        newItem,
+        setNewItem,
+        removeNewItem,
+        setCart,
+        addItemToCart,
+        removeItemFromCart,
+        clearCart,
+      }}>
       {children}
     </GlobalStateContext.Provider>
   );

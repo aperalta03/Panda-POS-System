@@ -24,7 +24,7 @@
     background-color: var(--primary-color);
     border-radius: 30% 70% 50% 50% / 50% 40% 60% 30%;
     z-index: 1;
-    animation: left-to-right 3s ease-in-out infinite;
+    animation: left-to-bottom 3s ease-in-out infinite;
 }  
 
 .rightBlob {
@@ -36,28 +36,28 @@
     background-color: var(--primary-color);
     border-radius: 70% 30% 50% 50% / 50% 60% 40% 30%;
     z-index: 1;
-    animation: right-to-left 3s ease-in-out infinite;
+    animation: right-to-top 3s ease-in-out infinite;
 }  
 /* Animations */
-@keyframes left-to-right {
+@keyframes left-to-bottom {
     0% {
-        transform: translateX(0);
+        transform: translateY(0);
     }
     50% {
-        transform: translateX(80vw);
+        transform: translateY(60vh);
     }
     100% {
-        transform: translateX(0);
+        transform: translateY(0);
     }
 }
-@keyframes right-to-left {
+@keyframes right-to-top {
     0% {
-        transform: translateX(0);
+        transform: translateY(0);
     }
     50% {
-        transform: translateX(-80vw);
+        transform: translateY(-60vh);
     }
     100% {
-        transform: translateX(0);
+        transform: translateY(0);
     }
 }

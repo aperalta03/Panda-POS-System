@@ -4,7 +4,7 @@ import { useRole } from '../app/context/roleProvider';
 import { useUser } from '../app/context/userProvider';  
 import styles from './landing.module.css';
 
-const Login = () => {
+const Landing = () => {
     const router = useRouter();
     const { setRole } = useRole();
     const { setLoggedInName } = useUser();
@@ -109,4 +109,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default Landing;
