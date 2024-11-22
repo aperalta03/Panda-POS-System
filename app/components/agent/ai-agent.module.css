@@ -150,7 +150,7 @@
     color: white !important;
     height: 100%;
     width: fit-content;
-    border-radius: 10px;
+    border-radius: 10px !important;
     padding: 10px;
     transition: all 0.2s ease-in-out;
 }
