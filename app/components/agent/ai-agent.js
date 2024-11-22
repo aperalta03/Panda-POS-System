@@ -11,6 +11,7 @@ const AiAgent = () => {
   const [messages, setMessages] = useState([]);
   const [botTypingMessage, setBotTypingMessage] = useState('');
   const [loading, setLoading] = useState(false);
+  const [context, setContext] = useState([]);
   const chatboxRef = useRef(null);
 
   //** Auto Scroll **//
@@ -31,7 +32,12 @@ const AiAgent = () => {
     if (!prompt.trim() || loading) return;
 
     const userMessage = prompt.trim();
+    const newMessage = { role: "user", content: userMessage };
     setMessages((prev) => [...prev, { sender: 'user', text: userMessage }]);
+    setContext((prev) => [...prev, newMessage]);
+
+    const updatedContext = [...context, newMessage];
+
     setPrompt('');
     setLoading(true);
 
@@ -39,7 +45,7 @@ const AiAgent = () => {
       const res = await fetch('/api/ai-brain', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userMessage }),
+        body: JSON.stringify({ chatContext:updatedContext, userMessage }),
       });
 
       if (!res.ok) throw new Error('Failed to fetch response.');
@@ -51,6 +57,9 @@ const AiAgent = () => {
         console.error('Invalid bot response:', botMessage);
         throw new Error('Invalid bot response.');
       }
+
+      const botReply = { role: "assistant", content: botMessage };
+      setContext((prev) => [...prev, botReply]);
 
       typeResponse(botMessage);
     } catch (error) {
