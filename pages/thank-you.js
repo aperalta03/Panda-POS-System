@@ -45,7 +45,7 @@ const ThankYouPage = () => {
             <div className={styles.CookieWrapper}>
                 <Image width={100} height={100} src="/fortune_cookie.png" alt="Fortune Cookie" className={styles.CookieImage} />
                 <div className={styles.FortuneMessage}>
-                    "Your AI-generated fortune: Great things are coming your way!"
+                    <p>Your AI-generated fortune: Great things are coming your way!&quot;</p>
                 </div>
             </div>
         </div>
