@@ -253,10 +253,6 @@ export default async function handler(req, res) {
     //** Reset Password **//
     if (action === 'reset-password') {
       try {
-        // Log environment variables for debugging (mask sensitive data)
-        console.log('DEBUG: EMAIL_USER:', process.env.EMAIL_USER);
-        console.log('DEBUG: EMAIL_PASSWORD:', process.env.EMAIL_PASSWORD ? 'Set' : 'Not Set');
-
         // Query to validate the token
         const result = await database.query(
           'SELECT email FROM email_verification WHERE token = $1 AND expires_at > NOW()',
@@ -272,7 +268,7 @@ export default async function handler(req, res) {
         // Update the password
         await database.query('UPDATE employee_login SET password = $1 WHERE email = $2', [password, resetEmail]);
         await database.query('DELETE FROM email_verification WHERE email = $1', [resetEmail]);
-        
+
         console.log('DEBUG: Password reset successfully for email:', resetEmail);
 
         return res.status(200).json({ message: 'Password reset successfully.' });
