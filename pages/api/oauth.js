@@ -252,20 +252,30 @@ export default async function handler(req, res) {
 
     //** Reset Password **//
     if (action === 'reset-password') {
-      const result = await database.query(
-        'SELECT email FROM email_verification WHERE token = $1 AND expires_at > NOW()',
-        [token]
-      );
+      try {
+        // Query to validate the token
+        const result = await database.query(
+          'SELECT email FROM email_verification WHERE token = $1 AND expires_at > NOW()',
+          [token]
+        );
 
-      if (result.rows.length === 0) {
-        return res.status(400).json({ error: 'Invalid or expired token' });
+        if (result.rows.length === 0) {
+          return res.status(400).json({ error: 'Invalid or expired token' });
+        }
+
+        const resetEmail = result.rows[0].email;
+
+        // Update the password
+        await database.query('UPDATE employee_login SET password = $1 WHERE email = $2', [password, resetEmail]);
+        await database.query('DELETE FROM email_verification WHERE email = $1', [resetEmail]);
+
+        console.log('DEBUG: Password reset successfully for email:', resetEmail);
+
+        return res.status(200).json({ message: 'Password reset successfully.' });
+      } catch (error) {
+        console.error('DEBUG: Reset password error:', error.message);
+        return res.status(500).json({ error: 'Internal server error during password reset.' });
       }
-
-      const resetEmail = result.rows[0].email;
-      await database.query('UPDATE employee_login SET password = $1 WHERE email = $2', [password, resetEmail]);
-      await database.query('DELETE FROM email_verification WHERE email = $1', [resetEmail]);
-
-      return res.status(200).json({ message: 'Password reset successfully.' });
     }
 
     return res.status(400).json({ error: 'Invalid action' });
