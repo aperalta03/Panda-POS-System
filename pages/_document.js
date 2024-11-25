@@ -11,8 +11,9 @@ class MyDocument extends Document {
           <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
           <link
             href="https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap"
-            rel="stylesheet" 
+            rel="stylesheet"
           />
+          <link href="https://fonts.googleapis.com/css2?family=Delius+Swash+Caps&family=Marck+Script&display=swap" rel="stylesheet"/>
         </Head>
         <body className="no-scrollbar">
           <Main />
