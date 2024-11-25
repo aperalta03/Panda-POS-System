@@ -80,6 +80,8 @@ const KioskALaCartePage = () => {
     resetTrackedEntrees,
     resetTrackedOthers,
     translations,
+    isAlternateTheme,
+    setAlternateTheme
   } = useGlobalState();
   const { cart, addItemToCart, removeItemFromCart, clearCart, newItem, removeNewItem } = useGlobalState();
 
@@ -121,6 +123,10 @@ const KioskALaCartePage = () => {
   let itemsToDisplay = menu;
   let headerText = translations["Select Items"] || "SELECT ITEMS"; //info text that changes based on selection step\
 
+  const ThemeToggleButton = () => {
+    const { isAlternateTheme, setAlternateTheme } = useGlobalState();
+  };
+
   return (
     <div className={styles.layout}>
       <div className={styles.circle}>
@@ -128,6 +134,9 @@ const KioskALaCartePage = () => {
       </div>
 
       <div className={styles.topHeader}>
+        <button onClick={() => setAlternateTheme(!isAlternateTheme)}>
+            Switch to {isAlternateTheme ? "Default" : "Alternate"} Theme
+        </button>
         <TopBar
           handleCartClick={handleCartClick}
           numTrackedSides={numTrackedSides}

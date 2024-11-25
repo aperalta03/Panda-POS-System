@@ -5,16 +5,184 @@
 }
 /* Global Variables */
 :root {
-  --text-color-light: black;
-  --text-color-dark: white;
-  --background-color: #EAE2D8; /* Panda Express White */
-  --background-color-hover: #dacbb9;
-  --primary-color: #D22730; /* Panda Express Red */
-  --primary-color-hover: #a52229;
-  --secondary-color: #131313;
-  --secondary-color-hover: #292929;
-  --font-family: Georgia, 'Times New Roman', Times, serif;
+  --item-selection-background-color: white;
+  --primary-container-background-color: black;
+  --primary-button-background-color: black;
+  --primary-button-hover-color: #cb0632;
+  --primary-background-text-color: white;
+  --select-text-color: white;
+  --bottom-bar-background-color: black;
+  
+  --circle-color: #cb0632;
+  --label-selection-background-color: #cb0632;
+  --label-quant-background-color: black;
+  --label-quant-text-color: #cb0632;
+  --label-quant-count-text-color: white;
+  --done-enabled: #cb0632;
+  --x: #cb0632;
+
+    /*checkout theme*/
+    --cart-background-color: white;
+    --back-background-color: black;
+    --x2: #cb0632;
+    --back-menu-text: white;
+    --back-menu-hover: #cb0632;
+    --start-over-text: black;
+    --start-over-background-color: #cb0632;
+    --x1: white;
+    --start-over-hover: white;
+    --start-over-hover-background-color: black;
+  
+    --order-item-background-color: black;
+    --item-type-text: #cb0632;
+    --order-item-text: white;
+  
+    --scroll-background: #f0f0f0;
+    --scroll-bar: black;
+    --scroll-hover: #cb0632;
+  
+    --minus-background-color: #cb0632;
+    --minus-hover: black;
+    --minus-text-color: black;
+    --minus-text-hover: #cb0632;
+
+    --order-summary-color: black;
+    --order-summary-text-color: white;
+    --price-text-color: #cb0632;
+
+    --extra-background-color: black;
+    --extra-text-color: white;
+    --extra-item-background-color: white;
+    --extra-item-text-color: black;
+    --extra-item-hover-select: #cb0632;
+    --extra-item-select-text: white;
 }
+
+/* Default Theme */
+.default-theme {
+  /*item selection theme */ 
+    --item-selection-background-color: white;
+    --primary-container-background-color: black;
+    --primary-button-background-color: black;
+    --primary-button-hover-color: #cb0632;
+    --primary-background-text-color: white;
+    --select-text-color: white;
+    --bottom-bar-background-color: black;
+    
+    --circle-color: #cb0632;
+    --label-selection-background-color: #cb0632;
+    --label-quant-background-color: black;
+    --label-quant-text-color: #cb0632;
+    --label-quant-count-text-color: white;
+    --done-enabled: #cb0632;
+    --x: #cb0632;
+
+    --cart-border: white;
+
+    /*checkout theme*/
+    --cart-background-color: white;
+    --back-background-color: black;
+    --x2: #cb0632;
+    --back-menu-text: white;
+    --back-menu-hover: #cb0632;
+    --start-over-text: black;
+    --start-over-background-color: #cb0632;
+    --x1: white;
+    --start-over-hover: white;
+    --start-over-hover-background-color: black;
+    --x1-hover: white;
+
+    --order-item-background-color: black;
+    --item-type-text: #cb0632;
+    --order-item-text: white;
+
+    --scroll-background: #f0f0f0;
+    --scroll-bar: black;
+    --scroll-hover: #cb0632;
+
+    --minus-background-color: #cb0632;
+    --minus-hover: black;
+    --minus-text-color: black;
+    --minus-text-hover: #cb0632;
+
+    --order-summary-color: black;
+    --order-summary-text-color: white;
+    --price-text-color: #cb0632;
+
+    --extra-background-color: black;
+    --extra-text-color: white;
+    --extra-item-background-color: white;
+    --extra-item-text-color: black;
+    --extra-item-hover-select: #cb0632;
+    --extra-item-select-text: white;
+
+    --border: white;
+
+
+}
+
+/*Dark Mode */
+.alternate-theme {
+  /*item selection theme */  
+    --item-selection-background-color: black;
+    --primary-container-background-color: white;
+    --primary-button-background-color: white;
+    --primary-button-hover-color: #cb0632;
+    --primary-background-text-color: black;
+    --select-text-color: white;
+    --bottom-bar-background-color: #cb0632;
+    
+    --circle-color: #cb0632;
+    --label-selection-background-color: #cb0632;
+    --label-quant-background-color: white;
+    --label-quant-text-color: #cb0632;
+    --label-quant-count-text-color: black;
+    --done-enabled: white;
+    --x: white;
+
+    --cart-border: white;
+
+  
+  /*checkout theme*/
+  --cart-background-color: black;
+  --back-background-color: white;
+  --x2: black;
+  --back-menu-text: #cb0632;
+  --back-menu-hover: black;
+  --start-over-text: black;
+  --start-over-background-color: #cb0632;
+  --x1: white;
+  --x1-hover: black;
+  --start-over-hover: #cb0632;
+  --start-over-hover-background-color: white;
+
+  --order-item-background-color: black;
+  --item-type-text: #cb0632;
+  --order-item-text: white;
+
+  --scroll-background: #f0f0f0;
+  --scroll-bar: black;
+  --scroll-hover: #cb0632;
+
+  --minus-background-color: #cb0632;
+  --minus-hover: black;
+  --minus-text-color: black;
+  --minus-text-hover: #cb0632;
+
+  --order-summary-color: black;
+  --order-summary-text-color: white;
+  --price-text-color: #cb0632;
+
+  --extra-background-color: black;
+  --extra-text-color: white;
+  --extra-item-background-color: black;
+  --extra-item-text-color: white;
+  --extra-item-hover-select: #cb0632;
+  --extra-item-select-text: white;
+
+  --border: white;
+}
+
 
 /* Hide scrollbar for all browsers */
 .no-scrollbar {

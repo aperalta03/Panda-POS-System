@@ -9,6 +9,11 @@ const CartPage = () => {
   const { currentLanguage, changeLanguage, translations } = useGlobalState();
   const [selectedSauces, setSelectedSauces] = useState([]);
   const { cart, addItemToCart, removeItemFromCart, clearCart, newItem, removeNewItem, setCart } = useGlobalState();
+  const { isAlternateTheme, setAlternateTheme} = useGlobalState();
+
+  const ThemeToggleButton = () => {
+    const { isAlternateTheme, setAlternateTheme } = useGlobalState();
+  };
 
   const handleLanguageChange = (e) => {
     const newLanguage = e.target.value;
@@ -68,6 +73,9 @@ const CartPage = () => {
             <div className={styles.circle}></div>
 
       <div className={styles.topBar}>
+        <button onClick={() => setAlternateTheme(!isAlternateTheme)}>
+            Switch to {isAlternateTheme ? "Default" : "Alternate"} Theme
+        </button>
         <button className={styles.backButton} onClick={handleBackToMenu}>
           <div className={styles.inlineText}>
             <span className={styles.x2}> &gt; </span>
@@ -122,58 +130,45 @@ const CartPage = () => {
 
       <div className={styles.extrasSection}>
         <h3 className={styles.extrasTitle}>
-          {translations["Extras:"] || "Extras:"}
+            {translations["Don't Forget to add sauce"] || "Don't Forget to add sauce"}
         </h3>
         <div className={styles.sauceGrid}>
-          {[
+            {[
             { id: "soy", name: "Soy Sauce", imgSrc: "/soy-sauce.png" },
-            {
-              id: "sweet_sour",
-              name: "Sweet & Sour Sauce",
-              imgSrc: "/sweet-sour-sauce.png",
-            },
-            {
-              id: "chili",
-              name: "Chili Sauce",
-              imgSrc: "/chili-sauce.png",
-            },
-            {
-              id: "teriyaki",
-              name: "Teriyaki Sauce",
-              imgSrc: "/teriyaki-sauce.png",
-            },
-            {
-              id: "hot_mustard",
-              name: "Hot Mustard",
-              imgSrc: "/hot-mustard.png",
-            },
-          ].map((sauce) => (
+            { id: "sweet_sour", name: "Sweet & Sour Sauce", imgSrc: "/sweet-sour-sauce.png" },
+            { id: "chili", name: "Chili Sauce", imgSrc: "/chili-sauce.png" },
+            { id: "teriyaki", name: "Teriyaki Sauce", imgSrc: "/teriyaki-sauce.png" },
+            { id: "hot_mustard", name: "Hot Mustard", imgSrc: "/hot-mustard.png" },
+            ].map((sauce) => (
             <label
-              key={sauce.id}
-              className={`${styles.sauceCard} ${
+                key={sauce.id}
+                className={`${styles.sauceCard} ${
                 selectedSauces.includes(sauce.id) ? styles.selected : ""
-              }`}
+                }`}
             >
-              <input
+                <input
                 type="checkbox"
                 name="sauce"
                 value={sauce.id}
                 checked={selectedSauces.includes(sauce.id)}
-                onChange={() => handleSauceToggle(sauce.id)} // Handle toggle on change
+                onChange={() => handleSauceToggle(sauce.id)}
                 className={styles.sauceInput}
-              />
-              <img
-                src={sauce.imgSrc}
-                alt={sauce.name}
-                className={styles.sauceImage}
-              />
-              <span className={styles.sauceLabel}>
-                {translations[sauce.name] || sauce.name}
-              </span>
+                />
+                <div className={styles.sauceContent}>
+                <img
+                    src={sauce.imgSrc}
+                    alt={sauce.name}
+                    className={styles.sauceImage}
+                />
+                <span className={styles.sauceLabel}>
+                    {translations[sauce.name] || sauce.name}
+                </span>
+                </div>
             </label>
-          ))}
+            ))}
         </div>
-      </div>
+        </div>
+
 
       <div className={styles.orderSummary}>
         <button className={styles.placeOrderButton} onClick={handlePlaceOrder}>
@@ -200,11 +195,6 @@ const CartPage = () => {
           </div>
         </div>
       </div>
-
-      {/* Button to add item for demonstration purposes */}
-      <button className={styles.addItemButton} onClick={handleAddItem}>
-        {translations["+ Add Item"] || "+ Add Item"}
-      </button>
     </div>
   );
 };

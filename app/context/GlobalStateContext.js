@@ -6,6 +6,20 @@ const GlobalStateContext = createContext();
 
 //setting global vars
 export const GlobalStateProvider = ({ children }) => {
+  const [isAlternateTheme, setAlternateTheme] = useState(false);
+
+  useEffect(() => {
+    // Apply the theme to a specific wrapper or body
+    const body = document.body;
+    if (isAlternateTheme) {
+      body.classList.add("alternate-theme");
+      body.classList.remove("default-theme");
+    } else {
+      body.classList.add("default-theme");
+      body.classList.remove("alternate-theme");
+    }
+  }, [isAlternateTheme]);
+  
   const [numTrackedSides, setNumTrackedSides] = useState(0); //tracks sides in one item order
   const [numTrackedEntrees, setNumTrackedEntrees] = useState(0); //tracks entrees in one item order
   const [numTrackedOthers, setNumTrackedOthers] = useState(0); //tracks other items in one item order
@@ -197,6 +211,9 @@ export const GlobalStateProvider = ({ children }) => {
         addItemToCart,
         removeItemFromCart,
         clearCart,
+        /*styling toggles */
+        isAlternateTheme,
+        setAlternateTheme,
       }}>
       {children}
     </GlobalStateContext.Provider>

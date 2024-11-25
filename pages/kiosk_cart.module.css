@@ -3,7 +3,7 @@
   padding: 20px;
   flex-wrap: wrap;
   gap: 25px;
-  background-color: white;
+  background-color: var(--cart-background-color);
   height: 100%;
 
   overflow: hidden;
@@ -17,12 +17,12 @@
   transform: translate(38%, 50%);
   width: 800px;
   height: 800px;
-  background-color: #cb0632;
+  background-color: var(--circle-color);
   border-radius: 50%;
-  color: #cb0632;
+  color: var(--circle-color);
   position: absolute;
   z-index: 0;
-  border: 1px solid #cb0632;
+  border: 1px solid var(--circle-color);
   position: absolute;
   overflow-x: hidden;
 }
@@ -57,8 +57,8 @@
   font-size: 16px;
   text-align: left;
   font-weight: bold;
-  color: black;
-  background-color: black;
+  color: var(--back-background-color);
+  background-color: var(--back-background-color);
   border: none;
   cursor: pointer;
   transition: background-color 0.3s;
@@ -69,20 +69,20 @@
 }
 .x2 {
   font-weight: bold;
-  color: #cb0632;
+  color: var(--x2);
 }
 .backMenu {
   font-size: 16px;
-  color: white;
+  color: var(--back-menu-text);
   text-transform: uppercase;
 }
 
 /* Styling for back to menu hover */
 .backButton:hover {
-  border: 1px solid #cb0632;
+  border: 1px solid var(--back-menu-hover);
 
   .backMenu {
-    color: #cb0632;
+    color: var(--back-menu-hover);
   }
 }
 
@@ -94,8 +94,8 @@
   font-size: 16px;
   text-align: left;
   font-weight: bold;
-  color: black;
-  background-color: #cb0632;
+  color: var(--start-over-text);
+  background-color: var(--start-over-background-color);
   border: none;
   border-bottom-right-radius: 20px;
   cursor: pointer;
@@ -112,32 +112,37 @@
 }
 .x {
   font-weight: bold;
-  color: white;
+  color: var(--x1);
 }
 .startOver {
   font-size: 16px;
-  color: black;
+  color: var(--start-over-text);
   text-transform: uppercase;
   font-weight: bold;
 }
 
 /* Styling for start over hover */
 .startOverButton:hover {
-  background-color: black;
-  border: 1px solid white;
+  background-color: var(--start-over-hover-background-color);
+  border: 1px solid var(--start-over-hover);
 
   .startOver {
-    color: white;
+    color: var(--start-over-hover);
+  }
+  
+  .x {
+    color: var(--x1-hover);
   }
 }
 
 /* Styling order item frame */
 .orderItem {
-  background-color: #000;
-  color: white;
+  background-color: var(--order-item-background-color);
+  color: var(--order-item-text);
   padding: 15px;
   margin-bottom: 10px;
   z-index: 1;
+  border: 1px solid  var(--border);
 }
 
 /* Container for item type and remove button */
@@ -152,13 +157,13 @@
 .itemType {
   font-size: 25px;
   font-weight: bold;
-  color: #cb0632;
+  color: var(--item-type-text);
   margin: 0;
 }
 
 /* The scrollable bar if exceeding the set height */
 .scrollableOrderList {
-  max-height: 400px;
+  max-height: 250px;
   overflow-y: auto;
   margin-top: 10px;
   padding-right: 10px;
@@ -174,22 +179,22 @@
 
 /* Style the scrollbar bacgkround - very light gray */
 .scrollableOrderList::-webkit-scrollbar-track {
-  background: #f0f0f0;
+  background: var(--scroll-background);
   border-radius: 4px;
   z-index: 1;
 }
 
 /* Scrollbar thumb */
 .scrollableOrderList::-webkit-scrollbar-thumb {
-  background-color: black;
+  background-color: var(--scroll-bar);
   border-radius: 4px;
-  border: 2px solid #f0f0f0;
+  border: 2px solid var(--scroll-background);
   z-index: 1;
 }
 
 /* Scrollbar thumb hover */
 .scrollableOrderList::-webkit-scrollbar-thumb:hover {
-  background-color: #cb0632;
+  background-color: var(--scroll-hover);
   z-index: 1;
 }
 
@@ -204,14 +209,14 @@
 /* Bold styling for the "x" */
 .boldX {
   font-weight: bold;
-  color: #cb0632;
+  color: var(--item-type-text);
 }
 
 /* Styling for remove button */
 .removeButton {
   font-size: 25px;
-  color: black;
-  background-color: #cb0632;
+  color: var(--minus-text-color);
+  background-color: var(--minus-background-color);
   border: none;
   cursor: pointer;
   border-radius: 50%;
@@ -224,14 +229,14 @@
 
 /* Styling for remove button hover */
 .removeButton:hover {
-  background-color: black;
-  color: #cb0632;
-  border: 1px solid #cb0632;
+  background-color: var(--minus-hover);
+  color: var(--minus-text-hover);
+  border: 1px solid var(--minus-text-hover);
 }
 
 /* Styling for order summary */
 .orderSummary {
-  color: black;
+  color: var(--order-summary-color);
   padding: 20px;
   border-radius: 15px;
   margin-top: 20px;
@@ -250,24 +255,24 @@
 .placeOrderButton {
   font-size: 40px;
   font-weight: bold;
-  color: rgb(10, 10, 10);
-  background-color: black;
+  color: var(--order-summary-color);
+  background-color: var(--order-summary-color);
   padding: 10px 20px;
   border: none;
   cursor: pointer;
   text-transform: uppercase;
   border-top-left-radius: 20px;
-  text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff,
-    1px 1px 0 #fff;
+  text-shadow: -1px -1px 0 var(--order-summary-text-color), 1px -1px 0 var(--order-summary-text-color), -1px 1px 0 var(--order-summary-text-color),
+    1px 1px 0 var(--order-summary-text-color);
   align-self: flex-end;
   margin-bottom: -10px;
 }
 
 /*Styling for hover on order button */
 .placeOrderButton:hover {
-  text-shadow: -1px -1px 0 #cb0632, 1px -1px 0 #cb0632, -1px 1px 0 #cb0632,
-    1px 1px 0 #cb0632;
-  border: 1px solid white;
+  text-shadow: -1px -1px 0  var(--price-text-color), 1px -1px 0  var(--price-text-color), -1px 1px 0  var(--price-text-color),
+    1px 1px 0  var(--price-text-color);
+  border: 1px solid var(--order-summary-text-color);
 }
 
 /* Container for price summary details and total */
@@ -275,7 +280,7 @@
   display: flex;
   margin-top: 20px;
   gap: 20px;
-  color: black;
+  color: var(--order-summary-color);
   align-items: flex-start;
 }
 
@@ -296,7 +301,7 @@
   align-self: flex-end;
   gap: 5px;
   margin-top: 5px;
-  color: white;
+  color: var(--order-summary-text-color);
 }
 .priceDetail span:first-child {
   font-weight: bold;
@@ -304,9 +309,9 @@
 
 /* Styling for container with total price */
 .priceContainer {
-  background-color: black;
+  background-color: var(--order-summary-color);
   padding: 15px;
-  color: #cb0632;
+  color: var(--price-text-color);
   border-top-left-radius: 20px;
   width: 300px;
 }
@@ -338,84 +343,92 @@
 
 /* Extras section container */
 .extrasSection {
-  margin-top: 20px;
-  text-align: center;
-  position: absolute;
-  left: 10;
-  bottom: 180px;
-}
+    margin-top: 20px;
+    text-align: left;
+    position: absolute;
+    left: 10;
+    bottom: 180px;
+    background-color: var(--extra-background-color);
+    padding: 10px;
+    border: 1px solid  var(--border);
+  }
+  
+  /* Title for the extras section */
+  .extrasTitle {
+    font-size: 22px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: var(--extra-text-color);
+    margin-bottom: 15px;
+  }
+  
+  /* Grid layout for sauce cards */
+  .sauceGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    justify-items: left;
+    grid-auto-rows: 75px;
+  }
+  
+  /* Individual sauce card */
+  .sauceCard {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border: 1px solid var(--border);
+    border-top-left-radius: 20px;
+    padding: 10px;
+    background-color: var(--extra-item-background-color);
+    cursor: pointer;
+    max-width: 200px; /* Optional: Ensures uniform size */
 
-/* Title for the extras section */
-.extrasTitle {
-  font-size: 18px;
-  font-weight: bold;
-  text-transform: uppercase;
-  color: #333;
-  margin-bottom: 15px;
-}
-
-/* Grid layout for sauce cards */
-.sauceGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 15px;
-  justify-items: center;
-  display: flex;
-  /* margin-top: 0px; */
-}
-
-/* Individual sauce card */
-.sauceCard {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  padding: 10px;
-  background-color: #fff;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s, box-shadow 0.2s;
-  cursor: pointer;
-}
-
-/* Sauce card hover effect */
-.sauceCard:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-/* Radio input hidden */
-.sauceInput {
-  display: none;
-}
-
-/* Sauce image */
-.sauceImage {
-  width: 70px;
-  height: 70px;
-  margin-bottom: 10px;
-  object-fit: contain;
-}
-
-/* Sauce label */
-.sauceLabel {
-  font-size: 14px;
-  font-weight: bold;
-  color: #333;
-  text-align: center;
-}
-
+    width: 180px; /* Fixed width */
+    height: 70px; /* Fixed height */
+  }
+  
+  /* Sauce card hover effect */
+  .sauceCard:hover {
+    transform: scale(1.05);
+    border-color: var(--extra-item-hover-select);
+    
+  }
+  
+  /* Sauce content layout */
+  .sauceContent {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between image and text */
+  }
+  
+  /* Radio input hidden */
+  .sauceInput {
+    display: none;
+  }
+  
+  /* Sauce image */
+  .sauceImage {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+  }
+  
+  /* Sauce label */
+  .sauceLabel {
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--extra-item-text-color);
+    text-align: left;
+  }
+  
 .selected {
-  border-color: #cb0632;
-  background-color: #cb0632;
-  color: white;
-  transform: scale(1.05);
-  box-shadow: 0 4px 10px rgba(203, 6, 50, 0.6);
+  border-color: var(--extra-item-hover-select);
+  background-color: var(--extra-item-hover-select);
+  color: var(--extra-item-select-text);
 }
 
 .selected .sauceLabel {
-  color: white;
+  color: var(--extra-item-select-text);
 }
 
 .selected .sauceImage {

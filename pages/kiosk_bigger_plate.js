@@ -74,6 +74,8 @@ const KioskBiggerPlatePage = () => {
     isDone,
     setDone,
     translations,
+    isAlternateTheme,
+    setAlternateTheme
   } = useGlobalState();
   const [currentStep, setCurrentStep] = useState("sides"); //step var to indicate whether selecting sides or entrees
 
@@ -150,6 +152,11 @@ const KioskBiggerPlatePage = () => {
     headerText = translations["Select Entrees"] || "Select Entrees";
   }
 
+  const ThemeToggleButton = () => {
+    const { isAlternateTheme, setAlternateTheme } = useGlobalState();
+  };
+  
+
   return (
     <div className={styles.layout}>
       <div className={styles.circle}>
@@ -157,6 +164,9 @@ const KioskBiggerPlatePage = () => {
       </div>
 
       <div className={styles.topHeader}>
+        <button onClick={() => setAlternateTheme(!isAlternateTheme)}>
+            Switch to {isAlternateTheme ? "Default" : "Alternate"} Theme
+        </button>
         <TopBar
           handleCartClick={handleCartClick}
           numTrackedSides={numTrackedSides}
