@@ -227,14 +227,15 @@ const Welcome = ({ toItemPage }) => {
       <h1 className={styles.welcomeHeader}>
         {translations["We Wok For You"] || "We Wok For You"}
       </h1>
-      <h1 onClick={toItemPage} className={styles.orderHeader}>
-        {translations["Tap to Order Now"] || "Tap to Order Now"}
-      </h1>
-
-      <TranslateButton
-        currentLanguage={currentLanguage}
-        onLanguageChange={handleLanguageChange}
-      />
+      <div onClick={toItemPage} className={styles.orderHeader}>
+        <h1>{translations["Tap to Order Now"] || "Tap to Order Now"}</h1>
+      </div>
+      <div className={styles.translateButton}>
+        <TranslateButton
+          currentLanguage={currentLanguage}
+          onLanguageChange={handleLanguageChange}
+        />
+      </div>
       <div className={styles.handicapWrapper}>
         <img
           src="/handicap_button.jpg"
