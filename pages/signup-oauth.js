@@ -11,7 +11,8 @@ const SignOAuth = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const router = useRouter();
 
-  const handleEmailPasswordSignUp = () => {
+  const handleEmailPasswordSignUp = async (e) => {
+    e.preventDefault();
     if (password !== confirmPassword) {
       alert("Passwords don't match");
       return;
@@ -84,6 +85,12 @@ const SignOAuth = () => {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             className={styles.input}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                handleEmailPasswordSignUp(e);
+              }
+            }}
           />
           <Button
             fullWidth

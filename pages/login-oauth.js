@@ -54,7 +54,8 @@ const LoginOAuth = () => {
       });
   };
 
-  const handleEmailPasswordLogin = () => {
+  const handleEmailPasswordLogin = async (e) => {
+    e.preventDefault();
     fetch('/api/oauth', {
       method: 'POST',
       headers: {
@@ -140,6 +141,12 @@ const LoginOAuth = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className={styles.input}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                  e.preventDefault();
+                  handleEmailPasswordLogin(e);
+                }
+              }}
             />
             <Button
               fullWidth
