@@ -1,55 +1,72 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import Image from 'next/image';
 import styles from './thank-you.module.css';
 import JSConfetti from 'js-confetti';
 
 const ThankYouPage = () => {
-    const router = useRouter();
+  const router = useRouter();
+  const [fortune, setFortune] = useState('Fetching your fortune...');
 
-    useEffect(() => {
-        // Initialize the JSConfetti instance
-        const jsConfetti = new JSConfetti();
+  useEffect(() => {
+    const fetchFortune = async () => {
+      try {
+        const response = await fetch('/api/fortune-ai');
+        const data = await response.json();
+        setFortune(data.fortune || 'Your fortune could not be fetched.');
+      } catch (error) {
+        console.error('Error fetching fortune:', error);
+        setFortune('Something went wrong, but great things are still coming!');
+      }
+    };
+    fetchFortune();
 
-        // Trigger confetti rain for a certain duration
-        const confettiRainDuration = 2000; // 5 seconds
-        const confettiInterval = 500; // Interval between bursts (ms)
+    const jsConfetti = new JSConfetti();
+    const confettiRainDuration = 1500; // Total duration of confetti
+    const confettiInterval = 500; // Interval between confetti bursts
 
-        const confettiTimer = setInterval(() => {
-            jsConfetti.addConfetti({
-                emojis: ['🥠'], // Optional emojis
-                confettiRadius: 1,
-                confettiNumber: 30
-            });
-        }, confettiInterval);
+    const confettiTimer = setInterval(() => {
+      jsConfetti.addConfetti({
+        emojis: ['🥠'],
+        confettiRadius: 1,
+        confettiNumber: 10,
+      });
+    }, confettiInterval);
 
-        // Stop the confetti rain after the duration
-        setTimeout(() => {
-            clearInterval(confettiTimer);
-        }, confettiRainDuration);
+    setTimeout(() => {
+      clearInterval(confettiTimer);
+    }, confettiRainDuration);
 
-        // Add click-to-navigate functionality
-        const handleClick = () => {
-            router.push('/kiosk');
-        };
-        window.addEventListener('click', handleClick);
+    const handleClick = () => router.push('/kiosk');
+    window.addEventListener('click', handleClick);
 
-        return () => {
-            window.removeEventListener('click', handleClick);
-        };
-    }, [router]);
+    return () => {
+      window.removeEventListener('click', handleClick);
+    };
+  }, [router]);
 
-    return (
-        <div className={styles.Container}>
-            <h1>Thank you for your order!</h1>
-            <div className={styles.CookieWrapper}>
-                <Image width={100} height={100} src="/fortune_cookie.png" alt="Fortune Cookie" className={styles.CookieImage} />
-                <div className={styles.FortuneMessage}>
-                    <p>Your AI-generated fortune: Great things are coming your way!&quot;</p>
-                </div>
-            </div>
-        </div>
-    );
+  return (
+    <div className={styles.Container}>
+      <img
+        src="/chickenmaxxing_logo.png"
+        alt="Chicken Maxxing Logo"
+        className={`${styles.Logo} ${styles.Left}`}
+      />
+      <img
+        src="/panda_express.png"
+        alt="Panda Express Logo"
+        className={`${styles.Logo} ${styles.Right}`}
+      />
+      <h1 className={styles.ThankYouText}>Thank you for your order!</h1>
+      <div className={styles.FortunePaper}>
+        <p>{fortune}</p>
+      </div>
+      <img
+        src="/click.png"
+        alt="CLick Me to go Back to the Kiosk"
+        className={styles.click}
+      />
+    </div>
+  );
 };
 
 export default ThankYouPage;

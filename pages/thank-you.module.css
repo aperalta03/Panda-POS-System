@@ -1,106 +1,108 @@
+/* Main Container */
 .Container {
     height: 100%;
     width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    background-color: var(--secondary-color);
-    overflow: hidden;
+    justify-content: center;
     position: relative;
+    background-image: url('/thank-you-bg.jpg');
+    background-size: cover;
+    background-position: top;
+    overflow: hidden;
 }
-
-.Container h1 {
-    color: var(--primary-color);
-    font-size: 5rem;
-    font-family: var(--font-family);
-    margin-top: 20px;
+/* Semi-Circle Background */
+.Container::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 110%;
+    height: 40%;
+    background-color: var(--background-color-hover);
+    border-radius: 100% 100% 0 0;
+    border-top: 5px solid var(--secondary-color);
+    z-index: 0;
+    cursor: pointer;
 }
-
-.CookieWrapper {
+/* Logos */
+.Logo {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    z-index: 2;
+    border: 3px solid var(--secondary-color-hover);
+}  
+.Left {
+    top: 20px;
+    left: 20px;
+    border-radius: 20px;
+}  
+.Right {
+    top: 20px;
+    right: 20px;
+    background-color: white;
+    border-radius: 50%;
+}  
+/* Content */
+.ThankYouText {
+    font-size: 120px;
+    font-weight: 400;
+    font-family: "Marck Script", serif;
+    font-style: normal;
+    color: var(--text-color-light);
+    text-align: center;
+    z-index: 1;
+    opacity: 0;
+    animation: fadeIn 2s ease-in-out forwards;
+}  
+@keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+}  
+/* Fortune Cookie Paper */
+.FortunePaper {
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 300px;
-    height: 300px;
-    animation: openCookie 2s ease-in-out forwards;
-}
+    top: 25%;
+    width: 60%;
+    height: 15%;
+    background-color: #fdf5e6;
+    border: 3px solid #e3c29b;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 4s ease-in-out forwards;
+    z-index: 3;
 
-.CookieImage {
-    width: 100%;
-    height: auto;
-    transform: scale(1);
-    animation: shrinkCookie 2s ease-in-out forwards;
-}
+    clip-path: polygon(
+        0% 0%, 10% 50%, 0% 100%, 
+        100% 100%, 90% 50%, 100% 0%
+    );
 
-.CookieImageSmall {
-    width: 40px;
-    height: 40px;
-}
-
-.FortuneMessage {
-    position: absolute;
-    bottom: 10%;
-    width: 80%;
-    padding: 10px;
+    padding: 15px 10% 15px 10%; 
     text-align: center;
-    background-color: white;
-    border-radius: 5px;
-    border: 2px solid var(--primary-color);
-    font-size: 1.2rem;
-    color: var(--primary-color);
-    font-family: var(--font-family);
-    opacity: 0;
-    transform: translateY(20px);
-    animation: revealMessage 2s ease-in-out forwards 1.5s;
+    font-size: 2.5rem;
+    font-family: 'Marck Script', cursive;
+    color: var(--text-color-light);
 }
-
-.FallingCookies {
+.click {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-}
-
-.Cookie {
-    position: absolute;
-    top: -50px;
-    width: 40px;
-    height: 40px;
-    animation: fall 5s linear infinite;
-}
-
-@keyframes shrinkCookie {
-    0% {
-        transform: scale(1);
-    }
-    100% {
-        transform: scale(0.8) translateY(-20px);
-    }
-}
-
-@keyframes revealMessage {
-    0% {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes fall {
-    0% {
-        transform: translateY(-50px) rotate(0deg);
-        opacity: 1;
-    }
-    100% {
-        transform: translateY(100vh) rotate(360deg);
-        opacity: 0.5;
-    }
+    bottom: 20px;
+    right: 20px;
+    width: 75px;
+    height: 75px;
+    color: var(--text-color-dark);
+    cursor: pointer;
+    rotate: -45deg;
 }
