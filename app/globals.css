@@ -6,7 +6,7 @@
 /* Global Variables */
 :root {
 
-  /*Font sizes for kiosk */
+  /*item-selection */
   --item-header: 2.8rem;
   --side-entree-quant: 2.5rem;
   --side-entree-quant-label: 4.4rem;
@@ -17,6 +17,36 @@
   --plate-name: 3.75rem;
   --bottom-button: 1.2rem;
 
+  /*item-frame */
+  --item-name: 1.35rem;
+  --calories: 1.06rem;
+  --price: 1.125rem;
+  --counter-container: 1.56rem;
+  --add-sub: 1.875rem;
+  --info-button: 1.25rem;
+  --designation: 1.5rem;
+  --other-designations: 1.25rem;
+  --popup-content: 1rem;
+  --popup-close-button: 0.8rem;
+
+  /*checkout */
+  --back-buttons: 1rem;
+  --item-type: 1.56rem;
+  --item-details: 0.9375rem;
+  --remove-button: 1.5625rem;
+  --place-order: 2.5rem;
+  --price-details: 1.25rem;
+  --total-price: 1.6875rem;
+  --extras-title: 1.375rem;
+  --sauce-label: 1rem;
+
+  /* menu selection */
+  --price-label: 1.875rem;
+  --top-buttons: 2.1875rem;
+  --start-over: 1.5625rem;
+  --item-left: 1.25rem;
+  --item-right: 1rem;
+  --bottom-header: 1.875rem;
 
 
   /* Other view colors */
