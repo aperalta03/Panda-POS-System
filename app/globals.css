@@ -6,6 +6,19 @@
 /* Global Variables */
 :root {
 
+  /*Font sizes for kiosk */
+  --item-header: 2.8rem;
+  --side-entree-quant: 2.5rem;
+  --side-entree-quant-label: 4.4rem;
+  --side-entree-quant-words: 1rem;
+  --check-out: 2rem;
+  --select-label: 1.25rem;
+  --select-quant-label: 0.9rem;
+  --plate-name: 3.75rem;
+  --bottom-button: 1.2rem;
+
+
+
   /* Other view colors */
   --text-color-light: black;
   --text-color-dark: white;
@@ -69,6 +82,192 @@
     --extra-item-text-color: black;
     --extra-item-hover-select: #cb0632;
     --extra-item-select-text: white;
+}
+
+.original-size-text {
+  /*item-selection */
+  --item-header: 2.8rem;
+  --side-entree-quant: 2.5rem;
+  --side-entree-quant-label: 4.4rem;
+  --side-entree-quant-words: 1rem;
+  --check-out: 2rem;
+  --select-label: 1.25rem;
+  --select-quant-label: 0.9rem;
+  --plate-name: 3.75rem;
+  --bottom-button: 1.2rem;
+
+  /*item-frame */
+  --item-name: 1.35rem;
+  --calories: 1.06rem;
+  --price: 1.125rem;
+  --counter-container: 1.56rem;
+  --add-sub: 1.875rem;
+  --info-button: 1.25rem;
+  --designation: 1.5rem;
+  --other-designations: 1.25rem;
+  --popup-content: 1rem;
+  --popup-close-button: 0.8rem;
+
+  /*checkout */
+  --back-buttons: 1rem;
+  --item-type: 1.56rem;
+  --item-details: 0.9375rem;
+  --remove-button: 1.5625rem;
+  --place-order: 2.5rem;
+  --price-details: 1.25rem;
+  --total-price: 1.6875rem;
+  --extras-title: 1.375rem;
+  --sauce-label: 1rem;
+
+  /* menu selection */
+  --price-label: 1.875rem;
+  --top-buttons: 2.1875rem;
+  --start-over: 1.5625rem;
+  --item-left: 1.25rem;
+  --item-right: 1rem;
+  --bottom-header: 1.875rem;
+
+}
+
+.plus-ten-text {
+  /*item-selection */
+  --item-header: 3.08rem;
+  --side-entree-quant: 2.75rem;
+  --side-entree-quant-label: 4.84rem;
+  --side-entree-quant-words: 1.1rem;
+  --check-out: 2.2rem;
+  --select-label: 1.375rem;
+  --select-quant-label: 0.99rem;
+  --plate-name: 4.125rem;
+  --bottom-button: 1.32rem;
+  --back-to-menu-button: 1.32rem;
+  --done-button: 1.32rem;
+
+  /*item-frame */
+  --item-name: 1.485rem;
+  --calories: 1.166rem;
+  --price: 1.12375rem;
+  --counter-container: 1.716rem;
+  --add-sub: 2.0625rem;
+  --info-button: 1.375rem;
+  --designation: 1.65rem;
+  --other-designations: 1.375rem;
+  --popup-content: 1.1rem;
+  --popup-close-button: 0.88rem;
+
+  /*checkout */
+  --back-buttons: 1.1rem;
+  --item-type: 1.716rem;
+  --item-details: 1.03125rem;
+  --remove-button: 1.71875rem;
+  --place-order: 2.75rem;
+  --price-details: 1.375rem;
+  --total-price: 1.85625rem;
+  --extras-title: 1.5125rem;
+  --sauce-label: 1.1rem;
+
+  /*menu selection */
+  --price-label: 2.0625rem;
+  --top-buttons: 2.40625rem;
+  --start-over: 1.71875rem;
+  --item-left: 1.375rem;
+  --item-right: 1.1rem;
+  --bottom-header: 2.0625rem;
+
+}
+
+.plus-twenty-text {
+  /*item-selection */
+  --item-header: 3.36rem;
+  --side-entree-quant: 3.0rem;
+  --side-entree-quant-label: 5.28rem;
+  --side-entree-quant-words: 1.2rem;
+  --check-out: 2.4rem;
+  --select-label: 1.5rem;
+  --select-quant-label: 1.08rem;
+  --plate-name: 4.5rem;
+  --bottom-button: 1.44rem;
+  --back-to-menu-button: 1.44rem;
+  --done-button: 1.44rem;
+
+  /*item-frame */
+  --item-name: 1.62rem;
+  --calories: 1.272rem;
+  --price: 1.35rem;
+  --counter-container: 1.872rem;
+  --add-sub: 2.25rem;
+  --info-button: 1.5rem;
+  --designation: 1.8rem;
+  --other-designations: 1.5rem;
+  --popup-content: 1.2rem;
+  --popup-close-button: 0.96rem;
+
+  /*checkout */
+  --back-buttons: 1.2rem;
+  --item-type: 1.872rem;
+  --item-details: 1.125rem;
+  --remove-button: 1.875rem;
+  --place-order: 3rem;
+  --price-details: 1.5rem;
+  --total-price: 2.025rem;
+  --extras-title: 1.65rem;
+  --sauce-label: 1.2rem;
+
+  /* menu selection */
+  --price-label: 2.25rem;
+  --top-buttons: 2.625rem;
+  --start-over: 1.875rem;
+  --item-left: 1.5rem;
+  --item-right: 1.2rem;
+  --bottom-header: 2.25rem;
+
+}
+
+.plus-thirty-text {
+  /*item-selection */
+  --item-header: 3.64rem;
+  --side-entree-quant: 3.25rem;
+  --side-entree-quant-label: 5.72rem;
+  --side-entree-quant-words: 1.3rem;
+  --check-out: 2.6rem;
+  --select-label: 1.625rem;
+  --select-quant-label: 1.17rem;
+  --plate-name: 4.875rem;
+  --bottom-button: 1.56rem;
+  --back-to-menu-button: 1.56rem;
+  --done-button: 1.56rem;
+
+  /*item-frame */
+  --item-name: 1.755rem;
+  --calories: 1.378rem;
+  --price: 1.4625rem;
+  --counter-container: 2.028rem;
+  --add-sub: 2.4375rem;
+  --info-button: 1.625rem;
+  --designation: 1.95rem;
+  --other-designations: 1.625rem;
+  --popup-content: 1.3rem;
+  --popup-close-button: 1.04rem;
+
+
+  /*checkout */
+  --back-buttons: 1.3rem;
+  --item-type: 2.028rem;
+  --item-details: 1.21875rem;
+  --remove-button: 2.03125rem;
+  --place-order: 3.25rem;
+  --price-details: 1.625rem;
+  --total-price: 2.19375rem;
+  --extras-title: 1.7875rem;
+  --sauce-label: 1.3rem;
+  
+  /* menu selection */
+  --price-label: 2.4375rem;
+  --top-buttons: 2.84375rem;
+  --start-over: 2.03125rem;
+  --item-left: 1.625rem;
+  --item-right: 1.3rem;
+  --bottom-header: 2.4375rem;
 }
 
 /* Default Theme */
@@ -157,7 +356,7 @@
     --secondary-color: #131313;
     --secondary-color-hover: #292929;
     --font-family: Georgia, 'Times New Roman', Times, serif;
-    
+
   /*item selection theme */  
     --item-selection-background-color: black;
     --primary-container-background-color: white;
@@ -218,6 +417,26 @@
   --border: white;
 }
 
+.loyalty-theme {
+  /*item selection theme */ 
+    --item-selection-background-color: white;
+    --primary-container-background-color: black;
+    --primary-button-background-color: black;
+    --primary-button-hover-color: #cb0632;
+    --primary-background-text-color: white;
+    --select-text-color: white;
+    --bottom-bar-background-color: black;
+    
+    --circle-color: #cb0632;
+    --label-selection-background-color: #cb0632;
+    --label-quant-background-color: black;
+    --label-quant-text-color: #cb0632;
+    --label-quant-count-text-color: white;
+    --done-enabled: #cb0632;
+    --x: #cb0632;
+
+    --cart-border: white;
+}
 
 /* Hide scrollbar for all browsers */
 .no-scrollbar {

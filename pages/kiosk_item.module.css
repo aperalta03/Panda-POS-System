@@ -109,7 +109,7 @@
 
 /* Styling for price label */
 .priceLabel {
-    font-size: 30px;
+    font-size: var(--price-label);
     font-weight: bold;
     color: #cb0632;
 }
@@ -150,7 +150,7 @@
     flex: 1;
     padding: 10px;
     margin-top: 40px;
-    font-size: 35px;
+    font-size: var(--top-buttons);
     text-align: left;
     font-weight: bold;
     color: black;
@@ -210,7 +210,7 @@
     color: white;
 }
 .startOver {
-    font-size: 25px;
+    font-size: var(--start-over);
     color: black;
     text-transform: uppercase;
 }
@@ -243,7 +243,7 @@
     text-align: center;
     font-weight: bold;
     flex: 1;
-    font-size: 20px;
+    font-size: var(--item-left);
     border-radius: 8px 0 0 8px;
     padding-top: 45px;
     height: 12vh;
@@ -256,7 +256,7 @@
 .itemRight {
     text-align: left;
     flex: 1;
-    font-size: 16px;
+    font-size: var(--item-right);
     margin-left: 20px;
     color: white;
     display: block;
@@ -293,7 +293,7 @@
 /* Bottom Panel */
 .bottomHeader {
     text-transform: uppercase;
-    font-size: 30px;
+    font-size: var(--bottom-header);
     font-weight: bold;
     color: white;
     text-align: center;

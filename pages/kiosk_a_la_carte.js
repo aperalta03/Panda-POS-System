@@ -80,8 +80,11 @@ const KioskALaCartePage = () => {
     resetTrackedEntrees,
     resetTrackedOthers,
     translations,
-    isAlternateTheme,
-    setAlternateTheme
+    toggleTheme, 
+    currentTheme, 
+    isPandaMember,
+    toggleSize,
+    isLargeText
   } = useGlobalState();
   const { cart, addItemToCart, removeItemFromCart, clearCart, newItem, removeNewItem } = useGlobalState();
 
@@ -123,9 +126,6 @@ const KioskALaCartePage = () => {
   let itemsToDisplay = menu;
   let headerText = translations["Select Items"] || "SELECT ITEMS"; //info text that changes based on selection step\
 
-  const ThemeToggleButton = () => {
-    const { isAlternateTheme, setAlternateTheme } = useGlobalState();
-  };
 
   return (
     <div className={styles.layout}>
@@ -134,9 +134,13 @@ const KioskALaCartePage = () => {
       </div>
 
       <div className={styles.topHeader}>
-        <button onClick={() => setAlternateTheme(!isAlternateTheme)}>
-            Switch to {isAlternateTheme ? "Default" : "Alternate"} Theme
-        </button>
+        
+        <button onClick={toggleTheme}>Switch Theme</button>
+        <p>Current Theme: {currentTheme}</p>
+        {isPandaMember && <p>You are a Panda Member!</p>}
+        <button onClick={toggleSize}>Switch Size</button>
+        <p>Current Size: {isLargeText}</p>
+
         <TopBar
           handleCartClick={handleCartClick}
           numTrackedSides={numTrackedSides}

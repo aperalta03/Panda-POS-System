@@ -183,6 +183,7 @@ const BottomBar = () => {
 const KioskItemPage = () => {
   const router = useRouter();
   const [isOptionsOpens, setIsOptionsOpen] = useState(false);
+  const { toggleTheme, currentTheme, isPandaMember, toggleSize, isLargeText } = useGlobalState();
 
   const handleOptionsClick = () => {
     setIsOptionsOpen(!isOptionsOpen);
@@ -193,6 +194,13 @@ const KioskItemPage = () => {
       <div className={styles.circle}>
         <p>1</p>
       </div>
+
+      <button onClick={toggleTheme}>Switch Theme</button>
+      <p>Current Theme: {currentTheme}</p>
+      {isPandaMember && <p>You are a Panda Member!</p>}
+      <button onClick={toggleSize}>Switch Size</button>
+      <p>Current Size: {isLargeText}</p>
+
       <div className={styles.topHeader}>
         <TopBar>handleOptionsClick = {handleOptionsClick}</TopBar>
       </div>

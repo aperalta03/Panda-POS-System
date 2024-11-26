@@ -73,7 +73,6 @@
 /*Styling for item heading at top */
 .itemHeader {
   text-align: center;
-  font-size: 1.5rem;
   margin-bottom: 1rem;
   color: var(--info-text-color);
   background-color: var(--label-selection-background-color);
@@ -83,12 +82,13 @@
   padding: 0 10px;
   padding-top: 20px;
   padding-bottom: 20px;
-  font-size: 45px;
+  font-size: var(--item-header);
   z-index: 1;
   border: 1px solid var(--item-selection-background-color);
   border-top-left-radius: 20px;
   border-bottom-right-radius: 20px;
 }
+
 
 /* styling for each all item container*/
 .KioskItemPanel {
@@ -121,13 +121,13 @@
 /* styling for side and entree counter */
 .sideQuant,
 .entreeQuant {
-  font-size: 40px;
+  font-size: var(--side-entree-quant);
   color: var(--label-quant-count-text-color);
   font-weight: bold;
 }
 .sideQuantLabel,
 .entreeQuantLabel {
-  font-size: 70px;
+  font-size: var(--side-entree-quant-label);
   color: var(--label-quant-text-color);
   font-weight: bold;
   text-transform: uppercase;
@@ -155,7 +155,7 @@
 .checkOut {
   width: 100px;
   padding: 10px;
-  font-size: 2rem;
+  font-size: var(--check-out);
   font-weight: bold;
   color: white;
   background-color: var(--primary-button-background-color);
@@ -189,17 +189,17 @@
 }
 .selectLabel {
   font-weight: bold;
-  font-size: 20px;
+  font-size: var(--select-label);
   margin-bottom: 3px;
 }
 .sideLabel,
 .entreeLabel {
-  font-size: 15px;
+  font-size: var(--select-quant-label);
   font-style: italic;
 }
 .sideQuantLabel,
 .entreeQuantLabel {
-  font-size: 1rem;
+  font-size: var(--side-entree-quant-words);
 }
 
 /* styling for plate name */
@@ -207,7 +207,7 @@
   color: var(--circle-color);
   font-weight: bold;
   text-transform: uppercase;
-  font-size: 60px;
+  font-size: var(--plate-name);
   text-shadow: -1px -1px 0 var(--select-text-color), 1px -1px 0 var(--select-text-color), -1px 1px 0 var(--select-text-color),
     1px 1px 0 var(--select-text-color);
 }
@@ -233,7 +233,7 @@
 
 /*general styling for bottom bar buttons */
 .bottomButton {
-  font-size: 1.2rem;
+  font-size: var(--bottom-button);
   padding: 10px 20px;
   border: none;
   color: var(--item-selection-background-color);
@@ -260,7 +260,7 @@
 
 /*general styling for bottom bar buttons */
 .backToMenuButton {
-  font-size: 1.2rem;
+  font-size: var(--bottom-button);
   padding: 10px 20px;
   border: none;
   color: var(--item-selection-background-color);
@@ -289,7 +289,7 @@
 }
 
 .doneButton {
-  font-size: 1.2rem;
+  font-size: var(--bottom-button);
   padding: 10px 20px;
   margin-top: 0;
   border: none;

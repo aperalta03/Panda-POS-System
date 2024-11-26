@@ -9,11 +9,7 @@ const CartPage = () => {
   const { currentLanguage, changeLanguage, translations } = useGlobalState();
   const [selectedSauces, setSelectedSauces] = useState([]);
   const { cart, addItemToCart, removeItemFromCart, clearCart, newItem, removeNewItem, setCart } = useGlobalState();
-  const { isAlternateTheme, setAlternateTheme} = useGlobalState();
-
-  const ThemeToggleButton = () => {
-    const { isAlternateTheme, setAlternateTheme } = useGlobalState();
-  };
+  const {toggleTheme, currentTheme, isPandaMember, toggleSize, isLargeText } = useGlobalState();
 
   const handleLanguageChange = (e) => {
     const newLanguage = e.target.value;
@@ -49,6 +45,7 @@ const CartPage = () => {
     const handlePlaceOrder = () => {
         // Functionality to place the order, e.g., redirect or call API
         alert("Order placed!");
+        router.push("/thank-you");
     };
 
     // Remove an item from the cart
@@ -73,9 +70,13 @@ const CartPage = () => {
             <div className={styles.circle}></div>
 
       <div className={styles.topBar}>
-        <button onClick={() => setAlternateTheme(!isAlternateTheme)}>
-            Switch to {isAlternateTheme ? "Default" : "Alternate"} Theme
-        </button>
+      
+      <button onClick={toggleTheme}>Switch Theme</button>
+      <p>Current Theme: {currentTheme}</p>
+      {isPandaMember && <p>You are a Panda Member!</p>}
+      <button onClick={toggleSize}>Switch Size</button>
+      <p>Current Size: {isLargeText}</p>
+
         <button className={styles.backButton} onClick={handleBackToMenu}>
           <div className={styles.inlineText}>
             <span className={styles.x2}> &gt; </span>

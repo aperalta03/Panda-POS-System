@@ -7,13 +7,13 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    background-image: url('/thank-you-bg.jpg');
+    background-color: black;
     background-size: cover;
     background-position: top;
     overflow: hidden;
 }
 /* Semi-Circle Background */
-.Container::before {
+/*.Container::before {
     content: '';
     position: absolute;
     bottom: 0;
@@ -26,7 +26,7 @@
     border-top: 5px solid var(--secondary-color);
     z-index: 0;
     cursor: pointer;
-}
+}*/
 /* Logos */
 .Logo {
     position: absolute;
@@ -46,18 +46,42 @@
     right: 20px;
     background-color: white;
     border-radius: 50%;
-}  
+} 
+
+/*styling for decorative circle */
+.circle { 
+    transform: translate(center, center);
+    width: 700px;
+    height: 700px;
+    background-color: var(--circle-color);
+    border-radius: 50%;
+    color: var(--circle-color);
+    position: absolute;
+    z-index: 0;
+    border: 1px solid var(--circle-color);
+    position: absolute;
+  }
+
+.middleContainer {
+    align-items: center;
+    flex-direction: row;
+    padding: 10px;
+    max-width: 60vw;
+    max-height: 60vh;
+    border-radius: 50px;
+    z-index: 1;
+}
+
 /* Content */
 .ThankYouText {
-    font-size: 120px;
+    font-size: 90px;
     font-weight: 400;
-    font-family: "Marck Script", serif;
-    font-style: normal;
-    color: var(--text-color-light);
+    color: white;
     text-align: center;
     z-index: 1;
     opacity: 0;
     animation: fadeIn 2s ease-in-out forwards;
+    text-transform: uppercase;
 }  
 @keyframes fadeIn {
     0% {
@@ -76,9 +100,9 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    top: 25%;
+    top: 15%;
     width: 60%;
-    height: 15%;
+    height: 45%;
     background-color: #fdf5e6;
     border: 3px solid #e3c29b;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
@@ -93,7 +117,6 @@
     padding: 15px 10% 15px 10%; 
     text-align: center;
     font-size: 2.5rem;
-    font-family: 'Marck Script', cursive;
     color: var(--text-color-light);
 }
 .click {
@@ -102,7 +125,7 @@
     right: 20px;
     width: 75px;
     height: 75px;
-    color: var(--text-color-dark);
+    color: white;
     cursor: pointer;
     rotate: -45deg;
 }

@@ -74,8 +74,11 @@ const KioskBiggerPlatePage = () => {
     isDone,
     setDone,
     translations,
-    isAlternateTheme,
-    setAlternateTheme
+    toggleTheme, 
+    currentTheme, 
+    isPandaMember,
+    toggleSize,
+    isLargeText 
   } = useGlobalState();
   const [currentStep, setCurrentStep] = useState("sides"); //step var to indicate whether selecting sides or entrees
 
@@ -164,9 +167,12 @@ const KioskBiggerPlatePage = () => {
       </div>
 
       <div className={styles.topHeader}>
-        <button onClick={() => setAlternateTheme(!isAlternateTheme)}>
-            Switch to {isAlternateTheme ? "Default" : "Alternate"} Theme
-        </button>
+      <button onClick={toggleTheme}>Switch Theme</button>
+      <p>Current Theme: {currentTheme}</p>
+      {isPandaMember && <p>You are a Panda Member!</p>}
+      <button onClick={toggleSize}>Switch Size</button>
+      <p>Current Size: {isLargeText}</p>
+
         <TopBar
           handleCartClick={handleCartClick}
           numTrackedSides={numTrackedSides}

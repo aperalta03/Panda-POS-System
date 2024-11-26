@@ -54,7 +54,7 @@
   flex: 1;
   width: 75%;
   padding: 10px;
-  font-size: 16px;
+  font-size: var(--back-buttons);
   text-align: left;
   font-weight: bold;
   color: var(--back-background-color);
@@ -72,7 +72,7 @@
   color: var(--x2);
 }
 .backMenu {
-  font-size: 16px;
+  font-size: var(--back-buttons);
   color: var(--back-menu-text);
   text-transform: uppercase;
 }
@@ -91,7 +91,7 @@
   flex: 1;
   width: 75%;
   padding: 25px;
-  font-size: 16px;
+  font-size: var(--back-buttons);
   text-align: left;
   font-weight: bold;
   color: var(--start-over-text);
@@ -115,7 +115,7 @@
   color: var(--x1);
 }
 .startOver {
-  font-size: 16px;
+  font-size: var(--back-buttons);
   color: var(--start-over-text);
   text-transform: uppercase;
   font-weight: bold;
@@ -155,7 +155,7 @@
 
 /* Styling for item category header */
 .itemType {
-  font-size: 25px;
+  font-size: var(--item-type);
   font-weight: bold;
   color: var(--item-type-text);
   margin: 0;
@@ -200,7 +200,7 @@
 
 /* Styling for item details (associated items) */
 .itemDetails {
-  font-size: 15px;
+  font-size: var(--item-details);
   line-height: 1.5;
   margin-top: 5px;
   padding-left: 5px; /* Optional indent for details */
@@ -214,7 +214,7 @@
 
 /* Styling for remove button */
 .removeButton {
-  font-size: 25px;
+  font-size: var(--remove-button);
   color: var(--minus-text-color);
   background-color: var(--minus-background-color);
   border: none;
@@ -253,7 +253,7 @@
 
 /* Styling for the order button */
 .placeOrderButton {
-  font-size: 40px;
+  font-size: var(--place-order);
   font-weight: bold;
   color: var(--order-summary-color);
   background-color: var(--order-summary-color);
@@ -295,7 +295,7 @@
 .priceDetail {
   display: flex;
   justify-content: space-between;
-  font-size: 20px;
+  font-size: var(--price-details);
   margin-bottom: 5px;
   padding: 0 10px;
   align-self: flex-end;
@@ -318,7 +318,7 @@
 
 /* Styling for total price labels */
 .totalPrice {
-  font-size: 27px;
+  font-size: var(--total-price);
   font-weight: bold;
   display: flex;
   justify-content: center;
@@ -355,7 +355,7 @@
   
   /* Title for the extras section */
   .extrasTitle {
-    font-size: 22px;
+    font-size: var(--extras-title);
     font-weight: bold;
     text-transform: uppercase;
     color: var(--extra-text-color);
@@ -383,7 +383,7 @@
     cursor: pointer;
     max-width: 200px; /* Optional: Ensures uniform size */
 
-    width: 180px; /* Fixed width */
+    width: 210px; /* Fixed width */
     height: 70px; /* Fixed height */
   }
   
@@ -415,7 +415,7 @@
   
   /* Sauce label */
   .sauceLabel {
-    font-size: 16px;
+    font-size: var(--sauce-label);
     font-weight: bold;
     color: var(--extra-item-text-color);
     text-align: left;
