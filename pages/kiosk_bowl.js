@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useGlobalState } from "../app/context/GlobalStateContext"; //import global state
 import ItemFrame from "./itemFrame";
 import TranslateButton from "@/app/components/kiosk/translateButton";
+import AccessibilityButton from './accessButton';
 
 ////////////////// ADD BACK TO SELECTION BUTTON //////////////////
 ///////////////// USE STICKY BAR //////////////////
@@ -41,6 +42,7 @@ const TopBar = ({ handleCartClick, numTrackedSides, numTrackedEntrees }) => {
           <button className={styles.checkOut} onClick={handleCartClick}>
             <img src="/cart2_img.png" alt="Cart" className={styles.cartImage} />
           </button>
+          <AccessibilityButton />
         </div>
         <div className={styles.quantContainer}>
           <div className={styles.sideContainer}>
@@ -168,12 +170,6 @@ const KioskBowlPage = () => {
       </div>
 
       <div className={styles.topHeader}>
-      <button onClick={toggleTheme}>Switch Theme</button>
-      <p>Current Theme: {currentTheme}</p>
-      {isPandaMember && <p>You are a Panda Member!</p>}
-      <button onClick={toggleSize}>Switch Size</button>
-      <p>Current Size: {isLargeText}</p>
-
         <TopBar
           handleCartClick={handleCartClick}
           numTrackedSides={numTrackedSides}

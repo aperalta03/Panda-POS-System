@@ -3,6 +3,7 @@ import styles from './kiosk_cart.module.css';
 import { useRouter } from "next/router";
 import { useGlobalState } from "@/app/context/GlobalStateContext";
 import TranslateButton from "@/app/components/kiosk/translateButton";
+import AccessibilityButton from './accessButton';
 
 const CartPage = () => {
   const router = useRouter();
@@ -70,12 +71,6 @@ const CartPage = () => {
             <div className={styles.circle}></div>
 
       <div className={styles.topBar}>
-      
-      <button onClick={toggleTheme}>Switch Theme</button>
-      <p>Current Theme: {currentTheme}</p>
-      {isPandaMember && <p>You are a Panda Member!</p>}
-      <button onClick={toggleSize}>Switch Size</button>
-      <p>Current Size: {isLargeText}</p>
 
         <button className={styles.backButton} onClick={handleBackToMenu}>
           <div className={styles.inlineText}>
@@ -95,11 +90,17 @@ const CartPage = () => {
           </div>
         </button>
 
+        
         <TranslateButton
           currentLanguage={currentLanguage}
           onLanguageChange={handleLanguageChange}
           customStyles={{ position: "fixed", right: "30px" }}
         />
+
+        <div className={styles.accessPosition}>
+          <AccessibilityButton />
+        </div>
+        
       </div>
 
       {/* Scrollable order list container */}

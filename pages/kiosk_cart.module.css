@@ -40,6 +40,12 @@
   }
 }
 
+.accessPosition {
+  position: fixed;
+  right: 230px;
+  top: 30px;
+}
+
 /* Set z-index on top-level elements to ensure they appear above .circle */
 .orderItem,
 .addItemButton,

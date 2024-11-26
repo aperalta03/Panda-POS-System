@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styles from "./kiosk_item.module.css";
 import { useRouter } from "next/router";
 import { useGlobalState } from "../app/context/GlobalStateContext";
 import TranslateButton from "@/app/components/kiosk/translateButton";
 import { Margin } from "@mui/icons-material";
+
+import AccessibilityButton from './accessButton';
+
 
 const TopBar = ({ handleOptionsClick }) => {
   const router = useRouter();
@@ -39,13 +42,7 @@ const TopBar = ({ handleOptionsClick }) => {
           <h1 className={styles.priceLabel}>${total.toFixed(2)}</h1>
         </div>
         <div className={styles.gearButtonContainer}>
-          <button className={styles.circleButton} onClick={handleOptionsClick}>
-            <img
-              src="/handicap_button.jpg"
-              alt="Accessible Icon"
-              className={styles.accessImage}
-            />
-          </button>
+          <AccessibilityButton /> 
         </div>
         <TranslateButton
           currentLanguage={currentLanguage}
@@ -82,12 +79,79 @@ const TopBar = ({ handleOptionsClick }) => {
   );
 };
 
+//Gets recommended item based on highest selling item of the month
+const RecommendedItem = () => {
+  const [topItem, setTopItem] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const { menu } = useGlobalState();
+  useEffect(() => {
+    const fetchTopItem = async () => {
+      try {
+        const response = await fetch('/api/top-selling-item');
+        if (!response.ok) {
+          throw new Error('Failed to fetch top-selling item');
+        }
+        const data = await response.json();
+        setTopItem(data.data);
+      } catch (err) {
+        console.error('Error fetching top-selling item:', err);
+        setError('Failed to load recommended item.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTopItem();
+  }, []);
+
+  if (loading) return <p>Loading recommended item...</p>;
+  if (error) return <p className={styles.error}>{error}</p>;
+
+  // Match topItem fteched with global vars to get information
+  const matchedItem = menu.find(item => item.name === topItem?.item_name);
+  if (!matchedItem) {
+    return <p>Item not found in the menu.</p>;
+  }
+  //Get item details
+  const { name, calories, description, designation, image } = matchedItem;
+
+  return (
+    <div className={styles.recommendedItemPanel}>
+      <div className={styles.recLeftPanel}>
+        <h2 className={styles.recLabel}>This month's hot item</h2>
+        <div className={styles.itemDetails}>
+          <p className={styles.recItemName}>{name}</p>
+          <p className={styles.recItemDescription}>{description}</p>
+          <div className={styles.itemInfo}>
+            <p className={styles.recItemCalories}>
+              Calories: {calories || 'N/A'} | Designation: {designation || 'None'}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className={styles.recRightPanel}>
+        <img
+          src= {matchedItem.image}
+          alt= {matchedItem.name}
+          className={styles.itemRecImg}
+        />
+      </div>
+    </div>
+  );
+};
+
 const KioskItemPanel = ({}) => {
   const router = useRouter();
   const { currentLanguage, changeLanguage, translations } = useGlobalState();
   return (
     <div className={styles.midPanel}>
+
       <div className={styles.itemButtons}>
+        <RecommendedItem />
+
         <button
           onClick={() => {
             router.push("/kiosk_bowl");
@@ -194,12 +258,6 @@ const KioskItemPage = () => {
       <div className={styles.circle}>
         <p>1</p>
       </div>
-
-      <button onClick={toggleTheme}>Switch Theme</button>
-      <p>Current Theme: {currentTheme}</p>
-      {isPandaMember && <p>You are a Panda Member!</p>}
-      <button onClick={toggleSize}>Switch Size</button>
-      <p>Current Size: {isLargeText}</p>
 
       <div className={styles.topHeader}>
         <TopBar>handleOptionsClick = {handleOptionsClick}</TopBar>
