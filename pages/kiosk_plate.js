@@ -9,7 +9,7 @@ import AccessibilityButton from './accessButton';
 //top bar containing panel info, tracker of items selected, etc.
 const TopBar = ({ handleCartClick, numTrackedSides, numTrackedEntrees }) => {
   const router = useRouter();
-  const { currentLanguage, changeLanguage, translations } = useGlobalState();
+  const { currentLanguage, changeLanguage, translations, numTotalItems } = useGlobalState();
 
   const handleLanguageChange = (e) => {
     const newLanguage = e.target.value;
@@ -40,6 +40,7 @@ const TopBar = ({ handleCartClick, numTrackedSides, numTrackedEntrees }) => {
           <button className={styles.checkOut} onClick={handleCartClick}>
             <img src="/cart2_img.png" alt="Cart" className={styles.cartImage} />
           </button>
+          <div className={styles.cartItemCount}>{numTotalItems}</div>
           <AccessibilityButton />
         </div>
         <div className={styles.quantContainer}>

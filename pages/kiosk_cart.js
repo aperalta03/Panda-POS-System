@@ -9,7 +9,7 @@ const CartPage = () => {
   const router = useRouter();
   const { currentLanguage, changeLanguage, translations } = useGlobalState();
   const [selectedSauces, setSelectedSauces] = useState([]);
-  const { cart, addItemToCart, removeItemFromCart, clearCart, newItem, removeNewItem, setCart } = useGlobalState();
+  const { cart, addItemToCart, removeItemFromCart, clearCart, newItem, removeNewItem, setCart, setNumTotalItems, numTotalItems } = useGlobalState();
   const {toggleTheme, currentTheme, isPandaMember, toggleSize, isLargeText } = useGlobalState();
 
   const handleLanguageChange = (e) => {
@@ -41,17 +41,20 @@ const CartPage = () => {
 
     const handleStartOver = () => {
         setCart([]); // Clear the cart
+        setNumTotalItems(0);
     };
 
     const handlePlaceOrder = () => {
         // Functionality to place the order, e.g., redirect or call API
         alert("Order placed!");
         router.push("/thank-you");
+        setNumTotalItems(0);
     };
 
     // Remove an item from the cart
     const handleRemoveItem = (id) => {
         setCart(cart.filter((item) => item.id !== id));
+        setNumTotalItems(numTotalItems - 1);
     };
 
     // Add an item to the cart (for demonstration, adds a hard-coded item)

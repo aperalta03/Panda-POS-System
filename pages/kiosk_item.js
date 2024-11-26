@@ -11,7 +11,7 @@ import AccessibilityButton from './accessButton';
 const TopBar = ({ handleOptionsClick }) => {
   const router = useRouter();
   const { currentLanguage, changeLanguage, translations } = useGlobalState();
-  const { cart, addItemToCart, removeItemFromCart, clearCart, newItem, removeNewItem, setCart } = useGlobalState();
+  const { cart, addItemToCart, removeItemFromCart, clearCart, newItem, removeNewItem, setCart, numTotalItems } = useGlobalState();
 
   const subtotal = cart.reduce((total, item) => total + item.price * item.quantity, 0);
   const tax = subtotal * 0.15;
@@ -39,6 +39,7 @@ const TopBar = ({ handleOptionsClick }) => {
               className={styles.cartImage}
             />
           </button>
+          <div className={styles.cartItemCount}>{numTotalItems}</div>
           <h1 className={styles.priceLabel}>${total.toFixed(2)}</h1>
         </div>
         <div className={styles.gearButtonContainer}>

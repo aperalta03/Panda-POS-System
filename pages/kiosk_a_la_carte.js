@@ -14,7 +14,7 @@ const TopBar = ({
   numTrackedOthers,
 }) => {
   const router = useRouter();
-  const { currentLanguage, changeLanguage, translations } = useGlobalState();
+  const { currentLanguage, changeLanguage, translations, numTotalItems } = useGlobalState();
 
   const handleLanguageChange = (e) => {
     const newLanguage = e.target.value;
@@ -47,6 +47,7 @@ const TopBar = ({
           <button className={styles.checkOut} onClick={handleCartClick}>
             <img src="/cart2_img.png" alt="Cart" className={styles.cartImage} />
           </button>
+          <div className={styles.cartItemCount}>{numTotalItems}</div>
           <AccessibilityButton />
         </div>
         <div className={styles.quantContainer}>

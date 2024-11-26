@@ -66,7 +66,7 @@ export const GlobalStateProvider = ({ children }) => {
 
 
 
-  
+  const [numTotalItems, setNumTotalItems] = useState(0);
   const [numTrackedSides, setNumTrackedSides] = useState(0); //tracks sides in one item order
   const [numTrackedEntrees, setNumTrackedEntrees] = useState(0); //tracks entrees in one item order
   const [numTrackedOthers, setNumTrackedOthers] = useState(0); //tracks other items in one item order
@@ -93,6 +93,7 @@ export const GlobalStateProvider = ({ children }) => {
 
   const addItemToCart = (item) => {
     setCart([...cart, item]);
+    setNumTotalItems(numTotalItems + 1);
   };
 
   const removeNewItem = () => {
@@ -107,10 +108,12 @@ export const GlobalStateProvider = ({ children }) => {
 
   const removeItemFromCart = (id) => {
     setCart(cart.filter((item) => item.id !== id));
+    setNumTotalItems(numTotalItems - 1);
   };
 
   const clearCart = () => {
     setCart([]);
+    setNumTotalItems(0);
   };
 
   //resetting side associated counts
@@ -258,6 +261,8 @@ export const GlobalStateProvider = ({ children }) => {
         addItemToCart,
         removeItemFromCart,
         clearCart,
+        numTotalItems,
+        setNumTotalItems,
         /*styling toggles */
         currentTheme,
         toggleTheme,

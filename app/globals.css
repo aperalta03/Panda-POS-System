@@ -469,23 +469,23 @@
 
 .loyalty-theme {
   /*item selection theme */ 
-    --item-selection-background-color: white;
-    --primary-container-background-color: black;
-    --primary-button-background-color: black;
-    --primary-button-hover-color: #cb0632;
-    --primary-background-text-color: white;
-    --select-text-color: white;
-    --bottom-bar-background-color: black;
-    
-    --circle-color: #cb0632;
-    --label-selection-background-color: #cb0632;
-    --label-quant-background-color: black;
-    --label-quant-text-color: #cb0632;
-    --label-quant-count-text-color: white;
-    --done-enabled: #cb0632;
-    --x: #cb0632;
+  --item-selection-background-color: black;
+  --primary-container-background-color: white;
+  --primary-button-background-color: white;
+  --primary-button-hover-color: #BC9C22;
+  --primary-background-text-color: black;
+  --select-text-color: white;
+  --bottom-bar-background-color: #bc9c22;
+  
+  --circle-color: #BC9C22;
+  --label-selection-background-color: #BC9C22;
+  --label-quant-background-color: white;
+  --label-quant-text-color: #BC9C22;
+  --label-quant-count-text-color: black;
+  --done-enabled: white;
+  --x: white;
 
-    --cart-border: white;
+  --cart-border: white;
 }
 
 /* Hide scrollbar for all browsers */

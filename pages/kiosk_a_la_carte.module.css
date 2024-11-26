@@ -179,6 +179,23 @@
   object-fit: contain; /* Ensures image scales properly */
   border-radius: 50%;
 }
+/* Styling for the overlay circle on cart */
+.cartItemCount {
+  position: relative;
+  top: -20px;
+  right: 35px;
+  background-color: #cb0632;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
 
 /*styling for general labels */
 .selectLabel,
