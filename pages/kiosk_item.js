@@ -11,7 +11,7 @@ import AccessibilityButton from './accessButton';
 const TopBar = ({ handleOptionsClick }) => {
   const router = useRouter();
   const { currentLanguage, changeLanguage, translations } = useGlobalState();
-  const { cart } = useGlobalState();
+  const { cart, addItemToCart, removeItemFromCart, clearCart, newItem, removeNewItem, setCart } = useGlobalState();
 
   const subtotal = cart.reduce((total, item) => total + item.price * item.quantity, 0);
   const tax = subtotal * 0.15;
@@ -63,6 +63,7 @@ const TopBar = ({ handleOptionsClick }) => {
           <button
             className={styles.genStartOver}
             onClick={() => {
+              clearCart();
               router.push("/kiosk");
             }}
           >
