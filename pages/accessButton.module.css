@@ -74,6 +74,7 @@
     cursor: pointer;
     transition: background-color 0.3s;
     overflow: hidden;
+    border: 1px solid white;
 }
 .circleButton:hover {
     border: 1px solid #cb0632
