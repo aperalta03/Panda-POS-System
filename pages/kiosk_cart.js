@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useGlobalState } from "@/app/context/GlobalStateContext";
 import TranslateButton from "@/app/components/kiosk/translateButton";
 import AccessibilityButton from './accessButton';
+import RecommendationsPanel from "./rec_panel";
 
 const CartPage = () => {
   const router = useRouter();
@@ -172,6 +173,9 @@ const CartPage = () => {
             </label>
             ))}
         </div>
+        </div>
+        <div className = {styles.recPanel}>
+        <RecommendationsPanel />
         </div>
 
 

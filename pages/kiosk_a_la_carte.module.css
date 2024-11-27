@@ -119,13 +119,15 @@
 
 /* styling for side and entree counter */
 .sideQuant,
-.entreeQuant {
+.entreeQuant,
+.otherQuant {
   font-size: var(--side-entree-quant);
   color: var(--label-quant-count-text-color);
   font-weight: bold;
 }
 .sideQuantLabel,
-.entreeQuantLabel {
+.entreeQuantLabel,
+.otherQuantLabel {
   font-size: var(--side-entree-quant-label);
   color: var(--label-quant-text-color);
   font-weight: bold;
@@ -144,7 +146,8 @@
   border-bottom-right-radius: 20px;
 }
 .sideContainer,
-.entreeContainer {
+.entreeContainer,
+.otherContainer {
   display: flex;
   align-items: center;
   gap: 0.5rem;

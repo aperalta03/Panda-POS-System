@@ -8,7 +8,14 @@
 
   overflow: hidden;
   position: relative;
+
+  flex-direction: column; /* Stack children vertically */
+  justify-content: flex-start; /* Align children at the start vertically */
+  align-items: flex-start; /* Align children to the left */
+  gap: 25px; /* Space between children */
 }
+
+
 
 /*styling for decorative circle */
 .circle {
@@ -439,4 +446,11 @@
 
 .selected .sauceImage {
   filter: brightness(0.9);
+}
+
+
+.recPanel {
+  position: absolute;
+  bottom: 7px;
+  z-index: 1; /* Ensure visibility */
 }

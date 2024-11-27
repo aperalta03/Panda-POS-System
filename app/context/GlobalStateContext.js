@@ -138,7 +138,9 @@ export const GlobalStateProvider = ({ children }) => {
   const resetTrackedOthers = () => {
     setNumTrackedOthers(0);
     setMenu((menu) =>
-      menu.map((item) => (item.type === "other" ? { ...item, count: 0 } : item))
+      menu.map((item) =>
+        item.type === "appetizer" || "dessert" || "drink" ? { ...item, count: 0 } : item
+      )
     );
   };
 

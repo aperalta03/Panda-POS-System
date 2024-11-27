@@ -54,7 +54,7 @@ const ItemFrame = ({ item, isDone }) => {
           setNumTrackedEntrees(numTrackedEntrees + 1);
           newItem.details = [...newItem.details, "1 " + item.name + " $" + item.price];
         }
-        else if (item.type === 'other') {
+        else if (item.type === 'appetizer' || 'drink' || 'dessert') {
           setNumTrackedOthers(numTrackedOthers + 1);
           newItem.details = [...newItem.details, "1 " + item.name + " $" + item.price];
 
@@ -82,7 +82,7 @@ const ItemFrame = ({ item, isDone }) => {
           setNumTrackedSides(numTrackedSides - 0.5);
         } else if (item.type === "entree" && numTrackedEntrees > 0) {
           setNumTrackedEntrees(numTrackedEntrees - 1);
-        } else if (item.type === "other" && numTrackedOthers > 0) {
+        } else if (item.type ===  "appetizer" || "drink" || "dessert" && numTrackedOthers > 0) {
           setNumTrackedOthers(numTrackedOthers - 1);
         }
 

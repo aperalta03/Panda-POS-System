@@ -1,0 +1,241 @@
+/* Holds all item frames */
+.itemFrameContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 0.1fr);/* Three columns in one row */
+    justify-items: left; /* Center items horizontally */
+    align-items: end; /* Align items to the top */
+    gap: 0;
+}
+
+/* Updated styling for item frame */
+.itemFrame {
+    border: 1px solid #ccc;
+    padding: 2%;
+    display: flex; /* Changed to flex to position items side-by-side */
+    flex-direction: row; /* Ensure image and text are aligned horizontally */
+    align-items: center; /* Center vertically */
+    width: 15.9vw;
+    background-color: black;
+    height: 170px; /* Allow height to adjust dynamically */
+    gap: 10px; /* Space between image and text content */
+}
+
+/* Wrapper for content to position image and text */
+.contentWrapper {
+    display: flex;
+    flex-direction: row; /* Side-by-side layout */
+    align-items: center;
+    gap: 10px; /* Space between image and text */
+}
+
+/* Text content styling */
+.textContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start; /* Left-align text */
+    gap: 8px; /* Space between text elements */
+}
+
+
+/* Styling for item name */
+.name {
+    text-align: left;
+    margin: 0;
+    color: white;
+    text-transform: uppercase;
+    margin-top: 15px;
+    font-weight: bold;
+    margin-left: 5px;
+    font-size: 15px;
+}
+
+/* Styling for item calories */
+.calories {
+    text-align: left;
+    margin: 0;
+    color: white;
+    margin-top: 8px;
+    font-size: 15px;
+    margin-left: 5px;
+}
+
+/* Styling for container containing count and add/sub buttons */
+.counterContainer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    margin-top: auto;
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+    margin-left: 5px;
+}
+
+/* In depth dtyling for add/subtract button for an item */
+.addSub {
+    background-color: black;
+    font-size: 35px;
+    color: white;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+
+}
+
+/* Styling for add/subtract button hover */
+.addSub:hover {
+    color:#cb0632;
+}
+
+/* Styling for container of both info button and designation NOT TO MESS WITH */
+.infoButtonContainer {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Styling for acutal info button */
+.infoButton {
+    background-color: white;
+    border-radius: 50%;
+    padding: 4px;
+    font-size: 18px;
+    cursor: pointer;
+    border: none;
+    width: 40px;
+    height: 40px;
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+    font-size: var(--info-button);
+    text-align: center;
+    margin: 0 auto;
+    font-weight: bold;
+    font-style: italic;
+}
+
+/*Styling for info button hover */
+.infoButton:hover {
+    background-color:#cb0632;
+}
+
+/* Styling for designation icon */
+.designationIcon {
+    font-size: var(--designation);
+}
+
+/* Adding general styling for each designation */
+.spicydesignation, .premiumdesignation, .veggiedesignation, .seasonaldesignation, .defaultdesignation {
+    color: white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--other-designations);
+    text-align: center;
+    margin: 0 auto;
+}
+
+/* Adding specific styling for each designation */
+.spicydesignation {
+    background-color: #a92517; 
+    color: black; 
+    font-style: italic;
+    font-weight: bold;
+}
+.premiumdesignation {
+    background-color: #C6713D;
+    color: black; 
+    font-style: italic;
+    font-weight: bold;
+}
+.veggiedesignation {
+    background-color: #186D44; 
+    color: black;
+    font-style: italic;
+    font-weight: bold;
+}
+.seasonaldesignation {
+    background-color: #BC9C22; 
+    color: black;
+    font-style: italic;
+    font-weight: bold;
+}
+.defaultdesignation {
+    background-color: black; 
+    color: black;
+    font-style: italic;
+    font-weight: bold;
+}
+
+
+/* Updated styling for item image */
+.itemImage {
+    width: 100px; /* Fixed width */
+    height: auto; /* Maintain aspect ratio */
+    max-width: 200px;
+    background-color: white;
+    object-fit: contain; /* Ensure image fits within container */
+}
+
+/* Popup styling */
+.popup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: black;
+    color: white;
+    border: 1px solid #cb0632;
+    padding: 16px;
+    z-index: 10;
+    max-width: 300px;
+}
+
+/* Styling for popup content */
+.popupContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    font-size: var(--popup-content);
+}
+
+/* Adding space between description and designation */
+.popupContent p:first-child {
+    margin-bottom: 10px; 
+}
+
+/* Bolding designation label - popup */
+.designationLabel {
+    font-weight: bold;
+}
+
+/* Styling for close button of popup */
+.closeButton {
+    background-color: #cb0632;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    margin-top: 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: var(--popup-close-button);
+}
+
+/* Styling for close button on hover */
+.closeButton:hover {
+    color:black;
+    background-color: white;
+}
+

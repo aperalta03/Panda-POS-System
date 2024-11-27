@@ -63,6 +63,12 @@ const TopBar = ({
               {translations["Entree"] || "Entree"}
             </h2>
           </div>
+          <div className={styles.otherContainer}>
+            <h2 className={styles.otherQuant}>{numTrackedOthers}</h2>
+            <h2 className={styles.otherQuantLabel}>
+              {translations["Other"] || "Other"}
+            </h2>
+          </div>
         </div>
       </div>
     </div>

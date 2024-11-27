@@ -38,7 +38,7 @@ export default async function handler(req, res) {
 
         if (topItem) {
           res.status(200).json({ data: topItem });
-          console.log('Fetched top-selling item:', topItem);
+          //console.log('Fetched top-selling item:', topItem);
         } else {
           res.status(404).json({ error: 'No eligible top-selling item found' });
         }
