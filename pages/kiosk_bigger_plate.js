@@ -81,7 +81,13 @@ const KioskBiggerPlatePage = () => {
     currentTheme, 
     isPandaMember,
     toggleSize,
-    isLargeText 
+    isLargeText,
+    cart, 
+    addItemToCart, 
+    removeItemFromCart, 
+    clearCart, 
+    newItem, 
+    removeNewItem,
   } = useGlobalState();
   const [currentStep, setCurrentStep] = useState("sides"); //step var to indicate whether selecting sides or entrees
 
@@ -121,6 +127,10 @@ const KioskBiggerPlatePage = () => {
     resetTrackedSides();
     resetTrackedEntrees();
     setCurrentStep("sides");
+    newItem.type = "BIGGER PLATE";
+    newItem.price += 13.50;
+    addItemToCart(newItem);
+    removeNewItem();
 
     setTimeout(() => setCurrentStep("sides"), 0);
 
