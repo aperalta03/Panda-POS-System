@@ -10,6 +10,11 @@ export const GlobalStateProvider = ({ children }) => {
   const [isPandaMember, setIsPandaMember] = useState(true); //flag for a user being in loyalty program, TRUE FOR NOW
   const [isLargeText, setIsLargeText] = useState("original");
 
+  //variables for current customer
+  const [customerPhoneNumber, setCustomerPhoneNumber] = useState("");
+  const [customerName, setCustomerName] = useState("");
+  const [customerTotalPoints, setCustomerTotalPoints] = useState(0);
+
   useEffect(() => {
     // Apply the theme to the body or a specific wrapper
     const body = document.body;
@@ -271,7 +276,14 @@ export const GlobalStateProvider = ({ children }) => {
         isPandaMember,
         setIsPandaMember,
         toggleSize,
-        isLargeText
+        isLargeText,
+        /*Custom Info*/
+        customerPhoneNumber,
+        setCustomerPhoneNumber,
+        customerName,
+        setCustomerName,
+        customerTotalPoints,
+        setCustomerTotalPoints
       }}>
       {children}
     </GlobalStateContext.Provider>

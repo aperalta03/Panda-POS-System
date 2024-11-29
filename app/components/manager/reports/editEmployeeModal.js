@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Modal from '@mui/material/Modal';
+import Switch from '@mui/material/Switch';
 import styles from './editEmployeeModal.module.css'; // Import the CSS file
 
 const EditEmployeeModal = ({ isOpen, onClose, employeeData, onSave }) => {
@@ -130,30 +131,27 @@ const EditEmployeeModal = ({ isOpen, onClose, employeeData, onSave }) => {
             />
           </div>
 
-          <div className={styles.field}>
+          <div className={styles['switch-container']}>
           <label>
-          <input
-            type="checkbox"
-            name="      is_manager"
-            checked={updatedEmployeeData.is_manager}
-            onChange={handleChange}
-          />
-          <span></span>  {/* Custom checkbox design */}
-          Is Manager?
-        </label>
-          </div>
-
-          <div className={styles.field}>
-            <label>
-            <input
-              type="checkbox"
-              name="      is_part_time"
-              checked={updatedEmployeeData.is_part_time}
-              onChange={handleChange}
+            Is Manager?
+            <Switch
+              name="is_manager"
+              checked={updatedEmployeeData.is_manager}
+              onChange={handleChange} // Handle the switch toggle
             />
-            <span></span>
-            Is Part-Time? </label>
-          </div>
+          </label>
+        </div>
+
+        <div className={styles['switch-container']}>
+          <label>
+            Is Part-Time?
+            <Switch
+              name="is_part_time"
+              checked={updatedEmployeeData.is_part_time}
+              onChange={handleChange} // Handle the switch toggle
+            />
+          </label>
+        </div>
 
           <button type="submit">Save</button> {/* Only triggers API call when clicked */}
         </form>
