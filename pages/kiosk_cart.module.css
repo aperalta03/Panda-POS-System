@@ -1,23 +1,15 @@
-/* Styling for body panel */
+/* Styling for cartContainer */
 .cartContainer {
-  padding: 20px;
-  flex-wrap: wrap;
-  gap: 25px;
-  background-color: var(--cart-background-color);
-  height: 100%;
-
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
   overflow: hidden;
   position: relative;
-
-  flex-direction: column; /* Stack children vertically */
-  justify-content: flex-start; /* Align children at the start vertically */
-  align-items: flex-start; /* Align children to the left */
-  gap: 25px; /* Space between children */
+  padding: 20px;
+  background-color: var(--cart-background-color);
 }
 
-
-
-/*styling for decorative circle */
+/* Styling for decorative circle */
 .circle {
   bottom: 0;
   right: 15vw;
@@ -26,16 +18,15 @@
   height: 800px;
   background-color: var(--circle-color);
   border-radius: 50%;
-  color: var(--circle-color);
   position: absolute;
-  z-index: 0;
   border: 1px solid var(--circle-color);
-  position: absolute;
   overflow-x: hidden;
+  z-index: 0;
 }
 
 /* Styling for top bar of buttons */
 .topBar {
+  flex: 0 0 auto;
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
@@ -93,13 +84,13 @@
 /* Styling for back to menu hover */
 .backButton:hover {
   border: 1px solid var(--back-menu-hover);
-
-  .backMenu {
-    color: var(--back-menu-hover);
-  }
 }
 
-/*Styling for start over button & its elements */
+.backButton:hover .backMenu {
+  color: var(--back-menu-hover);
+}
+
+/* Styling for start over button & its elements */
 .startOverButton {
   flex: 1;
   width: 75%;
@@ -138,14 +129,14 @@
 .startOverButton:hover {
   background-color: var(--start-over-hover-background-color);
   border: 1px solid var(--start-over-hover);
+}
 
-  .startOver {
-    color: var(--start-over-hover);
-  }
-  
-  .x {
-    color: var(--x1-hover);
-  }
+.startOverButton:hover .startOver {
+  color: var(--start-over-hover);
+}
+
+.startOverButton:hover .x {
+  color: var(--x1-hover);
 }
 
 /* Styling order item frame */
@@ -155,7 +146,7 @@
   padding: 15px;
   margin-bottom: 10px;
   z-index: 1;
-  border: 1px solid  var(--border);
+  border: 1px solid var(--border);
 }
 
 /* Container for item type and remove button */
@@ -174,9 +165,9 @@
   margin: 0;
 }
 
-/* The scrollable bar if exceeding the set height */
+/* The scrollable order list */
 .scrollableOrderList {
-  max-height: 250px;
+  flex: 1 1 auto;
   overflow-y: auto;
   margin-top: 10px;
   padding-right: 10px;
@@ -184,28 +175,22 @@
   position: relative;
 }
 
-/* Scrollbar track / the width of bar */
+/* Scrollbar styles */
 .scrollableOrderList::-webkit-scrollbar {
-  width: 9px; /* Width of the scrollbar */
+  width: 9px;
   z-index: 1;
 }
-
-/* Style the scrollbar bacgkround - very light gray */
 .scrollableOrderList::-webkit-scrollbar-track {
   background: var(--scroll-background);
   border-radius: 4px;
   z-index: 1;
 }
-
-/* Scrollbar thumb */
 .scrollableOrderList::-webkit-scrollbar-thumb {
   background-color: var(--scroll-bar);
   border-radius: 4px;
   border: 2px solid var(--scroll-background);
   z-index: 1;
 }
-
-/* Scrollbar thumb hover */
 .scrollableOrderList::-webkit-scrollbar-thumb:hover {
   background-color: var(--scroll-hover);
   z-index: 1;
@@ -216,7 +201,7 @@
   font-size: var(--item-details);
   line-height: 1.5;
   margin-top: 5px;
-  padding-left: 5px; /* Optional indent for details */
+  padding-left: 5px;
 }
 
 /* Bold styling for the "x" */
@@ -247,21 +232,126 @@
   border: 1px solid var(--minus-text-hover);
 }
 
-/* Styling for order summary */
-.orderSummary {
-  color: var(--order-summary-color);
-  padding: 20px;
-  border-radius: 15px;
-  margin-top: 20px;
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  height: 25%;
+/* Extras section container */
+.extrasSection {
+  flex: 0 0 auto;
+  text-align: left;
+  background-color: var(--extra-background-color);
+  padding: 10px;
+  border: 1px solid var(--border);
+  max-width: 650px; /* Adjusted width */
   width: 100%;
+  margin-top: 20px;
+}
+
+/* Title for the extras section */
+.extrasTitle {
+  font-size: var(--extras-title);
+  font-weight: bold;
+  text-transform: uppercase;
+  color: var(--extra-text-color);
+  margin-bottom: 15px;
+}
+
+/* Grid layout for sauce cards */
+.sauceGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  justify-items: left;
+  grid-auto-rows: 75px;
+}
+
+/* Individual sauce card */
+.sauceCard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border: 1px solid var(--border);
+  border-top-left-radius: 20px;
+  padding: 10px;
+  background-color: var(--extra-item-background-color);
+  cursor: pointer;
+  max-width: 200px;
+
+  width: 210px;
+  height: 70px;
+}
+
+/* Sauce card hover effect */
+.sauceCard:hover {
+  transform: scale(1.05);
+  border-color: var(--extra-item-hover-select);
+}
+
+/* Sauce content layout */
+.sauceContent {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Radio input hidden */
+.sauceInput {
+  display: none;
+}
+
+/* Sauce image */
+.sauceImage {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+}
+
+/* Sauce label */
+.sauceLabel {
+  font-size: var(--sauce-label);
+  font-weight: bold;
+  color: var(--extra-item-text-color);
+  text-align: left;
+}
+
+.selected {
+  border-color: var(--extra-item-hover-select);
+  background-color: var(--extra-item-hover-select);
+  color: var(--extra-item-select-text);
+}
+
+.selected .sauceLabel {
+  color: var(--extra-item-select-text);
+}
+
+.selected .sauceImage {
+  filter: brightness(0.9);
+}
+
+/* Bottom Container */
+.bottomContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex: 0 0 auto;
+  margin-top: 20px;
+}
+
+/* Recommendations Panel */
+.recPanel {
+  flex: 1 1 auto;
+  z-index: 1;
+  margin-right: 20px;
+}
+
+/* Order Summary */
+.orderSummary {
+  flex: 0 0 auto;
+  color: var(--order-summary-color);
+  border-radius: 15px;
   z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  max-width: 300px;
 }
 
 /* Styling for the order button */
@@ -281,10 +371,10 @@
   margin-bottom: -10px;
 }
 
-/*Styling for hover on order button */
+/* Styling for hover on order button */
 .placeOrderButton:hover {
-  text-shadow: -1px -1px 0  var(--price-text-color), 1px -1px 0  var(--price-text-color), -1px 1px 0  var(--price-text-color),
-    1px 1px 0  var(--price-text-color);
+  text-shadow: -1px -1px 0 var(--price-text-color), 1px -1px 0 var(--price-text-color), -1px 1px 0 var(--price-text-color),
+    1px 1px 0 var(--price-text-color);
   border: 1px solid var(--order-summary-text-color);
 }
 
@@ -339,118 +429,11 @@
   text-transform: uppercase;
 }
 
-/* ONLY USED FOR TESTING */
-.addItemButton {
-  display: block;
-  margin: 20px auto;
-  font-size: 16px;
-  font-weight: bold;
-  color: white;
-  background-color: black;
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
+/* Adjust z-indexes if necessary */
+.topBar,
+.scrollableOrderList,
+.extrasSection,
+.bottomContainer,
+.orderSummary {
   z-index: 1;
-}
-
-/* Extras section container */
-.extrasSection {
-    margin-top: 20px;
-    text-align: left;
-    position: absolute;
-    left: 10;
-    bottom: 180px;
-    background-color: var(--extra-background-color);
-    padding: 10px;
-    border: 1px solid  var(--border);
-  }
-  
-  /* Title for the extras section */
-  .extrasTitle {
-    font-size: var(--extras-title);
-    font-weight: bold;
-    text-transform: uppercase;
-    color: var(--extra-text-color);
-    margin-bottom: 15px;
-  }
-  
-  /* Grid layout for sauce cards */
-  .sauceGrid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    justify-items: left;
-    grid-auto-rows: 75px;
-  }
-  
-  /* Individual sauce card */
-  .sauceCard {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    border: 1px solid var(--border);
-    border-top-left-radius: 20px;
-    padding: 10px;
-    background-color: var(--extra-item-background-color);
-    cursor: pointer;
-    max-width: 200px; /* Optional: Ensures uniform size */
-
-    width: 210px; /* Fixed width */
-    height: 70px; /* Fixed height */
-  }
-  
-  /* Sauce card hover effect */
-  .sauceCard:hover {
-    transform: scale(1.05);
-    border-color: var(--extra-item-hover-select);
-    
-  }
-  
-  /* Sauce content layout */
-  .sauceContent {
-    display: flex;
-    align-items: center;
-    gap: 10px; /* Space between image and text */
-  }
-  
-  /* Radio input hidden */
-  .sauceInput {
-    display: none;
-  }
-  
-  /* Sauce image */
-  .sauceImage {
-    width: 70px;
-    height: 70px;
-    object-fit: contain;
-  }
-  
-  /* Sauce label */
-  .sauceLabel {
-    font-size: var(--sauce-label);
-    font-weight: bold;
-    color: var(--extra-item-text-color);
-    text-align: left;
-  }
-  
-.selected {
-  border-color: var(--extra-item-hover-select);
-  background-color: var(--extra-item-hover-select);
-  color: var(--extra-item-select-text);
-}
-
-.selected .sauceLabel {
-  color: var(--extra-item-select-text);
-}
-
-.selected .sauceImage {
-  filter: brightness(0.9);
-}
-
-
-.recPanel {
-  position: absolute;
-  bottom: 7px;
-  z-index: 1; /* Ensure visibility */
 }

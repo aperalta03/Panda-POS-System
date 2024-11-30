@@ -11,8 +11,9 @@ const RecommendationPanel = () => {
     const getRandomItems = () => {
       const shuffled = [...menu].sort(() => 0.5 - Math.random());
       const selectedItems = shuffled.slice(0, 3);
-      const initialQuantities = selectedItems.reduce((acc, item) => {
-        acc[item.id] = 0;
+      const initialQuantities = selectedItems.reduce((acc, item, index) => {
+        const uniqueId = item.id || `fallback-${index}`;
+        acc[uniqueId] = 0;
         return acc;
       }, {});
       setQuantities(initialQuantities);
@@ -21,7 +22,6 @@ const RecommendationPanel = () => {
     };
     setRandomItems(getRandomItems());
   }, [menu]);
-  
 
   const handleIncrement = (id) => {
     console.log(`Incrementing ${id}`);
@@ -29,26 +29,31 @@ const RecommendationPanel = () => {
       console.log(prevQuantities);
       return {
         ...prevQuantities,
-        [id]: prevQuantities[id] + 1,
+        [id]: (prevQuantities[id] || 0) + 1,
       };
     });
   };
-  
+
   const handleDecrement = (id) => {
     console.log(`Decrementing ${id}`);
     setQuantities((prevQuantities) => {
       console.log(prevQuantities);
       return {
         ...prevQuantities,
-        [id]: Math.max(1, prevQuantities[id] - 1),
+        [id]: Math.max(0, (prevQuantities[id] || 0) - 1),
       };
     });
   };
-  
 
   // Add item to cart
-  const handleAddItem = (item) => {
-    const quantity = quantities[item.id] || 1; 
+  const handleAddItem = (item, id) => {
+    const quantity = quantities[id] || 1;
+
+    if (quantity === 0) {
+      console.log('Quantity is zero, not adding to cart');
+      return;
+    }
+
     const newItem = {
       id: Date.now(),
       name: item.name || "A LA CARTE",
@@ -61,8 +66,8 @@ const RecommendationPanel = () => {
 
   return (
     <div className={styles.itemFrameContainer}>
-      {randomItems.map((item) => {
-        const uniqueId = item.id;
+      {randomItems.map((item, index) => {
+        const uniqueId = item.id || `fallback-${index}`;
 
         return (
           <div key={uniqueId} className={styles.itemFrame}>
@@ -99,7 +104,7 @@ const RecommendationPanel = () => {
 
                 {/* Enter button to add item to cart */}
                 <button
-                  onClick={() => handleAddItem(item)}
+                  onClick={() => handleAddItem(item, uniqueId)}
                   className={styles.enterButton}
                 >
                   {translations["Enter"] || "Enter"}

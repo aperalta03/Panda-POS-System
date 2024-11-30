@@ -10,8 +10,14 @@ const CartPage = () => {
   const router = useRouter();
   const { currentLanguage, changeLanguage, translations } = useGlobalState();
   const [selectedSauces, setSelectedSauces] = useState([]);
-  const { cart, addItemToCart, removeItemFromCart, clearCart, newItem, removeNewItem, setCart, setNumTotalItems, numTotalItems } = useGlobalState();
-  const {toggleTheme, currentTheme, isPandaMember, toggleSize, isLargeText } = useGlobalState();
+  const {
+    cart,
+    setCart,
+    setNumTotalItems,
+    numTotalItems,
+  } = useGlobalState();
+  const { toggleTheme, currentTheme, isPandaMember, toggleSize, isLargeText } =
+    useGlobalState();
 
   const handleLanguageChange = (e) => {
     const newLanguage = e.target.value;
@@ -20,10 +26,8 @@ const CartPage = () => {
 
   const handleSauceToggle = (id) => {
     if (selectedSauces.includes(id)) {
-      // If the sauce is already selected, deselect it
       setSelectedSauces(selectedSauces.filter((sauce) => sauce !== id));
     } else {
-      // Otherwise, select it
       setSelectedSauces([...selectedSauces, id]);
     }
   };
@@ -36,46 +40,31 @@ const CartPage = () => {
   const tax = subtotal * 0.15;
   const total = subtotal + tax;
 
-    const handleBackToMenu = () => {
-        router.push("/kiosk_item");
-    };
+  const handleBackToMenu = () => {
+    router.push("/kiosk_item");
+  };
 
-    const handleStartOver = () => {
-        setCart([]); // Clear the cart
-        setNumTotalItems(0);
-    };
+  const handleStartOver = () => {
+    setCart([]); // Clear the cart
+    setNumTotalItems(0);
+  };
 
-    const handlePlaceOrder = () => {
-        // Functionality to place the order, e.g., redirect or call API
-        alert("Order placed!");
-        router.push("/thank-you");
-        setNumTotalItems(0);
-    };
+  const handlePlaceOrder = () => {
+    alert("Order placed!");
+    router.push("/thank-you");
+    setNumTotalItems(0);
+  };
 
-    // Remove an item from the cart
-    const handleRemoveItem = (id) => {
-        setCart(cart.filter((item) => item.id !== id));
-        setNumTotalItems(numTotalItems - 1);
-    };
+  const handleRemoveItem = (id) => {
+    setCart(cart.filter((item) => item.id !== id));
+    setNumTotalItems(numTotalItems - 1);
+  };
 
-    // Add an item to the cart (for demonstration, adds a hard-coded item)
-    const handleAddItem = () => {
-        const newItem = {
-            id: Date.now(),
-            type: "NEW ITEM",
-            price: 5.0,
-            details: ["Sample Detail 1", "Sample Detail 2"],
-            quantity: 1,
-        };
-        setCart([...cart, newItem]);
-    };
-
-    return (
-        <div className={styles.cartContainer}>
-            <div className={styles.circle}></div>
+  return (
+    <div className={styles.cartContainer}>
+      <div className={styles.circle}></div>
 
       <div className={styles.topBar}>
-
         <button className={styles.backButton} onClick={handleBackToMenu}>
           <div className={styles.inlineText}>
             <span className={styles.x2}> &gt; </span>
@@ -94,7 +83,6 @@ const CartPage = () => {
           </div>
         </button>
 
-        
         <TranslateButton
           currentLanguage={currentLanguage}
           onLanguageChange={handleLanguageChange}
@@ -104,7 +92,6 @@ const CartPage = () => {
         <div className={styles.accessPosition}>
           <AccessibilityButton />
         </div>
-        
       </div>
 
       {/* Scrollable order list container */}
@@ -134,72 +121,87 @@ const CartPage = () => {
         ))}
       </div>
 
+      {/* Extras Section */}
       <div className={styles.extrasSection}>
         <h3 className={styles.extrasTitle}>
-            {translations["Don't Forget to add sauce"] || "Don't Forget to add sauce"}
+          {translations["Don't Forget to add sauce"] ||
+            "Don't Forget to add sauce"}
         </h3>
         <div className={styles.sauceGrid}>
-            {[
+          {[
             { id: "soy", name: "Soy Sauce", imgSrc: "/soy-sauce.png" },
-            { id: "sweet_sour", name: "Sweet & Sour Sauce", imgSrc: "/sweet-sour-sauce.png" },
+            {
+              id: "sweet_sour",
+              name: "Sweet & Sour Sauce",
+              imgSrc: "/sweet-sour-sauce.png",
+            },
             { id: "chili", name: "Chili Sauce", imgSrc: "/chili-sauce.png" },
-            { id: "teriyaki", name: "Teriyaki Sauce", imgSrc: "/teriyaki-sauce.png" },
+            {
+              id: "teriyaki",
+              name: "Teriyaki Sauce",
+              imgSrc: "/teriyaki-sauce.png",
+            },
             { id: "hot_mustard", name: "Hot Mustard", imgSrc: "/hot-mustard.png" },
-            ].map((sauce) => (
+          ].map((sauce) => (
             <label
-                key={sauce.id}
-                className={`${styles.sauceCard} ${
+              key={sauce.id}
+              className={`${styles.sauceCard} ${
                 selectedSauces.includes(sauce.id) ? styles.selected : ""
-                }`}
+              }`}
             >
-                <input
+              <input
                 type="checkbox"
                 name="sauce"
                 value={sauce.id}
                 checked={selectedSauces.includes(sauce.id)}
                 onChange={() => handleSauceToggle(sauce.id)}
                 className={styles.sauceInput}
-                />
-                <div className={styles.sauceContent}>
+              />
+              <div className={styles.sauceContent}>
                 <img
-                    src={sauce.imgSrc}
-                    alt={sauce.name}
-                    className={styles.sauceImage}
+                  src={sauce.imgSrc}
+                  alt={sauce.name}
+                  className={styles.sauceImage}
                 />
                 <span className={styles.sauceLabel}>
-                    {translations[sauce.name] || sauce.name}
+                  {translations[sauce.name] || sauce.name}
                 </span>
-                </div>
+              </div>
             </label>
-            ))}
+          ))}
         </div>
+      </div>
+
+      {/* Bottom Container */}
+      <div className={styles.bottomContainer}>
+        <div className={styles.recPanel}>
+          <RecommendationsPanel />
         </div>
-        <div className = {styles.recPanel}>
-        <RecommendationsPanel />
-        </div>
+        <div className={styles.orderSummary}>
+          <button
+            className={styles.placeOrderButton}
+            onClick={handlePlaceOrder}
+          >
+            {translations["Place Order"] || "Place Order"}
+          </button>
 
-
-      <div className={styles.orderSummary}>
-        <button className={styles.placeOrderButton} onClick={handlePlaceOrder}>
-          {translations["Place Order"] || "Place Order"}
-        </button>
-
-        <div className={styles.priceSummary}>
-          <div className={styles.priceDetailsContainer}>
-            <div className={styles.priceDetail}>
-              <span>{translations["Subtotal:"] || "Subtotal:"}</span>
-              <span>${subtotal.toFixed(2)}</span>
+          <div className={styles.priceSummary}>
+            <div className={styles.priceDetailsContainer}>
+              <div className={styles.priceDetail}>
+                <span>{translations["Subtotal:"] || "Subtotal:"}</span>
+                <span>${subtotal.toFixed(2)}</span>
+              </div>
+              <div className={styles.priceDetail}>
+                <span>{translations["Tax:"] || "Tax:"}</span>
+                <span>${tax.toFixed(2)}</span>
+              </div>
             </div>
-            <div className={styles.priceDetail}>
-              <span>{translations["Tax:"] || "Tax:"}</span>
-              <span>${tax.toFixed(2)}</span>
-            </div>
-          </div>
 
-          <div className={styles.priceContainer}>
-            <div className={styles.totalPrice}>
-              <span>{translations["Total |"] || "Total |"} </span>
-              <span>${total.toFixed(2)}</span>
+            <div className={styles.priceContainer}>
+              <div className={styles.totalPrice}>
+                <span>{translations["Total |"] || "Total |"} </span>
+                <span>${total.toFixed(2)}</span>
+              </div>
             </div>
           </div>
         </div>
