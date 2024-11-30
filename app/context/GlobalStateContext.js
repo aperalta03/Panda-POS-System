@@ -42,7 +42,7 @@ export const GlobalStateProvider = ({ children }) => {
       details: [],
       quantity: 1,
     });
-  }
+  };
 
   const removeItemFromCart = (id) => {
     setCart(cart.filter((item) => item.id !== id));
@@ -186,8 +186,7 @@ export const GlobalStateProvider = ({ children }) => {
         changeLanguage,
         translations,
         translateAllText,
-        numTrackedOthers, 
-        resetTrackedOthers,
+        numTrackedOthers,
         /* Cart Vars and Funcs */
         cart,
         newItem,
@@ -197,7 +196,8 @@ export const GlobalStateProvider = ({ children }) => {
         addItemToCart,
         removeItemFromCart,
         clearCart,
-      }}>
+      }}
+    >
       {children}
     </GlobalStateContext.Provider>
   );

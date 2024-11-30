@@ -62,7 +62,14 @@ const TopBar = ({ handleCartClick, numTrackedSides, numTrackedEntrees }) => {
 };
 
 const KioskBowlPage = () => {
-  const { cart, addItemToCart, removeItemFromCart, clearCart, newItem, removeNewItem } = useGlobalState();
+  const {
+    cart,
+    addItemToCart,
+    removeItemFromCart,
+    clearCart,
+    newItem,
+    removeNewItem,
+  } = useGlobalState();
   const router = useRouter();
   const {
     menu,
@@ -113,16 +120,16 @@ const KioskBowlPage = () => {
   const handleDone = () => {
     resetTrackedSides();
     resetTrackedEntrees();
-    setCurrentStep("sides"); 
+    setCurrentStep("sides");
     newItem.type = "BOWL";
-    newItem.price += 9.50;
+    newItem.price += 9.5;
     addItemToCart(newItem);
     removeNewItem();
 
     setTimeout(() => setCurrentStep("sides"), 0);
-    
+
     router.push("/kiosk_item");
-};
+  };
 
   //should go to CART FIXMEEEEE
   const handleCartClick = () => {

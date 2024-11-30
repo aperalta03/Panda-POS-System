@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from './kiosk_cart.module.css';
+import styles from "./kiosk_cart.module.css";
 import { useRouter } from "next/router";
 import { useGlobalState } from "@/app/context/GlobalStateContext";
 import TranslateButton from "@/app/components/kiosk/translateButton";
@@ -8,7 +8,16 @@ const CartPage = () => {
   const router = useRouter();
   const { currentLanguage, changeLanguage, translations } = useGlobalState();
   const [selectedSauces, setSelectedSauces] = useState([]);
-  const { cart, addItemToCart, removeItemFromCart, clearCart, newItem, removeNewItem, setCart } = useGlobalState();
+  const {
+    cart,
+    addItemToCart,
+    removeItemFromCart,
+    clearCart,
+    newItem,
+    removeNewItem,
+    setCart,
+    resetTrackedOthers,
+  } = useGlobalState();
 
   const handleLanguageChange = (e) => {
     const newLanguage = e.target.value;
@@ -33,39 +42,36 @@ const CartPage = () => {
   const tax = subtotal * 0.15;
   const total = subtotal + tax;
 
-    const handleBackToMenu = () => {
-        router.push("/kiosk_item");
-    };
+  const handleBackToMenu = () => {
+    router.push("/kiosk_item");
+  };
 
-    const handleStartOver = () => {
-        setCart([]); // Clear the cart
-    };
+  const handleStartOver = () => {
+    setCart([]); // Clear the cart
+  };
 
-    const handlePlaceOrder = () => {
-        // Functionality to place the order, e.g., redirect or call API
-        alert("Order placed!");
-    };
+  const handlePlaceOrder = () => {
+    // Functionality to place the order, e.g., redirect or call API
+    alert("Order placed!");
+    clearCart();
+    resetTrackedOthers();
+  };
 
-    // Remove an item from the cart
-    const handleRemoveItem = (id) => {
-        setCart(cart.filter((item) => item.id !== id));
+  // Add an item to the cart (for demonstration, adds a hard-coded item)
+  const handleAddItem = () => {
+    const newItem = {
+      id: Date.now(),
+      type: "NEW ITEM",
+      price: 5.0,
+      details: ["Sample Detail 1", "Sample Detail 2"],
+      quantity: 1,
     };
+    setCart([...cart, newItem]);
+  };
 
-    // Add an item to the cart (for demonstration, adds a hard-coded item)
-    const handleAddItem = () => {
-        const newItem = {
-            id: Date.now(),
-            type: "NEW ITEM",
-            price: 5.0,
-            details: ["Sample Detail 1", "Sample Detail 2"],
-            quantity: 1,
-        };
-        setCart([...cart, newItem]);
-    };
-
-    return (
-        <div className={styles.cartContainer}>
-            <div className={styles.circle}></div>
+  return (
+    <div className={styles.cartContainer}>
+      <div className={styles.circle}></div>
 
       <div className={styles.topBar}>
         <button className={styles.backButton} onClick={handleBackToMenu}>
@@ -104,7 +110,7 @@ const CartPage = () => {
               </h2>
               <button
                 className={styles.removeButton}
-                onClick={() => handleRemoveItem(item.id)}
+                onClick={() => removeItemFromCart(item.id)}
               >
                 -
               </button>
