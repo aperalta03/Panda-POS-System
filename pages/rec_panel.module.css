@@ -1,31 +1,42 @@
+.recHeader {
+    background-color: black;
+    color: white;
+    width: 51vw;
+    text-transform: uppercase;
+    padding: 10px;
+    font-size: 1.375rem;
+    padding-bottom: 0;
+}
+
 /* Holds all item frames */
 .itemFrameContainer {
     display: grid;
-    grid-template-columns: repeat(3, 0.1fr);/* Three columns in one row */
-    justify-items: left; /* Center items horizontally */
-    align-items: end; /* Align items to the top */
+    grid-template-columns: repeat(3, 0.1fr);
+    justify-items: left;
+    align-items: end;
     gap: 0;
 }
 
 /* Updated styling for item frame */
 .itemFrame {
-    border: 1px solid #ccc;
+    border: 1px solid black;
     padding: 2%;
-    display: flex; /* Changed to flex to position items side-by-side */
-    flex-direction: row; /* Ensure image and text are aligned horizontally */
-    align-items: center; /* Center vertically */
-    width: 15.9vw;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 17vw;
     background-color: black;
-    height: 170px; /* Allow height to adjust dynamically */
-    gap: 10px; /* Space between image and text content */
+    height: 170px;
+    gap: 10px;
+    overflow: hidden;
 }
 
 /* Wrapper for content to position image and text */
 .contentWrapper {
     display: flex;
-    flex-direction: row; /* Side-by-side layout */
+    flex-direction: row;
     align-items: center;
-    gap: 10px; /* Space between image and text */
+    gap: 10px;
 }
 
 /* Text content styling */
@@ -34,7 +45,7 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start; /* Left-align text */
-    gap: 8px; /* Space between text elements */
+    gap: 5px; /* Space between text elements */
 }
 
 
@@ -42,12 +53,12 @@
 .name {
     text-align: left;
     margin: 0;
-    color: white;
+    color: #cb0632;
     text-transform: uppercase;
-    margin-top: 15px;
+    margin-top: 5px;
     font-weight: bold;
     margin-left: 5px;
-    font-size: 15px;
+    font-size: 1rem;
 }
 
 /* Styling for item calories */
@@ -55,8 +66,8 @@
     text-align: left;
     margin: 0;
     color: white;
-    margin-top: 8px;
-    font-size: 15px;
+    margin-top: 1px;
+    font-size: 13px;
     margin-left: 5px;
 }
 
@@ -66,17 +77,17 @@
     align-items: center;
     justify-content: flex-start;
     gap: 10px;
-    margin-top: auto;
+    margin-top: 5px;
     color: white;
     font-weight: bold;
-    font-size: 15px;
+    font-size: 22px;
     margin-left: 5px;
 }
 
 /* In depth dtyling for add/subtract button for an item */
 .addSub {
     background-color: black;
-    font-size: 35px;
+    font-size: 22px;
     color: white;
     font-weight: bold;
     border: none;
@@ -125,112 +136,13 @@
     background-color:#cb0632;
 }
 
-/* Styling for designation icon */
-.designationIcon {
-    font-size: var(--designation);
-}
-
-/* Adding general styling for each designation */
-.spicydesignation, .premiumdesignation, .veggiedesignation, .seasonaldesignation, .defaultdesignation {
-    color: white;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: var(--other-designations);
-    text-align: center;
-    margin: 0 auto;
-}
-
-/* Adding specific styling for each designation */
-.spicydesignation {
-    background-color: #a92517; 
-    color: black; 
-    font-style: italic;
-    font-weight: bold;
-}
-.premiumdesignation {
-    background-color: #C6713D;
-    color: black; 
-    font-style: italic;
-    font-weight: bold;
-}
-.veggiedesignation {
-    background-color: #186D44; 
-    color: black;
-    font-style: italic;
-    font-weight: bold;
-}
-.seasonaldesignation {
-    background-color: #BC9C22; 
-    color: black;
-    font-style: italic;
-    font-weight: bold;
-}
-.defaultdesignation {
-    background-color: black; 
-    color: black;
-    font-style: italic;
-    font-weight: bold;
-}
-
-
 /* Updated styling for item image */
 .itemImage {
     width: 100px; /* Fixed width */
     height: auto; /* Maintain aspect ratio */
-    max-width: 200px;
+    min-width: 10vw;
     background-color: white;
     object-fit: contain; /* Ensure image fits within container */
-}
-
-/* Popup styling */
-.popup {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: black;
-    color: white;
-    border: 1px solid #cb0632;
-    padding: 16px;
-    z-index: 10;
-    max-width: 300px;
-}
-
-/* Styling for popup content */
-.popupContent {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    font-size: var(--popup-content);
-}
-
-/* Adding space between description and designation */
-.popupContent p:first-child {
-    margin-bottom: 10px; 
-}
-
-/* Bolding designation label - popup */
-.designationLabel {
-    font-weight: bold;
-}
-
-/* Styling for close button of popup */
-.closeButton {
-    background-color: #cb0632;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    margin-top: 12px;
-    border-radius: 5px;
-    cursor: pointer;
-    text-transform: uppercase;
-    font-weight: bold;
-    font-size: var(--popup-close-button);
 }
 
 /* Styling for close button on hover */
@@ -239,3 +151,23 @@
     background-color: white;
 }
 
+/*Styling for enter button*/
+.enterButton {
+    background-color: black;
+    color: white;
+    border: 1px solid white;
+    padding: 5px;
+    width: 4vw;
+    border-top-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+/* Specific styling for enter buttons*/
+.enterButton:hover {
+    background-color: #cb0632;
+    border-color: #cb0632;
+}
+.enterButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

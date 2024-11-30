@@ -3,7 +3,7 @@ import styles from "./rec_panel.module.css";
 import { useGlobalState } from "@/app/context/GlobalStateContext";
 
 const RecommendationPanel = () => {
-  const { menu, cart, setCart, translations } = useGlobalState();
+  const { menu, cart, setCart, translations, numTotalItems, setNumTotalItems } = useGlobalState();
   const [randomItems, setRandomItems] = useState([]);
   const [quantities, setQuantities] = useState({});
 
@@ -55,16 +55,28 @@ const RecommendationPanel = () => {
     }
 
     const newItem = {
-      id: Date.now(),
-      name: item.name || "A LA CARTE",
-      price: item.price || 5.0,
-      details: item.name || "No details",
-      quantity,
+        id: Date.now(),
+        type: "A LA CARTE",
+        price: item.price || 5.0,
+        //details: [item.name || "No details"],
+        details: [`${quantity} ${item.name || "No details"} $${item.price}`],
+        quantity: quantity,
     };
-    setCart((prevCart) => [...prevCart, newItem]); // Update the cart
+    setCart([...cart, newItem]);
+    setNumTotalItems(numTotalItems + 1);
+    
+    setQuantities((prevQuantities) => ({
+        ...prevQuantities,
+        [id]: 0,
+    }));
   };
 
   return (
+    <div className={styles.recPanel}>
+    <h1 className={styles.recHeader}>
+        Last Minute Picks?
+    </h1>
+
     <div className={styles.itemFrameContainer}>
       {randomItems.map((item, index) => {
         const uniqueId = item.id || `fallback-${index}`;
@@ -82,7 +94,7 @@ const RecommendationPanel = () => {
                   {translations[item.name] || item.name}
                 </h3>
                 <p className={styles.calories}>
-                  {item.calories} {translations["Calories"] || "Cal."}
+                  {item.calories} {translations["Calories"] || "Cal."} | ${item.price}
                 </p>
 
                 {/* Counter for quantity selection */}
@@ -106,14 +118,17 @@ const RecommendationPanel = () => {
                 <button
                   onClick={() => handleAddItem(item, uniqueId)}
                   className={styles.enterButton}
+                  disabled={quantities[uniqueId] === 0} 
                 >
                   {translations["Enter"] || "Enter"}
                 </button>
               </div>
             </div>
+            
           </div>
         );
       })}
+    </div>
     </div>
   );
 };

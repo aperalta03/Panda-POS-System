@@ -40,6 +40,11 @@ const CartPage = () => {
   const tax = subtotal * 0.15;
   const total = subtotal + tax;
 
+  console.log("Cart items:", cart);
+  console.log("Subtotal:", subtotal);
+  console.log("Tax:", tax);
+  console.log("Total:", total);
+
   const handleBackToMenu = () => {
     router.push("/kiosk_item");
   };
@@ -53,6 +58,7 @@ const CartPage = () => {
     alert("Order placed!");
     router.push("/thank-you");
     setNumTotalItems(0);
+    setCart([]); 
   };
 
   const handleRemoveItem = (id) => {
