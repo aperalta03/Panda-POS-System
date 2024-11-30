@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useGlobalState } from "../app/context/GlobalStateContext"; //import global state
 import ItemFrame from "./itemFrame";
 import TranslateButton from "@/app/components/kiosk/translateButton";
+import AccessibilityButton from './accessButton';
 
 ////////////////// ADD BACK TO SELECTION BUTTON //////////////////
 ///////////////// USE STICKY BAR //////////////////
@@ -11,7 +12,7 @@ import TranslateButton from "@/app/components/kiosk/translateButton";
 //top bar containing panel info, tracker of items selected, etc.
 const TopBar = ({ handleCartClick, numTrackedSides, numTrackedEntrees }) => {
   const router = useRouter();
-  const { currentLanguage, changeLanguage, translations } = useGlobalState();
+  const { currentLanguage, changeLanguage, translations, numTotalItems } = useGlobalState();
 
   const handleLanguageChange = (e) => {
     const newLanguage = e.target.value;
@@ -41,6 +42,8 @@ const TopBar = ({ handleCartClick, numTrackedSides, numTrackedEntrees }) => {
           <button className={styles.checkOut} onClick={handleCartClick}>
             <img src="/cart2_img.png" alt="Cart" className={styles.cartImage} />
           </button>
+          <div className={styles.cartItemCount}>{numTotalItems}</div>
+          <AccessibilityButton />
         </div>
         <div className={styles.quantContainer}>
           <div className={styles.sideContainer}>
@@ -82,6 +85,11 @@ const KioskBowlPage = () => {
     isDone,
     setDone,
     translations,
+    toggleTheme, 
+    currentTheme, 
+    isPandaMember,
+    toggleSize,
+    isLargeText 
   } = useGlobalState();
   const [currentStep, setCurrentStep] = useState("sides"); //step var to indicate whether selecting sides or entrees
 
@@ -161,6 +169,7 @@ const KioskBowlPage = () => {
     itemsToDisplay = menu.filter((item) => item.type === "entree");
     headerText = translations["Select Entrees"] || "Select Entrees";
   }
+
 
   return (
     <div className={styles.layout}>

@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styles from "./kiosk_item.module.css";
 import { useRouter } from "next/router";
 import { useGlobalState } from "../app/context/GlobalStateContext";
 import TranslateButton from "@/app/components/kiosk/translateButton";
 import { Margin } from "@mui/icons-material";
 
+import AccessibilityButton from './accessButton';
+
+
 const TopBar = ({ handleOptionsClick }) => {
   const router = useRouter();
   const { currentLanguage, changeLanguage, translations } = useGlobalState();
-  const { cart } = useGlobalState();
+  const { cart, addItemToCart, removeItemFromCart, clearCart, newItem, removeNewItem, setCart, numTotalItems } = useGlobalState();
 
   const subtotal = cart.reduce((total, item) => total + item.price * item.quantity, 0);
   const tax = subtotal * 0.15;
@@ -36,16 +39,11 @@ const TopBar = ({ handleOptionsClick }) => {
               className={styles.cartImage}
             />
           </button>
+          <div className={styles.cartItemCount}>{numTotalItems}</div>
           <h1 className={styles.priceLabel}>${total.toFixed(2)}</h1>
         </div>
         <div className={styles.gearButtonContainer}>
-          <button className={styles.circleButton} onClick={handleOptionsClick}>
-            <img
-              src="/handicap_button.jpg"
-              alt="Accessible Icon"
-              className={styles.accessImage}
-            />
-          </button>
+          <AccessibilityButton /> 
         </div>
         <TranslateButton
           currentLanguage={currentLanguage}
@@ -66,6 +64,7 @@ const TopBar = ({ handleOptionsClick }) => {
           <button
             className={styles.genStartOver}
             onClick={() => {
+              clearCart();
               router.push("/kiosk");
             }}
           >
@@ -82,12 +81,79 @@ const TopBar = ({ handleOptionsClick }) => {
   );
 };
 
+//Gets recommended item based on highest selling item of the month
+const RecommendedItem = () => {
+  const [topItem, setTopItem] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const { menu } = useGlobalState();
+  useEffect(() => {
+    const fetchTopItem = async () => {
+      try {
+        const response = await fetch('/api/top-selling-item');
+        if (!response.ok) {
+          throw new Error('Failed to fetch top-selling item');
+        }
+        const data = await response.json();
+        setTopItem(data.data);
+      } catch (err) {
+        console.error('Error fetching top-selling item:', err);
+        setError('Failed to load recommended item.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTopItem();
+  }, []);
+
+  if (loading) return <p>Loading recommended item...</p>;
+  if (error) return <p className={styles.error}>{error}</p>;
+
+  // Match topItem fteched with global vars to get information
+  const matchedItem = menu.find(item => item.name === topItem?.item_name);
+  if (!matchedItem) {
+    return <p>Item not found in the menu.</p>;
+  }
+  //Get item details
+  const { name, calories, description, designation, image } = matchedItem;
+
+  return (
+    <div className={styles.recommendedItemPanel}>
+      <div className={styles.recLeftPanel}>
+        <h2 className={styles.recLabel}>This month&#39;s hot item</h2>
+        <div className={styles.itemDetails}>
+          <p className={styles.recItemName}>{name}</p>
+          <p className={styles.recItemDescription}>{description}</p>
+          <div className={styles.itemInfo}>
+            <p className={styles.recItemCalories}>
+              Calories: {calories || 'N/A'} | Designation: {designation || 'None'}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className={styles.recRightPanel}>
+        <img
+          src= {matchedItem.image}
+          alt= {matchedItem.name}
+          className={styles.itemRecImg}
+        />
+      </div>
+    </div>
+  );
+};
+
 const KioskItemPanel = ({}) => {
   const router = useRouter();
   const { currentLanguage, changeLanguage, translations } = useGlobalState();
   return (
     <div className={styles.midPanel}>
+
       <div className={styles.itemButtons}>
+        <RecommendedItem />
+
         <button
           onClick={() => {
             router.push("/kiosk_bowl");
@@ -183,6 +249,7 @@ const BottomBar = () => {
 const KioskItemPage = () => {
   const router = useRouter();
   const [isOptionsOpens, setIsOptionsOpen] = useState(false);
+  const { toggleTheme, currentTheme, isPandaMember, toggleSize, isLargeText } = useGlobalState();
 
   const handleOptionsClick = () => {
     setIsOptionsOpen(!isOptionsOpen);
@@ -193,6 +260,7 @@ const KioskItemPage = () => {
       <div className={styles.circle}>
         <p>1</p>
       </div>
+
       <div className={styles.topHeader}>
         <TopBar>handleOptionsClick = {handleOptionsClick}</TopBar>
       </div>

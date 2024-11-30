@@ -46,25 +46,33 @@ const ThankYouPage = () => {
 
   return (
     <div className={styles.Container}>
+            <div className={styles.circle}>
+        <p></p>
+      </div>
       <img
         src="/chickenmaxxing_logo.png"
         alt="Chicken Maxxing Logo"
         className={`${styles.Logo} ${styles.Left}`}
       />
-      <img
-        src="/panda_express.png"
-        alt="Panda Express Logo"
-        className={`${styles.Logo} ${styles.Right}`}
-      />
-      <h1 className={styles.ThankYouText}>Thank you for your order!</h1>
-      <div className={styles.FortunePaper}>
-        <p>{fortune}</p>
+
+
+      <div className={styles.middleContainer}>
+        <img
+          src="Panda_Rewards.png"
+          alt="Panda Express Logo"
+          className={`${styles.Logo} ${styles.Right}`}
+        />
+        <h1 className={styles.ThankYouText}>Your order is on its way!</h1>
+        <h2 clssName={styles.orderNumber}> Your order number is:</h2>
+        <div className={styles.FortunePaper}>
+          <p>{fortune}</p>
+        </div>
+        <img
+          src="/click.png"
+          alt="CLick Me to go Back to the Kiosk"
+          className={styles.click}
+        />
       </div>
-      <img
-        src="/click.png"
-        alt="CLick Me to go Back to the Kiosk"
-        className={styles.click}
-      />
     </div>
   );
 };

@@ -1,8 +1,8 @@
 /* Main Orb Container */
 .chatOrb {
     position: fixed;
-    bottom: 5%;
-    left: 3%;
+    bottom: 8%;
+    right: 3%;
     width: 75px;
     height: 75px;
     border-radius: 50%;

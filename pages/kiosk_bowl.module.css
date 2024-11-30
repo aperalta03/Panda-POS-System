@@ -4,7 +4,7 @@
   flex-wrap: wrap;
   gap: 25px;
   padding: 16px;
-  background-color: white;
+  background-color: var(--item-selection-background-color);
   height: 100%;
   overflow-y: auto;
 }
@@ -16,12 +16,12 @@
   transform: translate(-42%, -52%);
   width: 700px;
   height: 700px;
-  background-color: #cb0632;
+  background-color: var(--circle-color);
   border-radius: 50%;
-  color: #cb0632;
+  color: var(--circle-color);
   position: absolute;
   z-index: 0;
-  border: 1px solid #cb0632;
+  border: 1px solid var(--circle-color);
   position: absolute;
 }
 
@@ -39,7 +39,7 @@
     display: flex;
     align-items: center;
     gap: 4rem;
-    background-color: black;
+    background-color: var(--label-quant-background-color);
     margin-top: 10px;
     padding: 0 80px;
     padding-top: 10px;
@@ -73,19 +73,18 @@
 /*Styling for item heading at top */
 .itemHeader {
   text-align: center;
-  font-size: 1.5rem;
   margin-bottom: 1rem;
-  color: black;
-  background-color: #cb0632;
+  color: var(--info-text-color);
+  background-color: var(--label-selection-background-color);
   font-weight: bold;
   text-transform: uppercase;
   width: 100%;
   padding: 0 10px;
   padding-top: 20px;
   padding-bottom: 20px;
-  font-size: 45px;
+  font-size: var(--item-header);
   z-index: 1;
-  border: 1px solid white;
+  border: 1px solid var(--item-selection-background-color);
   border-top-left-radius: 20px;
   border-bottom-right-radius: 20px;
 }
@@ -121,14 +120,14 @@
 /* styling for side and entree counter */
 .sideQuant,
 .entreeQuant {
-  font-size: 40px;
-  color: white;
+  font-size: var(--side-entree-quant);
+  color: var(--label-quant-count-text-color);
   font-weight: bold;
 }
 .sideQuantLabel,
 .entreeQuantLabel {
-  font-size: 70px;
-  color: #cb0632;
+  font-size: var(--side-entree-quant-label);
+  color: var(--label-quant-text-color);
   font-weight: bold;
   text-transform: uppercase;
 }
@@ -136,7 +135,7 @@
   display: flex;
   align-items: center;
   gap: 4rem;
-  background-color: black;
+  background-color: var(--primary-container-background-color);
   margin-top: 10px;
   padding: 0 80px;
   padding-top: 10px;
@@ -155,11 +154,11 @@
 .checkOut {
   width: 100px;
   padding: 10px;
-  font-size: 2rem;
+  font-size: var(--check-out);
   font-weight: bold;
   color: white;
-  background-color: black;
-  border: none;
+  background-color: var(--primary-button-background-color);
+  border: 1px solid var(--cart-border);
   cursor: pointer;
   transition: background-color 0.3s;
   justify-content: center;
@@ -167,12 +166,12 @@
   display: flex;
   padding: 0;
   border-radius: 50%;
-  width: 60px;
-  height: 60px;
+  width: 52px;
+  height: 52px;
 }
 .checkOut:hover {
-  color: black;
-  border: 1px solid #cb0632;
+  color: var(--primary-button-background-color);
+  border: 1px solid var(--primary-button-hover-color);
 }
 .cartImage {
   width: 100%; /* Adjust size */
@@ -180,36 +179,55 @@
   object-fit: contain; /* Ensures image scales properly */
   border-radius: 50%;
 }
+/* Styling for the overlay circle on cart */
+.cartItemCount {
+  position: relative;
+  top: -20px;
+  right: 35px;
+  background-color: #cb0632;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
 
 /*styling for general labels */
 .selectLabel,
 .sideLabel,
 .entreeLabel {
-  color: white;
+  color: var(--select-text-color);
+  z-index: 1;
 }
 .selectLabel {
   font-weight: bold;
-  font-size: 20px;
+  font-size: var(--select-label);
   margin-bottom: 3px;
 }
 .sideLabel,
 .entreeLabel {
-  font-size: 15px;
+  font-size: var(--select-quant-label);
   font-style: italic;
 }
 .sideQuantLabel,
 .entreeQuantLabel {
-  font-size: 1rem;
+  font-size: var(--side-entree-quant-words);
 }
 
 /* styling for plate name */
 .plateName {
-  color: #cb0632;
+  color: var(--circle-color);
   font-weight: bold;
   text-transform: uppercase;
-  font-size: 60px;
-  text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white,
-    1px 1px 0 white;
+  font-size: var(--plate-name);
+  text-shadow: -1px -1px 0 var(--select-text-color), 1px -1px 0 var(--select-text-color), -1px 1px 0 var(--select-text-color),
+    1px 1px 0 var(--select-text-color);
 }
 
 /* styling for  sticky bottom bar */
@@ -219,8 +237,8 @@
   left: 0;
   width: 100%;
   /*background-color: rgba(0, 0 , 0, 0.5);*/
-  background-color: black;
-  color: white;
+  background-color: var(--bottom-bar-background-color);
+  color: var(--primary-background-text-color);
   display: flex;
   justify-content: space-between;
   /*align-items: center;*/
@@ -228,16 +246,16 @@
   padding: 15px;
   z-index: 2;
   /*box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);*/
-  border-top: 1px solid white;
+  border-top: 1px solid var(--primary-background-text-color);
 }
 
 /*general styling for bottom bar buttons */
 .bottomButton {
-  font-size: 1.2rem;
+  font-size: var(--bottom-button);
   padding: 10px 20px;
   border: none;
-  color: white;
-  background-color: black;
+  color: var(--item-selection-background-color);
+  background-color: var(--bottom-bar-background-color);
   /*border: 1px solid white;*/
   cursor: pointer;
   /*border-radius: 5px;*/
@@ -247,24 +265,24 @@
 }
 .bottomButton:hover {
   /*background-color: #cb0632;*/
-  color: #cb0632;
+  color: var(--x);
 
   .x {
-    color: white;
+    color: var(--primary-background-text-color);
   }
 }
 
 .x {
-  color: #cb0632;
+  color: var(--x);
 }
 
 /*general styling for bottom bar buttons */
 .backToMenuButton {
-  font-size: 1.2rem;
+  font-size: var(--bottom-button);
   padding: 10px 20px;
   border: none;
-  color: white;
-  background-color: black;
+  color: var(--item-selection-background-color);
+  background-color: var(--bottom-bar-background-color);
   /*border: 1px solid white;*/
   cursor: pointer;
   border-radius: 5px;
@@ -274,27 +292,27 @@
 }
 .backToMenuButton:hover {
   /*background-color: #cb0632;*/
-  color: #cb0632;
+  color: var(--x);
 
   .x {
-    color: white;
+    color: var(--primary-background-text-color);
   }
 }
 
 /* styling specifics for done button */
 .doneButton:disabled {
-  background-color: black;
+  background-color: var(--bottom-bar-background-color);
   cursor: not-allowed;
-  border: 1px solid white;
+  border: 1px solid var(--primary-background-text-color);
 }
 
 .doneButton {
-  font-size: 1.2rem;
+  font-size: var(--bottom-button);
   padding: 10px 20px;
   margin-top: 0;
   border: none;
-  color: white;
-  background-color: black;
+  color: var(--primary-background-text-color);
+  background-color: var(--bottom-bar-background-color);
   /*border: 1px solid white;*/
   cursor: pointer;
   font-weight: bold;
@@ -307,8 +325,8 @@
 }
 
 .doneButton:enabled {
-  color: white;
-  background-color: #cb0632;
-  border: 1px solid #cb0632;
+  color: var(--primary-background-text-color);
+  background-color: var(--done-enabled);
+  border: 1px solid var(--done-enabled);
   cursor: pointer;
 }

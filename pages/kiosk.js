@@ -9,6 +9,8 @@ import ThunderstormIcon from "@mui/icons-material/Thunderstorm";
 import AcUnitIcon from "@mui/icons-material/AcUnit";
 import TranslateButton from "@/app/components/kiosk/translateButton";
 
+import AccessibilityButton from './accessButton';
+
 // Menu structure
 const menu = {
   appetizers: [
@@ -227,20 +229,17 @@ const Welcome = ({ toItemPage }) => {
       <h1 className={styles.welcomeHeader}>
         {translations["We Wok For You"] || "We Wok For You"}
       </h1>
-      <h1 onClick={toItemPage} className={styles.orderHeader}>
-        {translations["Tap to Order Now"] || "Tap to Order Now"}
-      </h1>
-
-      <TranslateButton
-        currentLanguage={currentLanguage}
-        onLanguageChange={handleLanguageChange}
-      />
-      <div className={styles.handicapWrapper}>
-        <img
-          src="/handicap_button.jpg"
-          alt="Handicap Logo"
-          className={styles.accessibility}
+      <div onClick={toItemPage} className={styles.orderHeader}>
+        <h1>{translations["Tap to Order Now"] || "Tap to Order Now"}</h1>
+      </div>
+      <div className={styles.translateButton}>
+        <TranslateButton
+          currentLanguage={currentLanguage}
+          onLanguageChange={handleLanguageChange}
         />
+      </div>
+      <div className={styles.handicapWrapper}>
+        <AccessibilityButton />
       </div>
       <div className={styles.circle}></div>
       <div className={styles.bottomPanel}></div>

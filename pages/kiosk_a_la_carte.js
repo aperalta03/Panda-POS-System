@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useGlobalState } from "../app/context/GlobalStateContext"; //import global state
 import ItemFrame from "./itemFrameALaCarte";
 import TranslateButton from "@/app/components/kiosk/translateButton";
+import AccessibilityButton from './accessButton';
 
 //top bar containing panel info, tracker of items selected, etc.
 const TopBar = ({
@@ -13,7 +14,7 @@ const TopBar = ({
   numTrackedOthers,
 }) => {
   const router = useRouter();
-  const { currentLanguage, changeLanguage, translations } = useGlobalState();
+  const { currentLanguage, changeLanguage, translations, numTotalItems } = useGlobalState();
 
   const handleLanguageChange = (e) => {
     const newLanguage = e.target.value;
@@ -46,6 +47,8 @@ const TopBar = ({
           <button className={styles.checkOut} onClick={handleCartClick}>
             <img src="/cart2_img.png" alt="Cart" className={styles.cartImage} />
           </button>
+          <div className={styles.cartItemCount}>{numTotalItems}</div>
+          <AccessibilityButton />
         </div>
         <div className={styles.quantContainer}>
           <div className={styles.sideContainer}>
@@ -58,6 +61,12 @@ const TopBar = ({
             <h2 className={styles.entreeQuant}>{numTrackedEntrees}</h2>
             <h2 className={styles.entreeQuantLabel}>
               {translations["Entree"] || "Entree"}
+            </h2>
+          </div>
+          <div className={styles.otherContainer}>
+            <h2 className={styles.otherQuant}>{numTrackedOthers}</h2>
+            <h2 className={styles.otherQuantLabel}>
+              {translations["Other"] || "Other"}
             </h2>
           </div>
         </div>
@@ -80,6 +89,11 @@ const KioskALaCartePage = () => {
     resetTrackedEntrees,
     resetTrackedOthers,
     translations,
+    toggleTheme, 
+    currentTheme, 
+    isPandaMember,
+    toggleSize,
+    isLargeText
   } = useGlobalState();
   const { cart, addItemToCart, removeItemFromCart, clearCart, newItem, removeNewItem } = useGlobalState();
 
@@ -121,6 +135,7 @@ const KioskALaCartePage = () => {
   let itemsToDisplay = menu;
   let headerText = translations["Select Items"] || "SELECT ITEMS"; //info text that changes based on selection step\
 
+
   return (
     <div className={styles.layout}>
       <div className={styles.circle}>
@@ -128,6 +143,7 @@ const KioskALaCartePage = () => {
       </div>
 
       <div className={styles.topHeader}>
+
         <TopBar
           handleCartClick={handleCartClick}
           numTrackedSides={numTrackedSides}

@@ -1,0 +1,173 @@
+.recHeader {
+    background-color: black;
+    color: white;
+    width: 51vw;
+    text-transform: uppercase;
+    padding: 10px;
+    font-size: 1.375rem;
+    padding-bottom: 0;
+}
+
+/* Holds all item frames */
+.itemFrameContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 0.1fr);
+    justify-items: left;
+    align-items: end;
+    gap: 0;
+}
+
+/* Updated styling for item frame */
+.itemFrame {
+    border: 1px solid black;
+    padding: 2%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 17vw;
+    background-color: black;
+    height: 170px;
+    gap: 10px;
+    overflow: hidden;
+}
+
+/* Wrapper for content to position image and text */
+.contentWrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Text content styling */
+.textContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start; /* Left-align text */
+    gap: 5px; /* Space between text elements */
+}
+
+
+/* Styling for item name */
+.name {
+    text-align: left;
+    margin: 0;
+    color: #cb0632;
+    text-transform: uppercase;
+    margin-top: 5px;
+    font-weight: bold;
+    margin-left: 5px;
+    font-size: 1rem;
+}
+
+/* Styling for item calories */
+.calories {
+    text-align: left;
+    margin: 0;
+    color: white;
+    margin-top: 1px;
+    font-size: 13px;
+    margin-left: 5px;
+}
+
+/* Styling for container containing count and add/sub buttons */
+.counterContainer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    margin-top: 5px;
+    color: white;
+    font-weight: bold;
+    font-size: 22px;
+    margin-left: 5px;
+}
+
+/* In depth dtyling for add/subtract button for an item */
+.addSub {
+    background-color: black;
+    font-size: 22px;
+    color: white;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+
+}
+
+/* Styling for add/subtract button hover */
+.addSub:hover {
+    color:#cb0632;
+}
+
+/* Styling for container of both info button and designation NOT TO MESS WITH */
+.infoButtonContainer {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Styling for acutal info button */
+.infoButton {
+    background-color: white;
+    border-radius: 50%;
+    padding: 4px;
+    font-size: 18px;
+    cursor: pointer;
+    border: none;
+    width: 40px;
+    height: 40px;
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+    font-size: var(--info-button);
+    text-align: center;
+    margin: 0 auto;
+    font-weight: bold;
+    font-style: italic;
+}
+
+/*Styling for info button hover */
+.infoButton:hover {
+    background-color:#cb0632;
+}
+
+/* Updated styling for item image */
+.itemImage {
+    width: 100px; /* Fixed width */
+    height: auto; /* Maintain aspect ratio */
+    min-width: 10vw;
+    background-color: white;
+    object-fit: contain; /* Ensure image fits within container */
+}
+
+/* Styling for close button on hover */
+.closeButton:hover {
+    color:black;
+    background-color: white;
+}
+
+/*Styling for enter button*/
+.enterButton {
+    background-color: black;
+    color: white;
+    border: 1px solid white;
+    padding: 5px;
+    width: 4vw;
+    border-top-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+/* Specific styling for enter buttons*/
+.enterButton:hover {
+    background-color: #cb0632;
+    border-color: #cb0632;
+}
+.enterButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

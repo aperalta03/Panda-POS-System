@@ -91,7 +91,7 @@ export const textArray = [
   "Veggie",
   "No specific designation",
   "Close",
-  "Extras:",
+  "Don't forget to add sauce",
   "Soy Sauce",
   "Sweet & Sour Sauce",
   "Chili Sauce",

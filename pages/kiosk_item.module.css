@@ -2,7 +2,7 @@
 .layout {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    min-height: 100vh;
     background-color: black;
     overflow: hidden;
     position: relative;
@@ -38,12 +38,85 @@
 
 /* Styling for middle panel */
 .midPanel {
-    flex: 1;
+    flex-grow: 1;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 1;
 }
+
+/* Overall container styles */
+.recommendedItemPanel {
+    background-color: #cb0632;
+    border-top-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    padding: 15px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    max-height: 180px;
+    z-index: 1;
+    margin-top: 10px;
+  }
+  
+/* Left panel styles */
+.recLeftPanel {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 10px;
+    text-align: left;
+    background-color: black;
+    margin: -10px;
+    border-top-left-radius: 20px;
+    padding-left: 10px;
+    padding-top: 10px;
+}
+.recLabel {
+    font-size: var(--rec-label);
+    text-transform: uppercase;
+    color: #cb0632;
+    margin-bottom: 5px;
+}
+.itemDetails {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.recItemName {
+    font-size: var(--rec-item-name);
+    font-weight: bold;
+    color: #cb0632;
+}
+.recItemDescription {
+    font-size: var(--rec-item-description);
+    color: white;
+    margin-bottom: 10px;
+}
+.itemInfo {
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--item-info);
+    color: white;
+    font-style: italic;
+}
+  
+/* Right panel styles */
+.recRightPanel {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.itemRecImg {
+    width: 100%;
+    max-width: 275px;
+    height: auto;
+    object-fit: contain;
+    border-radius: 8px;
+}
+  
 
 /* Top Bar Layout */
 .KioskItemPanel {
@@ -65,6 +138,24 @@
     z-index: 1;
     position: relative;
 }
+
+/* Styling for the overlay circle on cart */
+.cartItemCount {
+    position: absolute;
+    top: -75px;
+    right: 120px;
+    background-color: #cb0632;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
 
 /* Styling for top left buttons container*/
 .cartAndPriceContainer {
@@ -90,6 +181,7 @@
     transition: background-color 0.3s;
     margin-bottom: 10px;
     overflow: hidden;
+    margin-left: -15px;
 }
 
 /* Styling for circle button hover*/
@@ -109,7 +201,7 @@
 
 /* Styling for price label */
 .priceLabel {
-    font-size: 30px;
+    font-size: var(--price-label);
     font-weight: bold;
     color: #cb0632;
 }
@@ -119,7 +211,7 @@
     display: flex;
     justify-content: center;
     width: 100%;
-    margin-right : 95px;
+    margin-right : 110px;
 }
 
 /* Styling for access image */
@@ -150,7 +242,7 @@
     flex: 1;
     padding: 10px;
     margin-top: 40px;
-    font-size: 35px;
+    font-size: var(--top-buttons);
     text-align: left;
     font-weight: bold;
     color: black;
@@ -210,7 +302,7 @@
     color: white;
 }
 .startOver {
-    font-size: 25px;
+    font-size: var(--start-over);
     color: black;
     text-transform: uppercase;
 }
@@ -243,7 +335,7 @@
     text-align: center;
     font-weight: bold;
     flex: 1;
-    font-size: 20px;
+    font-size: var(--item-left);
     border-radius: 8px 0 0 8px;
     padding-top: 45px;
     height: 12vh;
@@ -256,7 +348,7 @@
 .itemRight {
     text-align: left;
     flex: 1;
-    font-size: 16px;
+    font-size: var(--item-right);
     margin-left: 20px;
     color: white;
     display: block;
@@ -293,7 +385,7 @@
 /* Bottom Panel */
 .bottomHeader {
     text-transform: uppercase;
-    font-size: 30px;
+    font-size: var(--bottom-header);
     font-weight: bold;
     color: white;
     text-align: center;

@@ -74,43 +74,27 @@
 }
 
 .orderHeader {
-  display: block;
-  margin-top: 10px;
-  font-size: 1.5rem;
+  display: flex;
+  justify-self: center;
+  align-self: center;
+  margin-top: 2%;
+  font-size: 1.7rem;
   text-align: center;
   color: white;
   z-index: 1;
+}
+.orderHeader:hover {
+  cursor: pointer;
+}
+.orderHeader h1 {
+  font-size: 3rem;
 }
 
 .translateButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 180px;
-  height: 50px;
-  margin: 20px auto;
-  padding: 0 20px;
-  border: none;
-  border-radius: 25px;
-  background-color: #cb0632;
-  color: white;
-  font-size: 1.2rem;
-  text-align: center;
-  cursor: pointer;
-  z-index: 1;
-  border: 1px solid white;
+  position: absolute;
+  top: 2%;
+  left: 2%;
 }
-
-.translateButton:hover {
-  background-color: black;
-}
-
-.translateButton::after {
-  content: "▼";
-  font-size: 0.8rem;
-  color: white;
-}
-
 .languageDropdown {
   display: block;
   width: 180px;
@@ -160,7 +144,7 @@
 }
 .handicapWrapper {
   position: fixed;
-  bottom: 15%;
+  bottom: 5%;
   left: 3%;
   z-index: 2;
   display: flex;

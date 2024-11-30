@@ -3,21 +3,16 @@ import styles from "./kiosk_cart.module.css";
 import { useRouter } from "next/router";
 import { useGlobalState } from "@/app/context/GlobalStateContext";
 import TranslateButton from "@/app/components/kiosk/translateButton";
+import AccessibilityButton from "./accessButton";
+import RecommendationsPanel from "./rec_panel";
 
 const CartPage = () => {
   const router = useRouter();
   const { currentLanguage, changeLanguage, translations } = useGlobalState();
   const [selectedSauces, setSelectedSauces] = useState([]);
-  const {
-    cart,
-    addItemToCart,
-    removeItemFromCart,
-    clearCart,
-    newItem,
-    removeNewItem,
-    setCart,
-    resetTrackedOthers,
-  } = useGlobalState();
+  const { cart, setCart, setNumTotalItems, numTotalItems } = useGlobalState();
+  const { toggleTheme, currentTheme, isPandaMember, toggleSize, isLargeText } =
+    useGlobalState();
 
   const handleLanguageChange = (e) => {
     const newLanguage = e.target.value;
@@ -26,10 +21,8 @@ const CartPage = () => {
 
   const handleSauceToggle = (id) => {
     if (selectedSauces.includes(id)) {
-      // If the sauce is already selected, deselect it
       setSelectedSauces(selectedSauces.filter((sauce) => sauce !== id));
     } else {
-      // Otherwise, select it
       setSelectedSauces([...selectedSauces, id]);
     }
   };
@@ -42,31 +35,30 @@ const CartPage = () => {
   const tax = subtotal * 0.15;
   const total = subtotal + tax;
 
+  console.log("Cart items:", cart);
+  console.log("Subtotal:", subtotal);
+  console.log("Tax:", tax);
+  console.log("Total:", total);
+
   const handleBackToMenu = () => {
     router.push("/kiosk_item");
   };
 
   const handleStartOver = () => {
     setCart([]); // Clear the cart
+    setNumTotalItems(0);
   };
 
   const handlePlaceOrder = () => {
-    // Functionality to place the order, e.g., redirect or call API
     alert("Order placed!");
-    clearCart();
-    resetTrackedOthers();
+    router.push("/thank-you");
+    setNumTotalItems(0);
+    setCart([]);
   };
 
-  // Add an item to the cart (for demonstration, adds a hard-coded item)
-  const handleAddItem = () => {
-    const newItem = {
-      id: Date.now(),
-      type: "NEW ITEM",
-      price: 5.0,
-      details: ["Sample Detail 1", "Sample Detail 2"],
-      quantity: 1,
-    };
-    setCart([...cart, newItem]);
+  const handleRemoveItem = (id) => {
+    setCart(cart.filter((item) => item.id !== id));
+    setNumTotalItems(numTotalItems - 1);
   };
 
   return (
@@ -97,6 +89,10 @@ const CartPage = () => {
           onLanguageChange={handleLanguageChange}
           customStyles={{ position: "fixed", right: "30px" }}
         />
+
+        <div className={styles.accessPosition}>
+          <AccessibilityButton />
+        </div>
       </div>
 
       {/* Scrollable order list container */}
@@ -133,9 +129,11 @@ const CartPage = () => {
         ))}
       </div>
 
+      {/* Extras Section */}
       <div className={styles.extrasSection}>
         <h3 className={styles.extrasTitle}>
-          {translations["Extras:"] || "Extras:"}
+          {translations["Don't Forget to add sauce"] ||
+            "Don't Forget to add sauce"}
         </h3>
         <div className={styles.sauceGrid}>
           {[
@@ -145,11 +143,7 @@ const CartPage = () => {
               name: "Sweet & Sour Sauce",
               imgSrc: "/sweet-sour-sauce.png",
             },
-            {
-              id: "chili",
-              name: "Chili Sauce",
-              imgSrc: "/chili-sauce.png",
-            },
+            { id: "chili", name: "Chili Sauce", imgSrc: "/chili-sauce.png" },
             {
               id: "teriyaki",
               name: "Teriyaki Sauce",
@@ -172,52 +166,58 @@ const CartPage = () => {
                 name="sauce"
                 value={sauce.id}
                 checked={selectedSauces.includes(sauce.id)}
-                onChange={() => handleSauceToggle(sauce.id)} // Handle toggle on change
+                onChange={() => handleSauceToggle(sauce.id)}
                 className={styles.sauceInput}
               />
-              <img
-                src={sauce.imgSrc}
-                alt={sauce.name}
-                className={styles.sauceImage}
-              />
-              <span className={styles.sauceLabel}>
-                {translations[sauce.name] || sauce.name}
-              </span>
+              <div className={styles.sauceContent}>
+                <img
+                  src={sauce.imgSrc}
+                  alt={sauce.name}
+                  className={styles.sauceImage}
+                />
+                <span className={styles.sauceLabel}>
+                  {translations[sauce.name] || sauce.name}
+                </span>
+              </div>
             </label>
           ))}
         </div>
       </div>
 
-      <div className={styles.orderSummary}>
-        <button className={styles.placeOrderButton} onClick={handlePlaceOrder}>
-          {translations["Place Order"] || "Place Order"}
-        </button>
+      {/* Bottom Container */}
+      <div className={styles.bottomContainer}>
+        <div className={styles.recPanel}>
+          <RecommendationsPanel />
+        </div>
+        <div className={styles.orderSummary}>
+          <button
+            className={styles.placeOrderButton}
+            onClick={handlePlaceOrder}
+          >
+            {translations["Place Order"] || "Place Order"}
+          </button>
 
-        <div className={styles.priceSummary}>
-          <div className={styles.priceDetailsContainer}>
-            <div className={styles.priceDetail}>
-              <span>{translations["Subtotal:"] || "Subtotal:"}</span>
-              <span>${subtotal.toFixed(2)}</span>
+          <div className={styles.priceSummary}>
+            <div className={styles.priceDetailsContainer}>
+              <div className={styles.priceDetail}>
+                <span>{translations["Subtotal:"] || "Subtotal:"}</span>
+                <span>${subtotal.toFixed(2)}</span>
+              </div>
+              <div className={styles.priceDetail}>
+                <span>{translations["Tax:"] || "Tax:"}</span>
+                <span>${tax.toFixed(2)}</span>
+              </div>
             </div>
-            <div className={styles.priceDetail}>
-              <span>{translations["Tax:"] || "Tax:"}</span>
-              <span>${tax.toFixed(2)}</span>
-            </div>
-          </div>
 
-          <div className={styles.priceContainer}>
-            <div className={styles.totalPrice}>
-              <span>{translations["Total |"] || "Total |"} </span>
-              <span>${total.toFixed(2)}</span>
+            <div className={styles.priceContainer}>
+              <div className={styles.totalPrice}>
+                <span>{translations["Total |"] || "Total |"} </span>
+                <span>${total.toFixed(2)}</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
-
-      {/* Button to add item for demonstration purposes */}
-      <button className={styles.addItemButton} onClick={handleAddItem}>
-        {translations["+ Add Item"] || "+ Add Item"}
-      </button>
     </div>
   );
 };

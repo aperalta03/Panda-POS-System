@@ -6,6 +6,72 @@ const GlobalStateContext = createContext();
 
 //setting global vars
 export const GlobalStateProvider = ({ children }) => {
+  const [currentTheme, setCurrentTheme] = useState("default");
+  const [isPandaMember, setIsPandaMember] = useState(true); //flag for a user being in loyalty program, TRUE FOR NOW
+  const [isLargeText, setIsLargeText] = useState("original");
+
+  //variables for current customer
+  const [customerPhoneNumber, setCustomerPhoneNumber] = useState("");
+  const [customerName, setCustomerName] = useState("");
+  const [customerTotalPoints, setCustomerTotalPoints] = useState(0);
+
+  useEffect(() => {
+    // Apply the theme to the body or a specific wrapper
+    const body = document.body;
+    body.classList.remove("default-theme", "alternate-theme", "loyalty-theme");
+
+    if (currentTheme === "alternate") {
+      body.classList.add("alternate-theme");
+    } else if (currentTheme === "loyalty") {
+      body.classList.add("loyalty-theme");
+    } else {
+      body.classList.add("default-theme");
+    }
+  }, [currentTheme]);
+
+  const toggleTheme = () => {
+    if (currentTheme === "default") {
+      setCurrentTheme("alternate");
+    } else if (currentTheme === "alternate") {
+      setCurrentTheme("loyalty");
+    } else {
+      setCurrentTheme("default");
+    }
+  };
+
+  useEffect(() => {
+    const body = document.body;
+    body.classList.remove(
+      "original-size-text",
+      "plus-ten-text",
+      "plus-twenty-text",
+      "plus-thirty-text"
+    );
+
+    if (isLargeText === "ten") {
+      body.classList.add("plus-ten-text");
+    } else if (isLargeText === "twenty") {
+      body.classList.add("plus-twenty-text");
+    } else if (isLargeText === "thirty") {
+      body.classList.add("plus-thirty-text");
+    } else {
+      body.classList.add("original-size-text");
+    }
+  }, [isLargeText]);
+
+  const toggleSize = () => {
+    if (isLargeText === "original") {
+      setIsLargeText("ten");
+    } else if (isLargeText === "ten") {
+      setIsLargeText("twenty");
+    } else if (isLargeText === "twenty") {
+      setIsLargeText("thirty");
+    } else {
+      setIsLargeText("original");
+    }
+  };
+
+  const [numTotalItems, setNumTotalItems] = useState(0);
   const [numTrackedSides, setNumTrackedSides] = useState(0); //tracks sides in one item order
   const [numTrackedEntrees, setNumTrackedEntrees] = useState(0); //tracks entrees in one item order
   const [numTrackedOthers, setNumTrackedOthers] = useState(0); //tracks other items in one item order
@@ -32,6 +98,7 @@ export const GlobalStateProvider = ({ children }) => {
 
   const addItemToCart = (item) => {
     setCart([...cart, item]);
+    setNumTotalItems(numTotalItems + 1);
   };
 
   const removeNewItem = () => {
@@ -46,10 +113,12 @@ export const GlobalStateProvider = ({ children }) => {
 
   const removeItemFromCart = (id) => {
     setCart(cart.filter((item) => item.id !== id));
+    setNumTotalItems(numTotalItems - 1);
   };
 
   const clearCart = () => {
     setCart([]);
+    setNumTotalItems(0);
   };
 
   //resetting side associated counts
@@ -74,7 +143,11 @@ export const GlobalStateProvider = ({ children }) => {
   const resetTrackedOthers = () => {
     setNumTrackedOthers(0);
     setMenu((menu) =>
-      menu.map((item) => (item.type === "other" ? { ...item, count: 0 } : item))
+      menu.map((item) =>
+        item.type === "appetizer" || "dessert" || "drink"
+          ? { ...item, count: 0 }
+          : item
+      )
     );
   };
 
@@ -196,6 +269,22 @@ export const GlobalStateProvider = ({ children }) => {
         addItemToCart,
         removeItemFromCart,
         clearCart,
+        numTotalItems,
+        setNumTotalItems,
+        /*styling toggles */
+        currentTheme,
+        toggleTheme,
+        isPandaMember,
+        setIsPandaMember,
+        toggleSize,
+        isLargeText,
+        /*Custom Info*/
+        customerPhoneNumber,
+        setCustomerPhoneNumber,
+        customerName,
+        setCustomerName,
+        customerTotalPoints,
+        setCustomerTotalPoints,
       }}
     >
       {children}

@@ -43,42 +43,8 @@
 .modalBox label {
   display: flex;
   align-items: center;
-}
-
-.modalBox label input[type="checkbox"] {
-  display: none;  /* Hide native checkbox */
-}
-
-.modalBox label span {
-  width: 40px;
-  height: 20px;
-  border: 2px solid #ccc;
-  border-radius: 10px;  /* Rounded corners for the rectangle */
-  background-color: white;
-  position: relative;
-  transition: background-color 0.3s, border 0.3s;
-}
-
-.modalBox label input[type="checkbox"]:checked + span {
-  background-color: #f44336;  /* Color for checked checkbox */
-  border-color: #f44336;  /* Border color for checked state */
-}
-
-.modalBox label span::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background-color: white;
-  transition: transform 0.3s;
-}
-
-.modalBox label input[type="checkbox"]:checked + span::before {
-  transform: translate(-50%, -50%) translateX(20px);  /* Move the circle to the right when checked */
+  font-size: 16px;
+  color: #333;
 }
 
 /* Button styling */
@@ -93,9 +59,9 @@
 
 /* Submit button (Save) */
 .modalBox button[type="submit"] {
-  background-color: #f44336;  /* Green background for submit */
+  background-color: #f44336;
   color: white;
-  align-self: flex-end;  /* Align the submit button to the right */
+  align-self: flex-end;
 }
 
 /* Default button styling (could be cancel button in the future) */
@@ -122,4 +88,40 @@
   font-size: 16px;
   font-weight: bold;
   color: #333;
+}
+
+.modalBox .switch-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Custom styling for the MUI Switch */
+.MuiSwitch-root {
+  padding: 8px;  /* Padding around the switch */
+}
+
+.MuiSwitch-switchBase {
+  padding: 2px;  /* Reduced padding for better fit */
+}
+
+.MuiSwitch-track {
+  background-color: #ccc;  /* Default background color of the track */
+  border-radius: 20px;  /* Rounded track corners */
+}
+
+.MuiSwitch-thumb {
+  background-color: #fff;  /* White color for the thumb */
+  border: 2px solid #ccc;  /* Border around the thumb */
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.MuiSwitch-root.Mui-checked .MuiSwitch-thumb {
+  color: #f44336 !important;
+  background-color: #f44336 !important;
+  border-color: #f44336 !important;
+}
+
+.MuiSwitch-root.Mui-checked .MuiSwitch-track {
+  background-color: #f44336 !important;
 }
