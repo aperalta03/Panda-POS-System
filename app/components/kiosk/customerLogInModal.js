@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useGlobalState } from "./globalStateContext";
+import { useGlobalState } from "../../context/GlobalStateContext";  // Import the globalStateContext;
 import Modal from '@mui/material/Modal';
 import CustomerSignUp from './customerSignUpModal';  // Import the sign-up modal
 import styles from './customerLoginModal.module.css';

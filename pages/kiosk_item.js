@@ -122,7 +122,7 @@ const RecommendedItem = () => {
   return (
     <div className={styles.recommendedItemPanel}>
       <div className={styles.recLeftPanel}>
-        <h2 className={styles.recLabel}>This month's hot item</h2>
+        <h2 className={styles.recLabel}>This month&#39;s hot item</h2>
         <div className={styles.itemDetails}>
           <p className={styles.recItemName}>{name}</p>
           <p className={styles.recItemDescription}>{description}</p>

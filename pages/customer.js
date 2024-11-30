@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import CustomerLogIn from '../app/components/kiosk/customerLogInModal';
 
-const customer = () => {
+const Customer = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleShowModal = () => {
@@ -21,4 +21,4 @@ const customer = () => {
     );
 };
 
-export default customer;
+export default Customer;
