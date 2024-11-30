@@ -1,31 +1,71 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
+import ReactDOM from 'react-dom';
 import { useGlobalState } from '../app/context/GlobalStateContext';
 import styles from './accessButton.module.css';
 
 const AccessibilityButton = () => {
   const { toggleTheme, currentTheme, toggleSize, isLargeText } = useGlobalState();
   const [dropdownVisible, setDropdownVisible] = useState(false);
-  const [dropdownPosition, setDropdownPosition] = useState('below');
+  const [dropdownCoords, setDropdownCoords] = useState({ top: 0, left: 0 });
   const buttonRef = useRef(null);
+  const dropdownRef = useRef(null);
 
-  const handleButtonClick = () => {
+  // Prevent Parent Interference
+  const handleButtonClick = (e) => {
+    e.stopPropagation();
     setDropdownVisible((prev) => !prev);
   };
 
-  useEffect(() => {
-    if (dropdownVisible && buttonRef.current) {
+  //** Calculate Dropdown Position **//
+  useLayoutEffect(() => {
+    if (dropdownVisible && buttonRef.current && dropdownRef.current) {
       const buttonRect = buttonRef.current.getBoundingClientRect();
-      const availableSpaceBelow = window.innerHeight - buttonRect.bottom;
-      const availableSpaceAbove = buttonRect.top;
+      const dropdownRect = dropdownRef.current.getBoundingClientRect();
 
-      if (availableSpaceBelow < 200 && availableSpaceAbove > 200) {
-        // If there's not enough space below, open the dropdown to the side
-        setDropdownPosition('side');
+      let top;
+      let left;
+
+      // Vertical positioning
+      if (buttonRect.bottom + dropdownRect.height + 10 <= window.innerHeight) {
+        top = buttonRect.bottom + 10;
+      } else if (buttonRect.top - dropdownRect.height - 10 >= 0) {
+        top = buttonRect.top - dropdownRect.height - 10;
       } else {
-        // Otherwise, open the dropdown below
-        setDropdownPosition('below');
+        top = Math.max(window.innerHeight - dropdownRect.height - 10, 10);
       }
+
+      // Horizontal positioning
+      if (buttonRect.left + dropdownRect.width <= window.innerWidth) {
+        left = buttonRect.left;
+      } else if (buttonRect.right - dropdownRect.width >= 0) {
+
+        left = buttonRect.right - dropdownRect.width;
+      } else {
+        left = Math.max(window.innerWidth - dropdownRect.width - 10, 10);
+      }
+
+      setDropdownCoords({ top, left });
     }
+  }, [dropdownVisible]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target) &&
+        dropdownVisible &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target)
+      ) {
+        setDropdownVisible(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, [dropdownVisible]);
 
   return (
@@ -44,29 +84,49 @@ const AccessibilityButton = () => {
       </button>
 
       {/* Dropdown Menu */}
-      {dropdownVisible && (
-        <div
-          className={`${styles.dropdownMenu} ${styles[dropdownPosition]}`}
-        >
-          <button onClick={toggleTheme} className={styles.dropdownButton}>
-            Switch Theme
-          </button>
-          <p className={styles.dropdownText}>
-            Current Theme: {currentTheme === 'alternate' ? 'Low Vision Theme' :
-                            currentTheme === 'default' ? 'Normal Theme' : 
-                            currentTheme === 'loyalty' ? 'Loyalty Mode' : currentTheme}
-          </p>
-          <button onClick={toggleSize} className={styles.dropdownButton}>
-            Adjust Font Size
-          </button>
-          <p className={styles.dropdownText}>
-            Current Size: {isLargeText === 'original' ? '100%' :
-                            isLargeText === 'ten' ? '110%' :
-                            isLargeText === 'twenty' ? '120%' :
-                            isLargeText === 'thirty' ? '130%' : isLargeText}
-          </p>
-        </div>
-      )}
+      {dropdownVisible &&
+        ReactDOM.createPortal(
+          <div
+            ref={dropdownRef}
+            className={styles.dropdownMenu}
+            style={{
+              position: 'fixed',
+              top: dropdownCoords.top,
+              left: dropdownCoords.left,
+              zIndex: 10000,
+            }}
+          >
+            <button onClick={toggleTheme} className={styles.dropdownButton}>
+              Switch Theme
+            </button>
+            <p className={styles.dropdownText}>
+              Current Theme:{' '}
+              {currentTheme === 'alternate'
+                ? 'Low Vision Theme'
+                : currentTheme === 'default'
+                ? 'Normal Theme'
+                : currentTheme === 'loyalty'
+                ? 'Loyalty Mode'
+                : currentTheme}
+            </p>
+            <button onClick={toggleSize} className={styles.dropdownButton}>
+              Adjust Font Size
+            </button>
+            <p className={styles.dropdownText}>
+              Current Size:{' '}
+              {isLargeText === 'original'
+                ? '100%'
+                : isLargeText === 'ten'
+                ? '110%'
+                : isLargeText === 'twenty'
+                ? '120%'
+                : isLargeText === 'thirty'
+                ? '130%'
+                : isLargeText}
+            </p>
+          </div>,
+          document.body
+        )}
     </div>
   );
 };

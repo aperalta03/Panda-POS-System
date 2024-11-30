@@ -7,9 +7,6 @@
   
 /* Dropdown menu styling */
 .dropdownMenu {
-    position: absolute;
-    top: 60px;
-    left: 0;
     background-color: black;
     border: 1px solid white;
     border-top-left-radius: 20px;
@@ -17,23 +14,10 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 10px;
     min-width: 200px;
-    z-index: 9999;
+    z-index: 10000;
 }
 
-/* Positioning below the button */
-.dropdownMenu.below {
-    top: 60px;
-    left: 0;
-}
-  
-/* Positioning to the side of the button */
-.dropdownMenu.side {
-    top: 0;
-    left: 100%; 
-    margin-left: 10px; 
-}
-  
-/* Dropdown button styling */
+ /* Dropdown button styling */
 .dropdownButton {
     width: 100%;
     padding: 8px;
@@ -44,7 +28,6 @@
     border-bottom-right-radius: 20px;
     cursor: pointer;
     transition: background-color 0.3s;
-    z-index: 9999;
     font-weight: bold;
     text-transform: uppercase;
 }
@@ -77,7 +60,7 @@
     border: 1px solid white;
 }
 .circleButton:hover {
-    border: 1px solid #cb0632
+    border: 1px solid #cb0632;
 }
   
 /* Accessible image */
@@ -87,4 +70,3 @@
     object-fit: contain;
     border-radius: 50%;
 }
-  
