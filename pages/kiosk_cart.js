@@ -10,7 +10,8 @@ const CartPage = () => {
   const router = useRouter();
   const { currentLanguage, changeLanguage, translations } = useGlobalState();
   const [selectedSauces, setSelectedSauces] = useState([]);
-  const { cart, setCart, setNumTotalItems, numTotalItems } = useGlobalState();
+  const { cart, setCart, setNumTotalItems, numTotalItems, removeItemFromCart } =
+    useGlobalState();
   const { toggleTheme, currentTheme, isPandaMember, toggleSize, isLargeText } =
     useGlobalState();
 
@@ -114,13 +115,14 @@ const CartPage = () => {
             <div className={styles.itemDetails}>
               {item.details.map((detail, index) => {
                 const [quantity, ...rest] = detail.split(" ");
+                const price = rest.pop();
                 const description = rest.join(" ");
                 const translatedDescription =
                   translations[description] || description;
                 return (
                   <p key={index}>
                     <span className={styles.boldX}>x </span>
-                    {`${quantity} ${translatedDescription}`}
+                    {`${quantity} ${translatedDescription} ${price}`}
                   </p>
                 );
               })}
@@ -176,7 +178,9 @@ const CartPage = () => {
                   className={styles.sauceImage}
                 />
                 <span className={styles.sauceLabel}>
-                  {translations[sauce.name] || sauce.name}
+                  {currentLanguage === "en"
+                    ? sauce.name
+                    : translations[sauce.name]}
                 </span>
               </div>
             </label>
