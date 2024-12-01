@@ -35,6 +35,7 @@ const ItemFrame = ({ item, isDone }) => {
         price: 0.0,
         details: [],
         quantity: 1,
+        checkout: []
       });
     }
     const updatedMenu = menu.map((menuItem) => {
@@ -61,6 +62,7 @@ const ItemFrame = ({ item, isDone }) => {
           newItem.details = [...newItem.details, "1 " + item.name];
           newItem.price += item.price;
         }
+        newItem.checkout.push(item.name);
 
         return updatedItem;
       }
@@ -95,6 +97,7 @@ const ItemFrame = ({ item, isDone }) => {
           newItem.details.pop();
           newItem.price -= item.price;
         }
+        newItem.checkout.pop();
 
         return updatedItem;
       }

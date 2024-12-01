@@ -36,6 +36,7 @@ const ItemFrame = ({ item, isDone }) => {
         price: 0.0,
         details: [],
         quantity: 1,
+        checkout: []
       });
     }
     const updatedMenu = menu.map((menuItem) => {
@@ -59,7 +60,8 @@ const ItemFrame = ({ item, isDone }) => {
           newItem.details = [...newItem.details, "1 " + item.name + " $" + item.price];
 
         }
-          newItem.price += item.price;
+        newItem.price += item.price;
+        newItem.checkout.push(item.name);
 
         return updatedItem;
       }
@@ -88,6 +90,7 @@ const ItemFrame = ({ item, isDone }) => {
 
         //remove from cart
         newItem.details.pop();
+        newItem.checkout.pop();
         newItem.price -= item.price;
 
         return updatedItem;

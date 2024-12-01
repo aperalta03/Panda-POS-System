@@ -94,6 +94,7 @@ export const GlobalStateProvider = ({ children }) => {
     price: 0.0,
     details: [],
     quantity: 1,
+    checkout: []
   });
 
   const addItemToCart = (item) => {
@@ -108,6 +109,7 @@ export const GlobalStateProvider = ({ children }) => {
       price: 0.0,
       details: [],
       quantity: 1,
+      checkout: []
     });
   };
 
