@@ -39,6 +39,10 @@
   --total-price: 1.6875rem;
   --extras-title: 1.375rem;
   --sauce-label: 1rem;
+  --rec-header: 1.375rem;
+  --rec-name: 1rem;
+  --rec-calories: 0.8rem;
+  --rec-counter: 1.375rem;
 
   /* menu selection */
   --price-label: 1.875rem;
@@ -116,6 +120,10 @@
     --extra-item-text-color: black;
     --extra-item-hover-select: #cb0632;
     --extra-item-select-text: white;
+
+    --rec-panel-border: black;
+
+
 }
 
 .original-size-text {
@@ -152,6 +160,10 @@
   --total-price: 1.6875rem;
   --extras-title: 1.375rem;
   --sauce-label: 1rem;
+  --rec-header: 1.375rem;
+  --rec-name: 1rem;
+  --rec-calories: 0.8rem;
+  --rec-counter: 1.375rem;
 
   /* menu selection */
   --price-label: 1.875rem;
@@ -203,6 +215,11 @@
   --total-price: 1.85625rem;
   --extras-title: 1.5125rem;
   --sauce-label: 1.1rem;
+  --rec-header: 1.5125rem;
+  --rec-name: 1.1rem;
+  --rec-calories: 0.88rem;
+  --rec-counter: 1.5125rem;
+
 
   /*menu selection */
   --price-label: 2.0625rem;
@@ -254,6 +271,11 @@
   --total-price: 2.025rem;
   --extras-title: 1.65rem;
   --sauce-label: 1.2rem;
+  --rec-header: 1.65rem;
+  --rec-name: 1.2rem;
+  --rec-calories: 0.96rem;
+  --rec-counter: 1.65rem;
+
 
   /* menu selection */
   --price-label: 2.25rem;
@@ -306,6 +328,11 @@
   --total-price: 2.19375rem;
   --extras-title: 1.7875rem;
   --sauce-label: 1.3rem;
+  --rec-header: 1.7875rem;
+  --rec-name: 1.3rem;
+  --rec-calories: 1.04rem;
+  --rec-counter: 1.7875rem;
+
   
   /* menu selection */
   --price-label: 2.4375rem;
@@ -391,6 +418,8 @@
 
     --border: white;
 
+    --rec-panel-border: black;
+
 
 }
 
@@ -465,6 +494,8 @@
   --extra-item-select-text: white;
 
   --border: white;
+
+  --rec-panel-border: white;
 }
 
 .loyalty-theme {
