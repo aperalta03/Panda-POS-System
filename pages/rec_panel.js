@@ -9,7 +9,11 @@ const RecommendationPanel = () => {
 
   useEffect(() => {
     const getRandomItems = () => {
-      const shuffled = [...menu].sort(() => 0.5 - Math.random());
+      const filteredMenu = menu.filter(
+        (item) => item.type === "appetizer" || item.type === "dessert"
+      );
+      
+      const shuffled = [...filteredMenu].sort(() => 0.5 - Math.random());
       const selectedItems = shuffled.slice(0, 3);
       const initialQuantities = selectedItems.reduce((acc, item, index) => {
         const uniqueId = item.id || `fallback-${index}`;
