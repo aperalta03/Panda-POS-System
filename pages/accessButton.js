@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
-import ReactDOM from 'react-dom';
-import { useGlobalState } from '../app/context/GlobalStateContext';
-import styles from './accessButton.module.css';
+import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
+import ReactDOM from "react-dom";
+import { useGlobalState } from "../app/context/GlobalStateContext";
+import styles from "./accessButton.module.css";
 
 const AccessibilityButton = () => {
-  const { toggleTheme, currentTheme, toggleSize, isLargeText } = useGlobalState();
+  const { toggleTheme, currentTheme, toggleSize, isLargeText, translations } =
+    useGlobalState();
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [dropdownCoords, setDropdownCoords] = useState({ top: 0, left: 0 });
   const buttonRef = useRef(null);
@@ -38,7 +39,6 @@ const AccessibilityButton = () => {
       if (buttonRect.left + dropdownRect.width <= window.innerWidth) {
         left = buttonRect.left;
       } else if (buttonRect.right - dropdownRect.width >= 0) {
-
         left = buttonRect.right - dropdownRect.width;
       } else {
         left = Math.max(window.innerWidth - dropdownRect.width - 10, 10);
@@ -61,10 +61,10 @@ const AccessibilityButton = () => {
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [dropdownVisible]);
 
@@ -90,38 +90,38 @@ const AccessibilityButton = () => {
             ref={dropdownRef}
             className={styles.dropdownMenu}
             style={{
-              position: 'fixed',
+              position: "fixed",
               top: dropdownCoords.top,
               left: dropdownCoords.left,
               zIndex: 10000,
             }}
           >
             <button onClick={toggleTheme} className={styles.dropdownButton}>
-              Switch Theme
+              {translations["Switch Theme"] || "Switch Theme"}
             </button>
             <p className={styles.dropdownText}>
-              Current Theme:{' '}
-              {currentTheme === 'alternate'
-                ? 'Low Vision Theme'
-                : currentTheme === 'default'
-                ? 'Normal Theme'
-                : currentTheme === 'loyalty'
-                ? 'Loyalty Mode'
+              {translations["Current Theme:"] || "Current Theme:"}{" "}
+              {currentTheme === "alternate"
+                ? translations["Low Vision Theme"] || "Low Vision Theme"
+                : currentTheme === "default"
+                ? translations["Normal Theme"] || "Normal Theme"
+                : currentTheme === "loyalty"
+                ? translations["Loyalty Mode"] || "Loyalty Mode"
                 : currentTheme}
             </p>
             <button onClick={toggleSize} className={styles.dropdownButton}>
-              Adjust Font Size
+              {translations["Adjust Font Size"] || "Adjust Font Size"}
             </button>
             <p className={styles.dropdownText}>
-              Current Size:{' '}
-              {isLargeText === 'original'
-                ? '100%'
-                : isLargeText === 'ten'
-                ? '110%'
-                : isLargeText === 'twenty'
-                ? '120%'
-                : isLargeText === 'thirty'
-                ? '130%'
+              {translations["Current Size:"] || "Current Size:"}{" "}
+              {isLargeText === "original"
+                ? "100%"
+                : isLargeText === "ten"
+                ? "110%"
+                : isLargeText === "twenty"
+                ? "120%"
+                : isLargeText === "thirty"
+                ? "130%"
                 : isLargeText}
             </p>
           </div>,

@@ -108,4 +108,9 @@ export const textArray = [
   "Calories: ",
   " Designation: ",
   "Testing Rolls",
+  "Switch Theme",
+  "Current Theme:",
+  "Adjust Font Size",
+  "Current Size:",
+  "Low Vision Theme",
 ];
