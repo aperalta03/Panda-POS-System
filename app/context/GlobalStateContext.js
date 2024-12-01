@@ -87,6 +87,19 @@ export const GlobalStateProvider = ({ children }) => {
     setCurrentLanguage(language);
     translateAllText(textArray, language);
   };
+
+  const [orderNumber, setOrderNumber] = useState(0); 
+  const MAX_ORDER_NUMBER = 9999; 
+
+  const incOrderNumber = () => {
+    const currentOrderNumber = orderNumber;
+    if (currentOrderNumber >= MAX_ORDER_NUMBER) {
+      setOrderNumber(0); // Reset to the starting value
+    } else {
+      setOrderNumber((prevOrderNumber) => prevOrderNumber + 1); 
+    }
+  }
+
   const [cart, setCart] = useState([]);
   const [newItem, setNewItem] = useState({
     id: Date.now(),
@@ -235,6 +248,8 @@ export const GlobalStateProvider = ({ children }) => {
         translateAllText,
         numTrackedOthers,
         /* Cart Vars and Funcs */
+        orderNumber,
+        incOrderNumber,
         cart,
         newItem,
         setNewItem,

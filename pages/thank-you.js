@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import styles from './thank-you.module.css';
 import JSConfetti from 'js-confetti';
+import { useGlobalState } from "@/app/context/GlobalStateContext";
 
 const ThankYouPage = () => {
   const router = useRouter();
+  const { orderNumber, incOrderNumber } = useGlobalState();
   const [fortune, setFortune] = useState('Fetching your fortune...');
 
   useEffect(() => {
@@ -19,6 +21,7 @@ const ThankYouPage = () => {
       }
     };
     fetchFortune();
+    incOrderNumber();
 
     const jsConfetti = new JSConfetti();
     const confettiRainDuration = 1500; // Total duration of confetti
@@ -54,7 +57,7 @@ const ThankYouPage = () => {
           className={styles.chickenLogo}
         />
         <h2 className={styles.orderNumberLabel}>Order Number</h2>
-        <h1 className={styles.orderNumber}>61</h1>
+        <h1 className={styles.orderNumber}>{orderNumber}</h1>
         {/* Insert ORDER NUMBER ABOVE */}
       </div>
 

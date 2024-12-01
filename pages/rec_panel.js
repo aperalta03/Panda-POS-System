@@ -65,6 +65,7 @@ const RecommendationPanel = () => {
         //details: [item.name || "No details"],
         details: [`${quantity} ${item.name || "No details"} $${item.price}`],
         quantity: quantity,
+        checkout: [item.name]
     };
     setCart([...cart, newItem]);
     setNumTotalItems(numTotalItems + 1);
