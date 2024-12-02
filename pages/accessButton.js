@@ -15,12 +15,12 @@ import styles from "./accessButton.module.css";
  * @returns {JSX.Element} The AccessibilityButton component.
  */
 const AccessibilityButton = () => {
-  const { toggleTheme, currentTheme, toggleSize, isLargeText, translations } =
-    useGlobalState();
-  const [dropdownVisible, setDropdownVisible] = useState(false);
-  const [dropdownCoords, setDropdownCoords] = useState({ top: 0, left: 0 });
-  const buttonRef = useRef(null);
-  const dropdownRef = useRef(null);
+    const { toggleTheme, currentTheme, toggleSize, isLargeText, translations, toggleSpeech } =
+        useGlobalState();
+    const [dropdownVisible, setDropdownVisible] = useState(false);
+    const [dropdownCoords, setDropdownCoords] = useState({ top: 0, left: 0 });
+    const buttonRef = useRef(null);
+    const dropdownRef = useRef(null);
 
   // Prevent Parent Interference
   const handleButtonClick = (e) => {
@@ -60,14 +60,6 @@ const AccessibilityButton = () => {
   }, [dropdownVisible]);
 
   useEffect(() => {
-/**
- * Handles clicks outside the button and dropdown elements.
- * If the click event occurs outside both the button and the dropdown,
- * and the dropdown is currently visible, it sets the dropdown visibility to false.
- *
- * @param {Event} event - The click event object.
- * @author Uzair Khan
- */
     const handleClickOutside = (event) => {
       if (
         buttonRef.current &&
@@ -80,74 +72,89 @@ const AccessibilityButton = () => {
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+        document.addEventListener("mousedown", handleClickOutside);
 
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [dropdownVisible]);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [dropdownVisible]);
 
-  return (
-    <div className={styles.buttonContainer}>
-      {/* Main Accessibility Button */}
-      <button
-        className={styles.circleButton}
-        onClick={handleButtonClick}
-        ref={buttonRef}
-      >
-        <img
-          src="/handicap_button.jpg"
-          alt="Accessible Icon"
-          className={styles.accessImage}
-        />
-      </button>
-
-      {/* Dropdown Menu */}
-      {dropdownVisible &&
-        ReactDOM.createPortal(
-          <div
-            ref={dropdownRef}
-            className={styles.dropdownMenu}
-            style={{
-              position: "fixed",
-              top: dropdownCoords.top,
-              left: dropdownCoords.left,
-              zIndex: 10000,
-            }}
-          >
-            <button onClick={toggleTheme} className={styles.dropdownButton}>
-              {translations["Switch Theme"] || "Switch Theme"}
+    return (
+        <div className={styles.buttonContainer}>
+            {/* Main Accessibility Button */}
+            <button
+                className={styles.circleButton}
+                onClick={handleButtonClick}
+                ref={buttonRef}
+            >
+                <img
+                    src="/handicap_button.jpg"
+                    alt="Accessible Icon"
+                    className={styles.accessImage}
+                />
             </button>
-            <p className={styles.dropdownText}>
-              {translations["Current Theme:"] || "Current Theme:"}{" "}
-              {currentTheme === "alternate"
-                ? translations["Low Vision Theme"] || "Low Vision Theme"
-                : currentTheme === "default"
-                ? translations["Normal Theme"] || "Normal Theme"
-                : currentTheme === "loyalty"
-                ? translations["Loyalty Mode"] || "Loyalty Mode"
-                : currentTheme}
-            </p>
-            <button onClick={toggleSize} className={styles.dropdownButton}>
-              {translations["Adjust Font Size"] || "Adjust Font Size"}
-            </button>
-            <p className={styles.dropdownText}>
-              {translations["Current Size:"] || "Current Size:"}{" "}
-              {isLargeText === "original"
-                ? "100%"
-                : isLargeText === "ten"
-                ? "110%"
-                : isLargeText === "twenty"
-                ? "120%"
-                : isLargeText === "thirty"
-                ? "130%"
-                : isLargeText}
-            </p>
-          </div>,
-          document.body
-        )}
-    </div>
-  );
+
+            {/* Dropdown Menu */}
+            {dropdownVisible &&
+                ReactDOM.createPortal(
+                    <div
+                        ref={dropdownRef}
+                        className={styles.dropdownMenu}
+                        style={{
+                            position: "fixed",
+                            top: dropdownCoords.top,
+                            left: dropdownCoords.left,
+                            zIndex: 10000,
+                        }}
+                    >
+                        <button onClick={toggleTheme} className={styles.dropdownButton}>
+                            {translations["Switch Theme"] || "Switch Theme"}
+                        </button>
+                        <p className={styles.dropdownText}>
+                            {translations["Current Theme:"] || "Current Theme:"}{" "}
+                            {currentTheme === "alternate"
+                                ? translations["Low Vision Theme"] || "Low Vision Theme"
+                                : currentTheme === "default"
+                                    ? translations["Normal Theme"] || "Normal Theme"
+                                    : currentTheme === "loyalty"
+                                        ? translations["Loyalty Mode"] || "Loyalty Mode"
+                                        : currentTheme}
+                        </p>
+                        <button onClick={toggleSize} className={styles.dropdownButton}>
+                            {translations["Adjust Font Size"] || "Adjust Font Size"}
+                        </button>
+                        <p className={styles.dropdownText}>
+                            {translations["Current Size:"] || "Current Size:"}{" "}
+                            {isLargeText === "original"
+                                ? "100%"
+                                : isLargeText === "ten"
+                                    ? "110%"
+                                    : isLargeText === "twenty"
+                                        ? "120%"
+                                        : isLargeText === "thirty"
+                                            ? "130%"
+                                            : isLargeText}
+                        </p>
+                        <button onClick={toggleSpeech} className={styles.dropdownButton}>
+                            {translations["Text to Speech"] || "Text to Speech"}
+                        </button>
+                        <p className={styles.dropdownText}>
+                            {translations[":"] || "Current Size:"}{" "}
+                            {isLargeText === "original"
+                                ? "100%"
+                                : isLargeText === "ten"
+                                    ? "110%"
+                                    : isLargeText === "twenty"
+                                        ? "120%"
+                                        : isLargeText === "thirty"
+                                            ? "130%"
+                                            : isLargeText}
+                        </p>
+                    </div>,
+                    document.body
+                )}
+        </div>
+    );
 };
 
 export default AccessibilityButton;

@@ -5,8 +5,8 @@ import XReportModal from './reports/xReport';
 import ZReportModal from './reports/zReport';
 import ResetSalesDataModal from './reports/resetSales';
 import RestockReportModal from './reports/restockReport';
-import AddMenuModal from './reports/addMenuModal';
-import UpdatePriceModal from './reports/updatePriceModal';
+import UpdateMenuItemModal from './reports/updateMenuItemModal';
+import UpdateInventoryItemModal from './reports/updateInventoryItemModal';
 import styles from './dropDowns.module.css';
 
 /**
@@ -43,27 +43,27 @@ import styles from './dropDowns.module.css';
  */
 
 const DropDowns = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalTitle, setModalTitle] = useState('');
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalTitle, setModalTitle] = useState('');
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
 
-  const openModal = (title) => {
-    setModalTitle(title);
-    setIsModalOpen(true);
-  };
+    const openModal = (title) => {
+        setModalTitle(title);
+        setIsModalOpen(true);
+    };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setModalTitle('');
-  };
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setModalTitle('');
+    };
 
   return (
     <div className={styles.mainContainer}>
       <div className={styles.buttonGrid}>
         <button className={styles.button} onClick={() => openModal('Employee Viewer')}>Employee Viewer</button>
-        <button className={styles.button} onClick={() => openModal('Add Menu Item')}>Add/Delete Item</button>
-        <button className={styles.button} onClick={() => openModal('Update Pricing')}>Update Pricing</button>
+              <button className={styles.button} onClick={() => openModal('Update Menu Item')}>Update Menu Item</button>
+        <button className={styles.button} onClick={() => openModal('Update Inventory Item')}>Update Inventory Item</button>
         <button className={styles.button} onClick={() => openModal('Reset Sales Data')}>Reset Today Sales</button>
         <button className={styles.button} onClick={() => openModal('Restock Report')}>Restock Report</button>
         <button className={styles.button} onClick={() => openModal('Sales Report')}>Sales Report</button>
@@ -71,39 +71,39 @@ const DropDowns = () => {
         <button className={styles.button} onClick={() => openModal('Z Report')}>Z Report</button>
       </div>
 
-      {modalTitle === 'Employee Viewer' && (
-        <EmployeeViewerModal isOpen={isModalOpen} onClose={closeModal} />
-      )}
-      {modalTitle === 'Sales Report' && (
-        <SalesReportModal
-          isOpen={isModalOpen}
-          onClose={closeModal}
-          startDate={startDate}
-          setStartDate={setStartDate}
-          endDate={endDate}
-          setEndDate={setEndDate}
-        />
-      )}
-      {modalTitle === 'X Report' && (
-        <XReportModal isOpen={isModalOpen} onClose={closeModal} />
-      )}
-      {modalTitle === 'Z Report' && (
-        <ZReportModal isOpen={isModalOpen} onClose={closeModal} />
-      )}
-      {modalTitle === 'Reset Sales Data' && (
-        <ResetSalesDataModal isOpen={isModalOpen} onClose={closeModal} />
-      )}
-      {modalTitle === 'Restock Report' && (
-        <RestockReportModal isOpen={isModalOpen} onClose={closeModal} />
-      )}
-      {modalTitle === 'Add Menu Item' && (
-        <AddMenuModal isOpen={isModalOpen} onClose={closeModal} />
-      )}
-      {modalTitle === 'Update Pricing' && (
-        <UpdatePriceModal isOpen={isModalOpen} onClose={closeModal} />
-      )}
-    </div>
-  );
+            {modalTitle === 'Employee Viewer' && (
+                <EmployeeViewerModal isOpen={isModalOpen} onClose={closeModal} />
+            )}
+            {modalTitle === 'Sales Report' && (
+                <SalesReportModal
+                    isOpen={isModalOpen}
+                    onClose={closeModal}
+                    startDate={startDate}
+                    setStartDate={setStartDate}
+                    endDate={endDate}
+                    setEndDate={setEndDate}
+                />
+            )}
+            {modalTitle === 'X Report' && (
+                <XReportModal isOpen={isModalOpen} onClose={closeModal} />
+            )}
+            {modalTitle === 'Z Report' && (
+                <ZReportModal isOpen={isModalOpen} onClose={closeModal} />
+            )}
+            {modalTitle === 'Reset Sales Data' && (
+                <ResetSalesDataModal isOpen={isModalOpen} onClose={closeModal} />
+            )}
+            {modalTitle === 'Restock Report' && (
+                <RestockReportModal isOpen={isModalOpen} onClose={closeModal} />
+            )}
+            {modalTitle === 'Update Menu Item' && (
+                <UpdateMenuItemModal isOpen={isModalOpen} onClose={closeModal} />
+            )}
+            {modalTitle === 'Update Inventory Item' && (
+                <UpdateInventoryItemModal isOpen={isModalOpen} onClose={closeModal} />
+            )}
+        </div>
+    );
 };
 
 export default DropDowns;
