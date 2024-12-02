@@ -2,6 +2,43 @@ import fs from 'fs';
 import path from 'path';
 import database from '../../utils/database';
 
+/**
+ * 
+ ** @author Alonso Peralta Espinoza
+ *
+ * Updates the active/inactive status of an employee in the database.
+ *
+ * @api {post} /api/toggle-employee
+ * @apiName ToggleEmployeeStatus
+ * @apiGroup Employee
+ *
+ * @apiParam {Number} employeeId ID of the employee whose status is being updated.
+ * @apiParam {Boolean} isActive New status of the employee (true for active, false for inactive).
+ *
+ * @apiSuccess {Object} Response object with a success message.
+ * 
+ * @apiError (500) {Object} Response object with an error message for server issues.
+ *
+ * @apiExample {curl} Example usage:
+ *   curl -X POST \
+ *     http://localhost:3000/api/toggle-employee \
+ *     -H 'Content-Type: application/json' \
+ *     -d '{
+ *           "employeeId": 123,
+ *           "isActive": true
+ *         }'
+ *
+ * @apiSuccessExample {json} Success response:
+ *     {
+ *       "message": "Employee status updated successfully"
+ *     }
+ *
+ * @apiErrorExample {json} General server error response:
+ *     {
+ *       "error": "Error updating employee status"
+ *     }
+ */
+
 export default async function handler(req, res) {
   if (req.method === 'POST') {
     const { employeeId, isActive } = req.body;

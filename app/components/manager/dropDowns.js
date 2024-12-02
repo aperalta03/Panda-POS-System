@@ -9,6 +9,39 @@ import AddMenuModal from './reports/addMenuModal';
 import UpdatePriceModal from './reports/updatePriceModal';
 import styles from './dropDowns.module.css';
 
+/**
+ * DropDowns Component
+ *
+ * @author Alonso Peralta Espinoza
+ * 
+ * @description
+ * A centralized menu for accessing various modals related to reports, data management, and employee operations.
+ *
+ * @features
+ * - Displays buttons to open modals for:
+ *   - Employee Viewer
+ *   - Add/Delete Menu Items
+ *   - Update Pricing
+ *   - Reset Sales Data
+ *   - Restock Report
+ *   - Sales Report
+ *   - X Report
+ *   - Z Report
+ * - Manages modal states dynamically based on the button clicked.
+ *
+ * @state
+ * - `isModalOpen`: Controls whether a modal is open.
+ * - `modalTitle`: Tracks the title of the currently open modal.
+ * - `startDate`, `endDate`: Manages the date range for reports requiring date inputs.
+ *
+ * @methods
+ * - `openModal`: Sets the `modalTitle` and opens the corresponding modal.
+ * - `closeModal`: Closes the currently open modal.
+ *
+ * @example
+ * <DropDowns />
+ */
+
 const DropDowns = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
@@ -29,7 +62,7 @@ const DropDowns = () => {
     <div className={styles.mainContainer}>
       <div className={styles.buttonGrid}>
         <button className={styles.button} onClick={() => openModal('Employee Viewer')}>Employee Viewer</button>
-        <button className={styles.button} onClick={() => openModal('Add Menu Item')}>Add Menu Item</button>
+        <button className={styles.button} onClick={() => openModal('Add Menu Item')}>Add/Delete Item</button>
         <button className={styles.button} onClick={() => openModal('Update Pricing')}>Update Pricing</button>
         <button className={styles.button} onClick={() => openModal('Reset Sales Data')}>Reset Today Sales</button>
         <button className={styles.button} onClick={() => openModal('Restock Report')}>Restock Report</button>

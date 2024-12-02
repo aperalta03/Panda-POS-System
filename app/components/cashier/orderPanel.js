@@ -1,6 +1,21 @@
 import React from "react";
 import styles from "./cashierComponents.module.css";
 
+/**
+ *
+ * @author Brandon Batac
+ *
+ * Component that displays a list of all items in the current order.
+ *
+ * @param {Array<Object>} orders - An array of objects, each of which contains
+ *   a 'plateSize' property and a 'components' property, which is an array of
+ *   strings representing the components of the plate.
+ * @param {function} onDelete - Function to call when the 'DELETE' button is
+ *   clicked.  It should take one argument, the index of the order to delete.
+ * @param {string} seasonalItemName - The name of the seasonal item to be
+ *   displayed in the order panel.
+ */
+
 const OrderPanel = ({ orders, onDelete, seasonalItemName }) => {
   return (
     <div className={styles.orderPanel}>

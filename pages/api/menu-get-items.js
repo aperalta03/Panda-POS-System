@@ -2,6 +2,44 @@ import fs from 'fs';
 import path from 'path';
 import database from '../../utils/database';
 
+/**
+ * 
+ ** @author Alonso Peralta Espinoza
+ *
+ * Fetches all available menu items from the database.
+ *
+ * @api {get} /api/menu-get-items
+ * @apiName GetMenuItems
+ * @apiGroup Menu
+ *
+ * @apiSuccess {Object} Response object containing an array of menu items.
+ * 
+ * @apiError (404) {Object} Response object with an error message when no menu items are found.
+ * @apiError (500) {Object} Response object with an error message for server issues.
+ *
+ * @apiExample {curl} Example usage:
+ *   curl -X GET \
+ *     http://localhost:3000/api/menu-items
+ *
+ * @apiSuccessExample {json} Success response:
+ *     {
+ *       "menuItems": [
+ *         { "menu_item_id": 1, "name": "Orange Chicken", "price": 10.99 },
+ *         { "menu_item_id": 2, "name": "Kung Pao Chicken", "price": 9.99 }
+ *       ]
+ *     }
+ *
+ * @apiErrorExample {json} Error response when no items are found:
+ *     {
+ *       "error": "Menu items not found"
+ *     }
+ *
+ * @apiErrorExample {json} General server error response:
+ *     {
+ *       "error": "Error fetching menu items"
+ *     }
+ */
+
 export default async function handler(req, res) {
   if (req.method === 'GET') {
     try {

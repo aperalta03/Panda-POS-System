@@ -4,6 +4,25 @@ import { useRole } from '../app/context/roleProvider';
 import { useUser } from '../app/context/userProvider';  
 import styles from './landing.module.css';
 
+/**
+ * Landing Component
+ * 
+ * @author Alonso Peralta Espinoza
+ *
+ * @description
+ * Serves as the main entry point for employees to log in using a numpad.
+ *
+ * @features
+ * - Numpad input for employee codes.
+ * - Redirects to the appropriate view based on the employee's role (manager or cashier).
+ * - Includes quick navigation buttons for menu board, kitchen view, and kiosk view.
+ * 
+ * @api
+ * - `/api/login-info` (GET): Fetches employee data (ID, role, name) for validation.
+ *
+ * @returns {React.ReactElement} A React functional component.
+ */
+
 const Landing = () => {
     const router = useRouter();
     const { setRole } = useRole();

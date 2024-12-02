@@ -4,6 +4,80 @@ import nodemailer from 'nodemailer';
 import crypto from 'crypto';
 import bcrypt from 'bcrypt';
 
+/**
+ * 
+ ** @author Alonso Peralta Espinoza
+ *
+ * Handles various authentication actions such as login, signup, email verification, and password reset.
+ *
+ * @api {post} /api/oauth
+ * @apiName Auth
+ * @apiGroup Authentication
+ *
+ * @apiParam {String} action Specifies the authentication action: 'google', 'login', 'signup', 'verify-email', 'forgot-password', or 'reset-password'.
+ * @apiParam {String} [token] Token for email verification or password reset.
+ * @apiParam {String} [email] User's email address.
+ * @apiParam {String} [password] User's password (for login, signup, or reset-password).
+ * @apiParam {String} [employee_id] Employee ID (required for signup).
+ *
+ * @apiSuccess {Object} Response object with a success message or user information.
+ * 
+ * @apiError (400) {Object} Response object with an error message for invalid actions or missing parameters.
+ * @apiError (401) {Object} Response object for invalid credentials.
+ * @apiError (404) {Object} Response object when a user is not found.
+ * @apiError (500) {Object} Response object with an error message for server issues.
+ *
+ * @apiExample {curl} Example usage for Google login:
+ *   curl -X POST \
+ *     http://localhost:3000/api/auth \
+ *     -H 'Content-Type: application/json' \
+ *     -d '{
+ *           "action": "google",
+ *           "token": "GOOGLE_ID_TOKEN"
+ *         }'
+ *
+ * @apiExample {curl} Example usage for email/password login:
+ *   curl -X POST \
+ *     http://localhost:3000/api/auth \
+ *     -H 'Content-Type: application/json' \
+ *     -d '{
+ *           "action": "login",
+ *           "email": "user@example.com",
+ *           "password": "password123"
+ *         }'
+ *
+ * @apiExample {curl} Example usage for signup:
+ *   curl -X POST \
+ *     http://localhost:3000/api/auth \
+ *     -H 'Content-Type: application/json' \
+ *     -d '{
+ *           "action": "signup",
+ *           "employee_id": 123,
+ *           "email": "newuser@example.com",
+ *           "password": "password123"
+ *         }'
+ *
+ * @apiSuccessExample {json} Success response for email verification:
+ *     {
+ *       "message": "Email verified successfully."
+ *     }
+ *
+ * @apiErrorExample {json} Error response for invalid credentials:
+ *     {
+ *       "error": "Invalid email or password"
+ *     }
+ *
+ * @apiErrorExample {json} Error response for missing parameters:
+ *     {
+ *       "error": "Invalid action"
+ *     }
+ *
+ * @apiErrorExample {json} Error response for server issues:
+ *     {
+ *       "error": "Internal server error"
+ *     }
+ */
+
 //** Helper Functions **//
 const generateToken = () => crypto.randomBytes(32).toString('hex');
 

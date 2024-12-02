@@ -1,7 +1,6 @@
 export const textArray = [
   "We Wok For You",
   "Tap to Order Now",
-  "accessibility",
   "A La Carte",
   "Select:",
   "Any Item",
@@ -28,7 +27,6 @@ export const textArray = [
   "Subtotal:",
   "Tax:",
   "Total |",
-  "+ Add Item",
   "Choose A Meal Above",
   "Select Items",
   "Super Greens",
@@ -113,4 +111,7 @@ export const textArray = [
   "Adjust Font Size",
   "Current Size:",
   "Low Vision Theme",
+  "Your order is",
+  "on its way!",
+  "Order Number",
 ];

@@ -1,6 +1,22 @@
 import React, { useState, useEffect, useMemo } from "react";
 import styles from "./cashierComponents.module.css";
 
+/**
+ * 
+ ** @Author: Uzair Khan
+ * 
+ * Renders a grid of buttons for cashier to select menu items and update quantities.
+ * 
+ * @param {function} setNetCost - Function to update net cost of order.
+ * @param {object} priceMap - Map of menu items to their prices.
+ * @param {object} quantities - Map of menu items to their quantities.
+ * @param {function} setQuantities - Function to update quantities map.
+ * @param {function} addOrderToPanel - Function to add order to panel.
+ * @param {object} minQuantities - Map of menu items to their minimum quantities.
+ * @param {array} sides - Array of side menu items.
+ * @param {array} menuItems - Array of menu items.
+ */
+
 const ButtonGrid = ({
   setNetCost,
   priceMap,

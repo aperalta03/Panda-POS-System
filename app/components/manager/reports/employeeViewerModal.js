@@ -5,6 +5,43 @@ import AddEmployeeForm from './addEmployeeForm';
 import EmployeeIdModal from './employeeIdModal';  // Import the EmployeeIdModal
 import EditEmployeeModal from './editEmployeeModal';
 
+/**
+ * Employee Viewer Modal Component
+ * 
+ * @author Alonso Peralta Espinoza
+ *
+ * @description
+ * A modal interface for viewing and managing employees.
+ * Features include listing employees, editing employee details, toggling active status,
+ * adding new employees, and displaying detailed information via sub-modals.
+ *
+ * @features
+ * - Fetch and display employee data from `/api/employee-viewer`.
+ * - Toggle employee active status with a switch button.
+ * - Add new employees via `AddEmployeeForm`.
+ * - Edit employee details through `EditEmployeeModal`.
+ * - Search for specific employees using `EmployeeIdModal`.
+ *
+ * @state
+ * - `employees`: Stores the list of employees fetched from the API.
+ * - `error`: Tracks errors during data fetch or updates.
+ * - `isAddEmployeeFormOpen`: Controls visibility of the add employee modal.
+ * - `isEmployeeIdModalOpen`: Controls visibility of the employee ID modal.
+ * - `isEditEmployeeModalOpen`: Controls visibility of the edit employee modal.
+ * - `employeeToEdit`: Stores details of the employee being edited.
+ *
+ * @methods
+ * - `fetchEmployees`: Fetches employee data from the API.
+ * - `handleAddEmployee`: Adds a new employee and updates the local state.
+ * - `toggleEmployeeStatus`: Toggles the active status of an employee.
+ * - `calculateAge`: Calculates the age of an employee from their date of birth.
+ * - `onEmployeeFound`: Opens the edit modal with details of the selected employee.
+ * - `handleSaveEmployee`: Saves updated employee details to the local state.
+ *
+ * @example
+ * <EmployeeViewerModal isOpen={true} onClose={() => {}} />
+ */
+
 const EmployeeViewerModal = ({ isOpen, onClose }) => {
   const [employees, setEmployees] = useState([]);
   const [error, setError] = useState(null);

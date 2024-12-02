@@ -8,6 +8,35 @@ import { TranslationProvider } from "@/app/context/translateContext";
 import { useRouter } from "next/router";
 import { GlobalStateProvider } from "../app/context/GlobalStateContext";
 
+/**
+ * MyApp Component
+ * 
+ * @author Everyone
+ *
+ * @description
+ * The root component for the application, wrapping all pages with global providers and layout components.
+ *
+ * @features
+ * - Provides global contexts: RoleProvider, UserProvider, TranslationProvider, and GlobalStateProvider.
+ * - Manages a dynamic layout:
+ *   - Displays a `Navbar` for specified pages.
+ *   - Displays an `AiAgent` for specified kiosk-related pages.
+ *
+ * @props
+ * - `Component`: The current page component being rendered.
+ * - `pageProps`: Props passed to the current page component.
+ *
+ * @context
+ * - Uses `RoleProvider`, `UserProvider`, `TranslationProvider`, and `GlobalStateProvider`.
+ *
+ * @layout
+ * - `Navbar`: Shown on pages like "/landing", "/cashier", "/manager", "/kitchen", "/kitchenTV", and "/menu".
+ * - `AiAgent`: Shown on kiosk-related pages like "/kiosk", "/kiosk_item", and others.
+ *
+ * @example
+ * <MyApp Component={HomePage} pageProps={{ title: "Home" }} />
+ */
+
 function MyApp({ Component, pageProps }) {
   return (
     <RoleProvider>
@@ -23,6 +52,32 @@ function MyApp({ Component, pageProps }) {
     </RoleProvider>
   );
 }
+
+/**
+ * Layout Component
+ * 
+ * @author Alonso Peralta Espinoza
+ *
+ * @description
+ * A wrapper for all pages, dynamically displaying a `Navbar` or `AiAgent` based on the current route.
+ *
+ * @features
+ * - Displays `Navbar` for management and operational views.
+ * - Displays `AiAgent` for kiosk-related views.
+ * - Provides a flexible layout for rendering page content.
+ *
+ * @props
+ * - `children`: The content of the current page.
+ *
+ * @hooks
+ * - `useRouter`: Determines the current route to conditionally display `Navbar` or `AiAgent`.
+ *
+ * @example
+ * <Layout>
+ *   <HomePage />
+ * </Layout>
+ */
+
 
 const Layout = ({ children }) => {
   const router = useRouter();

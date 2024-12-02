@@ -2,6 +2,31 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Modal from '@mui/material/Modal';
 import styles from './xReport.module.css';
 
+/**
+ * X Report Modal Component
+ * 
+ * @author Alonso Peralta Espinoza
+ *
+ * @description
+ * Displays an hourly breakdown of sales for the current day.
+ * Provides a total sales summary at the bottom.
+ *
+ * @features
+ * - Fetch hourly sales data from `/api/x-report`.
+ * - Displays a scrollable table with hourly sales details.
+ * - Shows total sales at the bottom of the report.
+ *
+ * @state
+ * - `reportData`: Stores hourly sales data.
+ * - `totalSales`: Stores the total sales for the day.
+ *
+ * @methods
+ * - `fetchSalesData`: Fetches hourly sales data from the API.
+ *
+ * @example
+ * <XReportModal isOpen={true} onClose={() => {}} />
+ */
+
 const XReportModal = ({ isOpen, onClose }) => {
   const [reportData, setReportData] = useState([]);
   const [totalSales, setTotalSales] = useState(0);

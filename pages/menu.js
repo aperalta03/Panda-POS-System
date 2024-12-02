@@ -3,6 +3,25 @@ import { Box, Typography, Divider, Grid } from '@mui/material';
 import Image from 'next/image';
 import styles from './menu.module.css';
 
+/**
+ * Menu Component
+ * 
+ * @author Alonso Peralta Espinoza
+ *
+ * @description
+ * Displays categorized menu items for customers, including seasonal items.
+ *
+ * @features
+ * - Categorized view of menu items (appetizers, sides, entrees, etc.).
+ * - Seasonal item section with dynamic updates.
+ * - Detailed nutritional and pricing information.
+ *
+ * @api
+ * - `/api/menu-get-items` (GET): Fetches menu items and seasonal item details.
+ *
+ * @returns {React.ReactElement} A React functional component.
+ */
+
 const Menu = () => {
 
   const [menuItems, setMenuItems] = useState({ appetizers: [], sides: [], entrees: [] });

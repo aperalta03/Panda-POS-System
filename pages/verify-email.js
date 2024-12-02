@@ -4,6 +4,26 @@ import styles from './verify-email.module.css';
 import Image from 'next/image';
 import { Box, Typography } from '@mui/material';
 
+
+/**
+ * VerifyEmail Component
+ * 
+ * @author Alonso Peralta Espinoza
+ *
+ * @description
+ * Handles email verification using a token passed as a query parameter.
+ *
+ * @features
+ * - Sends the token to the server for verification.
+ * - Displays success or failure messages based on the server response.
+ * - Redirects to the login page upon successful verification.
+ *
+ * @api
+ * - `/api/oauth` (POST): Action `verify-email`: Verifies the email using the provided token.
+ *
+ * @returns {React.ReactElement} A React functional component.
+ */
+
 const VerifyEmail = () => {
   const router = useRouter();
   const { token } = router.query;
