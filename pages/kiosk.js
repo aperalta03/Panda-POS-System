@@ -9,8 +9,7 @@ import ThunderstormIcon from "@mui/icons-material/Thunderstorm";
 import AcUnitIcon from "@mui/icons-material/AcUnit";
 import TranslateButton from "@/app/components/kiosk/translateButton";
 
-import AccessibilityButton from './accessButton';
-
+import AccessibilityButton from "./accessButton";
 
 /**
  * The Welcome component is the first page shown to users when they enter the kiosk.
@@ -28,8 +27,9 @@ import AccessibilityButton from './accessButton';
  * Effects:
  * - fetches the current weather on mount
  * - updates the time every minute
- * 
- * Author: Brandon Batac
+ *
+ * @author Brandon Batac
+ * @author Alonso Peralta-Espinosa
  *
  * @param {{ toItemPage: () => void }} props
  * @returns {JSX.Element}
@@ -40,6 +40,13 @@ const Welcome = ({ toItemPage }) => {
   const [time, setTime] = useState("");
   console.log("Kiosk test: ", translations["Tap to Order Now"]);
 
+  /**
+   * Handles a change in the language dropdown by calling changeLanguage with the selected language value.
+   * @param {React.ChangeEvent<HTMLSelectElement>} e - The change event from the language dropdown
+   * @returns {void}
+   *
+   * @author Brandon Batac
+   */
   const handleLanguageChange = (e) => {
     const newLanguage = e.target.value;
     changeLanguage(newLanguage);
@@ -83,9 +90,9 @@ const Welcome = ({ toItemPage }) => {
 
   /**
    * Given a weather condition, returns the corresponding MaterialUI icon.
-   * 
-   * Author: Alonso Peralta-Espinosa
-   * 
+   *
+   * @author Alonso Peralta-Espinosa
+   *
    * @param {string} condition
    * @returns {JSX.Element|null}
    */
@@ -157,10 +164,10 @@ const Welcome = ({ toItemPage }) => {
 /**
  * KioskPage component serves as the main page for the kiosk application.
  * It includes the Welcome component and handles navigation to the item selection page.
- * 
+ *
  * Effects:
  * - Navigates to the item selection page when the Welcome component triggers the `toItemPage` function.
- * 
+ *
  * Returns a JSX element that fills the viewport height and prevents scrolling.
  */
 const KioskPage = () => {
