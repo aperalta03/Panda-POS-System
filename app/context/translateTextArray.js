@@ -113,4 +113,6 @@ export const textArray = [
   "Adjust Font Size",
   "Current Size:",
   "Low Vision Theme",
+  "Your order is on its way!",
+  "Your order number is:",
 ];
