@@ -28,6 +28,7 @@ export default async function handler(req, res) {
 
         try {
             // Read the SQL query from an external file
+            console.log(process.cwd());
             const filePath = path.join(process.cwd(), 'utils', 'sql', 'update-inventory-item.sql');
             const upsertQuery = fs.readFileSync(filePath, 'utf-8');
 
