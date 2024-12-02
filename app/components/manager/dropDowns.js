@@ -29,7 +29,7 @@ const DropDowns = () => {
     <div className={styles.mainContainer}>
       <div className={styles.buttonGrid}>
         <button className={styles.button} onClick={() => openModal('Employee Viewer')}>Employee Viewer</button>
-        <button className={styles.button} onClick={() => openModal('Add Menu Item')}>Add Menu Item</button>
+        <button className={styles.button} onClick={() => openModal('Add Menu Item')}>Add/Delete Item</button>
         <button className={styles.button} onClick={() => openModal('Update Pricing')}>Update Pricing</button>
         <button className={styles.button} onClick={() => openModal('Reset Sales Data')}>Reset Today Sales</button>
         <button className={styles.button} onClick={() => openModal('Restock Report')}>Restock Report</button>
