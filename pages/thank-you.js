@@ -4,6 +4,26 @@ import styles from "./thank-you.module.css";
 import JSConfetti from "js-confetti";
 import { useGlobalState } from "@/app/context/GlobalStateContext";
 
+
+/**
+ * ThankYouPage Component
+ * 
+ * @author Alonso Peralta Espinoza
+ *
+ * @description
+ * Displays a thank-you page after an order, including a dynamic order number and fortune.
+ *
+ * @features
+ * - Confetti animation with custom emojis.
+ * - Displays order number and fortune fetched from an API.
+ * - Redirects to the kiosk view upon user interaction.
+ *
+ * @api
+ * - `/api/fortune-ai` (GET): Fetches a fortune message for the thank-you page.
+ *
+ * @returns {React.ReactElement} A React functional component.
+ */
+
 const ThankYouPage = () => {
   const router = useRouter();
   const { orderNumber, incOrderNumber, translations } = useGlobalState();

@@ -2,6 +2,30 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Box, Typography, Button } from '@mui/material';
 import styles from './restockReport.module.css';
 
+/**
+ * Restock Report Modal Component
+ * 
+ * @author Alonso Peralta Espinoza
+ *
+ * @description
+ * Displays a report of inventory items that need restocking based on current and required stock levels.
+ * Highlights low-stock items and sorts them for easy identification.
+ *
+ * @features
+ * - Fetch and display restock data from `/api/restock-Report-inventory`.
+ * - Ensures stock values are non-negative.
+ * - Sorts items with low stock to the top of the list.
+ *
+ * @state
+ * - `reportData`: Stores the fetched restock report data.
+ *
+ * @methods
+ * - `fetchRestockData`: Fetches restock data from the API and processes it for display.
+ *
+ * @example
+ * <RestockReportModal isOpen={true} onClose={() => {}} />
+ */
+
 const RestockReportModal = ({ isOpen, onClose }) => {
   const [reportData, setReportData] = useState([]);
 

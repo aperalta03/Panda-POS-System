@@ -4,6 +4,26 @@ import { Box, Button, TextField, Typography } from '@mui/material';
 import styles from './oauth.module.css';
 import Image from 'next/image';
 
+
+/**
+ * SignOAuth Component
+ * 
+ * @author Alonso Peralta Espinoza
+ *
+ * @description
+ * Sign-up page for users, allowing them to register using an employee ID, email, and password.
+ *
+ * @features
+ * - Validates passwords and ensures they match.
+ * - Sends user data to the server for registration.
+ * - Redirects to the login page upon successful sign-up.
+ *
+ * @api
+ * - `/api/oauth` (POST): Action `signup`: Registers a new user with employee ID, email, and password.
+ *
+ * @returns {React.ReactElement} A React functional component.
+ */
+
 const SignOAuth = () => {
   const [employee_id, setEmployeeId] = useState('');
   const [email, setEmail] = useState('');

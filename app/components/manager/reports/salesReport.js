@@ -1,9 +1,41 @@
-// src/components/SalesReportModal.js
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Modal from '@mui/material/Modal';
 import styles from './salesReport.module.css';
+
+/**
+ * Sales Report Modal Component
+ * 
+ * @author Alonso Peralta Espinoza
+ *
+ * @description
+ * Displays a detailed sales report for a specified date range.
+ * Allows managers to generate reports and view total sales and item-specific details.
+ *
+ * @features
+ * - Date pickers for selecting report range.
+ * - Fetch and display sales data from `/api/sales-report`.
+ * - Handles loading and error states gracefully.
+ *
+ * @state
+ * - `reportData`: Stores the sales report data.
+ * - `loading`: Indicates whether data is being fetched.
+ * - `error`: Stores error messages during fetch.
+ *
+ * @methods
+ * - `fetchReportData`: Fetches sales report data based on selected dates.
+ *
+ * @example
+ * <SalesReportModal
+ *   isOpen={true}
+ *   onClose={() => {}}
+ *   startDate={new Date()}
+ *   endDate={new Date()}
+ *   setStartDate={(date) => {}}
+ *   setEndDate={(date) => {}}
+ * />
+ */
 
 const SalesReportModal = ({
   isOpen,

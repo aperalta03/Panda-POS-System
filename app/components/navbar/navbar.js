@@ -9,6 +9,35 @@ import AcUnitIcon from '@mui/icons-material/AcUnit';
 import Image from 'next/image';
 import styles from './navbar.module.css';
 
+/**
+ * Navbar Component
+ * 
+ * @author Alonso Peralta Espinoza
+ *
+ * @description
+ * A navigation bar displaying the current time, weather information, and navigation buttons for switching views or logging out.
+ *
+ * @features
+ * - Displays current time and updates every minute.
+ * - Fetches and displays weather data using the `wttr.in` API.
+ * - Provides buttons for switching views and logging out.
+ * - Dynamically adjusts visibility of buttons based on the user's role and page.
+ *
+ * @state
+ * - `time`: Stores the current time.
+ * - `weather`: Stores temperature and condition from the weather API.
+ *
+ * @methods
+ * - `updateTime`: Updates the `time` state every minute.
+ * - `fetchWeather`: Fetches weather data and updates the `weather` state.
+ * - `getWeatherIcon`: Maps weather conditions to corresponding icons.
+ * - `handleLogoff`: Clears the user's role and redirects to the login page.
+ * - `toggleView`: Switches between manager, cashier, kitchen, and kitchen TV views.
+ *
+ * @example
+ * <Navbar />
+ */
+
 const Navbar = () => {
     const { role, setRole } = useRole();
     const [time, setTime] = useState("");

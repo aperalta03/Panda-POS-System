@@ -1,3 +1,53 @@
+
+"""
+##** Fine-Tune GPT Model Script **##
+====================================
+
+This script provides an automated way to fine-tune a GPT model using the OpenAI API. It handles the following steps:
+
+1. **Training File Preparation**: Assumes a pre-prepared JSONL file (`fine_tunning_prepared.jsonl`) for fine-tuning.
+2. **File Upload**: Uploads the training file to OpenAI's servers.
+3. **Fine-Tune Job Creation**: Initiates a fine-tune job for the specified base model.
+4. **Job Monitoring**: Polls the OpenAI API to check the status of the fine-tune job until it completes.
+
+## Configuration
+- The script uses the `OPENAI_API_KEY` environment variable for authentication.
+- Customize the base model and training file by modifying the `MODEL_NAME` and `TRAINING_FILE` constants.
+
+## Dependencies
+- Python 3.7+
+- `openai` Python library (`pip install openai`)
+- Environment variable `OPENAI_API_KEY` set with your API key.
+
+## Functions
+1. **`create_finetune_job(training_file: str, base_model: str) -> str`**
+   - Creates a fine-tune job using the OpenAI API.
+   - Parameters:
+     - `training_file`: The ID of the uploaded training file on OpenAI.
+     - `base_model`: The name of the base GPT model to fine-tune.
+   - Returns:
+     - The ID of the fine-tune job if successful, `None` otherwise.
+
+2. **`check_finetune_status(job_id: str) -> str`**
+   - Checks the status of a fine-tune job.
+   - Parameters:
+     - `job_id`: The ID of the fine-tune job.
+   - Returns:
+     - The status of the fine-tune job (`succeeded`, `failed`, etc.).
+
+3. **`main()`**
+   - Orchestrates the script's workflow:
+     - Ensures the training file exists.
+     - Uploads the training file to OpenAI.
+     - Creates a fine-tune job.
+     - Monitors the job status until completion.
+
+## Usage
+Run the script using Python:
+```bash
+python fine_tune_gpt.py
+"""
+
 import os
 import openai
 import json

@@ -3,7 +3,7 @@ import styles from "./cashierComponents.module.css";
 
 /**
  *
- ** @author Brandon Batac
+ * @author Brandon Batac
  *
  * Component that displays a list of all items in the current order.
  *

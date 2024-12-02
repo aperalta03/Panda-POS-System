@@ -3,13 +3,16 @@ import { Button } from "@mui/material";
 import styles from "./cashierComponents.module.css";
 
 /**
+ * 
+ * @author Brandon Batac
+ * 
  * Component that displays the total cost of the order, including tax,
  * at the bottom of the screen.  It also includes a button to pay.
  *
  * @param {number} netCost - The total cost of the order, not including tax.
  * @param {function} handlePayClick - Function to call when the 'PAY' button is clicked.
  *
- * @author Brandon Batac
+ *
  */
 const BottomPanel = ({ netCost, handlePayClick }) => {
   return (

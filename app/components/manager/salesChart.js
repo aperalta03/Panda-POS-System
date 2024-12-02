@@ -23,31 +23,34 @@ import { enUS } from 'date-fns/locale';
 ChartJS.register(CategoryScale, LinearScale, TimeScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 /**
+ * SalesChart Component
  * 
- ** @Author: Alonso Peralta Espinoza & Anson Thai
-
- * SalesChart component renders a line chart for sales data over a selected time frame.
- * 
- * The component allows users to select a date range, time frame (Hourly, Daily, Weekly, 
- * Monthly, Yearly), and a specific item to view its sales data. It fetches available items 
- * for selection and sales data based on user inputs. The data is then processed and 
- * displayed using a line chart.
- * 
- * State:
- * - startDate, endDate: Date objects representing the selected date range.
- * - dataset: Array of objects representing the processed sales data.
- * - error: String containing any error messages to be displayed.
- * - selectedTimeFrame: String indicating the selected time frame for data aggregation.
- * - selectedItem: String indicating the selected item for which sales data is displayed.
- * - items: Array of items available for selection.
- * 
- * Effects:
- * - Fetches available items on component mount.
- * - Fetches and processes sales data whenever the date range, time frame, or selected item changes.
- * 
- * Returns:
- * - A React component that displays a line chart and controls for selecting date range, time frame, and item.
- * 
+ * @author Alonso Peralta Espinoza
+ *
+ * @description
+ * Visualizes sales data over time using a Line Chart. Users can select a time frame and an item for analysis.
+ *
+ * @features
+ * - Fetches sales data from `/api/sales-chart`.
+ * - Aggregates data based on selected time frame (Hourly, Daily, Weekly, Monthly, Yearly).
+ * - Provides dropdowns for selecting time frame and item.
+ * - Validates date ranges and item selection.
+ *
+ * @state
+ * - `startDate`, `endDate`: Manages the selected date range.
+ * - `dataset`: Stores processed sales data for the chart.
+ * - `error`: Tracks errors during data fetch or validation.
+ * - `selectedTimeFrame`: Tracks the selected aggregation time frame.
+ * - `selectedItem`: Tracks the selected item for sales analysis.
+ * - `items`: Stores the list of items available for selection.
+ *
+ * @methods
+ * - `fetchSalesData`: Fetches and processes sales data based on user inputs.
+ * - `processSalesData`: Aggregates data for chart visualization.
+ * - `getWeekYear`: Helper function to calculate week-year format.
+ *
+ * @example
+ * <SalesChart />
  */
 
 const SalesChart = () => {
