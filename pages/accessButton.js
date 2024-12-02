@@ -3,6 +3,17 @@ import ReactDOM from "react-dom";
 import { useGlobalState } from "../app/context/GlobalStateContext";
 import styles from "./accessButton.module.css";
 
+/**
+ * AccessibilityButton is a component that displays an accessible icon and a dropdown menu containing three options:
+ * 1. Switch Theme: Switches the theme of the site between a low-vision theme and a normal theme.
+ * 2. Adjust Font Size: Adjusts the font size of the site between 100%, 110%, 120%, and 130%.
+ * 3. Current Theme: Displays the current theme of the site.
+ * 4. Current Size: Displays the current font size of the site.
+ *
+ * This component is designed to be used in conjunction with the GlobalStateContext and the useGlobalState hook.
+ * @author Uzair Khan, Alonso Peralta Espinsosa
+ * @returns {JSX.Element} The AccessibilityButton component.
+ */
 const AccessibilityButton = () => {
   const { toggleTheme, currentTheme, toggleSize, isLargeText, translations } =
     useGlobalState();
@@ -49,6 +60,14 @@ const AccessibilityButton = () => {
   }, [dropdownVisible]);
 
   useEffect(() => {
+/**
+ * Handles clicks outside the button and dropdown elements.
+ * If the click event occurs outside both the button and the dropdown,
+ * and the dropdown is currently visible, it sets the dropdown visibility to false.
+ *
+ * @param {Event} event - The click event object.
+ * @author Uzair Khan
+ */
     const handleClickOutside = (event) => {
       if (
         buttonRef.current &&
