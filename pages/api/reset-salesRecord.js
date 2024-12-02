@@ -1,5 +1,34 @@
 import database from '../../utils/database';
 
+/**
+ * 
+ ** @author Alonso Peralta Espinoza
+ *
+ * Resets sales data by truncating `saleItems` and `salesRecord` tables.
+ *
+ * @api {post} /api/reset-salesRecord
+ * @apiName ResetSalesRecord
+ * @apiGroup Sales
+ *
+ * @apiSuccess {Object} Response object with a success message.
+ * 
+ * @apiError (500) {Object} Response object with an error message for server issues during the reset process.
+ *
+ * @apiExample {curl} Example usage:
+ *   curl -X POST \
+ *     http://localhost:3000/api/reset-sales-data
+ *
+ * @apiSuccessExample {json} Success response:
+ *     {
+ *       "message": "Sales data reset successfully"
+ *     }
+ *
+ * @apiErrorExample {json} General server error response:
+ *     {
+ *       "error": "Error resetting sales data"
+ *     }
+ */
+
 export default async function handler(req, res) {
   if (req.method === 'POST') {
     try {

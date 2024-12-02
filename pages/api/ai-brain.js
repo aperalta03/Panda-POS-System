@@ -5,6 +5,51 @@ const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
 });
 
+/**
+ * 
+ ** @author Alonso Peralta Espinoza
+ *
+ * Generates a conversational AI response based on user input, chat context, and menu item retrieval.
+ *
+ * @api {post} /api/ai-brain
+ * @apiName ChatContext
+ * @apiGroup AI
+ *
+ * @apiParam {Array} chatContext Optional array of previous chat messages. Each message should be an object containing `role` and `content`.
+ * @apiParam {String} userMessage The user's query or message to the AI.
+ *
+ * @apiSuccess {String} response AI-generated response based on user input and retrieved menu context.
+ * 
+ * @apiError (400) {Object} Response object with an error message when `userMessage` is missing.
+ * @apiError (500) {Object} Response object with an error message for AI generation or database issues.
+ *
+ * @apiExample {curl} Example usage:
+ *   curl -X POST \
+ *     http://localhost:3000/api/chat-context \
+ *     -H 'Content-Type: application/json' \
+ *     -d '{
+ *           "chatContext": [
+ *             { "role": "user", "content": "Tell me about Orange Chicken" }
+ *           ],
+ *           "userMessage": "What is Kung Pao Chicken?"
+ *         }'
+ *
+ * @apiSuccessExample {json} Success response:
+ *     {
+ *       "response": "Kung Pao Chicken: A classic spicy dish with chicken, peanuts, and vegetables - $10.99, 600 calories."
+ *     }
+ *
+ * @apiErrorExample {json} Error response for missing user message:
+ *     {
+ *       "error": "Missing user message"
+ *     }
+ *
+ * @apiErrorExample {json} General server error response:
+ *     {
+ *       "error": "Error generating response"
+ *     }
+ */
+
 export default async function handler(req, res) {
     const { chatContext = [], userMessage } = req.body;
 

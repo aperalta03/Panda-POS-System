@@ -1,5 +1,35 @@
 import database from '../../utils/database';
 
+/**
+ * 
+ ** @author Alonso Peralta Espinoza
+ *
+ * Re-syncs the IDs of menu items and their respective inventory items.
+ *
+ * @api {post} /api/resyncIds
+ * @apiName ResyncIds
+ * @apiGroup Manager
+ *
+ * @apiSuccess {Object} Response object with a success message.
+ *
+ * @apiError (500) {Object} Response object with an error message.
+ *
+ * @apiExample {curl} Example usage:
+ *   curl -X POST \
+ *     http://localhost:3000/api/resyncIds \
+ *     -H 'Content-Type: application/json' \
+ *
+ * @apiSuccessExample {json} Success response:
+ *     {
+ *       "message": "IDs re-synced successfully."
+ *     }
+ *
+ * @apiErrorExample {json} Error response:
+ *     {
+ *       "error": "Error re-syncing IDs."
+ *     }
+ */
+
 export default async function handler(req, res) {
   if (req.method === 'POST') {
     try {
