@@ -26,25 +26,23 @@ const UpdateInventoryItemModal = ({ isOpen, onClose }) => {
         }
 
         try {
+            const payload = {
+                inventory_id: parseInt(inventoryId),
+                item_name: itemName,
+                item_type: itemType,
+                ingredients: ingredients ? ingredients.split(",").join(",") : null,
+                curr_amount: parseInt(currAmount),
+                needed4Week: parseInt(needed4Week),        // Match database column casing
+                needed4GameWeek: parseInt(needed4GameWeek) // Match database column casing
+            };
+
             const response = await fetch("/api/update-inventory-item", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    inventory_id: parseInt(inventoryId),
-                    item_name: itemName,
-                    item_type: itemType,
-                    ingredients: ingredients ? ingredients.split(",") : [], // Handle optional ingredients
-                    curr_amount: parseInt(currAmount),
-                    needed4week: parseInt(needed4Week),
-                    needed4gameweek: parseInt(needed4GameWeek),
-                }),
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload),
             });
 
-            if (!response.ok) {
-                throw new Error("Failed to update inventory item");
-            }
+            if (!response.ok) throw new Error("Failed to update inventory item");
 
             alert("Item updated successfully!");
             onClose();
