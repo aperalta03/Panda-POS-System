@@ -2,8 +2,8 @@ import React from "react";
 import styles from "./cashierComponents.module.css";
 
 /**
- * 
- ** @Author: Brandon Batac
+ *
+ ** @author Brandon Batac
  *
  * Component that displays a list of all items in the current order.
  *
