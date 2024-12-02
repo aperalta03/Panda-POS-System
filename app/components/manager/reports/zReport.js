@@ -2,6 +2,32 @@ import React, { useState, useEffect } from 'react';
 import Modal from '@mui/material/Modal';
 import styles from './zReport.module.css';
 
+/**
+ * Z Report Modal Component
+ * 
+ * @author Alonso Peralta Espinoza, Conner Black
+ *
+ * @description
+ * Displays a summary of daily sales, including items sold and total revenue.
+ * Allows managers to generate the Z Report and reset sales data for the day.
+ *
+ * @features
+ * - Fetch Z Report data from `/api/z-report`.
+ * - Generate a new Z Report and reset data via `/api/generate-z-report`.
+ * - Displays total sales and item-specific details.
+ *
+ * @state
+ * - `reportData`: Stores the Z Report data.
+ * - `totalSales`: Stores the total sales for the day.
+ *
+ * @methods
+ * - `fetchSalesData`: Fetches Z Report data from the API.
+ * - `generateZReport`: Triggers the API call to generate the Z Report and reset data.
+ *
+ * @example
+ * <ZReportModal isOpen={true} onClose={() => {}} />
+ */
+
 const ZReportModal = ({ isOpen, onClose }) => {
   const [reportData, setReportData] = useState([]);
   const [totalSales, setTotalSales] = useState(0);

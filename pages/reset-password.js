@@ -4,6 +4,25 @@ import { Box, TextField, Button, Typography } from '@mui/material';
 import styles from './oauth.module.css';
 import Image from 'next/image';
 
+/**
+ * ResetPassword Component
+ * 
+ * @author Alonso Peralta Espinoza
+ *
+ * @description
+ * Provides a form for users to reset their passwords.
+ *
+ * @features
+ * - Validates password and confirm password fields.
+ * - Sends the new password to the server for reset.
+ * - Redirects to login upon successful reset.
+ *
+ * @api
+ * - `/api/oauth` (POST): Action `reset-password`: Submits a new password for the user.
+ *
+ * @returns {React.ReactElement} A React functional component.
+ */
+
 const ResetPassword = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');

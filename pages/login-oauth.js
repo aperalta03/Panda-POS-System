@@ -5,6 +5,29 @@ import { Box, Button, TextField, Typography, Divider } from '@mui/material';
 import styles from './oauth.module.css';
 import Image from 'next/image';
 
+/**
+ * LoginOAuth Component
+ * 
+ * @author Alonso Peralta Espinoza
+ *
+ * @description
+ * Login page allowing users to sign in using email/password or Google OAuth.
+ *
+ * @features
+ * - Email/password authentication.
+ * - Google Sign-In integration.
+ * - Password reset functionality.
+ * - Navigation to the sign-up page.
+ * 
+ * @api
+ * - `/api/oauth` (POST):
+ *   - Action `login`: Validates user credentials.
+ *   - Action `forgot-password`: Sends a password reset email.
+ *   - Action `google`: Authenticates the user via Google OAuth.
+ *
+ * @returns {React.ReactElement} A React functional component.
+ */
+
 const LoginOAuth = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

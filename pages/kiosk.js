@@ -169,6 +169,8 @@ const Welcome = ({ toItemPage }) => {
  * - Navigates to the item selection page when the Welcome component triggers the `toItemPage` function.
  *
  * Returns a JSX element that fills the viewport height and prevents scrolling.
+ *
+ * @author Brandon Batac
  */
 const KioskPage = () => {
   const router = useRouter();

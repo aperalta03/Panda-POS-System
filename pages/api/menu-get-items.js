@@ -4,7 +4,7 @@ import database from '../../utils/database';
 
 /**
  * 
- ** @author Alonso Peralta Espinoza
+ ** @author Uzair Khan, Alonso Peralta Espinoza
  *
  * Fetches all available menu items from the database.
  *

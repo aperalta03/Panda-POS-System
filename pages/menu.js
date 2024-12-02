@@ -4,25 +4,22 @@ import Image from 'next/image';
 import styles from './menu.module.css';
 
 /**
+ * Menu Component
  * 
- ** @Author: Alonso Peralta Espinoza
- * 
- * Menu component that fetches and displays a categorized menu.
- * 
- * This component fetches menu items from an API on mount and sorts them
- * into categories: appetizers, sides, entrees, and a seasonal item.
- * It displays these items in a structured layout using Material-UI components.
- * 
- * State:
- * - menuItems: An object containing arrays of categorized menu items.
- * - seasonalItem: An object representing the seasonal menu item.
- * 
- * Effects:
- * - Fetches menu items from the API on component mount and updates state.
- * 
- * Returns:
- * - A React component rendering the menu with sections for appetizers, sides,
- *   entrees, and the seasonal item, along with pricing information.
+ * @author Alonso Peralta Espinoza
+ *
+ * @description
+ * Displays categorized menu items for customers, including seasonal items.
+ *
+ * @features
+ * - Categorized view of menu items (appetizers, sides, entrees, etc.).
+ * - Seasonal item section with dynamic updates.
+ * - Detailed nutritional and pricing information.
+ *
+ * @api
+ * - `/api/menu-get-items` (GET): Fetches menu items and seasonal item details.
+ *
+ * @returns {React.ReactElement} A React functional component.
  */
 
 const Menu = () => {

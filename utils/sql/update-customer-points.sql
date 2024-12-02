@@ -1,1 +1,46 @@
-Update customers set points = $1 where phone_number = $2;
+-- ==============================================================================
+-- SQL Script: update-customer-points.sql
+-- 
+-- Author: Conner Black
+-- 
+-- Description:
+-- This SQL script updates the `points` of a specific customer in the `customers` table 
+-- based on their `phone_number`. The query is typically used to update a customer's loyalty 
+-- points or rewards balance, which may be necessary after a purchase or promotional event.
+-- 
+-- Features:
+-- - Updates the `points` column for the customer identified by their `phone_number`.
+-- - Ensures that the correct customer is updated by matching the phone number.
+-- 
+-- Dependencies:
+-- This script assumes the existence of the `customers` table with the following columns:
+--   - phone_number: Text (Unique identifier for each customer)
+--   - name: Text (Customer's name)
+--   - dob: Date (Customer's date of birth)
+--   - points: Integer (Customer's loyalty points or rewards balance)
+-- 
+-- Input:
+-- - `points`: The new value to update the customer's loyalty points.
+-- - `phone_number`: The unique phone number of the customer whose points are being updated.
+-- 
+-- Output:
+-- - Updates the `points` of the customer with the provided `phone_number`.
+-- 
+-- Example:
+-- If executed with a specific `points` and `phone_number`, the query might update the points like:
+-- 
+-- +-----------------+-------------+------------+------------+--------+
+-- | phone_number    | name        | dob        | points     |
+-- +-----------------+-------------+------------+------------+--------+
+-- | 123-456-7890    | John Doe    | 1985-04-23 | 150        |
+-- +-----------------+-------------+------------+------------+--------+
+-- ==============================================================================
+-- SQL Query to Update Customer Points by Phone Number
+-- ==============================================================================
+UPDATE customers
+SET points = $1 
+WHERE phone_number = $2;
+
+-- ==============================================================================
+-- End of SQL Script
+-- ==============================================================================

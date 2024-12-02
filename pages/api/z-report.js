@@ -4,7 +4,7 @@ import path from 'path';
 
 /**
  * 
- ** @author Alonso Peralta Espinoza
+ ** @author Alonso Peralta Espinoza, Conner Black
  *
  * Retrieves Z-Report data including items sold, quantities, and total revenue.
  *

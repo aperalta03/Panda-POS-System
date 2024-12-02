@@ -7,17 +7,41 @@ import ReactMarkdown from 'react-markdown';
 import styles from './ai-agent.module.css';
 
 /**
- * 
- ** @Author: Alonso Peralta Espinoza
+ * AI Chat Component
  *
- * A conversational AI agent that responds to user input.
+ * @author Alonso Peralta Espinoza
  * 
- * @component - Auto Scroll: The component automatically scrolls the chatbox to the bottom when new messages are added.
- * @component - Initial Bot Message: The component sends the initial bot message when the component mounts.
- * @component - API Call: The component makes an API call to fetch the bot's response based on the user's input.
- * @component - Typer Effect: The component displays a "typing..." message while the bot is processing the user's input.
- * 
- * @returns {React.ReactElement} A React component representing the AI agent.
+ * @description
+ * A conversational AI agent interface that enables users to interact with an AI model via chat.
+ * Features include auto-scrolling, an initial welcome message, API calls for AI responses,
+ * and a real-time typing effect to simulate a conversational experience.
+ *
+ * @features
+ * - Auto Scroll: Automatically scrolls to the bottom when new messages arrive.
+ * - Initial Bot Message: Displays a welcome message on component mount.
+ * - API Integration: Sends user messages to the `/api/ai-brain` endpoint and retrieves responses.
+ * - Typing Effect: Simulates bot typing for better user interaction.
+ *
+ * @state
+ * - `prompt`: Holds the user's input text.
+ * - `messages`: Stores the chat history, including user and bot messages.
+ * - `botTypingMessage`: Displays the bot's typing animation.
+ * - `loading`: Indicates whether a bot response is being processed.
+ * - `context`: Maintains the chat context for consistent conversations.
+ *
+ * @methods
+ * - `handleSubmit`: Handles the submission of user input, calls the API, and updates the chat context.
+ * - `typeResponse`: Displays bot messages with a typing effect.
+ * - `useEffect`: Automatically scrolls the chatbox and displays the initial bot message.
+ *
+ * @returns {React.ReactElement} A styled chat component with conversational capabilities.
+ *
+ * @dependencies
+ * - Material-UI: For icons, buttons, and input fields.
+ * - ReactMarkdown: For rendering markdown content in bot responses.
+ *
+ * @example
+ * <AiAgent />
  */
 
 const AiAgent = () => {

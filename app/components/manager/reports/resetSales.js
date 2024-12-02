@@ -2,6 +2,27 @@ import React from 'react';
 import { Modal, Box, Typography, Button } from '@mui/material';
 import styles from './resetSales.module.css';
 
+/**
+ * Reset Sales Data Modal Component
+ * 
+ * @author Alonso Peralta Espinoza
+ *
+ * @description
+ * A modal that allows managers to reset daily sales data.
+ * This clears the `salesRecord` and `saleItems` tables.
+ *
+ * @features
+ * - Confirmation dialog to prevent accidental resets.
+ * - API call to `/api/reset-salesRecord` for data reset.
+ * - Displays success or error messages based on API response.
+ *
+ * @methods
+ * - `handleResetSalesData`: Triggers the API call to reset sales data and provides feedback.
+ *
+ * @example
+ * <ResetSalesDataModal isOpen={true} onClose={() => {}} />
+ */
+
 const ResetSalesDataModal = ({ isOpen, onClose }) => {
   const handleResetSalesData = async () => {
     try {
