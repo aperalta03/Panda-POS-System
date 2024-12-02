@@ -8,7 +8,7 @@ import { useGlobalState } from "@/app/context/GlobalStateContext";
 /**
  * ThankYouPage Component
  * 
- * @author Alonso Peralta Espinoza
+ * @author
  *
  * @description
  * Displays a thank-you page after an order, including a dynamic order number and fortune.
