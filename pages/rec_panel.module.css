@@ -4,8 +4,11 @@
     width: 51vw;
     text-transform: uppercase;
     padding: 10px;
-    font-size: 1.375rem;
+    font-size: var(--rec-header);
     padding-bottom: 0;
+    border-top: 1px solid var(--rec-panel-border);
+    border-left: 1px solid var(--rec-panel-border);
+    border-right: 1px solid var(--rec-panel-border);
 }
 
 /* Holds all item frames */
@@ -29,6 +32,7 @@
     height: 170px;
     gap: 10px;
     overflow: hidden;
+    border: 1px solid var(--rec-panel-border);
 }
 
 /* Wrapper for content to position image and text */
@@ -58,7 +62,7 @@
     margin-top: 5px;
     font-weight: bold;
     margin-left: 5px;
-    font-size: 1rem;
+    font-size: var(--rec-name);
 }
 
 /* Styling for item calories */
@@ -67,7 +71,7 @@
     margin: 0;
     color: white;
     margin-top: 1px;
-    font-size: 13px;
+    font-size: var(--rec-calories);
     margin-left: 5px;
 }
 
@@ -80,14 +84,14 @@
     margin-top: 5px;
     color: white;
     font-weight: bold;
-    font-size: 22px;
+    font-size: var(--rec-counter);
     margin-left: 5px;
 }
 
 /* In depth dtyling for add/subtract button for an item */
 .addSub {
     background-color: black;
-    font-size: 22px;
+    font-size: var(--rec-counter);
     color: white;
     font-weight: bold;
     border: none;
@@ -143,6 +147,7 @@
     min-width: 10vw;
     background-color: white;
     object-fit: contain; /* Ensure image fits within container */
+    border: 1px solid white;
 }
 
 /* Styling for close button on hover */

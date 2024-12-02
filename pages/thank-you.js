@@ -6,6 +6,7 @@ import { useGlobalState } from "@/app/context/GlobalStateContext";
 
 const ThankYouPage = () => {
   const router = useRouter();
+  const { orderNumber, incOrderNumber } = useGlobalState();
   const [fortune, setFortune] = useState("Fetching your fortune...");
   const { currentLanguage, changeLanguage, translations } = useGlobalState();
 
@@ -21,6 +22,7 @@ const ThankYouPage = () => {
       }
     };
     fetchFortune();
+    incOrderNumber();
 
     const jsConfetti = new JSConfetti();
     const confettiRainDuration = 1500; // Total duration of confetti
@@ -47,38 +49,40 @@ const ThankYouPage = () => {
   }, [router]);
 
   return (
-    <div className={styles.Container}>
-      <div className={styles.circle}>
-        <p></p>
-      </div>
-      <img
-        src="/chickenmaxxing_logo.png"
-        alt="Chicken Maxxing Logo"
-        className={`${styles.Logo} ${styles.Left}`}
-      />
-
-      <div className={styles.middleContainer}>
+    <div className={styles.container}>
+      {/* Logo and Order Number */}
+      <div className={styles.topLeft}>
         <img
-          src="Panda_Rewards.png"
-          alt="Panda Express Logo"
-          className={`${styles.Logo} ${styles.Right}`}
+          src="/chickenmaxxing_logo.png"
+          alt="Chicken Maxxing Logo"
+          className={styles.chickenLogo}
         />
-        <h1 className={styles.ThankYouText}>
-          {translations["Your order is on its way!"] ||
-            "Your order is on its way!"}
-        </h1>
-        <h2 clssName={styles.orderNumber}>
-          {translations["Your order number is:"] || "Your order number is:"}
-        </h2>
-        <div className={styles.FortunePaper}>
+        <h2 className={styles.orderNumberLabel}>Order Number</h2>
+        <h1 className={styles.orderNumber}>{orderNumber}</h1>
+        {/* Insert ORDER NUMBER ABOVE */}
+      </div>
+
+      {/* Middle Container */}
+      <div className={styles.middleContainer}>
+        <div className={styles.circle}></div>
+        <h1 className={styles.thankYouText}>Your order is</h1>
+        <h1 className={styles.thankYouText}>on its way!</h1>
+        <img
+          src="/Panda_Rewards.png"
+          alt="Panda Rewards Logo"
+          className={styles.pandaLogo}
+        />
+        <div className={styles.fortunePaper}>
           <p>{fortune}</p>
         </div>
-        <img
-          src="/click.png"
-          alt="CLick Me to go Back to the Kiosk"
-          className={styles.click}
-        />
       </div>
+
+      {/* Click Me Button */}
+      <img
+        src="/click.png"
+        alt="Click Me to go Back to the Kiosk"
+        className={styles.clickMeButton}
+      />
     </div>
   );
 };

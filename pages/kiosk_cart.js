@@ -10,7 +10,7 @@ const CartPage = () => {
   const router = useRouter();
   const { currentLanguage, changeLanguage, translations } = useGlobalState();
   const [selectedSauces, setSelectedSauces] = useState([]);
-  const { cart, setCart, setNumTotalItems, numTotalItems, removeItemFromCart } =
+  const { cart, setCart, setNumTotalItems, numTotalItems, removeItemFromCart, clearCart } =
     useGlobalState();
   const { toggleTheme, currentTheme, isPandaMember, toggleSize, isLargeText } =
     useGlobalState();
@@ -50,11 +50,59 @@ const CartPage = () => {
     setNumTotalItems(0);
   };
 
-  const handlePlaceOrder = () => {
-    alert("Order placed!");
+  const handlePlaceOrder = async() => {
+
+    const employeeID = 1;
+    var orders = [];
+    cart.forEach((item) => {
+        orders = orders.concat({plateSize: item.type, components:item.checkout}); 
+    });
+    const now = new Date();
+    const saleDate = now.toLocaleDateString('en-CA'); //need this for the correct time zone
+    const saleTime = now.toTimeString().split(" ")[0];
+    console.log(saleDate);
+    const orderDetails = {
+      saleDate,
+      saleTime,
+      totalPrice: total.toFixed(2),
+      employeeID: employeeID, //defaulting kiosk employee id to 1, potentially subject to change
+      orders: orders,
+      source: "Kiosk",
+    };
+
+    if (!saleDate || !saleTime || !employeeID || !orderDetails.orders.length) {
+      console.error("Missing critical order details:", {
+        saleDate,
+        saleTime,
+        employeeID,
+        orders: orderDetails.orders,
+      });
+      alert("Order details are incomplete. Please try again.");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `${window.location.origin}/api/updateSalesRecord`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(orderDetails),
+        }
+      );
+
+      if (response.ok) {
+        console.log("Order saved successfully");
+      } else {
+        const errorData = await response.json();
+        console.error("Failed to save order", errorData);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
     router.push("/thank-you");
     setNumTotalItems(0);
-    setCart([]);
+    clearCart();
   };
 
   const handleRemoveItem = (id) => {

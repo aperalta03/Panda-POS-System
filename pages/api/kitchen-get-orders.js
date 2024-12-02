@@ -17,7 +17,7 @@ export default async function handler(req, res) {
                     si.orderNumber
                 FROM salesRecord sr
                 LEFT JOIN saleItems si ON sr.saleNumber = si.saleNumber
-                WHERE sr.source = 'Cashier'
+                WHERE sr.source = 'Kiosk'
                 ORDER BY sr.saleNumber, si.orderNumber;
             `;
 
