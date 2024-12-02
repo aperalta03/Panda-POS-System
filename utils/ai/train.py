@@ -3,6 +3,8 @@
 ##** Fine-Tune GPT Model Script **##
 ====================================
 
+#? Author: Alonso Peralta Espinoza
+
 This script provides an automated way to fine-tune a GPT model using the OpenAI API. It handles the following steps:
 
 1. **Training File Preparation**: Assumes a pre-prepared JSONL file (`fine_tunning_prepared.jsonl`) for fine-tuning.
