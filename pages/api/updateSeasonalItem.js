@@ -2,6 +2,55 @@ import fs from 'fs';
 import path from 'path';
 import database from '../../utils/database';
 
+/**
+ * 
+ ** @author Alonso Peralta Espinoza
+ *
+ * Updates the seasonal menu item and its associated inventory and ingredients.
+ *
+ * @api {post} /api/updateSeasonalItem
+ * @apiName UpdateSeasonalItem
+ * @apiGroup Manager
+ *
+ * @apiParam {String} name New name for the seasonal menu item.
+ * @apiParam {Number} price New price for the seasonal menu item.
+ * @apiParam {Number} calories Updated caloric value for the seasonal menu item.
+ * @apiParam {String} [description] Optional description of the menu item.
+ * @apiParam {String} ingredients Comma-separated list of updated ingredients.
+ *
+ * @apiSuccess {Object} Response object with a success message.
+ * 
+ * @apiError (400) {Object} Response object with an error message for missing fields.
+ * @apiError (500) {Object} Response object with an error message for server or transaction issues.
+ *
+ * @apiExample {curl} Example usage:
+ *   curl -X POST \
+ *     http://localhost:3000/api/updateSeasonalItem \
+ *     -H 'Content-Type: application/json' \
+ *     -d '{
+ *           "name": "Seasonal Orange Chicken",
+ *           "price": 12.99,
+ *           "calories": 600,
+ *           "description": "Limited time only seasonal item.",
+ *           "ingredients": "chicken, orange-sauce, vegetables"
+ *         }'
+ *
+ * @apiSuccessExample {json} Success response:
+ *     {
+ *       "message": "Seasonal item and ingredients updated successfully"
+ *     }
+ *
+ * @apiErrorExample {json} Error response for missing fields:
+ *     {
+ *       "error": "Name, price, calories, and ingredients (as a comma-separated string) are required"
+ *     }
+ *
+ * @apiErrorExample {json} General server error response:
+ *     {
+ *       "error": "Failed to update seasonal item"
+ *     }
+ */
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', ['POST']);

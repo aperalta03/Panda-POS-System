@@ -2,6 +2,39 @@ import database from '../../utils/database';
 import fs from 'fs';
 import path from 'path';
 
+/**
+ * 
+ ** @author Alonso Peralta Espinoza
+ *
+ * Retrieves hourly sales data for the current day (X-Report).
+ *
+ * @api {get} /api/x-report
+ * @apiName GetXReport
+ * @apiGroup Reports
+ *
+ * @apiSuccess {Object} Response object containing hourly sales data.
+ * 
+ * @apiError (500) {Object} Response object with an error message for server issues during data retrieval.
+ *
+ * @apiExample {curl} Example usage:
+ *   curl -X GET \
+ *     http://localhost:3000/api/x-report
+ *
+ * @apiSuccessExample {json} Success response:
+ *     {
+ *       "data": [
+ *         { "hour": 9, "sales": 150.25 },
+ *         { "hour": 10, "sales": 200.75 }
+ *       ]
+ *     }
+ *
+ * @apiErrorExample {json} General server error response:
+ *     {
+ *       "error": "Error fetching X-Report data"
+ *     }
+ */
+
+
 export default async function handler(req, res) {
   if (req.method === 'GET') {
     try {

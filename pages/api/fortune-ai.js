@@ -4,6 +4,41 @@ const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
 });
 
+/**
+ * 
+ ** @author Alonso Peralta Espinoza
+ *
+ * Generates a fortune cookie-style message using a fine-tuned AI model.
+ *
+ * @api {get} /api/fortune-ai
+ * @apiName FortuneCookie
+ * @apiGroup AI
+ *
+ * @apiSuccess {String} fortune The generated fortune cookie message.
+ * 
+ * @apiError (405) {Object} Response object with an error message when using a method other than GET.
+ * @apiError (500) {Object} Response object with an error message for AI generation issues.
+ *
+ * @apiExample {curl} Example usage:
+ *   curl -X GET \
+ *     http://localhost:3000/api/fortune-cookie
+ *
+ * @apiSuccessExample {json} Success response:
+ *     {
+ *       "fortune": "Great things are on the horizon for you!"
+ *     }
+ *
+ * @apiErrorExample {json} Error response for method not allowed:
+ *     {
+ *       "error": "Method not allowed. Use GET."
+ *     }
+ *
+ * @apiErrorExample {json} General server error response:
+ *     {
+ *       "error": "Failed to generate fortune. Please try again."
+ *     }
+ */
+
 export default async function handler(req, res) {
     if (req.method !== "GET") {
         return res.status(405).json({ error: "Method not allowed. Use GET." });

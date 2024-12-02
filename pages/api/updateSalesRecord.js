@@ -3,22 +3,63 @@ import fs from "fs";
 import path from "path";
 
 /**
- * Handles an incoming POST request to record a new sale in the database.
  *
- * @async
- * @function handler
- * @param {import('next').NextApiRequest} req - The incoming request.
- * @param {import('next').NextApiResponse} res - The response to send.
- * @param {string} req.body.saleDate - The date of the sale in ISO format (YYYY-MM-DD).
- * @param {string} req.body.saleTime - The time of the sale in ISO format (HH:MM:SS).
- * @param {number} req.body.totalPrice - The total price of the sale, including applicable taxes.
- * @param {number} req.body.employeeID - The ID of the employee who made the sale.
- * @param {string} req.body.source - The source of the sale (e.g., "In-store", "Online").
- * @param {Array<{plateSize: string, components: string[]}>} req.body.orders - The items sold in the sale, including plate sizes and their respective components.
- * @returns {void} Responds with a success message and HTTP status code 200 on success, or an appropriate error message on failure.
- * @throws {Error} If there is an issue writing the sales record to the database.
+ * @author Alonso Peralta Espinoza
  * @author Brandon Batac
+ *
+ * Inserts a new sales record into the database along with associated order details.
+ *
+ * @api {post} /api/updateSalesRecord
+ * @apiName UpdateSalesRecord
+ * @apiGroup Sales
+ *
+ * @apiParam {String} saleDate Date of the sale (YYYY-MM-DD format).
+ * @apiParam {String} saleTime Time of the sale (HH:mm:ss format).
+ * @apiParam {Number} totalPrice Total price of the sale.
+ * @apiParam {Number} employeeID ID of the employee processing the sale.
+ * @apiParam {String} source Source of the sale (e.g., "in-store", "online").
+ * @apiParam {Array} orders Array of objects representing the sale details, each containing:
+ * - {String} plateSize: Size of the plate (e.g., "Small", "Medium", "Large").
+ * - {Array} components: List of components in the plate.
+ *
+ * @apiSuccess {Object} Response object with a success message.
+ *
+ * @apiError (400) {Object} Response object with an error message for missing fields.
+ * @apiError (500) {Object} Response object with an error message for server issues.
+ *
+ * @apiExample {curl} Example usage:
+ *   curl -X POST \
+ *     http://localhost:3000/api/insertSalesRecord \
+ *     -H 'Content-Type: application/json' \
+ *     -d '{
+ *           "saleDate": "2024-12-01",
+ *           "saleTime": "14:30:00",
+ *           "totalPrice": 45.99,
+ *           "employeeID": 123,
+ *           "source": "in-store",
+ *           "orders": [
+ *             { "plateSize": "Large", "components": ["Orange Chicken", "Rice"] },
+ *             { "plateSize": "Small", "components": ["Beef Broccoli"] }
+ *           ]
+ *         }'
+ *
+ * @apiSuccessExample {json} Success response:
+ *     {
+ *       "message": "Sale recorded successfully"
+ *     }
+ *
+ * @apiErrorExample {json} Error response for missing fields:
+ *     {
+ *       "error": "Missing required fields: saleDate, saleTime, or employeeID"
+ *     }
+ *
+ * @apiErrorExample {json} General server error response:
+ *     {
+ *       "message": "Error writing sales record",
+ *       "error": "Database connection failed"
+ *     }
  */
+
 export default async function handler(req, res) {
   if (req.method === "POST") {
     const { saleDate, saleTime, totalPrice, employeeID, source, orders } =
