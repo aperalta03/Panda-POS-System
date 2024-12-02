@@ -28,13 +28,13 @@ export default async function handler(req, res) {
       `;
       await database.query(ingredientInsertQuery, [
         menu_item_id,
-        name, // Use the `name` of the menu item for `item_name`
-        `{${ingredients.split(',').join(',')}}`, // Convert ingredients to array format
+        name,
+        `{${ingredients.split(',').join(',')}}`,
       ]);
 
       res.status(200).json({ message: 'Menu item added successfully' });
     } catch (error) {
-      if (error.code === '23505') { // Unique constraint violation error code
+      if (error.code === '23505') {
         console.error('Duplicate menu_item_id:', error.detail);
         res.status(400).json({ error: 'ID in Use. Please use a unique menu_item_id.' });
       } else {

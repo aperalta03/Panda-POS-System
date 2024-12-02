@@ -5,7 +5,6 @@ export default async function handler(req, res) {
     const { inventory_id, name, curr_amount, needed4week, needed4gameweek } = req.body;
 
     try {
-      // Define item_type as 'ingredient' for ingredients
       const item_type = 'ingredient';
 
       const query = `
@@ -16,7 +15,7 @@ export default async function handler(req, res) {
 
       res.status(200).json({ message: 'Ingredient added successfully' });
     } catch (error) {
-      if (error.code === '23505') { // Unique constraint violation error code
+      if (error.code === '23505') {
         console.error('Duplicate inventory_id:', error.detail);
         res.status(400).json({ error: 'ID in Use. Please use a unique inventory_id.' });
       } else {

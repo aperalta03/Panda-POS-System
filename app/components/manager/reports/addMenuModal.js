@@ -68,14 +68,14 @@ const AddMenuModal = ({ isOpen, onClose }) => {
       });
   
       if (!response.ok) {
-        const errorData = await response.json(); // Parse the error message from the API
+        const errorData = await response.json();
         throw new Error(errorData.error || "An unknown error occurred");
       }
   
       alert("Item added successfully!");
       onClose();
     } catch (error) {
-      alert(error.message); // Display the error message in the popup
+      alert(error.message);
     }
   };
 
