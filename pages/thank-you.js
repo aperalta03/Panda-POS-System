@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import styles from './thank-you.module.css';
-import JSConfetti from 'js-confetti';
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import styles from "./thank-you.module.css";
+import JSConfetti from "js-confetti";
 import { useGlobalState } from "@/app/context/GlobalStateContext";
 
 const ThankYouPage = () => {
   const router = useRouter();
-  const { orderNumber, incOrderNumber } = useGlobalState();
-  const [fortune, setFortune] = useState('Fetching your fortune...');
+  const { orderNumber, incOrderNumber, translations } = useGlobalState();
+  const [fortune, setFortune] = useState("Fetching your fortune...");
 
   useEffect(() => {
     const fetchFortune = async () => {
       try {
-        const response = await fetch('/api/fortune-ai');
+        const response = await fetch("/api/fortune-ai");
         const data = await response.json();
-        setFortune(data.fortune || 'Your fortune could not be fetched.');
+        setFortune(data.fortune || "Your fortune could not be fetched.");
       } catch (error) {
-        console.error('Error fetching fortune:', error);
-        setFortune('Something went wrong, but great things are still coming!');
+        console.error("Error fetching fortune:", error);
+        setFortune("Something went wrong, but great things are still coming!");
       }
     };
     fetchFortune();
@@ -29,7 +29,7 @@ const ThankYouPage = () => {
 
     const confettiTimer = setInterval(() => {
       jsConfetti.addConfetti({
-        emojis: ['🥠'],
+        emojis: ["🥠"],
         confettiRadius: 1,
         confettiNumber: 10,
       });
@@ -39,11 +39,11 @@ const ThankYouPage = () => {
       clearInterval(confettiTimer);
     }, confettiRainDuration);
 
-    const handleClick = () => router.push('/kiosk');
-    window.addEventListener('click', handleClick);
+    const handleClick = () => router.push("/kiosk");
+    window.addEventListener("click", handleClick);
 
     return () => {
-      window.removeEventListener('click', handleClick);
+      window.removeEventListener("click", handleClick);
     };
   }, [router]);
 
@@ -56,7 +56,9 @@ const ThankYouPage = () => {
           alt="Chicken Maxxing Logo"
           className={styles.chickenLogo}
         />
-        <h2 className={styles.orderNumberLabel}>Order Number</h2>
+        <h2 className={styles.orderNumberLabel}>
+          {translations["Order Number"] || "Order Number"}
+        </h2>
         <h1 className={styles.orderNumber}>{orderNumber}</h1>
         {/* Insert ORDER NUMBER ABOVE */}
       </div>
@@ -64,8 +66,12 @@ const ThankYouPage = () => {
       {/* Middle Container */}
       <div className={styles.middleContainer}>
         <div className={styles.circle}></div>
-        <h1 className={styles.thankYouText}>Your order is</h1>
-        <h1 className={styles.thankYouText}>on its way!</h1>
+        <h1 className={styles.thankYouText}>
+          {translations["Your order is"] || "Your order is"}
+        </h1>
+        <h1 className={styles.thankYouText}>
+          {translations["on its way!"] || "on its way!"}
+        </h1>
         <img
           src="/Panda_Rewards.png"
           alt="Panda Rewards Logo"
