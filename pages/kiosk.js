@@ -29,7 +29,7 @@ import AccessibilityButton from './accessButton';
  * - fetches the current weather on mount
  * - updates the time every minute
  * 
- * Author: Brandon Batac
+ * @Author Brandon Batac
  *
  * @param {{ toItemPage: () => void }} props
  * @returns {JSX.Element}
@@ -84,7 +84,7 @@ const Welcome = ({ toItemPage }) => {
   /**
    * Given a weather condition, returns the corresponding MaterialUI icon.
    * 
-   * Author: Alonso Peralta-Espinosa
+   * @Author Alonso Peralta-Espinosa
    * 
    * @param {string} condition
    * @returns {JSX.Element|null}
@@ -162,6 +162,8 @@ const Welcome = ({ toItemPage }) => {
  * - Navigates to the item selection page when the Welcome component triggers the `toItemPage` function.
  * 
  * Returns a JSX element that fills the viewport height and prevents scrolling.
+ * 
+ * @Author Brandon Batac
  */
 const KioskPage = () => {
   const router = useRouter();

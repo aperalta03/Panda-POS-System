@@ -6,11 +6,31 @@ import ItemFrame from "./itemFrame";
 import TranslateButton from "@/app/components/kiosk/translateButton";
 import AccessibilityButton from './accessButton';
 
-//top bar containing panel info, tracker of items selected, etc.
+/**
+ * TopBar component for the kiosk page.
+ * Displays panel information, a tracker of selected items, and utility buttons such as translation and accessibility.
+ * 
+ * @component
+ * @author Uzair Khan
+ * 
+ * @param {Object} props - Component properties.
+ * @param {function} props.handleCartClick - Callback to handle navigation to the cart.
+ * @param {number} props.numTrackedSides - Number of tracked side items.
+ * @param {number} props.numTrackedEntrees - Number of tracked entree items.
+ * @param {number} props.numTrackedOthers - Number of tracked other items.
+ * @returns {JSX.Element} The rendered TopBar component.
+ */
 const TopBar = ({ handleCartClick, numTrackedSides, numTrackedEntrees }) => {
   const router = useRouter();
   const { currentLanguage, changeLanguage, translations, numTotalItems } = useGlobalState();
 
+    /**
+ * Handles the language change event by updating the application's current language.
+ * @author Brandon Batac
+ * @param {Object} e - The event object containing the selected language value.
+ * @property {string} e.target.value - The new language code to set.
+ * @returns {void}
+ */
   const handleLanguageChange = (e) => {
     const newLanguage = e.target.value;
     changeLanguage(newLanguage);
@@ -62,6 +82,24 @@ const TopBar = ({ handleCartClick, numTrackedSides, numTrackedEntrees }) => {
   );
 };
 
+/**
+ * This component serves as the main page for the kiosk application, allowing users to select items from the menu.
+ * It renders a sticky top bar with a cart icon and a sticky bottom bar with a back to menu button and a done button.
+ * Based on the `currentStep` state, it renders a different set of item frames in the main content area.
+ * It also handles the logic for the buttons in the bottom bar, including going back to the menu and going to the cart.
+ * 
+ * Effects:
+ * - Navigates to the menu page when the back to menu button is clicked.
+ * - Navigates to the cart page when the done button is clicked.
+ * - Navigates to side selection proccess when Back to sides is clicked.
+ * - Resets the tracked items and returns to the sides step when the done button is clicked.
+ * - Fetches menu items and logs them to the console.
+ * 
+ * @component
+ * @author Uzair Khan
+ * 
+ * @returns {JSX.Element} The rendered kiosk page component.
+ */
 const KioskPlatePage = () => {
   const router = useRouter();
   const {
@@ -84,6 +122,10 @@ const KioskPlatePage = () => {
   const [currentStep, setCurrentStep] = useState("sides"); //step var to indicate whether selecting sides or entrees
   const { cart, addItemToCart, removeItemFromCart, clearCart, newItem, removeNewItem } = useGlobalState();
 
+    /**
+   * Sets the `isDone` state based on the number of tracked sides and entrees.
+   * @author Uzair Khan
+   */
   useEffect(() => {
     if (numTrackedSides === 1 && numTrackedEntrees === 2) {
       setDone(true); // Mark as done when both side and entree are selected
@@ -92,7 +134,11 @@ const KioskPlatePage = () => {
     }
   }, [numTrackedSides, numTrackedEntrees, setDone]);
 
-  //set currentStep based on the number of tracked sides and entrees
+
+    /**
+   * set currentStep based on the number of tracked sides and entrees.
+   * @author Uzair Khan
+   */
   useEffect(() => {
     if (numTrackedSides < 1) {
       setCurrentStep("sides");
@@ -101,12 +147,21 @@ const KioskPlatePage = () => {
     }
   }, [numTrackedSides, numTrackedEntrees]);
 
-  //checking if menu items are fetched correctly
+
+    /**
+   * Effect to log menu items for debugging purposes.
+   * @author Brandon Batac
+   * @throws Logs to the console if the menu is not properly populated.
+   */
   useEffect(() => {
     console.log("Menu items:", menu);
   }, [menu]);
 
-  //resets counter variables and sets back to sides step
+  /**
+   * Handles setting the currentStep back to sides to initalize the side selection process.
+   * Resets tracked item counters.
+   * @author Uzair Khan
+   */
   const handleBackToSides = () => {
     resetTrackedSides();
     resetTrackedEntrees();
@@ -115,7 +170,12 @@ const KioskPlatePage = () => {
     setTimeout(() => setCurrentStep("sides"), 0);
   };
 
-  // done button to go back to item page
+  /**
+   * Handles completing the current step and adding the new item to the cart.
+   * Resets tracked item counters and navigates to the item selection page based on if the done button is clicked.
+   * @author Uzair Khan
+   * @throws Will throw an error if `newItem` fails to add to the cart.
+   */
   const handleDone = () => {
     resetTrackedSides();
     resetTrackedEntrees();
@@ -130,7 +190,11 @@ const KioskPlatePage = () => {
     router.push("/kiosk_item");
 };
 
-  //should go to CART FIXMEEEEE
+  /**
+   * Handles navigation to the cart page.
+   * @author Uzair Khan
+   * @throws Will throw an error if router navigation fails.
+   */
   const handleCartClick = () => {
     resetTrackedSides();
     resetTrackedEntrees();
@@ -140,6 +204,11 @@ const KioskPlatePage = () => {
     router.push("/kiosk_cart");
   };
 
+    /**
+   * Handles navigation back to the menu page.
+   * @author Uzair Khan
+   * @throws Will throw an error if router navigation fails.
+   */
   const handleBackToMenu = () => {
     resetTrackedSides();
     resetTrackedEntrees();
@@ -155,16 +224,12 @@ const KioskPlatePage = () => {
     //side selection
     itemsToDisplay = menu.filter((item) => item.type === "side");
     headerText = "Select Sides";
-  } else {
+  } 
+  else {
     //entree selection
     itemsToDisplay = menu.filter((item) => item.type === "entree");
     headerText = "Select Entrees";
   }
-
-  const ThemeToggleButton = () => {
-    const { isAlternateTheme, setAlternateTheme } = useGlobalState();
-  };
-  
 
   return (
     <div className={styles.layout}>

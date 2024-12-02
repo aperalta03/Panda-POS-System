@@ -1,7 +1,7 @@
 
 /**
  * 
- ** @author Alonso Peralta Espinoza
+ ** @author Uzair Khan, Alonso Peralta Espinoza
  *
  * Fetches details of menu items within a specific ID range.
  *

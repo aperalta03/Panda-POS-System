@@ -1,6 +1,35 @@
 import sqlite3
 import random
 
+"""
+/**
+ * Script for initializing and populating an SQLite database table named `inventory`.
+ * 
+ * This script performs the following tasks:
+ * - Creates an SQLite database `inventory.db`.
+ * - Defines multiple categories of inventory items (menu items, drinks, supplies, ingredients, etc.).
+ * - Generates and assigns random stock quantities for each item type.
+ * - Inserts inventory data into the database with details such as item name, type, ingredients, and required stock levels.
+ * - Writes all SQL commands into a file `inventory.sql` for documentation or reuse.
+ * - Executes the SQL commands to create the `inventory` table and populate it with the generated data.
+ * 
+ * Database schema:
+ * - `inventory_id` (INTEGER PRIMARY KEY): Unique identifier for each inventory item.
+ * - `item_name` (TEXT): Name of the inventory item.
+ * - `item_type` (TEXT): Type/category of the inventory item (e.g., food item, drink, supply).
+ * - `ingredients` (TEXT): List of ingredients used in menu items (NULL for non-menu items).
+ * - `curr_amount` (INTEGER): Current stock level of the inventory item.
+ * - `needed4Week` (INTEGER): Estimated stock needed for one standard week.
+ * - `needed4GameWeek` (INTEGER): Estimated stock needed for a peak-demand "game week".
+ * 
+ * Output:
+ * - Generates a database file `inventory.db` and a SQL script file `inventory.sql`.
+ * - Inserts predefined inventory categories and calculated stock data into the database.
+ * 
+ * @Author: Uzair Khan
+ */
+"""
+
 # Connect to the SQLite database
 connection = sqlite3.connect('inventory.db')
 cursor = connection.cursor()

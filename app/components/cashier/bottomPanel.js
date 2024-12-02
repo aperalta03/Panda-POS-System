@@ -4,7 +4,7 @@ import styles from "./cashierComponents.module.css";
 
 /**
  * 
- * @author Brandon Batac
+ * @author Uzair Khan, Brandon Batac
  * 
  * Component that displays the total cost of the order, including tax,
  * at the bottom of the screen.  It also includes a button to pay.
