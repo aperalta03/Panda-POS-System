@@ -34,6 +34,7 @@
   },
   "devDependencies": {
     "eslint": "^8",
-    "eslint-config-next": "15.0.1"
+    "eslint-config-next": "15.0.1",
+    "jsdoc": "^4.0.4"
   }
 }

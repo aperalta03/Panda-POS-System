@@ -2,6 +2,41 @@ import React, { useState, useEffect } from 'react';
 import Modal from '@mui/material/Modal';
 import styles from './employeeIdModal.module.css';
 
+/**
+ * Employee ID Modal Component
+ *
+ * @author Conner Black
+ *
+ * @description
+ * A modal that allows the user to input an employee ID. Upon submission, it attempts to fetch 
+ * the employee's data from the server. If the employee is found, the parent component is notified 
+ * with the employee's data, and the modal is closed. If not, an error message is displayed.
+ *
+ * @features
+ * - Employee ID Input: Collects the employee ID from the user.
+ * - API Request: Sends the employee ID to the server to fetch the corresponding employee data.
+ * - Error Handling: Displays an error message if the employee is not found or if there is an issue with the request.
+ * - Modal Interaction: Allows the modal to be opened and closed via parent component control.
+ * - State Management: Tracks the input value for the employee ID and error messages.
+ *
+ * @state
+ * - `employeeId`: Stores the input value for the employee ID entered by the user.
+ * - `error`: Holds the error message to be displayed when the employee is not found or an error occurs during the API request.
+ *
+ * @methods
+ * - `handleSubmit`: Triggers the API call to fetch the employee data based on the entered employee ID. Handles both success and failure scenarios.
+ *
+ * @dependencies
+ * - Material-UI: For modal component and basic styling.
+ *
+ * @example
+ * <EmployeeIdModal 
+ *   isOpen={true} 
+ *   onClose={() => {}} 
+ *   onSubmit={(employeeData) => { console.log('Employee Data:', employeeData); }} 
+ * />
+ */
+
 const EmployeeIdModal = ({ isOpen, onClose, onSubmit }) => {
   const [employeeId, setEmployeeId] = useState('');
   const [error, setError] = useState('');

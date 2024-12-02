@@ -8,7 +8,7 @@ import styles from './manager.module.css';
 /**
  * Manager Component
  * 
- * @author Alonso Peralta Espinoza
+ * @author Alonso Peralta Espinoza, Conner Black
  *
  * @description
  * Dashboard for manager functionalities, including inventory, profiles, reports, and sales charts.

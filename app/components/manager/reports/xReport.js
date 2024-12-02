@@ -5,7 +5,7 @@ import styles from './xReport.module.css';
 /**
  * X Report Modal Component
  * 
- * @author Alonso Peralta Espinoza
+ * @author Alonso Peralta Espinoza, Conner Black
  *
  * @description
  * Displays an hourly breakdown of sales for the current day.

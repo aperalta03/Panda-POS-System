@@ -5,7 +5,7 @@ import styles from './zReport.module.css';
 /**
  * Z Report Modal Component
  * 
- * @author Alonso Peralta Espinoza
+ * @author Alonso Peralta Espinoza, Conner Black
  *
  * @description
  * Displays a summary of daily sales, including items sold and total revenue.
