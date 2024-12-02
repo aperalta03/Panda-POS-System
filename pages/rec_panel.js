@@ -2,6 +2,28 @@ import React, { useState, useEffect } from "react";
 import styles from "./rec_panel.module.css";
 import { useGlobalState } from "@/app/context/GlobalStateContext";
 
+/**
+ * @author: Uzair Khan
+ * RecommendationPanel renders a panel with random items from the menu
+ * and allows users to increment/decrement the quantity of each item and
+ * add it to the cart.
+ *
+ * The panel shows the name, calories, and price of each item, as well as
+ * a counter for the quantity selection. The user can decrement the quantity
+ * by clicking on the "-" button, and increment it by clicking on the "+" button.
+ * When the user clicks on the "Enter" button, the item is added to the cart
+ * with the selected quantity.
+ *
+ * The panel also displays a header with the title "Last Minute Picks?".
+ *
+ * The panel receives the following props from the context:
+ * - menu: the menu items
+ * - cart: the cart items
+ * - setCart: a function to update the cart items
+ * - translations: the translations for the text
+ * - numTotalItems: the total number of items in the cart
+ * - setNumTotalItems: a function to update the total number of items in the cart
+ */
 const RecommendationPanel = () => {
   const { menu, cart, setCart, translations, numTotalItems, setNumTotalItems } = useGlobalState();
   const [randomItems, setRandomItems] = useState([]);
@@ -27,6 +49,12 @@ const RecommendationPanel = () => {
     setRandomItems(getRandomItems());
   }, [menu]);
 
+/**
+ * @author: Uzair Khan
+ * Increments the quantity of the specified item in the panel.
+ *
+ * @param {string} id - The unique identifier of the item to increment.
+ */
   const handleIncrement = (id) => {
     console.log(`Incrementing ${id}`);
     setQuantities((prevQuantities) => {
@@ -38,6 +66,14 @@ const RecommendationPanel = () => {
     });
   };
 
+
+/**
+ * @author: Uzair Khan
+ * Decrements the quantity of the specified item in the panel.
+ * If the quantity is already 0, it does nothing.
+ *
+ * @param {string} id - The unique identifier of the item to decrement.
+ */
   const handleDecrement = (id) => {
     console.log(`Decrementing ${id}`);
     setQuantities((prevQuantities) => {
@@ -49,7 +85,13 @@ const RecommendationPanel = () => {
     });
   };
 
-  // Add item to cart
+/**
+ * @author: Uzair Khan
+ * Adds item to the order panel
+ *
+ * @param {string} id - The unique identifier of the item as well as is the item itself
+ * @param {object} item - The item itself
+ */
   const handleAddItem = (item, id) => {
     const quantity = quantities[id] || 1;
 
