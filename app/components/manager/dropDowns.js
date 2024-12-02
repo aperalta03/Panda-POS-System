@@ -5,8 +5,8 @@ import XReportModal from './reports/xReport';
 import ZReportModal from './reports/zReport';
 import ResetSalesDataModal from './reports/resetSales';
 import RestockReportModal from './reports/restockReport';
-import AddMenuModal from './reports/addMenuModal';
-import UpdatePriceModal from './reports/updatePriceModal';
+import UpdateMenuItemModal from './reports/updateMenuItemModal';
+import UpdateInventoryItemModal from './reports/updateInventoryItemModal';
 import styles from './dropDowns.module.css';
 
 /**
@@ -62,8 +62,8 @@ const DropDowns = () => {
     <div className={styles.mainContainer}>
       <div className={styles.buttonGrid}>
         <button className={styles.button} onClick={() => openModal('Employee Viewer')}>Employee Viewer</button>
-        <button className={styles.button} onClick={() => openModal('Add Menu Item')}>Add/Delete Item</button>
-        <button className={styles.button} onClick={() => openModal('Update Pricing')}>Update Pricing</button>
+              <button className={styles.button} onClick={() => openModal('Update Menu Item')}>Update Menu Item</button>
+        <button className={styles.button} onClick={() => openModal('Update Inventory Item')}>Update Inventory Item</button>
         <button className={styles.button} onClick={() => openModal('Reset Sales Data')}>Reset Today Sales</button>
         <button className={styles.button} onClick={() => openModal('Restock Report')}>Restock Report</button>
         <button className={styles.button} onClick={() => openModal('Sales Report')}>Sales Report</button>
@@ -96,11 +96,11 @@ const DropDowns = () => {
             {modalTitle === 'Restock Report' && (
                 <RestockReportModal isOpen={isModalOpen} onClose={closeModal} />
             )}
-            {modalTitle === 'Add Menu Item' && (
-                <AddMenuModal isOpen={isModalOpen} onClose={closeModal} />
+            {modalTitle === 'Update Menu Item' && (
+                <UpdateMenuItemModal isOpen={isModalOpen} onClose={closeModal} />
             )}
-            {modalTitle === 'Update Pricing' && (
-                <UpdatePriceModal isOpen={isModalOpen} onClose={closeModal} />
+            {modalTitle === 'Update Inventory Item' && (
+                <UpdateInventoryItemModal isOpen={isModalOpen} onClose={closeModal} />
             )}
         </div>
     );
