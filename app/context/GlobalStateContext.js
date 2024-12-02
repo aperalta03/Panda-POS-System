@@ -83,22 +83,29 @@ export const GlobalStateProvider = ({ children }) => {
     translateAllText,
   } = useTranslate();
 
+  /**
+   * Updates the current language of the application and translates all text using the Google Translate API.
+   * @param {string} language - The language code of the target language for translation (e.g., 'es' for Spanish).
+   * @returns {void}
+   *
+   * @author Brandon Batac
+   */
   const changeLanguage = (language) => {
     setCurrentLanguage(language);
     translateAllText(textArray, language);
   };
 
-  const [orderNumber, setOrderNumber] = useState(0); 
-  const MAX_ORDER_NUMBER = 9999; 
+  const [orderNumber, setOrderNumber] = useState(0);
+  const MAX_ORDER_NUMBER = 9999;
 
   const incOrderNumber = () => {
     const currentOrderNumber = orderNumber;
     if (currentOrderNumber >= MAX_ORDER_NUMBER) {
       setOrderNumber(0); // Reset to the starting value
     } else {
-      setOrderNumber((prevOrderNumber) => prevOrderNumber + 1); 
+      setOrderNumber((prevOrderNumber) => prevOrderNumber + 1);
     }
-  }
+  };
 
   const [cart, setCart] = useState([]);
   const [newItem, setNewItem] = useState({
@@ -107,7 +114,7 @@ export const GlobalStateProvider = ({ children }) => {
     price: 0.0,
     details: [],
     quantity: 1,
-    checkout: []
+    checkout: [],
   });
 
   const addItemToCart = (item) => {
@@ -122,7 +129,7 @@ export const GlobalStateProvider = ({ children }) => {
       price: 0.0,
       details: [],
       quantity: 1,
-      checkout: []
+      checkout: [],
     });
   };
 
