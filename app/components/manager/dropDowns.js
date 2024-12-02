@@ -43,20 +43,20 @@ import styles from './dropDowns.module.css';
  */
 
 const DropDowns = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalTitle, setModalTitle] = useState('');
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalTitle, setModalTitle] = useState('');
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
 
-  const openModal = (title) => {
-    setModalTitle(title);
-    setIsModalOpen(true);
-  };
+    const openModal = (title) => {
+        setModalTitle(title);
+        setIsModalOpen(true);
+    };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setModalTitle('');
-  };
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setModalTitle('');
+    };
 
   return (
     <div className={styles.mainContainer}>
@@ -71,39 +71,39 @@ const DropDowns = () => {
         <button className={styles.button} onClick={() => openModal('Z Report')}>Z Report</button>
       </div>
 
-      {modalTitle === 'Employee Viewer' && (
-        <EmployeeViewerModal isOpen={isModalOpen} onClose={closeModal} />
-      )}
-      {modalTitle === 'Sales Report' && (
-        <SalesReportModal
-          isOpen={isModalOpen}
-          onClose={closeModal}
-          startDate={startDate}
-          setStartDate={setStartDate}
-          endDate={endDate}
-          setEndDate={setEndDate}
-        />
-      )}
-      {modalTitle === 'X Report' && (
-        <XReportModal isOpen={isModalOpen} onClose={closeModal} />
-      )}
-      {modalTitle === 'Z Report' && (
-        <ZReportModal isOpen={isModalOpen} onClose={closeModal} />
-      )}
-      {modalTitle === 'Reset Sales Data' && (
-        <ResetSalesDataModal isOpen={isModalOpen} onClose={closeModal} />
-      )}
-      {modalTitle === 'Restock Report' && (
-        <RestockReportModal isOpen={isModalOpen} onClose={closeModal} />
-      )}
-      {modalTitle === 'Add Menu Item' && (
-        <AddMenuModal isOpen={isModalOpen} onClose={closeModal} />
-      )}
-      {modalTitle === 'Update Pricing' && (
-        <UpdatePriceModal isOpen={isModalOpen} onClose={closeModal} />
-      )}
-    </div>
-  );
+            {modalTitle === 'Employee Viewer' && (
+                <EmployeeViewerModal isOpen={isModalOpen} onClose={closeModal} />
+            )}
+            {modalTitle === 'Sales Report' && (
+                <SalesReportModal
+                    isOpen={isModalOpen}
+                    onClose={closeModal}
+                    startDate={startDate}
+                    setStartDate={setStartDate}
+                    endDate={endDate}
+                    setEndDate={setEndDate}
+                />
+            )}
+            {modalTitle === 'X Report' && (
+                <XReportModal isOpen={isModalOpen} onClose={closeModal} />
+            )}
+            {modalTitle === 'Z Report' && (
+                <ZReportModal isOpen={isModalOpen} onClose={closeModal} />
+            )}
+            {modalTitle === 'Reset Sales Data' && (
+                <ResetSalesDataModal isOpen={isModalOpen} onClose={closeModal} />
+            )}
+            {modalTitle === 'Restock Report' && (
+                <RestockReportModal isOpen={isModalOpen} onClose={closeModal} />
+            )}
+            {modalTitle === 'Add Menu Item' && (
+                <AddMenuModal isOpen={isModalOpen} onClose={closeModal} />
+            )}
+            {modalTitle === 'Update Pricing' && (
+                <UpdatePriceModal isOpen={isModalOpen} onClose={closeModal} />
+            )}
+        </div>
+    );
 };
 
 export default DropDowns;
