@@ -55,7 +55,7 @@ const CartPage = () => {
     const employeeID = 1;
     var orders = [];
     cart.forEach((item) => {
-        orders = orders.concat(item.checkout); // Safely concatenates the arrays
+        orders = orders.concat({plateSize: item.type, components:item.checkout}); 
     });
     const now = new Date();
     const saleDate = now.toLocaleDateString('en-CA'); //need this for the correct time zone
