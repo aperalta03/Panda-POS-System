@@ -3,6 +3,28 @@ import { Box, Typography, Divider, Grid } from '@mui/material';
 import Image from 'next/image';
 import styles from './menu.module.css';
 
+/**
+ * 
+ ** @Author: Alonso Peralta Espinoza
+ * 
+ * Menu component that fetches and displays a categorized menu.
+ * 
+ * This component fetches menu items from an API on mount and sorts them
+ * into categories: appetizers, sides, entrees, and a seasonal item.
+ * It displays these items in a structured layout using Material-UI components.
+ * 
+ * State:
+ * - menuItems: An object containing arrays of categorized menu items.
+ * - seasonalItem: An object representing the seasonal menu item.
+ * 
+ * Effects:
+ * - Fetches menu items from the API on component mount and updates state.
+ * 
+ * Returns:
+ * - A React component rendering the menu with sections for appetizers, sides,
+ *   entrees, and the seasonal item, along with pricing information.
+ */
+
 const Menu = () => {
 
   const [menuItems, setMenuItems] = useState({ appetizers: [], sides: [], entrees: [] });

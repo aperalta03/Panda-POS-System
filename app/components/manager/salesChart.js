@@ -22,6 +22,34 @@ import { enUS } from 'date-fns/locale';
 // Register Chart.js components
 ChartJS.register(CategoryScale, LinearScale, TimeScale, PointElement, LineElement, Title, Tooltip, Legend);
 
+/**
+ * 
+ ** @Author: Alonso Peralta Espinoza & Anson Thai
+
+ * SalesChart component renders a line chart for sales data over a selected time frame.
+ * 
+ * The component allows users to select a date range, time frame (Hourly, Daily, Weekly, 
+ * Monthly, Yearly), and a specific item to view its sales data. It fetches available items 
+ * for selection and sales data based on user inputs. The data is then processed and 
+ * displayed using a line chart.
+ * 
+ * State:
+ * - startDate, endDate: Date objects representing the selected date range.
+ * - dataset: Array of objects representing the processed sales data.
+ * - error: String containing any error messages to be displayed.
+ * - selectedTimeFrame: String indicating the selected time frame for data aggregation.
+ * - selectedItem: String indicating the selected item for which sales data is displayed.
+ * - items: Array of items available for selection.
+ * 
+ * Effects:
+ * - Fetches available items on component mount.
+ * - Fetches and processes sales data whenever the date range, time frame, or selected item changes.
+ * 
+ * Returns:
+ * - A React component that displays a line chart and controls for selecting date range, time frame, and item.
+ * 
+ */
+
 const SalesChart = () => {
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());

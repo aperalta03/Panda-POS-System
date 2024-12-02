@@ -6,6 +6,20 @@ import { Box, Typography, TextField, IconButton } from '@mui/material';
 import ReactMarkdown from 'react-markdown';
 import styles from './ai-agent.module.css';
 
+/**
+ * 
+ ** @Author: Alonso Peralta Espinoza
+ *
+ * A conversational AI agent that responds to user input.
+ * 
+ * @component - Auto Scroll: The component automatically scrolls the chatbox to the bottom when new messages are added.
+ * @component - Initial Bot Message: The component sends the initial bot message when the component mounts.
+ * @component - API Call: The component makes an API call to fetch the bot's response based on the user's input.
+ * @component - Typer Effect: The component displays a "typing..." message while the bot is processing the user's input.
+ * 
+ * @returns {React.ReactElement} A React component representing the AI agent.
+ */
+
 const AiAgent = () => {
   const [prompt, setPrompt] = useState('');
   const [messages, setMessages] = useState([]);
