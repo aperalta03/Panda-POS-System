@@ -114,4 +114,12 @@ export const textArray = [
   "Your order is",
   "on its way!",
   "Order Number",
+  "Customer Login",
+  "You have",
+  "points! Would you like to use 1000 points for a 10% discount?",
+  "Use 1000 points for 10% off",
+  "Sign Up",
+  "Submit",
+  "Customer Points",
+  "Cancel",
 ];
