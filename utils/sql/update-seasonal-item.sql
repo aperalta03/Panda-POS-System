@@ -1,4 +1,3 @@
-
 /**
  * 
  ** @author Alonso Peralta Espinoza
@@ -15,7 +14,7 @@
  * 2. **Fetch Inventory ID**:
  *    - Retrieves the `inventory_id` linked to the seasonal menu item.
  * 3. **Update Menu**:
- *    - Updates the name, price, calories, and optional description of the seasonal menu item.
+ *    - Updates the name, price, calories, optional description, and type of the seasonal menu item.
  * 4. **Update Ingredients**:
  *    - Updates the `item_name` and `ingredients` fields in the `menu_ingredients` table.
  * 5. **Update Inventory**:
@@ -28,30 +27,36 @@
  * - `$4`: Updated calories of the menu item.
  * - `$5`: Optional updated description for the menu item.
  * - `$6`: Updated ingredients for the menu item (as an array).
- * - `$7`: `inventory_id` associated with the menu item.
+ * - `$7`: Updated type of the menu item.
+ * - `$8`: `inventory_id` associated with the menu item.
  *
  * @usage
  * - This script is designed to synchronize updates across the `menu`, `menu_ingredients`, and `inventory` tables for seasonal items.
  */
 
 
--- Fetch seasonal menu item ID
-SELECT menu_item_id FROM menu WHERE type = 'seasonal' LIMIT 1;
+-- Fetch inventory ID associated with the hardcoded seasonal item
+SELECT inventory_id FROM menu_inventory WHERE menu_item_id = 7 LIMIT 1;
 
--- Fetch inventory ID associated with seasonal item
-SELECT inventory_id FROM menu_inventory WHERE menu_item_id = $1 LIMIT 1;
-
--- Update menu table
+-- Update menu table for the hardcoded seasonal item
 UPDATE menu
-SET name = $2, price = $3, calories = $4, description = COALESCE($5, description)
-WHERE menu_item_id = $1;
+SET 
+  name = $2, 
+  price = $3, 
+  calories = $4, 
+  description = COALESCE($5, description), 
+  type = $7
+WHERE menu_item_id = 7;
 
--- Update menu_ingredients table
+-- Update menu_ingredients table for the hardcoded seasonal item
 UPDATE menu_ingredients
-SET item_name = $2, ingredients = $6
-WHERE menu_item_id = $1;
+SET 
+  item_name = $2, 
+  ingredients = $6
+WHERE menu_item_id = 7;
 
--- Update inventory table
+-- Update inventory table for the associated inventory ID
 UPDATE inventory
-SET item_name = $2
-WHERE inventory_id = $7;
+SET 
+  item_name = $2
+WHERE inventory_id = $1;

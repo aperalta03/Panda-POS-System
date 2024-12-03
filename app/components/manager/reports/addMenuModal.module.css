@@ -9,11 +9,11 @@
     border-radius: 8px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
-
 .modalSubmitButton {
     background-color: var(--primary-color) !important;
     width: 100%;
     color: white !important;
+    margin-top: 20px;
 }
 .modalDeleteBox {
     display: flex;
@@ -28,7 +28,6 @@
     width: 40%;
     color: white !important;
 }
-
 .modalDeleteButton:hover {
     background-color: var(--primary-color-hover) !important;
 }

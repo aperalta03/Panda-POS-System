@@ -43,11 +43,11 @@ const Menu = () => {
           data.menuItems.forEach((item) => {
             if (item.type === 'appetizer') {
               categorizedMenu.appetizers.push(item);
-            } else if (item.type === 'side') {
+            } else if (item.type === 'side' && item.designation !== 'Seasonal') {
               categorizedMenu.sides.push(item);
-            } else if (item.type === 'entree') {
+            } else if (item.type === 'entree' && item.designation !== 'Seasonal') {
               categorizedMenu.entrees.push(item);
-            } else if (item.type === 'seasonal') {
+            } else if (item.designation === 'Seasonal') {
               setSeasonalItem(item);
             }
           });

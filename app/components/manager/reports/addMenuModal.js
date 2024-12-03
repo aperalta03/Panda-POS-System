@@ -80,6 +80,7 @@ const AddMenuModal = ({ isOpen, onClose }) => {
           name: formData.name,
           price: formData.price,
           calories: formData.calories,
+          type: formData.itemType,
           description: formData.description,
           ingredients: formData.ingredients,
         }),
@@ -101,6 +102,8 @@ const AddMenuModal = ({ isOpen, onClose }) => {
           needed4gameweek: formData.needed4gameweek,
         }),
       };
+
+      console.log("Payload:", body);
   
       const response = await fetch(endpoint, {
         method: "POST",
@@ -176,9 +179,12 @@ const AddMenuModal = ({ isOpen, onClose }) => {
         {/* Add Seasonal Item */}
         {type === "Seasonal Item" && (
           <>
-            <TextField label="Item Name" fullWidth margin="normal" value={formData.name} onChange={(e) => handleInputChange("name", e.target.value)} />
-            <TextField label="Price" type="number" fullWidth margin="normal" value={formData.price} onChange={(e) => handleInputChange("price", parseFloat(e.target.value))} />
-            <TextField label="Calories" type="number" fullWidth margin="normal" value={formData.calories} onChange={(e) => handleInputChange("calories", parseInt(e.target.value, 10))} />
+            <Box className={styles.gridContainer}>
+              <TextField label="Item Name" fullWidth value={formData.name} onChange={(e) => handleInputChange("name", e.target.value)} />
+              <TextField label="Price" type="number" fullWidth value={formData.price} onChange={(e) => handleInputChange("price", parseFloat(e.target.value))} />
+              <TextField label="Calories" type="number" fullWidth value={formData.calories} onChange={(e) => handleInputChange("calories", parseInt(e.target.value, 10))} />
+              <TextField label="Type" fullWidth value={formData.itemType} onChange={(e) => handleInputChange("itemType", e.target.value)} />
+            </Box>
             <TextField label="Description" fullWidth margin="normal" value={formData.description} onChange={(e) => handleInputChange("description", e.target.value)} />
             <TextField label="Ingredients (comma-separated)" fullWidth margin="normal" value={formData.ingredients} onChange={(e) => handleInputChange("ingredients", e.target.value)} />
           </>
@@ -195,35 +201,21 @@ const AddMenuModal = ({ isOpen, onClose }) => {
               <TextField label="Designation" value={formData.designation} onChange={(e) => handleInputChange("designation", e.target.value)} />
               <TextField label="Type" value={formData.itemType} onChange={(e) => handleInputChange("itemType", e.target.value)} />
             </Box>
-            <TextField
-              label="Description"
-              multiline
-              rows={3}
-              fullWidth
-              margin="normal"
-              value={formData.description}
-              onChange={(e) => handleInputChange("description", e.target.value)}
-            />
-            <TextField
-              label="Ingredients (comma-separated)"
-              multiline
-              rows={2}
-              fullWidth
-              margin="normal"
-              value={formData.ingredients}
-              onChange={(e) => handleInputChange("ingredients", e.target.value)}
-            />
+            <TextField label="Description" multiline rows={3} fullWidth margin="normal" value={formData.description} onChange={(e) => handleInputChange("description", e.target.value)} />
+            <TextField label="Ingredients (comma-separated)" multiline rows={2} fullWidth margin="normal" value={formData.ingredients} onChange={(e) => handleInputChange("ingredients", e.target.value)}/>
           </>
         )}
 
         {/* Add Ingredient */}
         {type === "Ingredient" && (
           <>
-            <TextField label="Inventory ID" type="number" fullWidth margin="normal" value={formData.inventory_id} onChange={(e) => handleInputChange("inventory_id", e.target.value)} />
             <TextField label="Name" fullWidth margin="normal" value={formData.name} onChange={(e) => handleInputChange("name", e.target.value)} />
-            <TextField label="Current Amount" type="number" fullWidth margin="normal" value={formData.curr_amount} onChange={(e) => handleInputChange("curr_amount", parseInt(e.target.value, 10))} />
-            <TextField label="Needed for Week" type="number" fullWidth margin="normal" value={formData.needed4week} onChange={(e) => handleInputChange("needed4week", parseInt(e.target.value, 10))} />
-            <TextField label="Needed for Game Week" type="number" fullWidth margin="normal" value={formData.needed4gameweek} onChange={(e) => handleInputChange("needed4gameweek", parseInt(e.target.value, 10))} />
+            <Box className={styles.gridContainer}>
+              <TextField label="Inventory ID" type="number" fullWidth value={formData.inventory_id} onChange={(e) => handleInputChange("inventory_id", e.target.value)} />
+              <TextField label="Current Amount" type="number" fullWidth value={formData.curr_amount} onChange={(e) => handleInputChange("curr_amount", parseInt(e.target.value, 10))} />
+              <TextField label="Needed for Week" type="number" fullWidth value={formData.needed4week} onChange={(e) => handleInputChange("needed4week", parseInt(e.target.value, 10))} />
+              <TextField label="Needed for Game Week" type="number" fullWidth value={formData.needed4gameweek} onChange={(e) => handleInputChange("needed4gameweek", parseInt(e.target.value, 10))} />
+            </Box>
           </>
         )}
         <Button onClick={handleSubmit} className={styles.modalSubmitButton}>Submit</Button>
