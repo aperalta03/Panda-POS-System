@@ -1,0 +1,89 @@
+.modalContent {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;  /* White background */
+    padding: 40px;
+    border-radius: 10px;  /* Rounded corners */
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    width: 500px;  /* Adjust width */
+    max-width: 90%;
+    overflow: auto;  /* Ensure content doesn't overflow */
+    text-align: center;
+  }
+  
+  /* Title for the modal */
+  .modalContent h2 {
+    font-size: 32px;
+    margin-bottom: 30px;
+    font-weight: bold;
+    color: #333;  /* Dark text color for better readability */
+  }
+  
+  /* Modal message */
+  .modalContent p {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 30px;
+  }
+  
+  /* Buttons container */
+  .modalContent .buttonContainer {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;  /* Space between buttons */
+    flex-direction: column;  /* Stack buttons vertically */
+    align-items: center;
+  }
+  
+  /* Submit and Cancel buttons */
+  .modalContent .button {
+    padding: 15px 30px;
+    font-size: 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    width: 100%;  /* Make buttons full width */
+    max-width: 250px;  /* Limit the width of buttons */
+  }
+  
+  /* Green button (Use 1000 points for 10% off) */
+  .modalContent .button.usePoints {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  /* Red button (Cancel or Close) */
+  .modalContent .button.cancel {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  /* Hover effect for buttons */
+  .modalContent .button:hover {
+    opacity: 0.8;
+  }
+  
+  /* Disabled button styling */
+  .modalContent .button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+
+  .redButton {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+  
+  .redButton:hover {
+    background-color: darkred;
+  }

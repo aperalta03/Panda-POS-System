@@ -16,10 +16,6 @@
     overflow: hidden; /* Ensure no scrolling happens */
 }
 
-.h2 {
-    margin-bottom: 10px; /* Reduce margin to minimize space */
-}
-
 /* Keypad Styling */
 .keypad {
     display: flex;
@@ -44,13 +40,15 @@
     align-items: center; /* This centers the numbers vertically */
 }
 
-/* Keypad button styling */
+/* Keypad row with added back button */
 .keypad-row {
     display: flex;
     justify-content: space-evenly; /* Distribute buttons evenly */
     margin-bottom: 10px;
+    align-items: center;  /* Align buttons vertically */
 }
 
+/* Keypad button styling */
 .keypad-row button {
     font-size: 24px; /* Adjust font size to fit better */
     padding: 10px; /* Adjust padding to make buttons fit */
@@ -73,6 +71,31 @@
 
 .keypad-row button:active {
     background-color: #ccc;
+}
+
+/* Back button styling */
+.back-btn {
+    background-color: #333;  /* Dark grey */
+    color: white;
+    font-size: 24px;  /* Larger font for better visibility */
+    padding: 8px 14px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    width: 35px;  /* Fixed size to make it circular */
+    height: 35px; /* Fixed size */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s;
+}
+
+.back-btn:hover {
+    background-color: #555;  /* Lighter grey on hover */
+}
+
+.back-btn:active {
+    background-color: #222;  /* Darker grey on click */
 }
 
 /* Button container styling */
@@ -127,4 +150,10 @@
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
+}
+
+/* Error message styling */
+.error {
+    color: red;
+    margin-top: 10px;
 }

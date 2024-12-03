@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useGlobalState } from "../../context/GlobalStateContext"; 
+import { useGlobalState } from "../../context/GlobalStateContext";
+import CustomerPointsModal from './customerPointsModal';
 import Modal from '@mui/material/Modal';
 import styles from './customerSignUpModal.module.css';
 
 const CustomerSignUp = ({ isOpen, onClose }) => {
     const {setCustomerPhoneNumber, setCustomerName, setCustomerTotalPoints} = useGlobalState();
+    const [isPointsModalOpen, setPointsModalOpen] = useState(false);
     const [phoneNumber, setPhoneNumber] = useState('');
     const [name, setName] = useState('');
     const [dateOfBirth, setDateOfBirth] = useState('');
@@ -40,6 +42,7 @@ const CustomerSignUp = ({ isOpen, onClose }) => {
                 setCustomerName(name);
                 setCustomerPhoneNumber(phoneNumber);
                 setCustomerTotalPoints(0);
+                setPointsModalOpen(true);
                 onClose();  // Close the modal
             } else {
                 alert(result.error || 'Failed to add customer');

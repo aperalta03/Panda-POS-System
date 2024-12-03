@@ -44,10 +44,9 @@ import database from '../../utils/database';
  * {
  *   "message": "John Doe has been signed in",
  *   "customer": {
- *     "id": "1",
- *     "name": "John Doe",
  *     "phone_number": "123-456-7890",
- *     "email": "johndoe@example.com"
+ *     "name": "John Doe",
+ *     "points": 1234
  *   }
  * }
  *
@@ -58,9 +57,9 @@ import database from '../../utils/database';
  */
 
 export default async function handler(req, res) {
-    if (req.method === 'GET') {
-        // Use query parameters for GET requests
-        const { phoneNumber } = req.query;
+    if (req.method === 'POST') {
+        // Access the phoneNumber from the request body
+        const { phoneNumber } = req.body;
 
         if (!phoneNumber) {
             return res.status(400).json({ error: 'Invalid Phone Number' });
@@ -78,13 +77,21 @@ export default async function handler(req, res) {
 
             // Assuming result.rows[0] contains the customer data
             const customer = result.rows[0];
-            res.status(200).json({ message: `${customer.name} has been signed in`, customer });
+            console.log('Customer:', customer);
+            res.status(200).json({
+                message: `${customer.name} has been signed in`,
+                customer: {
+                    phoneNumber: customer.phone_number,
+                    name: customer.name,
+                    totalPoints: customer.points,  // Ensure totalPoints is correctly passed
+                }
+            });
         } catch (error) {
             console.error('Error accessing database:', error);
             res.status(500).json({ error: `Error accessing database: ${error.message}` });
         }
     } else {
-        res.setHeader('Allow', ['GET']);
+        res.setHeader('Allow', ['POST']);
         res.status(405).end(`Method ${req.method} Not Allowed`);
     }
 }

@@ -38,6 +38,7 @@ export const GlobalStateProvider = ({ children }) => {
   const [customerPhoneNumber, setCustomerPhoneNumber] = useState("");
   const [customerName, setCustomerName] = useState("");
   const [customerTotalPoints, setCustomerTotalPoints] = useState(0);
+  const [customer10PercentOff, setCustomer10PercentOff] = useState(false);
 
   useEffect(() => {
     // Apply the theme to the body or a specific wrapper
@@ -396,6 +397,8 @@ export const GlobalStateProvider = ({ children }) => {
         setCustomerName,
         customerTotalPoints,
         setCustomerTotalPoints,
+        customer10PercentOff,
+        setCustomer10PercentOff
       }}
     >
       {children}

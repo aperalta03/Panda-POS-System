@@ -61,7 +61,7 @@ import path from 'path';
 
 export default async function handler(req, res) {
     if (req.method === 'POST') {
-        const { phoneNumber, points } = req.body;
+        const { points, phoneNumber } = req.body;
         
         if(!phoneNumber){
             return res.status(400).json({ error: 'Missing required fields: phone number' });
@@ -69,7 +69,7 @@ export default async function handler(req, res) {
 
         try{
             const filePath = path.join(process.cwd(), 'utils', 'sql', 'update-customer-points.sql');
-            const insertScript = fs.readFileSync(filePath, 'utf8');
+            const queryText = fs.readFileSync(filePath, 'utf8');
 
             const values = [points, phoneNumber];
 
