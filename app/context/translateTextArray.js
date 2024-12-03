@@ -122,4 +122,8 @@ export const textArray = [
   "Submit",
   "Customer Points",
   "Cancel",
+  "Customer Sign Up",
+  "Phone Number:",
+  "Name:",
+  "Date of Birth (optional):",
 ];
