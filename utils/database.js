@@ -47,6 +47,12 @@ const pool = new Pool({
     database: process.env.PGDATABASE,
 });
 
+// Set timezone for every connection
+pool.on('connect', (client) => {
+    client.query("SET TIMEZONE TO 'America/Chicago';")
+        .catch((err) => console.error('Error setting timezone:', err));
+});
+
 module.exports = {
     query: (text, params) => pool.query(text, params),
 };

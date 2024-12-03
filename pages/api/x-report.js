@@ -35,13 +35,17 @@ import path from 'path';
  */
 
 
-export default async function handler(req, res) {
+ export default async function handler(req, res) {
   if (req.method === 'GET') {
     try {
       const filePath = path.join(process.cwd(), 'utils', 'sql', 'x-report.sql');
       const hourlySalesQuery = fs.readFileSync(filePath, 'utf-8');
 
+      //console.log('Executing SQL:', hourlySalesQuery); // Debugging
+
       const result = await database.query(hourlySalesQuery);
+
+      //console.log('Query Results:', result.rows); // Debugging
 
       const hourlySalesArray = result.rows.map(({ hour, sales }) => ({
         hour: parseInt(hour, 10),
