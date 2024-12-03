@@ -165,7 +165,6 @@ const UpdateInventoryItemModal = ({ isOpen, onClose }) => {
                         label="Enter Inventory ID"
                         type="number"
                         fullWidth
-                        margin="normal"
                         value={deleteId}
                         onChange={(e) => setDeleteId(e.target.value)}
                     />
