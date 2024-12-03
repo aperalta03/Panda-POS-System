@@ -168,6 +168,7 @@ const KioskPlatePage = () => {
     resetTrackedSides();
     resetTrackedEntrees();
     setCurrentStep("sides");
+    removeNewItem();
 
     setTimeout(() => setCurrentStep("sides"), 0);
   };
@@ -175,7 +176,7 @@ const KioskPlatePage = () => {
   /**
    * Handles completing the current step and adding the new item to the cart.
    * Resets tracked item counters and navigates to the item selection page based on if the done button is clicked.
-   * @author Uzair Khan
+   * @author Uzair Khan, Andrew Popovici
    * @throws Will throw an error if `newItem` fails to add to the cart.
    */
   const handleDone = () => {
@@ -201,6 +202,7 @@ const KioskPlatePage = () => {
     resetTrackedSides();
     resetTrackedEntrees();
     setCurrentStep("sides");
+    removeNewItem();
 
     setTimeout(() => setCurrentStep("sides"), 0);
     router.push("/kiosk_cart");
@@ -215,6 +217,7 @@ const KioskPlatePage = () => {
     resetTrackedSides();
     resetTrackedEntrees();
     setCurrentStep("sides");
+    removeNewItem();
 
     setTimeout(() => setCurrentStep("sides"), 0);
     router.push("/kiosk_item");

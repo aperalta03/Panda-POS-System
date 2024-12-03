@@ -148,7 +148,7 @@ const KioskALaCartePage = () => {
   /**
    * Handles completing the current step and adding the new item to the cart.
    * Resets tracked item counters and navigates to the item selection page.
-   * @author Uzair Khan
+   * @author Uzair Khan, Andrew Popovici
    * @throws Will throw an error if `newItem` fails to add to the cart.
    */
   const handleDone = () => {
@@ -172,6 +172,7 @@ const KioskALaCartePage = () => {
     resetTrackedEntrees();
     resetTrackedOthers();
     setCurrentStep("sides");
+    removeNewItem();
     router.push("/kiosk_cart");
   };
 
@@ -185,6 +186,7 @@ const KioskALaCartePage = () => {
     resetTrackedEntrees();
     resetTrackedOthers();
     setCurrentStep("sides");
+    removeNewItem();
     router.push("/kiosk_item");
   };
 
