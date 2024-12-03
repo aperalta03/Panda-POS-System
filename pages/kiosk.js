@@ -10,6 +10,7 @@ import AcUnitIcon from "@mui/icons-material/AcUnit";
 import TranslateButton from "@/app/components/kiosk/translateButton";
 
 import AccessibilityButton from "./accessButton";
+import Head from "next/head"; // Import Head for managing the document head
 
 /**
  * The Welcome component is the first page shown to users when they enter the kiosk.
@@ -180,6 +181,13 @@ const KioskPage = () => {
   };
 
   return (
+    <>
+    <Head>
+      {/* Add or update the page title */}
+      <title>Welcome to Panda Express Kiosk</title>
+      {/* Add other metadata if needed */}
+      <meta name="description" content="Order from Panda Express using our interactive kiosk." />
+    </Head>
     <div
       style={{
         height: "100vh", // Full height of the viewport
@@ -188,6 +196,7 @@ const KioskPage = () => {
     >
       <Welcome toItemPage={toItemPage} />
     </div>
+    </>
   );
 };
 

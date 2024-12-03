@@ -5,6 +5,8 @@ import BottomPanel from "../app/components/cashier/bottomPanel";
 import styles from "./cashier.module.css";
 import { useUser } from "../app/context/userProvider";
 
+import Head from "next/head"; // Import Head for managing the document head
+
 /**
  * @function CashierPage
  * @description Renders the cashier interface for managing orders, including menu items, order panel, and payment processing.
@@ -231,6 +233,13 @@ const CashierPage = () => {
   };
 
   return (
+    <>
+    <Head>
+      {/* Add or update the page title */}
+      <title>Cashier Order View</title>
+      {/* Add other metadata if needed */}
+      <meta name="description" content="Cashiers may create orders and proccess payments for customers" />
+    </Head>
     <div className={styles.mainContainer}>
       <div className={styles.layout}>
         <OrderPanel orders={orders} onDelete={deleteOrder} />
@@ -254,6 +263,7 @@ const CashierPage = () => {
         seasonalItemActive={seasonalItemActive}
       />
     </div>
+    </>
   );
 };
 

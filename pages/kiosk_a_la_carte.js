@@ -6,6 +6,8 @@ import ItemFrame from "./itemFrameALaCarte";
 import TranslateButton from "@/app/components/kiosk/translateButton";
 import AccessibilityButton from './accessButton';
 
+import Head from "next/head"; // Import Head for managing the document head
+
 /**
  * TopBar component for the kiosk page.
  * Displays panel information, a tracker of selected items, and utility buttons such as translation and accessibility.
@@ -191,6 +193,13 @@ const KioskALaCartePage = () => {
 
 
   return (
+    <>
+    <Head>
+      {/* Add or update the page title */}
+      <title>A La Carte Order Selection</title>
+      {/* Add other metadata if needed */}
+      <meta name="description" content="Order any items straight from the A La Carte Menu" />
+    </Head>
     <div className={styles.layout}>
       <div className={styles.circle}>
         <p>1</p>
@@ -235,6 +244,7 @@ const KioskALaCartePage = () => {
         )}
       </div>
     </div>
+    </>
   );
 };
 

@@ -5,6 +5,9 @@ import DropDowns from '../app/components/manager/dropDowns';
 import SalesChart from '../app/components/manager/salesChart';
 import styles from './manager.module.css';
 
+
+import Head from "next/head"; // Import Head for managing the document head
+
 /**
  * Manager Component
  * 
@@ -41,6 +44,13 @@ const Manager = () => {
         { label: 'December', value: 60 }
     ];
     return (
+        <>
+        <Head>
+          {/* Add or update the page title */}
+          <title>Manger View Page</title>
+          {/* Add other metadata if needed */}
+          <meta name="description" content="View and Modify as a Manager" />
+        </Head>
         <div className={styles.mainContainer}>
             <div className={styles.left}>
                 <div className={styles.inventoryTablePosition}>
@@ -61,6 +71,7 @@ const Manager = () => {
                 </div>
             </div>
         </div>
+        </>
     )
 }
 

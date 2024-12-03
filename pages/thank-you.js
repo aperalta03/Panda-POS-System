@@ -4,6 +4,7 @@ import styles from "./thank-you.module.css";
 import JSConfetti from "js-confetti";
 import { useGlobalState } from "@/app/context/GlobalStateContext";
 
+import Head from "next/head"; // Import Head for managing the document head
 
 /**
  * ThankYouPage Component
@@ -77,6 +78,13 @@ const ThankYouPage = () => {
   }, [router]);
 
   return (
+    <>
+    <Head>
+      {/* Add or update the page title */}
+      <title>Thank you Page</title>
+      {/* Add other metadata if needed */}
+      <meta name="description" content="Thank you for your order!" />
+    </Head>
     <div className={styles.container}>
       {/* Logo and Order Number */}
       <div className={styles.topLeft}>
@@ -118,6 +126,7 @@ const ThankYouPage = () => {
         className={styles.clickMeButton}
       />
     </div>
+    </>
   );
 };
 

@@ -6,6 +6,7 @@ import TranslateButton from "@/app/components/kiosk/translateButton";
 import { Margin } from "@mui/icons-material";
 
 import AccessibilityButton from "./accessButton";
+import Head from "next/head"; // Import Head for managing the document head
 
 /**
  * TopBar component for the kiosk page.
@@ -365,6 +366,13 @@ const KioskItemPage = () => {
   };
 
   return (
+    <>
+    <Head>
+      {/* Add or update the page title */}
+      <title>Item Order Selection</title>
+      {/* Add other metadata if needed */}
+      <meta name="description" content="Start an Order by Selecting a Bigger Plate" />
+    </Head>
     <div className={styles.layout}>
       <div className={styles.circle}>
         <p>1</p>
@@ -380,6 +388,7 @@ const KioskItemPage = () => {
         <BottomBar />
       </div>
     </div>
+    </>
   );
 };
 

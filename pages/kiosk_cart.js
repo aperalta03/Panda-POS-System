@@ -6,6 +6,8 @@ import TranslateButton from "@/app/components/kiosk/translateButton";
 import AccessibilityButton from "./accessButton";
 import RecommendationsPanel from "./rec_panel";
 
+import Head from "next/head"; // Import Head for managing the document head
+
 /**
  * The CartPage component renders the checkout page with the customer's current
  * order. It displays the items in the cart, allows the customer to remove items
@@ -158,6 +160,13 @@ const CartPage = () => {
   };
 
   return (
+    <>
+    <Head>
+      {/* Add or update the page title */}
+      <title>Cart Page</title>
+      {/* Add other metadata if needed */}
+      <meta name="description" content="Finalize and View selections to Chechkout" />
+    </Head>
     <div className={styles.cartContainer}>
       <div className={styles.circle}></div>
 
@@ -318,6 +327,7 @@ const CartPage = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

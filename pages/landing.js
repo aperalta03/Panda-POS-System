@@ -4,6 +4,9 @@ import { useRole } from '../app/context/roleProvider';
 import { useUser } from '../app/context/userProvider';  
 import styles from './landing.module.css';
 
+import Head from "next/head"; // Import Head for managing the document head
+
+
 /**
  * Landing Component
  * 
@@ -92,6 +95,13 @@ const Landing = () => {
     };
 
     return (
+        <>
+        <Head>
+          {/* Add or update the page title */}
+          <title>Landing Page</title>
+          {/* Add other metadata if needed */}
+          <meta name="description" content="Login as an employee or view all views" />
+        </Head>
         <div className={styles.mainContainer}>
             <div className={styles.leftContainer}>
                 <h1>Enter Code</h1>
@@ -125,6 +135,7 @@ const Landing = () => {
                 </button>
             </div>
         </div>
+        </>
     );
 };
 

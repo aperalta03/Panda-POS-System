@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import styles from './kitchenTV.module.css';
 import { Divider } from '@mui/material';
 
+import Head from "next/head"; // Import Head for managing the document head
+
 const KitchenTV = () => {
     const [sales, setSales] = useState([]);
     const [currentTime, setCurrentTime] = useState(new Date());
@@ -90,6 +92,13 @@ const KitchenTV = () => {
     };
 
     return (
+        <>
+        <Head>
+          {/* Add or update the page title */}
+          <title>Kitchen TV View</title>
+          {/* Add other metadata if needed */}
+          <meta name="description" content="View Orders in Real Time in the Kitchen Queue" />
+        </Head>
         <div className={styles.tvContainer}>
             <div className={styles.gridContainer}>
                 {sales.map(sale => (
@@ -171,6 +180,7 @@ const KitchenTV = () => {
                 ))}
             </div>
         </div>
+        </>
     );
 };
 

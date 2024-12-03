@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import styles from './kitchen.module.css';
 import { Modal, Button } from '@mui/material';
 
+import Head from "next/head"; // Import Head for managing the document head
+
 const KitchenPage = () => {
     const [orders, setOrders] = useState([]);
     const [openModal, setOpenModal] = useState(false);
@@ -199,6 +201,13 @@ const KitchenPage = () => {
     };
 
     return (
+        <>
+        <Head>
+          {/* Add or update the page title */}
+          <title>Kitchen View</title>
+          {/* Add other metadata if needed */}
+          <meta name="description" content="Start, Modify, and end orders in the kitchen" />
+        </Head>
         <div className={styles.gridContainer}>
             {orders.map(order => (
                 <div className={styles.saleContainer} key={order.saleNumber}>
@@ -279,6 +288,7 @@ const KitchenPage = () => {
                 </div>
             </Modal>
         </div>
+        </>
     );
 };
 
