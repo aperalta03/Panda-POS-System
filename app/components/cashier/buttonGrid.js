@@ -3,7 +3,7 @@ import styles from "./cashierComponents.module.css";
 
 /**
  * 
- ** @Author: Uzair Khan
+ ** @Author Uzair Khan
  * 
  * Renders a grid of buttons for cashier to select menu items and update quantities.
  * 

@@ -5,6 +5,9 @@ import { Box, Button, TextField, Typography, Divider } from '@mui/material';
 import styles from './oauth.module.css';
 import Image from 'next/image';
 
+
+import Head from "next/head"; // Import Head for managing the document head
+
 /**
  * LoginOAuth Component
  * 
@@ -128,6 +131,12 @@ const LoginOAuth = () => {
 
   return (
     <>
+        <Head>
+          {/* Add or update the page title */}
+          <title>Login Page</title>
+          {/* Add other metadata if needed */}
+          <meta name="description" content="Login to Panda Express" />
+        </Head>
       <Script
         src="https://accounts.google.com/gsi/client"
         strategy="afterInteractive"

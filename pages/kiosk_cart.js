@@ -6,6 +6,17 @@ import TranslateButton from "@/app/components/kiosk/translateButton";
 import AccessibilityButton from "./accessButton";
 import RecommendationsPanel from "./rec_panel";
 
+import Head from "next/head"; // Import Head for managing the document head
+
+/**
+ * The CartPage component renders the checkout page with the customer's current
+ * order. It displays the items in the cart, allows the customer to remove items
+ * and start over, and provides a button to place the order. Additionally, it
+ * displays a panel with recommended items and a summary of the order costs.
+ * 
+ * @author Andrew Popovici
+ * @returns {JSX.Element} The rendered CartPage component.
+ */
 const CartPage = () => {
   const router = useRouter();
   const { currentLanguage, changeLanguage, translations } = useGlobalState();
@@ -15,11 +26,24 @@ const CartPage = () => {
   const { toggleTheme, currentTheme, isPandaMember, toggleSize, isLargeText } =
     useGlobalState();
 
+  /**
+   * Handles the language change event by updating the application's current language.
+   * @author Brandon Batac
+   * @param {Object} e - The event object containing the selected language value.
+   * @property {string} e.target.value - The new language code to set.
+   * @returns {void}
+   */
   const handleLanguageChange = (e) => {
     const newLanguage = e.target.value;
     changeLanguage(newLanguage);
   };
 
+  /**
+   * Toggles the inclusion of a sauce in the current order.
+   * @author Brandon Batac
+   * @param {number} id - The ID of the sauce to toggle.
+   * @returns {void}
+   */
   const handleSauceToggle = (id) => {
     if (selectedSauces.includes(id)) {
       setSelectedSauces(selectedSauces.filter((sauce) => sauce !== id));
@@ -45,11 +69,30 @@ const CartPage = () => {
     router.push("/kiosk_item");
   };
 
+  /**
+   * Resets the cart and the number of total items to 0.
+   * This is used when the user selects the "Start Over" button.
+   * @author Andrew Popovici
+   * @returns {void}
+   */
   const handleStartOver = () => {
     setCart([]); // Clear the cart
     setNumTotalItems(0);
   };
 
+  /**
+   * Handles the payment process by creating an orderDetails object with the
+   * current sale information and sending it to the server to update the sales record.
+   * If the order is successfully saved, it resets the net cost, item quantities, and orders.
+   *
+   * @async
+   * @function
+   * @returns {void} Shows an alert if order details are incomplete or if there is an error during the fetch.
+   *
+   * @throws {Error} Logs an error if the order fails to save or if there is an error during the fetch.
+   *
+   * @author Andrew Popovici
+   */
   const handlePlaceOrder = async() => {
 
     const employeeID = 1;
@@ -105,12 +148,25 @@ const CartPage = () => {
     clearCart();
   };
 
+  /**
+   * Removes an item from the cart and decrements the total number of items
+   * in the cart by 1.
+   * @param {number} id - The id of the item to remove.
+   * @author Andrew Popovici
+   */
   const handleRemoveItem = (id) => {
     setCart(cart.filter((item) => item.id !== id));
     setNumTotalItems(numTotalItems - 1);
   };
 
   return (
+    <>
+    <Head>
+      {/* Add or update the page title */}
+      <title>Cart Page</title>
+      {/* Add other metadata if needed */}
+      <meta name="description" content="Finalize and View selections to Chechkout" />
+    </Head>
     <div className={styles.cartContainer}>
       <div className={styles.circle}></div>
 
@@ -271,6 +327,7 @@ const CartPage = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

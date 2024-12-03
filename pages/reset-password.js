@@ -4,6 +4,8 @@ import { Box, TextField, Button, Typography } from '@mui/material';
 import styles from './oauth.module.css';
 import Image from 'next/image';
 
+import Head from "next/head"; // Import Head for managing the document head
+
 /**
  * ResetPassword Component
  * 
@@ -52,6 +54,13 @@ const ResetPassword = () => {
   };
 
   return (
+    <>
+    <Head>
+      {/* Add or update the page title */}
+      <title>Password Reset</title>
+      {/* Add other metadata if needed */}
+      <meta name="description" content="Reset your password here" />
+    </Head>
     <Box className={styles.container}>
         <Image src="/chickenmaxxing_logo.png" alt="Logo" width={100} height={100} className={styles.logo} />
         <Image src="/panda_express.png" alt="Logo" width={100} height={100} className={styles.pandalogo} />
@@ -81,6 +90,7 @@ const ResetPassword = () => {
             </Button>
         </Box>
     </Box>
+    </>
   );
 };
 

@@ -4,6 +4,7 @@ import styles from './verify-email.module.css';
 import Image from 'next/image';
 import { Box, Typography } from '@mui/material';
 
+import Head from "next/head"; // Import Head for managing the document head
 
 /**
  * VerifyEmail Component
@@ -48,12 +49,19 @@ const VerifyEmail = () => {
   }, [token]);
 
   return (
+    <>
+    <Head>
+      {/* Add or update the page title */}
+      <title>Verfication Page</title>
+      {/* Add other metadata if needed */}
+      <meta name="description" content="Verify your email here" />
+    </Head>
     <Box className={styles.container}>
         <div className={styles.leftBlob}></div>
         <div className={styles.rightBlob}></div>
         <Typography className={styles.title}>Verifying your email...</Typography>
     </Box>
-    
+    </>
   );
 };
 

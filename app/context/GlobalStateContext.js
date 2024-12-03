@@ -2,9 +2,33 @@ import React, { createContext, useState, useContext, useEffect } from "react";
 import { useTranslate } from "./translateContext";
 import { textArray } from "./translateTextArray";
 
+/**
+ * @file GlobalStateContext.js
+ * @description Provides a global state management system for the application using React's Context API. 
+ * Includes utility functions, global variables, and state for user preferences, cart management, 
+ * menu operations, and more.
+ *
+ * @components
+ * - **GlobalStateProvider**: Provides the global state and utility functions to all child components.
+ * - **useGlobalState**: A custom hook for accessing the global state more easily.
+ *
+ * @usage
+ * - Wrap your application in `<GlobalStateProvider>` to give all components access to the global state.
+ * - Use the `useGlobalState` hook to access or modify global state variables and functions.
+ *
+ * @author Uzair Khan, Brandon Batac, Andrew Popovici
+ */
+
+
 const GlobalStateContext = createContext();
 
-//setting global vars
+/**
+ * Provides global state and utility functions to child components.
+ * @param {Object} props - React props.
+ * @param {JSX.Element} props.children - The child components wrapped by the provider.
+ * @returns {JSX.Element} Global state provider with defined variables and functions.
+ * @author Uzair Khan
+ */
 export const GlobalStateProvider = ({ children }) => {
   const [currentTheme, setCurrentTheme] = useState("default");
   const [isPandaMember, setIsPandaMember] = useState(true); //flag for a user being in loyalty program, TRUE FOR NOW
@@ -29,6 +53,11 @@ export const GlobalStateProvider = ({ children }) => {
     }
   }, [currentTheme]);
 
+  /**
+   * Toggle the theme between default, alternate, and loyalty themes.
+   * The theme is stored in the global state and will persist across page reloads.
+   * @author Uzair Khan
+   */
   const toggleTheme = () => {
     if (currentTheme === "default") {
       setCurrentTheme("alternate");
@@ -59,6 +88,11 @@ export const GlobalStateProvider = ({ children }) => {
     }
   }, [isLargeText]);
 
+  /**
+   * Toggle the text size of the app between original, +10%, +20%, and +30% sizes.
+   * The size is stored in the global state and will persist across page reloads.
+   * @author Uzair Khan
+   */
   const toggleSize = () => {
     if (isLargeText === "original") {
       setIsLargeText("ten");
@@ -98,6 +132,13 @@ export const GlobalStateProvider = ({ children }) => {
   const [orderNumber, setOrderNumber] = useState(0);
   const MAX_ORDER_NUMBER = 9999;
 
+  /**
+   * Increments the order number by one, unless the current order number is equal to or greater than MAX_ORDER_NUMBER,
+   * in which case it resets the order number to the starting value of 0.
+   * @returns {void}
+   *
+   * @author Andrew Popovici
+   */
   const incOrderNumber = () => {
     const currentOrderNumber = orderNumber;
     if (currentOrderNumber >= MAX_ORDER_NUMBER) {
@@ -117,11 +158,30 @@ export const GlobalStateProvider = ({ children }) => {
     checkout: [],
   });
 
+  /**
+   * Adds a new item to the cart and increments the total number of items in the cart by 1.
+   * @param {Object} item - The item to add to the cart. The item should have the following properties:
+   *   id: {number} - A unique identifier for the item.
+   *   type: {string} - The type of the item (e.g., "NEW ITEM", "SALAD", "BOWL", etc.).
+   *   price: {number} - The price of the item.
+   *   details: {array} - An array of strings describing the item (e.g., ingredients, toppings, etc.).
+   *   quantity: {number} - The number of items to add to the cart.
+   *   checkout: {array} - An array of strings containing the item name and price to display on the checkout page.
+   * @returns {void}
+   *
+   * @author Andrew Popovici
+   */
   const addItemToCart = (item) => {
     setCart([...cart, item]);
     setNumTotalItems(numTotalItems + 1);
   };
 
+  /**
+   * Resets the newItem object to its initial state. This is called when the user navigates away from the current item selection step.
+   * @returns {void}
+   *
+   * @author Andrew Popovici
+   */
   const removeNewItem = () => {
     setNewItem({
       id: Date.now(),
@@ -133,17 +193,40 @@ export const GlobalStateProvider = ({ children }) => {
     });
   };
 
+  /**
+   * Removes an item from the cart and decrements the total number of items in the cart by 1.
+   * @param {number} id - The id of the item to remove.
+   * @returns {void}
+   *
+   * @author Andrew Popovici
+   */
   const removeItemFromCart = (id) => {
     setCart(cart.filter((item) => item.id !== id));
     setNumTotalItems(numTotalItems - 1);
   };
 
+/**
+ * Clears all items from the cart and resets the total number of items to zero.
+ * This function is used to empty the cart, typically after a purchase is completed or the cart is reset.
+ * 
+ * @returns {void}
+ * 
+ * @author Andrew Popovici
+ */
   const clearCart = () => {
     setCart([]);
     setNumTotalItems(0);
   };
 
-  //resetting side associated counts
+// Function to reset the count of tracked sides to zero
+/**
+ * Resets the count of tracked side items to zero and updates the menu state to reflect this change.
+ * It sets the count of side items in the menu to 0.
+ * This is useful when clearing the sides of an order.
+ * 
+ * @returns {void}
+ * @author Uzair Khan
+ */
   const resetTrackedSides = () => {
     setNumTrackedSides(0);
     setMenu((menu) =>
@@ -151,7 +234,15 @@ export const GlobalStateProvider = ({ children }) => {
     );
   };
 
-  //resetting entree associated counts
+// Function to reset the count of tracked entrees to zero
+/**
+ * Resets the count of tracked entree items to zero and updates the menu state to reflect this change.
+ * It sets the count of entree items in the menu to 0.
+ * This is useful when clearing the entrees of an order.
+ * 
+ * @returns {void}
+ * @author Uzair Khan
+ */
   const resetTrackedEntrees = () => {
     setNumTrackedEntrees(0);
     setMenu((menu) =>
@@ -161,7 +252,16 @@ export const GlobalStateProvider = ({ children }) => {
     );
   };
 
-  //resetting other associated counts
+
+// Function to reset the count of other tracked items to zero
+/**
+ * Resets the count of other items (appetizers, desserts, drinks) to zero and updates the menu state.
+ * It sets the count for appetizer, dessert, and drink items to 0.
+ * This is useful when clearing non-entree items of an order.
+ * 
+ * @returns {void}
+ * @author Uzair Khan
+ */
   const resetTrackedOthers = () => {
     setNumTrackedOthers(0);
     setMenu((menu) =>
@@ -177,12 +277,27 @@ export const GlobalStateProvider = ({ children }) => {
   const [priceMap, setPriceMap] = useState({}); //stores item prices
   const [menu, setMenu] = useState([]); //stores menu item data
 
-  //updating total item count (NOT USED CAN BE CHANGED)
+// Function to update the total item count
+/**
+ * Updates the total item count by summing the tracked sides and entrees.
+ * This count may be used to track the total number of items in an order.
+ * 
+ * @returns {void}
+ * @author Uzair Khan
+ */
   const updateTotalItemCount = () => {
     setTotalItemCount(numTrackedSides + numTrackedEntrees);
   };
 
-  //fetching menu items
+// Function to fetch menu items from an API
+/**
+ * Fetches menu items from the API and updates the menu state with the retrieved data.
+ * This function retrieves the items, assigns an initial count of 0 to each item, and creates a price map.
+ * It also sets the designation of each item to "default" if not specified.
+ * 
+ * @returns {Promise<void>} - A promise that resolves when the menu items are successfully fetched and the state is updated.
+ * @author Uzair Khan
+ */
   const fetchMenuItems = async () => {
     try {
       const response = await fetch("/api/menu-get-items");

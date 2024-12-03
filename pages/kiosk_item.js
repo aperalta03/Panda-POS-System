@@ -6,7 +6,19 @@ import TranslateButton from "@/app/components/kiosk/translateButton";
 import { Margin } from "@mui/icons-material";
 
 import AccessibilityButton from "./accessButton";
+import Head from "next/head"; // Import Head for managing the document head
 
+/**
+ * TopBar component for the kiosk page.
+ * Displays panel information, a tracker of selected items, and utility buttons such as translation and accessibility.
+ * 
+ * @component
+ * @author Uzair Khan
+ * 
+ * @param {Object} props - Component properties.
+ * @param {function} props.handleOptionsClick - Callback to handle navigation to the options page.
+ * @returns {JSX.Element} The rendered TopBar component.
+ */
 const TopBar = ({ handleOptionsClick }) => {
   const router = useRouter();
   const { currentLanguage, changeLanguage, translations } = useGlobalState();
@@ -28,6 +40,13 @@ const TopBar = ({ handleOptionsClick }) => {
   const tax = subtotal * 0.15;
   const total = subtotal + tax;
 
+/**
+ * Handles the language change event by updating the application's current language.
+ * @param {Object} e - The event object containing the selected language value.
+ * @property {string} e.target.value - The new language code to set.
+ * @returns {void}
+ * @author Brandon Batac
+ */
   const handleLanguageChange = (e) => {
     const newLanguage = e.target.value;
     changeLanguage(newLanguage);
@@ -91,7 +110,33 @@ const TopBar = ({ handleOptionsClick }) => {
   );
 };
 
-//Gets recommended item based on highest selling item of the month
+/**
+ * RecommendedItem Component
+ *
+ * Fetches the top-selling item of the month from the server, matches it with the global menu data,
+ * and displays its details. Handles loading, error states, and supports multilingual translations.
+ * @author Uzair Khan 
+ *
+ * @function RecommendedItem
+ * @returns {JSX.Element} JSX rendering the recommended item panel.
+ *
+ * @typedef {Object} MenuItem
+ * @property {string} name - The name of the menu item.
+ * @property {string} description - The description of the menu item.
+ * @property {number} calories - The calorie count of the menu item.
+ * @property {string} designation - The designation or category of the menu item.
+ * @property {string} image - URL to the image of the menu item.
+ *
+ * @typedef {Object} TopItem
+ * @property {string} item_name - The name of the top-selling item fetched from the server.
+ *
+ * @state {TopItem|null} topItem - Stores the name of the top-selling item.
+ * @state {boolean} loading - Tracks the loading status of the API fetch operation.
+ * @state {string|null} error - Stores any error messages from the fetch operation.
+ *
+ * @global {Object} useGlobalState - Provides access to global state variables like `menu`, `translations`, etc.
+ * @global {Array<MenuItem>} menu - The global menu list containing all menu items and their details.
+ */
 const RecommendedItem = () => {
   const [topItem, setTopItem] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -100,6 +145,12 @@ const RecommendedItem = () => {
 
   const { menu } = useGlobalState();
   useEffect(() => {
+/**
+ * Fetches the top-selling item from the server and updates the component state.
+ * @author Uzair Khan
+ * @returns {Promise<void>}
+ * @throws {Error} If the fetch fails or the response is not ok.
+ */
     const fetchTopItem = async () => {
       try {
         const response = await fetch("/api/top-selling-item");
@@ -128,7 +179,7 @@ const RecommendedItem = () => {
     );
   if (error) return <p className={styles.error}>{error}</p>;
 
-  // Match topItem fteched with global vars to get information
+  // Match topItem fetched with global vars to get information
   const matchedItem = menu.find((item) => item.name === topItem?.item_name);
   if (!matchedItem) {
     return (
@@ -171,6 +222,13 @@ const RecommendedItem = () => {
   );
 };
 
+/**
+ * KioskItemPanel component for the kiosk page.
+ * Displays a grid of panels representing the different menu items available to order.
+ * Each panel displays the name, price, and details of the item, with a button to navigate to the item's order page.
+ * @author Uzair Khan
+ * @returns {JSX.Element} The rendered KioskItemPanel component.
+ */
 const KioskItemPanel = ({}) => {
   const router = useRouter();
   const { currentLanguage, changeLanguage, translations } = useGlobalState();
@@ -260,6 +318,15 @@ const KioskItemPanel = ({}) => {
   );
 };
 
+/**
+ * BottomBar component for the kiosk page.
+ * Displays a reminder to choose a meal above.
+ * 
+ * @component
+ * @author Uzair Khan
+ * 
+ * @returns {JSX.Element} The rendered BottomBar component.
+ */
 const BottomBar = () => {
   const { currentLanguage, changeLanguage, translations } = useGlobalState();
   return (
@@ -271,17 +338,41 @@ const BottomBar = () => {
   );
 };
 
+/**
+ * KioskItemPage component serves as the main page for the kiosk application.
+ * It displays a circle with the number 1, a top header with a translate button and an accessibility button, a middle panel with the item selection buttons, and a bottom panel with a reminder to choose a meal above.
+ * It also handles the state for the options menu and toggles the options menu when the translate button is clicked.
+ * 
+ * @component
+ * @author Uzair Khan
+ * 
+ * @returns {JSX.Element} The rendered kiosk page component.
+ */
 const KioskItemPage = () => {
   const router = useRouter();
   const [isOptionsOpens, setIsOptionsOpen] = useState(false);
   const { toggleTheme, currentTheme, isPandaMember, toggleSize, isLargeText } =
     useGlobalState();
 
+/**
+ * Toggles the state of the options menu.
+ * If the menu is currently open, it will be closed, and vice versa.
+ * This function is used to handle the click event for opening or closing the options menu.
+ * @author Uzair Khan
+ * @returns {void}
+ */
   const handleOptionsClick = () => {
     setIsOptionsOpen(!isOptionsOpen);
   };
 
   return (
+    <>
+    <Head>
+      {/* Add or update the page title */}
+      <title>Item Order Selection</title>
+      {/* Add other metadata if needed */}
+      <meta name="description" content="Start an Order by Selecting a Bigger Plate" />
+    </Head>
     <div className={styles.layout}>
       <div className={styles.circle}>
         <p>1</p>
@@ -297,6 +388,7 @@ const KioskItemPage = () => {
         <BottomBar />
       </div>
     </div>
+    </>
   );
 };
 

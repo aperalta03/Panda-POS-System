@@ -4,11 +4,12 @@ import styles from "./thank-you.module.css";
 import JSConfetti from "js-confetti";
 import { useGlobalState } from "@/app/context/GlobalStateContext";
 
+import Head from "next/head"; // Import Head for managing the document head
 
 /**
  * ThankYouPage Component
  * 
- * @author
+ * @author Uzair Khan, Alonso Espinosa
  *
  * @description
  * Displays a thank-you page after an order, including a dynamic order number and fortune.
@@ -30,6 +31,15 @@ const ThankYouPage = () => {
   const [fortune, setFortune] = useState("Fetching your fortune...");
 
   useEffect(() => {
+  /**
+   * Fetches a fortune message from the `/api/fortune-ai` API endpoint
+   * and updates the component state with the response.
+   * If the API call fails, it sets a default fortune message.
+   * @author Alonso Espinosa
+   * @async
+   * @returns {Promise<void>}
+   * @throws {Error} If the fetch fails or the response is not ok.
+   */
     const fetchFortune = async () => {
       try {
         const response = await fetch("/api/fortune-ai");
@@ -68,6 +78,13 @@ const ThankYouPage = () => {
   }, [router]);
 
   return (
+    <>
+    <Head>
+      {/* Add or update the page title */}
+      <title>Thank you Page</title>
+      {/* Add other metadata if needed */}
+      <meta name="description" content="Thank you for your order!" />
+    </Head>
     <div className={styles.container}>
       {/* Logo and Order Number */}
       <div className={styles.topLeft}>
@@ -109,6 +126,7 @@ const ThankYouPage = () => {
         className={styles.clickMeButton}
       />
     </div>
+    </>
   );
 };
 

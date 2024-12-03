@@ -3,6 +3,8 @@ import { Box, Typography, Divider, Grid } from '@mui/material';
 import Image from 'next/image';
 import styles from './menu.module.css';
 
+import Head from "next/head"; // Import Head for managing the document head
+
 /**
  * Menu Component
  * 
@@ -64,6 +66,13 @@ const Menu = () => {
   }, []);
 
   return (
+    <>
+    <Head>
+      {/* Add or update the page title */}
+      <title>Menu Board</title>
+      {/* Add other metadata if needed */}
+      <meta name="description" content="View all items within the menu board" />
+    </Head>
     <Box className={styles.menuContainer}>
       <Grid container spacing={0} display={"flex"} flexDirection={"row"}>
         {/* Left Column */}
@@ -247,6 +256,7 @@ const Menu = () => {
         </Grid>
       </Grid>
     </Box>
+    </>
   );
 };
 

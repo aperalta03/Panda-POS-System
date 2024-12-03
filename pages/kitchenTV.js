@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import styles from './kitchenTV.module.css';
 import { Divider } from '@mui/material';
 
+import Head from "next/head"; // Import Head for managing the document head
+
 const KitchenTV = () => {
     const [sales, setSales] = useState([]);
     const [currentTime, setCurrentTime] = useState(new Date());
@@ -78,7 +80,7 @@ const KitchenTV = () => {
 
             return {
                 time: `${formattedHours}:${formattedMinutes}:${formattedSeconds}`,
-                isOverFiveMinutes: minutes >= 5 && hours > 0, // Check if elapsed time is greater than or equal to 5 minutes
+                isOverFiveMinutes: minutes >= 5 || hours > 0, // Check if elapsed time is greater than or equal to 5 minutes
             };
         } catch (error) {
             console.error("Error calculating time difference:", error);
@@ -90,6 +92,13 @@ const KitchenTV = () => {
     };
 
     return (
+        <>
+        <Head>
+          {/* Add or update the page title */}
+          <title>Kitchen TV View</title>
+          {/* Add other metadata if needed */}
+          <meta name="description" content="View Orders in Real Time in the Kitchen Queue" />
+        </Head>
         <div className={styles.tvContainer}>
             <div className={styles.gridContainer}>
                 {sales.map(sale => (
@@ -140,7 +149,26 @@ const KitchenTV = () => {
                                         <p>Plate Size: {item.plateSize}</p>
                                         <p>Items:</p>
                                         <ul>
-                                            {item.components.map((component, index) => (
+                                            {item.components.reduce((uniqueComponents, component) => {
+                                                // List of components to deduplicate and transform if appearing once
+                                                const transformItems = ["Super Greens", "Chow Mein", "Fried Rice", "White Steamed Rice"];
+
+                                                // Count occurrences of the current component in the original array
+                                                const count = item.components.filter((item) => item === component).length;
+
+                                                // Modify name if it appears only once and is in the transform list
+                                                if (transformItems.includes(component) && count === 1) {
+                                                    component = `1/2 ${component}`;
+                                                }
+
+                                                // Skip duplicate if it's in the transform list and already added
+                                                if (transformItems.includes(component.replace("half ", "")) && uniqueComponents.includes(component)) {
+                                                    return uniqueComponents;
+                                                }
+
+                                                // Add the component to the list
+                                                return [...uniqueComponents, component];
+                                            }, []).map((component, index) => (
                                                 <li key={index}>{component}</li>
                                             ))}
                                         </ul>
@@ -152,6 +180,7 @@ const KitchenTV = () => {
                 ))}
             </div>
         </div>
+        </>
     );
 };
 

@@ -1,1 +1,48 @@
-select * from customers where phone_number = $1;
+-- ==============================================================================
+-- SQL Script: customer-login.sql
+-- 
+-- Author: Conner Black
+-- 
+-- Description:
+-- This SQL script selects all columns from the `customers` table where the 
+-- `phone_number` matches the given value. This query is typically used to 
+-- retrieve a customer's information based on their phone number, such as 
+-- during login or validation processes.
+-- 
+-- Features:
+-- - Retrieves all columns for a customer whose phone number matches the provided value.
+-- - Uses a parameterized query for enhanced security (prevents SQL injection).
+-- 
+-- Dependencies:
+-- This script assumes the existence of the `customers` table with the following columns:
+--   - phone_number: Text (Customer's phone number, unique identifier for the customer)
+--   - name: Text (Customer's name)
+--   - dob: Date (Customer's date of birth)
+--   - points: Integer (Customer's points in the system)
+-- 
+-- Input:
+-- The following input parameter is expected:
+--   - phone_number: The phone number of the customer for whom information is being retrieved (e.g., '555-1234').
+-- 
+-- Output:
+-- If successful, the script returns all customer data that matches the given phone number.
+-- 
+-- Example:
+-- If the phone number '555-1234' is provided as input, the SQL query will return:
+-- SELECT * FROM customers WHERE phone_number = '555-1234';
+-- 
+-- Example Result:
+-- +----------------+------------+------------+--------+
+-- | phone_number   | name       | dob        | points |
+-- +----------------+------------+------------+--------+
+-- | 555-1234       | John Doe   | 1985-12-31 | 100    |
+-- +----------------+------------+------------+--------+
+-- ==============================================================================
+-- SQL Query to Select Customer by Phone Number
+-- ==============================================================================
+SELECT * FROM customers
+WHERE phone_number = $1;
+
+-- ==============================================================================
+-- End of SQL Script
+-- ==============================================================================

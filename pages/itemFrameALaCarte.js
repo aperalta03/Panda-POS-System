@@ -2,6 +2,16 @@ import React, { useState, useEffect } from "react";
 import { useGlobalState } from "../app/context/GlobalStateContext"; //import global state
 import styles from "./itemFrameALaCarte.module.css";
 
+/**
+ * @author: Uzair Khan
+ * Component representing a single menu item: handles incrementation and decrementation
+ *
+ * Renders an image, name, calories, and buttons to add/remove an item from the cart by making an item frame.
+ *
+ * @param {object} item - The menu item to render.
+ * @param {boolean} isDone - Whether the entree selection is done.
+ * @returns {ItemFrame} - Item Frame for a menu item
+ */
 const ItemFrame = ({ item, isDone }) => {
   const {
     menu,
@@ -26,7 +36,15 @@ const ItemFrame = ({ item, isDone }) => {
 
   const [showDescription, setShowDescription] = useState(false); //var to show description of an item
 
-  //handles incrementation
+/**
+ * Handles incrementing the quantity of an item in an order and adding it to the cart.
+ * Updates the cart, menu, and item details based on the item type.
+ * 
+ * @author Uzair Khan
+ * @throws Will throw an error if `menu` or `item` is undefined or null.
+ * @throws Will throw an error if `addItemToCart` or `setMenu` is not a function.
+ * @returns {void}
+ */
   const handleIncrement = () => {
     if (isDone && item.type === 'entree') return;
     if (newItem === 0) {
@@ -70,7 +88,15 @@ const ItemFrame = ({ item, isDone }) => {
     setMenu(updatedMenu);
   };
 
-  //handles decrement
+/**
+ * Handles decrementing the quantity of an item in an order and subtracting it from the cart.
+ * Updates the cart, menu, and item details based on the item type.
+ * 
+ * @author Uzair Khan
+ * @throws Will throw an error if `menu` or `item` is undefined or null.
+ * @throws Will throw an error if `setMenu` is not a function.
+ * @returns {void}
+ */
   const handleDecrement = () => {
     const updatedMenu = menu.map((menuItem) => {
       if (menuItem.name === item.name && menuItem.count > 0) {
@@ -100,12 +126,26 @@ const ItemFrame = ({ item, isDone }) => {
     setMenu(updatedMenu);
   };
 
-  //handles toggling description of an item
+/**
+ * Toggles the description modal for an item.
+ * Opens or closes the modal based on its current state.
+ * 
+ * @author Uzair Khan
+ * @throws Will throw an error if `setShowDescription` is not a function.
+ * @returns {void}
+ */
   const toggleDescription = () => {
     setShowDescription(!showDescription);
   };
 
-  //depends on designation, setting a different icon
+/**
+ * Returns the corresponding Material-UI icon for a given designation.
+ * 
+ * @author Uzair Khan
+ * @param {string} designation - The designation of the menu item.
+ * @throws Will throw an error if `designation` is not a string.
+ * @returns {JSX.Element|null} The corresponding icon or `null` if no match is found.
+ */
   const getDesignationIcon = (designation) => {
     console.log(designation);
     switch (designation) {
@@ -130,9 +170,6 @@ const ItemFrame = ({ item, isDone }) => {
     return null; // Or a default placeholder
   }
 
-  //const designationIcon = getDesignationIcon(item.designation);
-  //const designationClass = item.designation ? `${styles[item.designation.toLowerCase() + 'designation']}` : ''; //setting designation style class based on icon
-  //console.log(designationClass);
   const designationIcon = item.designation
     ? getDesignationIcon(item.designation)
     : null;

@@ -15,14 +15,17 @@
     color: white !important;
     margin-top: 20px;
 }
+
 .modalDeleteBox {
     display: flex;
     padding: 10px 0px 0px 0px;
     gap: 20px;
 }
+
 .modalSubmitButton:hover {
     background-color: var(--primary-color-hover) !important;
 }
+
 .modalDeleteButton {
     background-color: var(--primary-color) !important;
     width: 40%;
@@ -31,6 +34,7 @@
 .modalDeleteButton:hover {
     background-color: var(--primary-color-hover) !important;
 }
+
 .gridContainer {
     display: grid;
     grid-template-columns: 1fr 1fr;

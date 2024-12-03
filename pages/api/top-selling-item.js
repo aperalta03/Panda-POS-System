@@ -2,6 +2,26 @@ import fs from 'fs';
 import path from 'path';
 import database from '../../utils/database';
 
+/**
+ * Handles GET requests to fetch the top-selling item from sales data.
+ *
+ * @author Uzair Khan
+ * 
+ * @param {Object} req - The HTTP request object.
+ * @param {Object} res - The HTTP response object.
+ *
+ * @description
+ * - Reads and executes a SQL query from 'sales-report.sql' to retrieve sales data
+ *   for the last 30 days.
+ * - Filters out certain items and identifies the top-selling item based on total revenue.
+ * - Returns the top-selling item data or an error message if no eligible item is found.
+ *
+ * @response
+ * - 200: Returns the top-selling item data in JSON format.
+ * - 404: Returns an error message if no data is found or no eligible item is identified.
+ * - 500: Returns an error message if there is a server-side issue.
+ * - 405: Returns an error message if the request method is not allowed.
+ */
 export default async function handler(req, res) {
   if (req.method === 'GET') {
     try {
