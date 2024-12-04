@@ -8,11 +8,9 @@ const UpdateInventoryItemModal = ({ isOpen, onClose }) => {
     const [itemType, setItemType] = useState("");
     const [ingredients, setIngredients] = useState("");
     const [currAmount, setCurrAmount] = useState("");
-    const [needed4Week, setNeeded4Week] = useState("");
-    const [needed4GameWeek, setNeeded4GameWeek] = useState("");
-    const [deleteId, setDeleteId] = useState(""); // State for delete ID
-
-    
+    const [needed4week, setNeeded4week] = useState(""); // Updated to lowercase
+    const [needed4gameweek, setNeeded4gameweek] = useState(""); // Updated to lowercase
+    const [deleteId, setDeleteId] = useState("");
 
     const handleSubmit = async () => {
         if (
@@ -20,49 +18,34 @@ const UpdateInventoryItemModal = ({ isOpen, onClose }) => {
             !itemName ||
             !itemType ||
             isNaN(parseInt(currAmount)) ||
-            isNaN(parseInt(needed4Week)) ||
-            isNaN(parseInt(needed4GameWeek))
+            isNaN(parseInt(needed4week)) || // Validate lowercase
+            isNaN(parseInt(needed4gameweek)) // Validate lowercase
         ) {
             alert("Please fill in all required fields correctly.");
             return;
         }
 
-        console.log('data before sending:', {
-            inventoryId,
-            itemName,
-            itemType,
-            ingredients,
-            currAmount,
-            needed4Week,
-            needed4GameWeek,
-        });
+        const payload = {
+            inventory_id: parseInt(inventoryId),
+            item_name: itemName,
+            item_type: itemType,
+            ingredients: ingredients || null,
+            curr_amount: parseInt(currAmount),
+            needed4week: parseInt(needed4week), // Pass lowercase
+            needed4gameweek: parseInt(needed4gameweek), // Pass lowercase
+        };
 
         try {
-            
-            const payload = {
-                inventory_id: parseInt(inventoryId),
-                item_name: itemName,
-                item_type: itemType,
-                ingredients: ingredients, 
-                // ? ingredients.split(",").join(",") : null,
-                curr_amount: parseInt(currAmount),
-                needed4Week: parseInt(needed4Week),        // Match database column casing
-                needed4GameWeek: parseInt(needed4GameWeek) // Match database column casing
-            };
-            console.log('checking payload:', {
-                payload
-            });
-
-            console.log("Payload being sent to the API:", JSON.stringify(payload, null, 2));
-
-
             const response = await fetch("/api/update-inventory-item", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),
             });
-            
-            if (!response.ok) throw new Error("Failed to update inventory item");
+
+            if (!response.ok) {
+                const errorDetails = await response.json();
+                throw new Error(errorDetails.error || "Failed to update inventory item.");
+            }
 
             alert("Item updated successfully!");
             onClose();
@@ -72,17 +55,13 @@ const UpdateInventoryItemModal = ({ isOpen, onClose }) => {
         }
     };
 
+    //** DELETE ITEM **//
     const handleDelete = async () => {
-        if (!deleteId || isNaN(parseInt(deleteId))) {
-            alert("Please enter a valid Inventory ID to delete.");
-            return;
-        }
-
         try {
             const response = await fetch(`/api/deleteItem`, {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ id: parseInt(deleteId) }),
+                body: JSON.stringify({ id: deleteId }),
             });
 
             if (!response.ok) {
@@ -93,11 +72,10 @@ const UpdateInventoryItemModal = ({ isOpen, onClose }) => {
             alert("Item deleted successfully!");
             onClose();
         } catch (error) {
-            console.error("Error:", error);
-            alert("Error deleting item.");
+            alert(error.message);
         }
     };
-
+    //** RESYNC IDs **//
     const handleResync = async () => {
         try {
             const response = await fetch(`/api/resyncIds`, {
@@ -111,8 +89,7 @@ const UpdateInventoryItemModal = ({ isOpen, onClose }) => {
 
             alert("IDs re-synced successfully!");
         } catch (error) {
-            console.error("Error:", error);
-            alert("Error re-syncing IDs.");
+            alert(error.message);
         }
     };
 
@@ -121,7 +98,7 @@ const UpdateInventoryItemModal = ({ isOpen, onClose }) => {
             <Box className={styles.modalBox}>
                 <h2>Update Inventory Item</h2>
                 <TextField
-                    label="Inventory ID (adds if ID does not exist, updates if ID exists)"
+                    label="Inventory ID (unique IDs will add item, existing IDs will modify item)"
                     type="number"
                     fullWidth
                     margin="normal"
@@ -162,16 +139,16 @@ const UpdateInventoryItemModal = ({ isOpen, onClose }) => {
                     type="number"
                     fullWidth
                     margin="normal"
-                    value={needed4Week}
-                    onChange={(e) => setNeeded4Week(e.target.value)}
+                    value={needed4week} // Updated to lowercase
+                    onChange={(e) => setNeeded4week(e.target.value)} // Updated to lowercase
                 />
                 <TextField
                     label="Needed for Game Week"
                     type="number"
                     fullWidth
                     margin="normal"
-                    value={needed4GameWeek}
-                    onChange={(e) => setNeeded4GameWeek(e.target.value)}
+                    value={needed4gameweek} // Updated to lowercase
+                    onChange={(e) => setNeeded4gameweek(e.target.value)} // Updated to lowercase
                 />
                 <Button onClick={handleSubmit} className={styles.modalSubmitButton}>
                     Submit
@@ -182,7 +159,7 @@ const UpdateInventoryItemModal = ({ isOpen, onClose }) => {
                 <h3>Delete Item</h3>
                 <Box className={styles.modalDeleteBox}>
                     <TextField
-                        label="Enter Inventory ID"
+                        placeholder="Enter Inventory ID"
                         type="number"
                         fullWidth
                         value={deleteId}

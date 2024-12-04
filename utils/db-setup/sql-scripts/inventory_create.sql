@@ -4,6 +4,6 @@ CREATE TABLE inventory (
         item_type TEXT NOT NULL,
         ingredients TEXT,
         curr_amount INTEGER NOT NULL,
-        needed4Week INTEGER NOT NULL,
-        needed4GameWeek INTEGER NOT NULL
+        needed4week INTEGER NOT NULL,
+        needed4gameweek INTEGER NOT NULL
     );
