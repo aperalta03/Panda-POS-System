@@ -15,9 +15,9 @@
   transform: translate(-50%, -50%);
   width: 700px;
   height: 700px;
-  background-color: white;
+  background-color: var(--menu-circle-color);
   border-radius: 50%;
-  color: white;
+  color: var(--menu-circle-color);
   position: absolute;
   z-index: 0;
 }
@@ -48,7 +48,7 @@
 
 /* Overall container styles */
 .recommendedItemPanel {
-  background-color: #cb0632;
+  background-color: var(--mid-panel-background-color);
   border-top-left-radius: 20px;
   border-bottom-right-radius: 20px;
   padding: 15px;
@@ -77,7 +77,7 @@
 .recLabel {
   font-size: var(--rec-label);
   text-transform: uppercase;
-  color: #cb0632;
+  color: var(--rec-label-color);
   margin-bottom: 5px;
 }
 .itemDetails {
@@ -88,18 +88,18 @@
 .recItemName {
   font-size: var(--rec-item-name);
   font-weight: bold;
-  color: #cb0632;
+  color: var(--rec-label-color);
 }
 .recItemDescription {
   font-size: var(--rec-item-description);
-  color: white;
+  color: var(--rec-pane-des);
   margin-bottom: 10px;
 }
 .itemInfo {
   display: flex;
   justify-content: space-between;
   font-size: var(--item-info);
-  color: white;
+  color: var(--rec-pane-des);
   font-style: italic;
 }
 
@@ -142,7 +142,7 @@
 /* Styling for the overlay circle on cart */
 .cartItemCount {
   position: absolute;
-  top: -75px;
+  top: 55px;
   right: 120px;
   background-color: #cb0632;
   color: white;
@@ -166,10 +166,18 @@
 
 .welcomeHeader {
   font-size: 1.3rem;
-  color: black;
+  color: white;
   font-weight: bold;
   white-space: nowrap;
   margin: 5px 0 10px 30px;
+  background-color: var(--welcome-color);
+  border: 1px solid white;
+  padding: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-top-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  margin-left: -10px;
 }
 
 /* Styling for left circle buttons */
@@ -188,7 +196,7 @@
   transition: background-color 0.3s;
   margin-bottom: 10px;
   overflow: hidden;
-  margin-left: -15px;
+  margin-left: -30px;
 }
 
 /* Styling for circle button hover*/
@@ -210,7 +218,7 @@
 .priceLabel {
   font-size: var(--price-label);
   font-weight: bold;
-  color: #cb0632;
+  color: var(--price-label-color);
 }
 
 /* Styling for access icon container */
@@ -254,7 +262,7 @@
   text-align: left;
   font-weight: bold;
   color: black;
-  background-color: #cb0632;
+  background-color: var(--back-button-background);
   border: none;
   cursor: pointer;
   transition: background-color 0.3s;
@@ -290,18 +298,18 @@
 /* Styling on top right buttons for hover */
 .checkOut:hover {
   background-color: black;
-  color: #cb0632;
-  border-color: #cb0632;
+  color: var(--back-button-background);
+  border-color: var(--back-button-background);
   border: 1px solid;
 }
 .genStartOver:hover {
   background-color: black;
-  color: #cb0632;
-  border-color: #cb0632;
+  color: var(--back-button-background);
+  border-color: var(--back-button-background);
   border: 1px solid;
 
   .startOver {
-    color: #cb0632;
+    color: var(--back-button-background);
   }
 }
 /* Styling for start over text */
@@ -328,8 +336,8 @@
   align-items: center;
   width: 300px;
   padding: 0;
-  background-color: #cb0632;
-  border: 1px solid #cb0632;
+  background-color: var(--mid-panel-background-color);
+  border: 1px solid var(--mid-panel-background-color);
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s;
@@ -383,9 +391,9 @@
 /* Styling for item button hover action */
 .itemButtons button:hover {
   background-color: black;
-  border: 1px solid #cb0632;
+  border: 1px solid var(--mid-panel-background-color);
   .itemLeft {
-    background-color: #cb0632;
+    background-color: var(--mid-panel-background-color);
     color: white;
   }
 }
@@ -401,6 +409,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
   padding-bottom: 70px;
-  border-top: 1px solid #cb0632;
+  border-top: 1px solid var(--bottom-panel-color);
   padding-top: 10px;
 }

@@ -11,6 +11,7 @@
     width: 500px;  /* Adjust width */
     max-width: 90%;
     overflow: auto;  /* Ensure content doesn't overflow */
+    border: 1px solid #cb0632;
 }
 
 /* Title for the modal */
@@ -20,6 +21,7 @@
     margin-bottom: 20px;
     font-weight: bold;
     color: #333;  /* Dark text color for better readability */
+    text-transform: uppercase;
 }
 
 /* Form styling */
@@ -87,7 +89,6 @@
     font-size: 18px;  /* Reduced font size to fit better */
     padding: 12px 25px;
     margin-top: 10px;
-    border-radius: 50px;
     cursor: pointer;
     width: 45%;  /* 45% width for each button */
     height: 50px;
@@ -97,15 +98,17 @@
     align-items: center;
     color: white;
     font-weight: bold;
+    border-top-left-radius: 20px;
+    border-bottom-right-radius: 20px;
 }
 
 /* Red color for submit button */
 .submit-btn {
-    background-color: #f44336; /* Red background */
+    background-color: #cb0632; /* Red background */
 }
 
 .submit-btn:hover {
-    background-color: #e53935; /* Darker red on hover */
+    background-color: black; /* Darker red on hover */
 }
 
 .submit-btn:active {

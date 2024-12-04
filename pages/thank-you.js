@@ -9,7 +9,7 @@ import Head from "next/head"; // Import Head for managing the document head
 /**
  * ThankYouPage Component
  *
- * @author Uzair Khan, Alonso Peralta Espinoza
+ * @author Uzair Khan, Alonso Peralta Espinoza, Brandon Batac
  *
  * @description
  * Displays a thank-you page after an order, including a dynamic order number and fortune.
@@ -40,13 +40,13 @@ const ThankYouPage = () => {
     totalSpent,
     customerName,
     currentLanguage,
+    setIsPandaMember,
   } = useGlobalState();
   const [fortune, setFortune] = useState("Fetching your fortune...");
   const pointsUsed = customer10PercentOff ? 1000 : 0;
   const pointsGained = Math.floor(totalSpent * 10);
 
   useEffect(() => {
-
     /**
      * Fetches a fortune message from the `/api/fortune-ai` API endpoint
      * and updates the component state with the response.
@@ -59,7 +59,9 @@ const ThankYouPage = () => {
 
     const fetchFortune = async () => {
       try {
-        const response = await fetch(`/api/fortune-ai?currentLanguage=${currentLanguage}`);
+        const response = await fetch(
+          `/api/fortune-ai?currentLanguage=${currentLanguage}`
+        );
         const data = await response.json();
         setFortune(data.fortune || "Your fortune could not be fetched.");
       } catch (error) {
@@ -91,8 +93,9 @@ const ThankYouPage = () => {
       setCustomerName("Guest");
       setCustomerPhoneNumber("");
       setCustomer10PercentOff(false);
+      setIsPandaMember(false);
       router.push("/kiosk");
-    }
+    };
     window.addEventListener("click", handleClick);
 
     return () => {
@@ -128,12 +131,17 @@ const ThankYouPage = () => {
           <div className={styles.circle}></div>
           {customerName !== "Guest" && (
             <>
-              <h2 className={styles.pointInfo}>Points Used: {pointsUsed}</h2>
               <h2 className={styles.pointInfo}>
-                Points Gained: {pointsGained}
+                {translations["Points Used: "] + pointsUsed ||
+                  "Points Used: " + pointsUsed}
               </h2>
               <h2 className={styles.pointInfo}>
-                Your Total Points: {customerTotalPoints}
+                {translations["Points Gained: "] + pointsGained ||
+                  "Points Gained: " + pointsGained}
+              </h2>
+              <h2 className={styles.pointInfo}>
+                {translations["Your Total Points: "] + customerTotalPoints ||
+                  "Your Total Points: " + customerTotalPoints}
               </h2>
             </>
           )}

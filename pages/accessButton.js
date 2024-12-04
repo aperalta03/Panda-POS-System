@@ -182,7 +182,10 @@ const AccessibilityButton = () => {
                                             ? "130%"
                                             : isLargeText}
                         </p>
-                        <button onClick={handleTextToSpeech} className={styles.dropdownButton}>
+                        <button
+                            onClick={handleTextToSpeech}
+                            className={styles.dropdownButton}
+                        >
                             {isSpeaking
                                 ? translations["Stop Text to Speech"] || "Stop Text to Speech"
                                 : translations["Text to Speech"] || "Text to Speech"}

@@ -8,12 +8,14 @@
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     width: 350px;  /* Set a fixed width for the modal */
-    height: 800px; /* Set a fixed height that fits the content */
+    height: 700px; /* Set a fixed height that fits the content */
     text-align: center;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     overflow: hidden; /* Ensure no scrolling happens */
+    border: 1px solid #cb0632;
+    text-transform: uppercase;
 }
 
 /* Keypad Styling */
@@ -111,7 +113,6 @@
     font-size: 18px;  /* Reduced font size to fit better */
     padding: 12px 25px;
     margin-top: 10px;
-    border-radius: 50px;
     cursor: pointer;
     width: 45%;  /* 45% width for each button */
     height: 50px;
@@ -121,22 +122,25 @@
     align-items: center;
     color: white;
     font-weight: bold;
+    border-top-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    text-transform: uppercase;
 }
 
 .submit-btn {
-    background-color: #f44336; /* Red for Log In */
+    background-color: #cb0632; /* Red for Log In */
 }
 
 .submit-btn:hover {
-    background-color: #e53935;
+    background-color: black;
 }
 
 .signup-btn {
-    background-color: #f44336; /* Red for Sign Up */
+    background-color: #cb0632; /* Red for Sign Up */
 }
 
 .signup-btn:hover {
-    background-color: #e53935;
+    background-color: black;
 }
 
 .submit-btn:active,

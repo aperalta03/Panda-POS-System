@@ -8,7 +8,7 @@ import styles from "./customerLoginModal.module.css";
 /**
  * Customer Log In Component
  *
- * @author Conner Black
+ * @author Conner Black, Brandon Batac
  *
  * @description
  * A modal component for logging in a customer using their phone number.
@@ -59,6 +59,7 @@ const CustomerLogIn = ({ onClose, isOpen }) => {
     setCustomerName,
     setCustomerTotalPoints,
     translations,
+    setIsPandaMember,
   } = useGlobalState();
   const [isSignUpModalOpen, setSignUpModalOpen] = useState(false);
   const [isPointsModalOpen, setPointsModalOpen] = useState(false);
@@ -109,6 +110,7 @@ const CustomerLogIn = ({ onClose, isOpen }) => {
         setCustomerName(name);
         setCustomerPhoneNumber(phoneNumber);
         setCustomerTotalPoints(totalPoints);
+        setIsPandaMember(true);
         setPointsModalOpen(true); // Open the customer points modal
         onClose(); // Close the login modal on success
       } else {
@@ -123,8 +125,7 @@ const CustomerLogIn = ({ onClose, isOpen }) => {
   };
 
   const handleSignUp = () => {
-    setSignUpModalOpen(true);
-    onClose();
+    setSignUpModalOpen(true); // Open the sign-up modal when the button is clicked
   };
 
   const handleKeyDown = (e) => {
@@ -158,7 +159,7 @@ const CustomerLogIn = ({ onClose, isOpen }) => {
     <>
       <Modal open={isOpen} onClose={onClose}>
         <div className={styles.modal}>
-          <h2>{translations["Customer Login: Please Enter Your Phone Number"] || "Customer Login: Please Enter Your Phone Number"}</h2>
+          <h2>{translations["Customer Login"] || "Customer Login"}</h2>
           <div className={styles.keypad}>
             <div className={styles["input-display"]}>{input}</div>
             <div className={styles["keypad-row"]}>

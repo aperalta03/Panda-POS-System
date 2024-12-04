@@ -158,7 +158,7 @@ const RecommendedItem = () => {
   useEffect(() => {
     /**
      * Fetches the top-selling item from the server and updates the component state.
-     * @author Uzair Khan
+     * @author Uzair Khan, Brandon Batac
      * @returns {Promise<void>}
      * @throws {Error} If the fetch fails or the response is not ok.
      */
@@ -214,9 +214,18 @@ const RecommendedItem = () => {
           <p className={styles.recItemDescription}>{description}</p>
           <div className={styles.itemInfo}>
             <p className={styles.recItemCalories}>
-              {translations["Calories: "] || "Calories: "} {calories || "N/A"} |
-              {translations[" Designation: "] || " Designation: "}{" "}
-              {translations[designation] || "None"}
+              {currentLanguage === "en"
+                ? "Calories: "
+                : translations["Calories"] + ": "}
+              {calories || "N/A"} |
+              {currentLanguage === "en"
+                ? " Designation: "
+                : translations[" Designation: "]}
+              {designation
+                ? currentLanguage === "en"
+                  ? designation
+                  : translations[designation]
+                : "None"}
             </p>
           </div>
         </div>

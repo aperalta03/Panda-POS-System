@@ -68,6 +68,22 @@
   --secondary-color-hover: #292929;
   --font-family: Georgia, 'Times New Roman', Times, serif;
 
+  /* menu selection color */
+  --menu-circle-color: white;
+  --mid-panel-background-color: #cb0632;
+  --rec-label-color: #cb0632;
+  --rec-pane-des: white;
+  --price-label-color: #cb0632;
+  --back-button-background: #cb0632;
+  --bottom-panel-color: #cb0632;
+  --welcome-color: #cb0632;
+  
+
+  /*landing page color */
+  --landing-circle: #cb0632;
+  --header-text: white;
+  --order-header-text: white;
+
   /*item selection color */
   --item-selection-background-color: white;
   --primary-container-background-color: black;
@@ -360,7 +376,22 @@
     --secondary-color-hover: #292929;
     --font-family: Georgia, 'Times New Roman', Times, serif;
 
-  /*item selection theme */ 
+    /* menu selection color */
+    --menu-circle-color: white;
+    --mid-panel-background-color: #cb0632;
+    --rec-label-color: #cb0632;
+    --rec-pane-des: white;
+    --price-label-color: #cb0632;
+    --back-button-background: #cb0632;
+    --bottom-panel-color: #cb0632;
+    --welcome-color: #cb0632;
+  
+    /*landing page color */
+    --landing-circle: #cb0632;
+    --header-text: white;
+    --order-header-text: white;
+  
+    /*item selection theme */ 
     --item-selection-background-color: white;
     --primary-container-background-color: black;
     --primary-button-background-color: black;
@@ -517,6 +548,67 @@
   --x: white;
 
   --cart-border: white;
+
+
+    /*checkout theme*/
+    --cart-background-color: black;
+    --back-background-color: white;
+    --x2: black;
+    --back-menu-text: #BC9C22;
+    --back-menu-hover: black;
+    --start-over-text: black;
+    --start-over-background-color: #BC9C22;
+    --x1: white;
+    --x1-hover: black;
+    --start-over-hover: #BC9C22;
+    --start-over-hover-background-color: white;
+  
+    --order-item-background-color: black;
+    --item-type-text: #BC9C22;
+    --order-item-text: white;
+  
+    --scroll-background: #f0f0f0;
+    --scroll-bar: black;
+    --scroll-hover: #cb0632;
+  
+    --minus-background-color: #BC9C22;
+    --minus-hover: black;
+    --minus-text-color: black;
+    --minus-text-hover: #cb0632;
+  
+    --order-summary-color: black;
+    --order-summary-text-color: white;
+    --price-text-color: #BC9C22;
+  
+    --extra-background-color: black;
+    --extra-text-color: white;
+    --extra-item-background-color: black;
+    --extra-item-text-color: white;
+    --extra-item-hover-select: #cb0632;
+    --extra-item-select-text: #BC9C22;
+  
+    --border: #BC9C22;
+  
+    --rec-panel-border: #BC9C22;
+
+    /* menu selection color */
+    --menu-circle-color: #BC9C22;
+    --mid-panel-background-color: #BC9C22;
+    --rec-label-color: #BC9C22;
+    --rec-pane-des: white;
+    --price-label-color: black;
+    --back-button-background: #BC9C22;
+    --bottom-panel-color: #BC9C22;
+    --welcome-color: #BC9C22;
+
+    /*landing page color */
+  --landing-circle: #BC9C22;
+  --header-text: white;
+  --order-header-text: #BC9C22;
+
+  /*thank you page color */
+  --thank-you-circle: #BC9C22;
+  --thank-you-text: #BC9C22;
 }
 
 /* Hide scrollbar for all browsers */

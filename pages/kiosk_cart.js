@@ -14,7 +14,7 @@ import Head from "next/head"; // Import Head for managing the document head
  * and start over, and provides a button to place the order. Additionally, it
  * displays a panel with recommended items and a summary of the order costs.
  *
- * @author Andrew Popovici
+ * @author Andrew Popovici, Brandon Batac
  * @returns {JSX.Element} The rendered CartPage component.
  */
 const CartPage = () => {
@@ -25,7 +25,7 @@ const CartPage = () => {
     customerName,
     translations,
     customer10PercentOff,
-    customerPhoneNumber
+    customerPhoneNumber,
   } = useGlobalState();
   const [selectedSauces, setSelectedSauces] = useState([]);
   const {
@@ -110,7 +110,7 @@ const CartPage = () => {
    *
    * @throws {Error} Logs an error if the order fails to save or if there is an error during the fetch.
    *
-   * @author Andrew Popovici
+   * @author Andrew Popovici, Brandon Batac
    */
   const handlePlaceOrder = async () => {
     const employeeID = 1;
@@ -146,7 +146,7 @@ const CartPage = () => {
       return;
     }
 
-    if (customerName != "Guest"){
+    if (customerName != "Guest") {
       const pointsGained = Math.floor(total * 10);
       console.log("Points gained: ", pointsGained);
       const updatedPoints = customerTotalPoints + pointsGained;
@@ -165,32 +165,35 @@ const CartPage = () => {
           console.log("Order saved successfully");
           console.log("Points before: ", customerTotalPoints);
           if (customer10PercentOff) {
-              console.log("Congrats you got 10 percent off");
+            console.log("Congrats you got 10 percent off");
           }
           //updating the customer database with the new points
           try {
-            const response = await fetch('/api/updateCustomerPoints', {
-              method: 'POST',
+            const response = await fetch("/api/updateCustomerPoints", {
+              method: "POST",
               headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
               },
               body: JSON.stringify({
                 points: updatedPoints,
                 phoneNumber: customerPhoneNumber,
               }),
             });
-        
+
             if (!response.ok) {
               // Handle different error responses based on status codes
               const errorData = await response.json();
-              console.error('Error:', errorData.error || 'Something went wrong');
+              console.error(
+                "Error:",
+                errorData.error || "Something went wrong"
+              );
               return;
             }
-        
+
             const data = await response.json();
-            console.log('Success:', data.message); // Points updated successfully
+            console.log("Success:", data.message); // Points updated successfully
           } catch (error) {
-            console.error('Error adding points to the database:', error);
+            console.error("Error adding points to the database:", error);
           }
           console.log("Points after: ", updatedPoints);
         } else {
@@ -360,15 +363,15 @@ const CartPage = () => {
             <RecommendationsPanel />
           </div>
           <div className={styles.orderSummary}>
-            <h1 className={styles.welcomeHeader}>
+            {/*<h1 className={styles.welcomeHeader}>
               {customerName === "Guest"
                 ? currentLanguage === "en"
                   ? "Welcome, Guest"
-                  : translations["Welcome, Guest"]
+                  : translations["Welcome, "] + "Guest"
                 : currentLanguage === "en"
                 ? "Welcome, " + customerName
                 : translations["Welcome, "] + customerName}
-            </h1>
+            </h1>*/}
             <button
               className={styles.placeOrderButton}
               onClick={handlePlaceOrder}
