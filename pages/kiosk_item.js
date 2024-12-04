@@ -214,7 +214,8 @@ const RecommendedItem = () => {
           <p className={styles.recItemDescription}>{description}</p>
           <div className={styles.itemInfo}>
             <p className={styles.recItemCalories}>
-              {translations["Calories: "] || "Calories: "} {calories || "N/A"} |
+              {translations["Calories"] + ": " || "Calories: "}{" "}
+              {calories || "N/A"} |
               {translations[" Designation: "] || " Designation: "}{" "}
               {translations[designation] || "None"}
             </p>

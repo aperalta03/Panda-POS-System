@@ -89,7 +89,7 @@ const ThankYouPage = () => {
       setCustomerPhoneNumber("");
       setCustomer10PercentOff(false);
       router.push("/kiosk");
-    }
+    };
     window.addEventListener("click", handleClick);
 
     return () => {
@@ -125,12 +125,17 @@ const ThankYouPage = () => {
           <div className={styles.circle}></div>
           {customerName !== "Guest" && (
             <>
-              <h2 className={styles.pointInfo}>Points Used: {pointsUsed}</h2>
               <h2 className={styles.pointInfo}>
-                Points Gained: {pointsGained}
+                {translations["Points Used: "] + pointsUsed ||
+                  "Points Used: " + pointsUsed}
               </h2>
               <h2 className={styles.pointInfo}>
-                Your Total Points: {customerTotalPoints}
+                {translations["Points Gained: "] + pointsGained ||
+                  "Points Gained: " + pointsGained}
+              </h2>
+              <h2 className={styles.pointInfo}>
+                {translations["Your Total Points: "] + customerTotalPoints ||
+                  "Your Total Points: " + customerTotalPoints}
               </h2>
             </>
           )}

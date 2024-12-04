@@ -25,7 +25,7 @@ const CartPage = () => {
     customerName,
     translations,
     customer10PercentOff,
-    customerPhoneNumber
+    customerPhoneNumber,
   } = useGlobalState();
   const [selectedSauces, setSelectedSauces] = useState([]);
   const {
@@ -146,7 +146,7 @@ const CartPage = () => {
       return;
     }
 
-    if (customerName != "Guest"){
+    if (customerName != "Guest") {
       const pointsGained = Math.floor(total * 10);
       console.log("Points gained: ", pointsGained);
       const updatedPoints = customerTotalPoints + pointsGained;
@@ -165,32 +165,35 @@ const CartPage = () => {
           console.log("Order saved successfully");
           console.log("Points before: ", customerTotalPoints);
           if (customer10PercentOff) {
-              console.log("Congrats you got 10 percent off");
+            console.log("Congrats you got 10 percent off");
           }
           //updating the customer database with the new points
           try {
-            const response = await fetch('/api/updateCustomerPoints', {
-              method: 'POST',
+            const response = await fetch("/api/updateCustomerPoints", {
+              method: "POST",
               headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
               },
               body: JSON.stringify({
                 points: updatedPoints,
                 phoneNumber: customerPhoneNumber,
               }),
             });
-        
+
             if (!response.ok) {
               // Handle different error responses based on status codes
               const errorData = await response.json();
-              console.error('Error:', errorData.error || 'Something went wrong');
+              console.error(
+                "Error:",
+                errorData.error || "Something went wrong"
+              );
               return;
             }
-        
+
             const data = await response.json();
-            console.log('Success:', data.message); // Points updated successfully
+            console.log("Success:", data.message); // Points updated successfully
           } catch (error) {
-            console.error('Error adding points to the database:', error);
+            console.error("Error adding points to the database:", error);
           }
           console.log("Points after: ", updatedPoints);
         } else {
@@ -364,7 +367,7 @@ const CartPage = () => {
               {customerName === "Guest"
                 ? currentLanguage === "en"
                   ? "Welcome, Guest"
-                  : translations["Welcome, Guest"]
+                  : translations["Welcome, "] + "Guest"
                 : currentLanguage === "en"
                 ? "Welcome, " + customerName
                 : translations["Welcome, "] + customerName}
