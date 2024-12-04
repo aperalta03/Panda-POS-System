@@ -222,6 +222,7 @@ const KioskBowlPage = () => {
     resetTrackedSides();
     resetTrackedEntrees();
     setCurrentStep("sides");
+    removeNewItem();
 
     setTimeout(() => setCurrentStep("sides"), 0);
     router.push("/kiosk_item");
