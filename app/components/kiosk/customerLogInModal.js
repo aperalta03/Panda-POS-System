@@ -123,8 +123,7 @@ const CustomerLogIn = ({ onClose, isOpen }) => {
   };
 
   const handleSignUp = () => {
-    setSignUpModalOpen(true);
-    onClose();
+    setSignUpModalOpen(true); // Open the sign-up modal when the button is clicked
   };
 
   const handleKeyDown = (e) => {
@@ -158,7 +157,7 @@ const CustomerLogIn = ({ onClose, isOpen }) => {
     <>
       <Modal open={isOpen} onClose={onClose}>
         <div className={styles.modal}>
-          <h2>{translations["Customer Login: Please Enter Your Phone Number"] || "Customer Login: Please Enter Your Phone Number"}</h2>
+          <h2>{translations["Customer Login"] || "Customer Login"}</h2>
           <div className={styles.keypad}>
             <div className={styles["input-display"]}>{input}</div>
             <div className={styles["keypad-row"]}>

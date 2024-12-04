@@ -62,7 +62,7 @@ const CustomerPointsModal = ({ onClose, isOpen }) => {
       console.log(customerTotalPoints);
       const pointsNeeded = 1000 - customerTotalPoints;
       setModalMessage(
-        `You are ${pointsNeeded} points away from earning a 10% discount.`
+        `You are ${pointsNeeded} points away from earning 1000 points for a 10% discount.`
       );
     }
     setCustomer10PercentOff(customerTotalPoints > 1000);

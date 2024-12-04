@@ -4,7 +4,7 @@ import database from '../../utils/database';
 
 /**
  * 
- * @author Alonso Peralta Espinoza
+ ** @author Alonso Peralta Espinoza
  *
  * Fetches employee data from the database for viewing.
  *
