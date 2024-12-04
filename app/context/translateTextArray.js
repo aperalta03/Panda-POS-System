@@ -99,7 +99,6 @@ export const textArray = [
   "Loading recommended item...",
   "Item not found in the menu.",
   "This month's hot item",
-  "Calories: ",
   " Designation: ",
   "Testing Rolls",
   "Switch Theme",

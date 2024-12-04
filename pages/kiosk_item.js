@@ -57,7 +57,7 @@ const TopBar = ({ handleOptionsClick }) => {
   return (
     <div className={styles.KioskItemPanel}>
       <div className={styles.leftButtons}>
-        {/*<h1 className={styles.welcomeHeader}>
+        <h1 className={styles.welcomeHeader}>
           {customerName === "Guest"
             ? currentLanguage === "en"
               ? "Welcome, Guest"
@@ -65,7 +65,7 @@ const TopBar = ({ handleOptionsClick }) => {
             : currentLanguage === "en"
             ? "Welcome, " + customerName
             : translations["Welcome, "] + customerName}
-        </h1>*/}
+        </h1>
         <div className={styles.cartAndPriceContainer}>
           <button
             className={styles.circleButton}
@@ -214,10 +214,18 @@ const RecommendedItem = () => {
           <p className={styles.recItemDescription}>{description}</p>
           <div className={styles.itemInfo}>
             <p className={styles.recItemCalories}>
-              {translations["Calories"] + ": " || "Calories: "}{" "}
+              {currentLanguage === "en"
+                ? "Calories: "
+                : translations["Calories"] + ": "}
               {calories || "N/A"} |
-              {translations[" Designation: "] || " Designation: "}{" "}
-              {translations[designation] || "None"}
+              {currentLanguage === "en"
+                ? " Designation: "
+                : translations[" Designation: "]}
+              {designation
+                ? currentLanguage === "en"
+                  ? designation
+                  : translations[designation]
+                : "None"}
             </p>
           </div>
         </div>
