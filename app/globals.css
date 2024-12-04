@@ -76,6 +76,8 @@
   --price-label-color: #cb0632;
   --back-button-background: #cb0632;
   --bottom-panel-color: #cb0632;
+  --welcome-color: #cb0632;
+  
 
   /*landing page color */
   --landing-circle: #cb0632;
@@ -382,6 +384,7 @@
     --price-label-color: #cb0632;
     --back-button-background: #cb0632;
     --bottom-panel-color: #cb0632;
+    --welcome-color: #cb0632;
   
     /*landing page color */
     --landing-circle: #cb0632;
@@ -596,6 +599,7 @@
     --price-label-color: black;
     --back-button-background: #BC9C22;
     --bottom-panel-color: #BC9C22;
+    --welcome-color: #BC9C22;
 
     /*landing page color */
   --landing-circle: #BC9C22;
