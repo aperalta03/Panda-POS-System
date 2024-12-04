@@ -17,12 +17,12 @@
   transform: translate(-42%, 40%);
   width: 700px;
   height: 700px;
-  background-color: #cb0632;
+  background-color: var(--landing-circle);
   border-radius: 30% 70% 50% 50% / 50% 40% 60% 30%;
-  color: #cb0632;
+  color: var(--landing-circle);
   position: absolute;
   z-index: 0;
-  border: 1px solid #cb0632;
+  border: 1px solid var(--landing-circle);
   position: absolute;
   overflow-x: hidden;
   transition: all 0.3s ease-in-out;
@@ -68,8 +68,8 @@
   font-weight: bold;
   text-align: center;
   color: rgb(10, 10, 10);
-  text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff,
-    1px 1px 0 #fff;
+  text-shadow: -1px -1px 0 var(--header-text), 1px -1px 0 var(--header-text), -1px 1px 0 var(--header-text),
+    1px 1px 0 var(--header-text);
   text-transform: uppercase;
   z-index: 1;
 }
@@ -81,7 +81,7 @@
   margin-top: 2%;
   font-size: 1.7rem;
   text-align: center;
-  color: white;
+  color: var(--order-header-text);
   z-index: 1;
 }
 .orderHeader:hover {
@@ -204,9 +204,9 @@
 }
 
 .openModalButton {
-  background-color: #e4002b; /* Panda Express red */
+  background-color: #cb0632; /* Panda Express red */
   color: white;
-  border: none;
+  border: 1px solid white;
   border-radius: 20px;
   padding: 10px 20px;
   font-size: 14px;
@@ -217,7 +217,7 @@
 }
 
 .openModalButton:hover {
-  background-color: #c00024; /* Darker red on hover */
+  background-color: black; /* Darker red on hover */
   transform: scale(1.05); /* Slight zoom effect */
 }
 

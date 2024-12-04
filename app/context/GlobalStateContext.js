@@ -1,6 +1,7 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
 import { useTranslate } from "./translateContext";
 import { textArray } from "./translateTextArray";
+import { TroubleshootOutlined } from "@mui/icons-material";
 
 /**
  * @file GlobalStateContext.js
@@ -30,7 +31,7 @@ const GlobalStateContext = createContext();
  */
 export const GlobalStateProvider = ({ children }) => {
   const [currentTheme, setCurrentTheme] = useState("default");
-  const [isPandaMember, setIsPandaMember] = useState(true); //flag for a user being in loyalty program, TRUE FOR NOW
+  const [isPandaMember, setIsPandaMember] = useState(false); //flag for a user being in loyalty program, TRUE FOR NOW
   const [isLargeText, setIsLargeText] = useState("original");
 
   //variables for current customer
@@ -47,12 +48,21 @@ export const GlobalStateProvider = ({ children }) => {
 
     if (currentTheme === "alternate") {
       body.classList.add("alternate-theme");
-    } else if (currentTheme === "loyalty") {
+    }
+    else if (currentTheme === "loyalty") {
       body.classList.add("loyalty-theme");
-    } else {
+    } 
+    else {
       body.classList.add("default-theme");
     }
   }, [currentTheme]);
+
+  useEffect(() => {
+    // Automatically set theme to "loyalty" when a user signs in (isPandaMember is true)
+    if (isPandaMember) {
+      setCurrentTheme("loyalty");
+    }
+  }, [isPandaMember]);
 
   /**
    * Toggle the theme between default, alternate, and loyalty themes.
@@ -62,7 +72,7 @@ export const GlobalStateProvider = ({ children }) => {
   const toggleTheme = () => {
     if (currentTheme === "default") {
       setCurrentTheme("alternate");
-    } else if (currentTheme === "alternate") {
+    } else if (currentTheme === "alternate" && isPandaMember === true) {
       setCurrentTheme("loyalty");
     } else {
       setCurrentTheme("default");
@@ -400,6 +410,8 @@ export const GlobalStateProvider = ({ children }) => {
         setCustomerTotalPoints,
         customer10PercentOff,
         setCustomer10PercentOff,
+        isPandaMember,
+        setIsPandaMember,
       }}
     >
       {children}
