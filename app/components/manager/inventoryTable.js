@@ -27,8 +27,6 @@ import style from './inventoryTable.module.css';
  * @example
  * <InventoryTable />
  */
-
-
 const InventoryTable = () => {
     const [inventoryData, setInventoryData] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -77,6 +75,14 @@ const InventoryTable = () => {
         return sorted;
     }, [inventoryData, sortConfig]);
 
+/**
+ * Updates the sorting configuration based on the specified column key.
+ * Toggles the sorting direction between ascending and descending if the same column is clicked consecutively.
+ *
+ * @author Alonso Peralta Espinoza
+ * 
+ * @param {string} key - The column key to sort by.
+ */
     const requestSort = (key) => {
         let direction = 'ascending';
         if (sortConfig.key === key && sortConfig.direction === 'ascending') {

@@ -25,7 +25,7 @@ ChartJS.register(CategoryScale, LinearScale, TimeScale, PointElement, LineElemen
 /**
  * SalesChart Component
  * 
- * @author Alonso Peralta Espinoza
+ * @author Alonso Peralta Espinoza, Anson Thai
  *
  * @description
  * Visualizes sales data over time using a Line Chart. Users can select a time frame and an item for analysis.
@@ -52,7 +52,6 @@ ChartJS.register(CategoryScale, LinearScale, TimeScale, PointElement, LineElemen
  * @example
  * <SalesChart />
  */
-
 const SalesChart = () => {
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
@@ -80,7 +79,17 @@ const SalesChart = () => {
         fetchItems();
     }, []);
 
-    // Function to check if the selected time window is valid
+   
+    /**
+     * Checks if a given date range is valid, meaning the start date is before or equal to the end date,
+     * and both dates are in the past or present.
+     * 
+     * @author Anson Thai
+     *
+     * @param {Date} start The start date of the range
+     * @param {Date} end The end date of the range
+     * @returns {boolean} Whether the date range is valid
+     */
     const isValidTimeWindow = (start, end) => {
         const today = new Date();
         return start <= end && start <= today && end <= today;
@@ -124,7 +133,21 @@ const SalesChart = () => {
         fetchSalesData();
     }, [startDate, endDate, selectedTimeFrame, selectedItem]);
 
-    // Function to process and aggregate sales data
+    
+/**
+ * Aggregates sales data entries based on the specified time frame.
+ * 
+ * @author Anson Thai
+ *
+ * @param {Array} data - Array of sales data entries. Each entry should contain
+ *                       `date_of_sale` and `time_of_sale` properties.
+ * @param {String} timeFrame - The time frame for aggregation. Possible values are
+ *                             'Hourly', 'Daily', 'Weekly', 'Monthly', 'Yearly'.
+ *
+ * @returns {Array} An array of objects containing `label` and `value` properties.
+ *                  `label` represents the aggregated time period and `value` is
+ *                  the count of sales in that period. The array is sorted by date.
+ */
     const processSalesData = (data, timeFrame) => {
         const salesCountMap = new Map();
 
@@ -163,7 +186,19 @@ const SalesChart = () => {
             .map(([label, value]) => ({ label, value }));
     };
 
-    // Helper function to get week number and year
+   
+/**
+ * Calculates the week-year format for a given date.
+ * 
+ * @author Anson Thai
+ *
+ * @param {Date} date - The date for which to calculate the week-year.
+ * @returns {string|null} A string in the format "YYYY-Www" representing the 
+ *                        year and the week number, or null if the date is invalid.
+ * @example
+ * // returns "2023-W42"
+ * getWeekYear(new Date('2023-10-19'));
+ */
     const getWeekYear = (date) => {
 
         if (!(date instanceof Date) || isNaN(date)) {

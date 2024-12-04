@@ -2,16 +2,88 @@ import React, { useState } from 'react';
 import { Modal, Box, TextField, Button, Divider } from '@mui/material';
 import styles from './updateInventoryItemModal.module.css';
 
-const UpdateInventoryItemModal = ({ isOpen, onClose }) => {
-    const [inventoryId, setInventoryId] = useState("");
-    const [itemName, setItemName] = useState("");
-    const [itemType, setItemType] = useState("");
-    const [ingredients, setIngredients] = useState("");
-    const [currAmount, setCurrAmount] = useState("");
-    const [needed4week, setNeeded4week] = useState(""); // Updated to lowercase
-    const [needed4gameweek, setNeeded4gameweek] = useState(""); // Updated to lowercase
-    const [deleteId, setDeleteId] = useState("");
 
+/**
+ * Update Inventory Item Modal Component
+ * 
+ * @description
+ * A React modal component for managing inventory items. This component provides
+ * functionality for creating new inventory items, updating existing ones, deleting
+ * items, and re-syncing IDs between related database tables. Input fields dynamically
+ * adjust based on whether the inventory ID is new or existing.
+ *
+ * @usage
+ * - **New Items**: All fields are required when adding a new inventory item.
+ * - **Existing Items**: Only fields that need updating can be provided; empty fields
+ *   will leave the corresponding database values unchanged.
+ *
+ * @author Anson Thai
+ *
+ * @features
+ * - **Dynamic Form Validation**:
+ *   - Ensures required fields are filled for new inventory items.
+ *   - Allows partial updates for existing inventory items.
+ * - **CRUD Operations**:
+ *   - Create or update inventory items using `handleSubmit`.
+ *   - Delete inventory items using `handleDelete`.
+ *   - Re-sync inventory-to-menu relationships using `handleResync`.
+ * - **Interactive Form Design**:
+ *   - Input fields for ID, name, type, ingredients, and stock details.
+ *   - Separate actions for deletion and re-syncing IDs.
+ *
+ * @props
+ * - `isOpen` (boolean): Controls whether the modal is visible.
+ * - `onClose` (function): Callback function to close the modal.
+ *
+ * @state
+ * - `inventoryId` (string): The unique identifier for the inventory item. Required for all actions.
+ * - `itemName` (string): The name of the inventory item. Required for new items.
+ * - `itemType` (string): The type or category of the inventory item. Required for new items.
+ * - `ingredients` (string): Optional. A comma-separated list of ingredients for the item.
+ * - `currAmount` (string): The current stock level of the inventory item. Required for new items.
+ * - `needed4week` (string): The amount needed for a standard week. Required for new items.
+ * - `needed4gameweek` (string): The amount needed for a peak-demand "game week." Required for new items.
+ * - `deleteId` (string): Stores the ID of the item to be deleted.
+ *
+ * @methods
+ * - `handleSubmit`:
+ *   - Submits data to the `/api/update-inventory-item` endpoint.
+ *   - Differentiates between new and existing IDs.
+ *   - Validates fields based on the ID's state (new or existing).
+ * - `handleDelete`:
+ *   - Sends a DELETE request to `/api/deleteItem` to remove the specified inventory item.
+ * - `handleResync`:
+ *   - Sends a POST request to `/api/resyncIds` to re-align inventory and menu IDs.
+ *
+ * @formStructure
+ * - **Create/Update Inventory Item**:
+ *   - Fields: Inventory ID, Item Name, Item Type, Ingredients (optional), Current Amount, Needed for Week, Needed for Game Week.
+ *   - Submit action triggers `handleSubmit`.
+ * - **Delete Inventory Item**:
+ *   - Field: Inventory ID.
+ *   - Submit action triggers `handleDelete`.
+ * - **Re-Sync IDs**:
+ *   - No fields required.
+ *   - Submit action triggers `handleResync`.
+ *
+ * @example
+ * // Rendering the modal
+ * <UpdateInventoryItemModal isOpen={true} onClose={() => setModalOpen(false)} />
+ */
+const UpdateInventoryItemModal = ({ isOpen, onClose }) => {
+    const [inventoryId, setInventoryId] = useState(""); // Inventory ID (unique IDs will add item, existing IDs will modify item)
+    const [itemName, setItemName] = useState(""); // Item Name
+    const [itemType, setItemType] = useState(""); // Item Type
+    const [ingredients, setIngredients] = useState(""); // Ingredients (optional, comma-separated)
+    const [currAmount, setCurrAmount] = useState(""); // Current Amount
+    const [needed4week, setNeeded4week] = useState(""); // Needed for Week
+    const [needed4gameweek, setNeeded4gameweek] = useState(""); // Needed for Game Week
+    const [deleteId, setDeleteId] = useState(""); // Inventory ID for deletion
+
+    /**
+     * Handles submitting the form data to the API.
+     * Validates input data and sends a POST request to `/api/update-inventory-item`.
+     */
     const handleSubmit = async () => {
         if (
             isNaN(parseInt(inventoryId)) ||
@@ -55,7 +127,10 @@ const UpdateInventoryItemModal = ({ isOpen, onClose }) => {
         }
     };
 
-    //** DELETE ITEM **//
+    /**
+     * Handles deleting an inventory item.
+     * Validates the input ID and sends a DELETE request to `/api/deleteItem`.
+     */
     const handleDelete = async () => {
         try {
             const response = await fetch(`/api/deleteItem`, {
@@ -75,7 +150,11 @@ const UpdateInventoryItemModal = ({ isOpen, onClose }) => {
             alert(error.message);
         }
     };
-    //** RESYNC IDs **//
+
+    /**
+     * Handles re-syncing IDs between the `menu` and `inventory` tables.
+     * Sends a POST request to `/api/resyncIds`.
+     */
     const handleResync = async () => {
         try {
             const response = await fetch(`/api/resyncIds`, {
@@ -181,3 +260,4 @@ const UpdateInventoryItemModal = ({ isOpen, onClose }) => {
 };
 
 export default UpdateInventoryItemModal;
+

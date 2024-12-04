@@ -11,7 +11,7 @@ import Head from "next/head"; // Import Head for managing the document head
 /**
  * Manager Component
  * 
- * @author Alonso Peralta Espinoza, Conner Black
+ * @author Alonso Peralta Espinoza, Conner Black, Anson Thai
  *
  * @description
  * Dashboard for manager functionalities, including inventory, profiles, reports, and sales charts.
