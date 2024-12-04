@@ -146,60 +146,62 @@ const CartPage = () => {
       return;
     }
 
-    const pointsGained = Math.floor(total * 10);
-    console.log("Points gained: ", pointsGained);
-    const updatedPoints = customerTotalPoints + pointsGained;
+    if (customerName != "Guest"){
+      const pointsGained = Math.floor(total * 10);
+      console.log("Points gained: ", pointsGained);
+      const updatedPoints = customerTotalPoints + pointsGained;
 
-    try {
-      const response = await fetch(
-        `${window.location.origin}/api/updateSalesRecord`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(orderDetails),
-        }
-      );
-
-      if (response.ok) {
-        console.log("Order saved successfully");
-        console.log("Points before: ", customerTotalPoints);
-        if (customer10PercentOff) {
-            console.log("Congrats you got 10 percent off");
-        }
-        //updating the customer database with the new points
-        try {
-          const response = await fetch('/api/updateCustomerPoints', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              points: updatedPoints,
-              phoneNumber: customerPhoneNumber,
-            }),
-          });
-      
-          if (!response.ok) {
-            // Handle different error responses based on status codes
-            const errorData = await response.json();
-            console.error('Error:', errorData.error || 'Something went wrong');
-            return;
+      try {
+        const response = await fetch(
+          `${window.location.origin}/api/updateSalesRecord`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(orderDetails),
           }
-      
-          const data = await response.json();
-          console.log('Success:', data.message); // Points updated successfully
-        } catch (error) {
-          console.error('Error adding points to the database:', error);
+        );
+
+        if (response.ok) {
+          console.log("Order saved successfully");
+          console.log("Points before: ", customerTotalPoints);
+          if (customer10PercentOff) {
+              console.log("Congrats you got 10 percent off");
+          }
+          //updating the customer database with the new points
+          try {
+            const response = await fetch('/api/updateCustomerPoints', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                points: updatedPoints,
+                phoneNumber: customerPhoneNumber,
+              }),
+            });
+        
+            if (!response.ok) {
+              // Handle different error responses based on status codes
+              const errorData = await response.json();
+              console.error('Error:', errorData.error || 'Something went wrong');
+              return;
+            }
+        
+            const data = await response.json();
+            console.log('Success:', data.message); // Points updated successfully
+          } catch (error) {
+            console.error('Error adding points to the database:', error);
+          }
+          console.log("Points after: ", updatedPoints);
+        } else {
+          const errorData = await response.json();
+          console.error("Failed to save order", errorData);
         }
-        console.log("Points after: ", updatedPoints);
-      } else {
-        const errorData = await response.json();
-        console.error("Failed to save order", errorData);
+      } catch (error) {
+        console.error("Error:", error);
       }
-    } catch (error) {
-      console.error("Error:", error);
+      setCustomerTotalPoints(updatedPoints);
     }
-    setCustomerTotalPoints(updatedPoints);
     router.push("/thank-you");
     setNumTotalItems(0);
     clearCart();
