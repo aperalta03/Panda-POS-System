@@ -4,7 +4,7 @@ import path from 'path';
 
 /**
  * 
- ** @author Alonso Peralta Espinoza
+ * @author Alonso Peralta Espinoza
  *
  * Generates the Z-Report, records sales in the database, and resets sales data.
  *

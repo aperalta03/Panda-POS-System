@@ -2,7 +2,7 @@ import database from '../../utils/database';
 
 /**
  * 
- ** @author Alonso Peralta Espinoza
+ * @author Alonso Peralta Espinoza
  *
  * Retrieves menu items from the database, sorted by type and menu item ID.
  *

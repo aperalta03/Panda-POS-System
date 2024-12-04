@@ -6,7 +6,7 @@ const openai = new OpenAI({
 
 /**
  * 
- ** @author Alonso Peralta Espinoza
+ * @author Alonso Peralta Espinoza
  *
  * Generates a fortune cookie-style message using a fine-tuned AI model.
  *

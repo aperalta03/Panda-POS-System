@@ -4,7 +4,7 @@ import database from '../../utils/database';
 
 /**
  * 
- ** @author Alonso Peralta Espinoza
+ * @author Alonso Peralta Espinoza
  *
  * Fetches inventory data from the database using a pre-defined SQL script.
  *

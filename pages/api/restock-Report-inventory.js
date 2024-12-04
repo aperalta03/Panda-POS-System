@@ -4,7 +4,7 @@ import db from '../../utils/database';
 
 /**
  * 
- ** @author Alonso Peralta Espinoza
+ * @author Alonso Peralta Espinoza
  *
  * Retrieves restock data including current stock and amounts needed for the week and game week.
  *

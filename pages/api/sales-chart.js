@@ -4,7 +4,7 @@ import database from '../../utils/database';
 
 /**
  * 
- ** @author Alonso Peralta Espinoza
+ * @author Alonso Peralta Espinoza
  *
  * Retrieves sales chart data for a specific menu item within a given date range.
  *
