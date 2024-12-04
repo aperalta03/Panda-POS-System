@@ -14,27 +14,23 @@ import AccessibilityButton from "./accessButton";
 import Head from "next/head"; // Import Head for managing the document head
 
 /**
- * The Welcome component is the first page shown to users when they enter the kiosk.
- * It displays the current time, the current weather, the Panda Express logo, and a
- * button to start ordering. The text is translated based on the current language.
- * The component also includes a button to change the language.
- *
- * Props:
- * - toItemPage: a function to navigate to the item selection page
- *
- * State:
- * - weather: an object containing the current temperature and condition
- * - time: the current time
- *
- * Effects:
- * - fetches the current weather on mount
- * - updates the time every minute
- *
- * @author Brandon Batac
- * @author Alonso Peralta Espinoza
- *
- * @param {{ toItemPage: () => void }} props
- * @returns {JSX.Element}
+ * @description
+ * Welcome component for the kiosk home page. Displays the current time, weather, and language selection.
+ * @feature
+ * - Displays the current time
+ * - Displays the current weather condition and temperature
+ * - Allows the user to select a language
+ * - Displays a customer login button
+ * - Displays a translate button
+ * - Displays a handicap button
+ * - Displays a bottom panel
+ * @state
+ * - `weather`: The current weather condition and temperature
+ * - `time`: The current time
+ * - `isLoginModalOpen`: A boolean indicating whether the customer login modal is open
+ * @param {function} toItemPage - A function to navigate to the item page
+ * @returns {JSX.Element} The Welcome component
+ * @author Alonso Peralta Espinoza, Brandon Batac
  */
 const Welcome = ({ toItemPage }) => {
   const { currentLanguage, changeLanguage, customerName, translations } =
@@ -51,7 +47,7 @@ const Welcome = ({ toItemPage }) => {
    *
    * @author Brandon Batac
    */
-  
+
   const handleLanguageChange = (e) => {
     const newLanguage = e.target.value;
     changeLanguage(newLanguage);
@@ -189,15 +185,23 @@ const Welcome = ({ toItemPage }) => {
 };
 
 /**
- * KioskPage component serves as the main page for the kiosk application.
- * It includes the Welcome component and handles navigation to the item selection page.
+ * @description
+ * KioskPage component serves as the main entry point for the Panda Express kiosk application.
+ * It sets up the page's metadata and layout, including the welcome component, which allows users to start an order.
  *
- * Effects:
- * - Navigates to the item selection page when the Welcome component triggers the `toItemPage` function.
+ * @component
+ * - Utilizes the `Welcome` component to display the initial page content.
+ * - Uses Next.js `Head` component to manage the document head metadata.
  *
- * Returns a JSX element that fills the viewport height and prevents scrolling.
+ * @dependencies
+ * - `useRouter`: For navigation to different pages.
+ * - `Welcome`: Component for displaying welcome messages and options.
  *
- * @author Brandon Batac
+ * @param {function} toItemPage - A function to navigate to the item selection page.
+ *
+ * @returns {JSX.Element} The rendered KioskPage component.
+ *
+ * @author Brandon Batac, Uzair Khan
  */
 const KioskPage = () => {
   const router = useRouter();

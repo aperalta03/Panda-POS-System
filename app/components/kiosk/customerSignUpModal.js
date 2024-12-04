@@ -4,6 +4,40 @@ import CustomerPointsModal from "./customerPointsModal";
 import Modal from "@mui/material/Modal";
 import styles from "./customerSignUpModal.module.css";
 
+/**
+ * Customer Sign Up Modal Component
+ *
+ * @author Conner Black, Brandon Batac
+ *
+ * @description
+ * A modal component that allows customers to sign up. It prompts the user to enter their phone number and name, and
+ * optionally enter their date of birth. The component interacts with an API to add the customer and then closes the
+ * modal. If the customer is added successfully, the component opens a points modal to display the customer's current
+ * points balance.
+ *
+ * @features
+ * - Form with input fields for phone number, name, and date of birth
+ * - Submit button that sends a POST request to the server with the input data
+ * - Points modal that is opened when the customer is added successfully
+ * - API integration to add the customer
+ *
+ * @state
+ * - `phoneNumber`: The customer's phone number
+ * - `name`: The customer's name
+ * - `dateOfBirth`: The customer's date of birth (optional)
+ * - `isPointsModalOpen`: Whether the points modal is open
+ *
+ * @methods
+ * - `handleSubmit`: Sends the request to the server to add the customer after validating the input data
+ *
+ * @dependencies
+ * - React: For component structure and state management
+ * - Material-UI: For the modal component and styling
+ * - `GlobalStateContext`: For accessing and updating customer data such as total points and phone number
+ *
+ * @example
+ * <CustomerSignUp isOpen={true} onClose={() => {}} />
+ */
 const CustomerSignUp = ({ isOpen, onClose }) => {
   const {
     setCustomerPhoneNumber,

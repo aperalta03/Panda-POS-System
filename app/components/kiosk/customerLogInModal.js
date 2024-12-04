@@ -8,7 +8,7 @@ import styles from "./customerLoginModal.module.css";
 /**
  * Customer Log In Component
  *
- * @author Conner Black
+ * @author Conner Black, Brandon Batac
  *
  * @description
  * A modal component for logging in a customer using their phone number.
