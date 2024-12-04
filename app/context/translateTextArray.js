@@ -105,6 +105,8 @@ export const textArray = [
   "Current Theme:",
   "Adjust Font Size",
   "Current Size:",
+  "Text to Speech",
+"Stop Text to Speech",
   "Low Vision Theme",
   "Your order is",
   "on its way!",

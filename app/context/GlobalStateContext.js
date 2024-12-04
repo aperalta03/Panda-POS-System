@@ -64,6 +64,13 @@ export const GlobalStateProvider = ({ children }) => {
     }
   }, [isPandaMember]);
 
+  useEffect(() => {
+    // Automatically set theme to "loyalty" when a user signs in (isPandaMember is true)
+    if (!isPandaMember) {
+      setCurrentTheme("default");
+    }
+  }, [isPandaMember]);
+
   /**
    * Toggle the theme between default, alternate, and loyalty themes.
    * The theme is stored in the global state and will persist across page reloads.
