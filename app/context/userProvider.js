@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from "react";
 
 // Create context
 const UserContext = createContext();
@@ -19,23 +19,25 @@ export const UserProvider = ({ children }) => {
 
   // Load initial values from localStorage
   useEffect(() => {
-    const storedName = localStorage.getItem('loggedInName');
-    const storedEmployeeID = localStorage.getItem('employeeID');
+    const storedName = localStorage.getItem("loggedInName");
+    const storedEmployeeID = localStorage.getItem("employeeID");
     if (storedName) setLoggedInName(storedName);
     if (storedEmployeeID) setEmployeeID(storedEmployeeID);
   }, []);
 
   // Sync changes to localStorage
   useEffect(() => {
-    if (loggedInName) localStorage.setItem('loggedInName', loggedInName);
+    if (loggedInName) localStorage.setItem("loggedInName", loggedInName);
   }, [loggedInName]);
 
   useEffect(() => {
-    if (employeeID) localStorage.setItem('employeeID', employeeID);
+    if (employeeID) localStorage.setItem("employeeID", employeeID);
   }, [employeeID]);
 
   return (
-    <UserContext.Provider value={{ loggedInName, setLoggedInName, employeeID, setEmployeeID }}>
+    <UserContext.Provider
+      value={{ loggedInName, setLoggedInName, employeeID, setEmployeeID }}
+    >
       {children}
     </UserContext.Provider>
   );

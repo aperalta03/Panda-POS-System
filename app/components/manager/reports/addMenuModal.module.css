@@ -1,0 +1,39 @@
+.modalBox {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    background-color: white;
+    padding: 24px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modalSubmitButton {
+    background-color: var(--primary-color) !important;
+    width: 100%;
+    color: white !important;
+}
+.modalDeleteBox {
+    display: flex;
+    padding: 10px 0px 0px 0px;
+    gap: 20px;
+}
+.modalSubmitButton:hover {
+    background-color: var(--primary-color-hover) !important;
+}
+.modalDeleteButton {
+    background-color: var(--primary-color) !important;
+    width: 40%;
+    color: white !important;
+}
+
+.modalDeleteButton:hover {
+    background-color: var(--primary-color-hover) !important;
+}
+.gridContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 16px;
+}

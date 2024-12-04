@@ -1,165 +1,169 @@
 /*Styling for Main Container */
 .container {
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    background-color: rgb(10, 10, 10);
-    overflow: hidden;
-  }
-  
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background-color: rgb(10, 10, 10);
+  overflow: hidden;
+}
+
 /*Styling for Logo and Order Number */
 .topLeft {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    text-align: center;
-    border: 1px solid #cb0632;
-    background-color: #cb0632;
-    padding: 20px;
-    border-top-left-radius: 20px;
-    border-bottom-right-radius: 20px;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  text-align: center;
+  border: 1px solid #cb0632;
+  background-color: #cb0632;
+  padding: 20px;
+  border-top-left-radius: 20px;
+  border-bottom-right-radius: 20px;
 }
 
 /*Styling for Logo */
 .chickenLogo {
-    width: 120px;
-    height: auto;
-    object-fit: contain;
-    margin-bottom: 10px;
-    border-radius: 20px;
-    border: 1px solid #cb0632;
+  width: 120px;
+  height: auto;
+  object-fit: contain;
+  margin-bottom: 10px;
+  border-radius: 20px;
+  border: 1px solid #cb0632;
 }
 
 /*Styling for Order Number */
 .orderNumberLabel {
-    font-size: 1rem;
-    color: white;
-    margin: 0;
-    font-weight: bold;
-    text-transform: uppercase;
+  font-size: 1rem;
+  color: white;
+  margin: 0;
+  font-weight: bold;
+  text-transform: uppercase;
 }
 
 /*Styling for Order Number itself */
 .orderNumber {
-    font-size: 5rem;
-    color: #cb0632;
-    text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff,
+  font-size: 5rem;
+  color: #cb0632;
+  text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff,
     1px 1px 0 #fff;
-    margin-top: 7px;
+  margin-top: 7px;
 }
 
 /*styling for decorative circle */
 .circle {
-    bottom: 0;
-    left: 0;
-    transform: translate(-15%, 37%);
-    width: 900px;
-    height: 900px;
-    background-color: #cb0632;
-    border-radius: 30% 70% 50% 50% / 50% 40% 60% 30%;
-    color: #cb0632;
-    position: absolute;
-    z-index: 0;
-    border: 1px solid #cb0632;
-    position: absolute;
-    overflow-x: hidden;
-    transition: all 0.3s ease-in-out;
-  }
-    
+  bottom: 0;
+  left: 0;
+  transform: translate(-15%, 37%);
+  width: 900px;
+  height: 900px;
+  background-color: #cb0632;
+  border-radius: 30% 70% 50% 50% / 50% 40% 60% 30%;
+  color: #cb0632;
+  position: absolute;
+  z-index: 0;
+  border: 1px solid #cb0632;
+  position: absolute;
+  overflow-x: hidden;
+  transition: all 0.3s ease-in-out;
+}
+
 .circle:hover {
-    animation: blobEffect 5s infinite ease-in-out; /* Apply blob animation */
+  animation: blobEffect 5s infinite ease-in-out; /* Apply blob animation */
 }
 @keyframes blobEffect {
-    0%, 100% {
-      border-radius: 30% 70% 50% 50% / 50% 40% 60% 30%; /* Start and End */
-    }
-    20% {
-      border-radius: 50% 50% 70% 30% / 40% 60% 20% 80%; /* Stage 1 */
-    }
-    40% {
-      border-radius: 30% 70% 50% 50% / 50% 40% 60% 30%; /* Stage 2 */
-    }
-    60% {
-      border-radius: 50% 50% 70% 30% / 40% 60% 20% 80%; /* Stage 3 */
-    }
-    80% {
-      border-radius: 30% 70% 50% 50% / 50% 40% 60% 30%;  /* Stage 4 */
-    }
+  0%,
+  100% {
+    border-radius: 30% 70% 50% 50% / 50% 40% 60% 30%; /* Start and End */
+  }
+  20% {
+    border-radius: 50% 50% 70% 30% / 40% 60% 20% 80%; /* Stage 1 */
+  }
+  40% {
+    border-radius: 30% 70% 50% 50% / 50% 40% 60% 30%; /* Stage 2 */
+  }
+  60% {
+    border-radius: 50% 50% 70% 30% / 40% 60% 20% 80%; /* Stage 3 */
+  }
+  80% {
+    border-radius: 30% 70% 50% 50% / 50% 40% 60% 30%; /* Stage 4 */
+  }
 }
-  
-  
+
 /*Styling for Middle Container */
 .middleContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    text-align: center;
-    z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  text-align: center;
+  z-index: 1;
 }
 
 /*Styling for Thank You Text */
 .thankYouText {
-    font-size: 5rem;
-    text-transform: uppercase;
-    font-weight: bold;
-    color: #cb0632;
-    text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff,
+  font-size: 5rem;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #cb0632;
+  text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff,
     1px 1px 0 #fff;
-    margin-bottom: 20px;
-    z-index: 1;
+  margin-bottom: 20px;
+  z-index: 1;
 }
 
 /*Styling for Fortune Logo */
 .pandaLogo {
-    margin-top: 30px;
-    width: 400px;
-    height: auto;
-    position: absolute;
-    top: 70.8%;
-    z-index: 2;
+  margin-top: 30px;
+  width: 400px;
+  height: auto;
+  position: absolute;
+  top: 70.8%;
+  z-index: 2;
 }
 
 /*Styling for Fortune Paper */
 .fortunePaper {
-    width: 500px;
-    background-color: #fdf5e6;
-    border: 3px solid #e3c29b;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    padding: 20px;
-    text-align: center;
-    font-size: 1.2rem;
-    color: black;
-    text-transform: uppercase;
-    /*text-shadow: 1px 1px 0 #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;*/
-    font-style: italic;
-    clip-path: polygon(0% 0%, 10% 50%, 0% 100%, 100% 100%, 90% 50%, 100% 0%);
-    z-index: 3;
-    margin-top: 20px;
-    transform: translateY(200%);
-} 
-  
+  width: 500px;
+  background-color: #fdf5e6;
+  border: 3px solid #e3c29b;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  text-align: center;
+  font-size: 1.2rem;
+  color: black;
+  text-transform: uppercase;
+  /*text-shadow: 1px 1px 0 #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;*/
+  font-style: italic;
+  clip-path: polygon(0% 0%, 10% 50%, 0% 100%, 100% 100%, 90% 50%, 100% 0%);
+  z-index: 3;
+  margin-top: 20px;
+  transform: translateY(200%);
+}
+
 /*Click Me Button */
 .clickMeButton {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    width: 75px;
-    height: 75px;
-    cursor: pointer;
-    transform: rotate(-45deg);
-    border: 1px solid #cb0632;
-    border-radius: 50px;
-    background-color: #cb0632;
-    padding: 10px;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 75px;
+  height: 75px;
+  cursor: pointer;
+  transform: rotate(-45deg);
+  border: 1px solid #cb0632;
+  border-radius: 50px;
+  background-color: #cb0632;
+  padding: 10px;
 }
 .clickMeButton:hover {
-    background-color: #cb0632;
-    border-color: white;;
+  background-color: #cb0632;
+  border-color: white;
 }
-  
+
+.pointInfo {
+  color: white;
+  z-index: 3;
+}
