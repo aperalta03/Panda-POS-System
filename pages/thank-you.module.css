@@ -7,7 +7,8 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  background-color: rgb(10, 10, 10);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.4)), url("/thank-you-bg.jpg");
+  background-size: cover;
   overflow: hidden;
 }
 
@@ -18,7 +19,8 @@
   left: 20px;
   text-align: center;
   border: 1px solid #cb0632;
-  background-color: #cb0632;
+  background-color: rgba(1, 1, 1, 0.5);
+  backdrop-filter: blur(10px);
   padding: 20px;
   border-top-left-radius: 20px;
   border-bottom-right-radius: 20px;
@@ -31,13 +33,15 @@
   object-fit: contain;
   margin-bottom: 10px;
   border-radius: 20px;
-  border: 1px solid #cb0632;
+  border: 1px solid black;
 }
 
 /*Styling for Order Number */
 .orderNumberLabel {
-  font-size: 1rem;
-  color: white;
+  font-size: 1.2rem;
+  color: rgba(1, 1, 1, 1);
+  text-shadow: -0.5px -0.5px 0 #fff, 0.5px -0.5px 0 #fff, -0.5px 0.5px 0 #fff,
+    0.5px 0.5px 0 #fff;
   margin: 0;
   font-weight: bold;
   text-transform: uppercase;
@@ -46,32 +50,28 @@
 /*Styling for Order Number itself */
 .orderNumber {
   font-size: 5rem;
-  color: #cb0632;
+  color: rgba(1, 1, 1, 1);
   text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff,
     1px 1px 0 #fff;
-  margin-top: 7px;
 }
 
 /*styling for decorative circle */
 .circle {
-  bottom: 0;
-  left: 0;
-  transform: translate(-15%, 37%);
+  display: flex;
+  top: 10%;
   width: 900px;
   height: 900px;
-  background-color: #cb0632;
+  background-color: rgba(1, 1, 1, 0.3);
+  backdrop-filter: blur(10px);
   border-radius: 30% 70% 50% 50% / 50% 40% 60% 30%;
+  border: solid 2px #cb0632;
   color: #cb0632;
-  position: absolute;
   z-index: 0;
   border: 1px solid #cb0632;
-  position: absolute;
+  position: fixed;
   overflow-x: hidden;
   transition: all 0.3s ease-in-out;
-}
-
-.circle:hover {
-  animation: blobEffect 5s infinite ease-in-out; /* Apply blob animation */
+  animation: blobEffect 10s infinite ease-in-out; /* Apply blob animation */
 }
 @keyframes blobEffect {
   0%,
@@ -101,6 +101,7 @@
   position: relative;
   text-align: center;
   z-index: 1;
+  height: 100%;
 }
 
 /*Styling for Thank You Text */
@@ -108,7 +109,7 @@
   font-size: 5rem;
   text-transform: uppercase;
   font-weight: bold;
-  color: #cb0632;
+  color: rgba(1, 1, 1, 1);
   text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff,
     1px 1px 0 #fff;
   margin-bottom: 20px;
@@ -121,8 +122,9 @@
   width: 400px;
   height: auto;
   position: absolute;
-  top: 70.8%;
+  top: 60%;
   z-index: 2;
+  animation: fadeIn 1s ease-in-out forwards;
 }
 
 /*Styling for Fortune Paper */
@@ -131,7 +133,7 @@
   background-color: #fdf5e6;
   border: 3px solid #e3c29b;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-  padding: 20px;
+  padding: 20px 60px 20px 60px;
   text-align: center;
   font-size: 1.2rem;
   color: black;
@@ -140,27 +142,38 @@
   font-style: italic;
   clip-path: polygon(0% 0%, 10% 50%, 0% 100%, 100% 100%, 90% 50%, 100% 0%);
   z-index: 3;
-  margin-top: 20px;
-  transform: translateY(200%);
+  animation: fadeIn 1s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /*Click Me Button */
 .clickMeButton {
   position: absolute;
-  bottom: 20px;
-  right: 20px;
+  bottom: 15px;
+  right: 15px;
   width: 75px;
-  height: 75px;
+  height: auto;
   cursor: pointer;
   transform: rotate(-45deg);
-  border: 1px solid #cb0632;
+  border: 1px solid black;
   border-radius: 50px;
-  background-color: #cb0632;
+  backdrop-filter: blur(10px);
+  background-color: rgba(1, 1, 1, 0.3);
   padding: 10px;
+  transition: all 0.3s ease-in-out; 
 }
 .clickMeButton:hover {
-  background-color: #cb0632;
-  border-color: white;
+  backdrop-filter: blur(0px);
 }
 
 .pointInfo {

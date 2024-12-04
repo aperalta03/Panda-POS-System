@@ -117,7 +117,7 @@ const ThankYouPage = () => {
             className={styles.chickenLogo}
           />
           <h2 className={styles.orderNumberLabel}>
-            {translations["Order Number"] || "Order Number"}
+            {translations["Order"] || "Order"}
           </h2>
           <h1 className={styles.orderNumber}>{orderNumber}</h1>
           {/* Insert ORDER NUMBER ABOVE */}
