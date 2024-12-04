@@ -25,6 +25,7 @@ const CartPage = () => {
     customerName,
     translations,
     customer10PercentOff,
+    customerPhoneNumber
   } = useGlobalState();
   const [selectedSauces, setSelectedSauces] = useState([]);
   const {
@@ -145,6 +146,10 @@ const CartPage = () => {
       return;
     }
 
+    const pointsGained = Math.floor(total * 10);
+    console.log("Points gained: ", pointsGained);
+    const updatedPoints = customerTotalPoints + pointsGained;
+
     try {
       const response = await fetch(
         `${window.location.origin}/api/updateSalesRecord`,
@@ -159,19 +164,34 @@ const CartPage = () => {
         console.log("Order saved successfully");
         console.log("Points before: ", customerTotalPoints);
         if (customer10PercentOff) {
-          setCustomerTotalPoints((prevPoints) => {
-            console.log("10 percent off, subtracting 1000 points");
-            return prevPoints - 1000;
-          });
+            console.log("Congrats you got 10 percent off");
         }
-        const pointsGained = Math.floor(total * 10);
-        console.log("Points gained: ", pointsGained);
-        setCustomerTotalPoints((prevPoints) => {
-          const updatedPoints = prevPoints + pointsGained;
-          console.log("Points after gaining: ", updatedPoints);
-          return updatedPoints;
-        });
-        console.log("Points after: ", customerTotalPoints);
+        //updating the customer database with the new points
+        try {
+          const response = await fetch('/api/updateCustomerPoints', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              points: updatedPoints,
+              phoneNumber: customerPhoneNumber,
+            }),
+          });
+      
+          if (!response.ok) {
+            // Handle different error responses based on status codes
+            const errorData = await response.json();
+            console.error('Error:', errorData.error || 'Something went wrong');
+            return;
+          }
+      
+          const data = await response.json();
+          console.log('Success:', data.message); // Points updated successfully
+        } catch (error) {
+          console.error('Error adding points to the database:', error);
+        }
+        console.log("Points after: ", updatedPoints);
       } else {
         const errorData = await response.json();
         console.error("Failed to save order", errorData);
@@ -179,6 +199,7 @@ const CartPage = () => {
     } catch (error) {
       console.error("Error:", error);
     }
+    setCustomerTotalPoints(updatedPoints);
     router.push("/thank-you");
     setNumTotalItems(0);
     clearCart();

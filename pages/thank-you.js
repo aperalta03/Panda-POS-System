@@ -34,6 +34,9 @@ const ThankYouPage = () => {
     customer10PercentOff,
     customerTotalPoints,
     setCustomerTotalPoints,
+    setCustomerName,
+    setCustomerPhoneNumber,
+    setCustomer10PercentOff,
     totalSpent,
     customerName,
   } = useGlobalState();
@@ -80,7 +83,13 @@ const ThankYouPage = () => {
       clearInterval(confettiTimer);
     }, confettiRainDuration);
 
-    const handleClick = () => router.push("/kiosk");
+    const handleClick = () => {
+      setCustomerTotalPoints(0);
+      setCustomerName("Guest");
+      setCustomerPhoneNumber("");
+      setCustomer10PercentOff(false);
+      router.push("/kiosk");
+    }
     window.addEventListener("click", handleClick);
 
     return () => {
