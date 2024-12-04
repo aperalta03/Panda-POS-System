@@ -42,7 +42,7 @@ const openai = new OpenAI({
  * @apiErrorExample {json} Error response for missing user message:
  *     {
  *       "error": "Missing user message"
- *     }
+ *     }a
  *
  * @apiErrorExample {json} General server error response:
  *     {
@@ -51,68 +51,78 @@ const openai = new OpenAI({
  */
 
 export default async function handler(req, res) {
-    const { chatContext = [], userMessage } = req.body;
+    const { chatContext = [], userMessage, isTextToSpeech = false } = req.body;
 
     if (!userMessage) {
         return res.status(400).json({ error: 'Missing user message' });
     }
 
     try {
-        
-        //** Validate Chat Context **// - Chat History RAG
+        // ** Validate Chat Context **
         const validChatContext = chatContext.filter(
             (msg) => msg && typeof msg === "object" && "role" in msg && "content" in msg
-          );
-        
-        //** Get Menu Items **// - Database RAG
-        const menuQuery = `
-            SELECT name, description, price, calories, designation
-            FROM menu
-            WHERE LOWER(name) LIKE $1
-            LIMIT 5;
-        `;
-
-        const searchTerm = `%${userMessage.toLowerCase()}%`;
-        const result = await database.query(menuQuery, [searchTerm]);
-
-        const menuItems = result.rows.map(
-        (item) =>
-            `${item.name}: ${item.description} - $${item.price}, ${item.calories} calories ${
-            item.designation === "premium" ? "(Premium)" : ""
-            }`
         );
 
-        const menuContext =
-        menuItems.length > 0
-            ? `Here are some menu items related to your query:\n\n${menuItems.join(
-                "\n"
-            )}`
-            : "No relevant menu items found.";
+        // ** Prepare System Prompt **
+        let systemPrompt = "";
 
-        //** Generate Response **// - FINE-TUNNING
+        if (isTextToSpeech) {
+            // ** Text-to-Speech Request Context **
+            systemPrompt = `You are an assistant that summarizes and corrects grammatical errors in the provided text. Provide a clear, concise summary, and correct any grammatical mistakes. The summary should be suitable for reading aloud to a user who may have visual impairments.`;
+        } else {
+            // ** Regular Chat Request Context **
+
+            // ** Get Menu Items ** (Database Retrieval)
+            const menuQuery = `
+                SELECT name, description, price, calories, designation
+                FROM menu
+                WHERE LOWER(name) LIKE $1
+                LIMIT 5;
+            `;
+
+            const searchTerm = `%${userMessage.toLowerCase()}%`;
+            const result = await database.query(menuQuery, [searchTerm]);
+
+            const menuItems = result.rows.map(
+                (item) =>
+                    `${item.name}: ${item.description} - $${item.price}, ${item.calories} calories ${item.designation === "premium" ? "(Premium)" : ""
+                    }`
+            );
+
+            const menuContext =
+                menuItems.length > 0
+                    ? `Here are some menu items related to your query:\n\n${menuItems.join(
+                        "\n"
+                    )}`
+                    : "No relevant menu items found.";
+
+            systemPrompt = `You are an AI Agent for Panda Express. You aid customer queries. When asked for dishes, they are expecting a Panda Express option, not a recipe.
+            This is your relevant menu context: ${menuContext}
+            Your answers should be:
+            - Concise
+            - Precise
+            - No jargon, straight to the point
+            - Use indented hyphens to structure information when appropriate
+            - Include emojis related to Panda Express when suitable.`;
+        }
+
+        // ** Generate Response **
         const response = await openai.chat.completions.create({
-            model: "ft:gpt-4o-mini-2024-07-18:personal:pos-system-model1:AWFW78N3", 
+            model: "ft:gpt-4o-mini-2024-07-18:personal:pos-system-model1:AWFW78N3",
             messages: [
                 ...validChatContext,
-                {
-                    role: "system", content: `You are an AI Agent for Panda Express. You aid customer queries. When asked for dishes, they are expecting a Panda Express option, not a recipe.
-                                                This is your relevant menu context: ${menuContext} 
-                                                Your answer follow this format: 
-                                                - Concise, 
-                                                - Precise, 
-                                                - No Jargon, Straigh to the Point, 
-                                                - You love using indented hyphens to keep structure when asked for recipes or relevant information to this format.
-                                                - Also emojis that could relate to Panda Express.`
-                },
-                { role: "user", content: userMessage }
+                { role: "system", content: systemPrompt },
+                { role: "user", content: userMessage },
             ],
-            max_tokens: 100,
+            
+            max_tokens: isTextToSpeech ? 1000 : 1000, // Adjust max_tokens based on request type
         });
+        console.log(systemPrompt);
 
-        //** Output Message **//
-        const botResponse = response.choices[0].message.content.trim()
+        // ** Output Message **
+        const botResponse = response.choices[0].message.content.trim();
 
-        res.status(200).json({ response: response.choices[0].message.content });
+        res.status(200).json({ response: botResponse });
     } catch (error) {
         console.error('Error generating response:', error);
         res.status(500).json({ error: 'Error generating response' });

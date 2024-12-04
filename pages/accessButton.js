@@ -25,6 +25,7 @@ const AccessibilityButton = () => {
     const [dropdownVisible, setDropdownVisible] = useState(false);
     const [dropdownCoords, setDropdownCoords] = useState({ top: 0, left: 0 });
     const [isSpeaking, setIsSpeaking] = useState(false);
+    const [loading, setLoading] = useState(false); // New state to manage loading
     const buttonRef = useRef(null);
     const dropdownRef = useRef(null);
 
@@ -85,8 +86,11 @@ const AccessibilityButton = () => {
         };
     }, [dropdownVisible]);
 
+
+
+
     // Handle Text to Speech
-    const handleTextToSpeech = () => {
+    const handleTextToSpeech = async () => {
         if (!("speechSynthesis" in window)) {
             alert("Sorry, your browser does not support text-to-speech.");
             return;
@@ -110,18 +114,53 @@ const AccessibilityButton = () => {
 
             // Get the text content
             const textContent = clonedBody.innerText || clonedBody.textContent;
+            console.log(textContent);
 
+            // Send the text content to the OpenAI API
             if (textContent) {
-                const utterance = new SpeechSynthesisUtterance(textContent);
-                // Set language and other properties if needed
-                utterance.lang = "en-US";
+                setLoading(true); // Set loading state
+                try {
+                    const response = await fetch("/api/ai-brain", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            chatContext: [],
+                            userMessage: `
+                                            Make an independent summary of the following content for use in text-to-speech. 
+                                            Focus only on information relevant to a customer ordering at a kiosk. 
+                                            Exclude any unnecessary details or interface text, and provide clear and concise descriptions. 
+                                            Include the names, descriptions, and prices of menu items, but avoid emojis or extraneous formatting.
+                                        ` + textContent,
+                        }),
+                    });
 
-                utterance.onend = () => {
-                    setIsSpeaking(false);
-                };
+                    if (!response.ok) {
+                        throw new Error("Failed to fetch AI response.");
+                    }
 
-                window.speechSynthesis.speak(utterance);
-                setIsSpeaking(true);
+                    const data = await response.json();
+                    const aiResponse = data.response?.trim();
+                    console.log(aiResponse);
+
+                    if (aiResponse) {
+                        const utterance = new SpeechSynthesisUtterance(aiResponse);
+                        utterance.lang = "en-US";
+
+                        utterance.onend = () => {
+                            setIsSpeaking(false);
+                        };
+
+                        window.speechSynthesis.speak(utterance);
+                        setIsSpeaking(true);
+                    } else {
+                        alert("No response from AI.");
+                    }
+                } catch (error) {
+                    console.error("Error:", error);
+                    alert("An error occurred while fetching AI response.");
+                } finally {
+                    setLoading(false); // Reset loading state
+                }
             }
         }
     };
