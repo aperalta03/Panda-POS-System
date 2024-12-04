@@ -123,7 +123,8 @@ const CustomerLogIn = ({ onClose, isOpen }) => {
   };
 
   const handleSignUp = () => {
-    setSignUpModalOpen(true); // Open the sign-up modal when the button is clicked
+    setSignUpModalOpen(true);
+    onClose();
   };
 
   const handleKeyDown = (e) => {
