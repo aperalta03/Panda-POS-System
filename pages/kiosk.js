@@ -31,7 +31,7 @@ import Head from "next/head"; // Import Head for managing the document head
  * - updates the time every minute
  *
  * @author Brandon Batac
- * @author Alonso Peralta-Espinosa
+ * @author Alonso Peralta Espinoza
  *
  * @param {{ toItemPage: () => void }} props
  * @returns {JSX.Element}
@@ -51,6 +51,7 @@ const Welcome = ({ toItemPage }) => {
    *
    * @author Brandon Batac
    */
+  
   const handleLanguageChange = (e) => {
     const newLanguage = e.target.value;
     changeLanguage(newLanguage);
@@ -95,11 +96,12 @@ const Welcome = ({ toItemPage }) => {
   /**
    * Given a weather condition, returns the corresponding MaterialUI icon.
    *
-   * @author Alonso Peralta-Espinosa
+   * @author Alonso Peralta Espinoza
    *
    * @param {string} condition
    * @returns {JSX.Element|null}
    */
+
   const getWeatherIcon = (condition) => {
     if (condition.includes("Sunny") || condition.includes("Clear"))
       return <WbSunnyIcon />;
