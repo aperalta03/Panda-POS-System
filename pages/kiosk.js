@@ -37,10 +37,12 @@ import Head from "next/head"; // Import Head for managing the document head
  * @returns {JSX.Element}
  */
 const Welcome = ({ toItemPage }) => {
-  const { currentLanguage, changeLanguage, translations } = useGlobalState();
+  const { currentLanguage, changeLanguage, customerName, translations } =
+    useGlobalState();
   const [weather, setWeather] = useState({ temp: null, condition: null });
   const [time, setTime] = useState("");
   const [isLoginModalOpen, setLoginModalOpen] = useState(false);
+  console.log(customerName);
 
   /**
    * Handles a change in the language dropdown by calling changeLanguage with the selected language value.
@@ -146,7 +148,15 @@ const Welcome = ({ toItemPage }) => {
         {translations["We Wok For You"] || "We Wok For You"}
       </h1>
       <div onClick={toItemPage} className={styles.orderHeader}>
-        <h1>{translations["Tap to Order Now"] || "Tap to Order Now"}</h1>
+        <h1>
+          {customerName === "Guest"
+            ? currentLanguage === "en"
+              ? "Tap to Order Now as Guest"
+              : translations["Tap to Order Now as Guest"]
+            : currentLanguage === "en"
+            ? "Tap to Order Now as " + customerName
+            : translations["Tap to Order Now as "] + customerName}
+        </h1>
       </div>
       <div className={styles.customerLoginWrapper}>
         <button

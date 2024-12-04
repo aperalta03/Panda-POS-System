@@ -11,10 +11,10 @@ import Head from "next/head"; // Import Head for managing the document head
 /**
  * TopBar component for the kiosk page.
  * Displays panel information, a tracker of selected items, and utility buttons such as translation and accessibility.
- * 
+ *
  * @component
  * @author Uzair Khan
- * 
+ *
  * @param {Object} props - Component properties.
  * @param {function} props.handleOptionsClick - Callback to handle navigation to the options page.
  * @returns {JSX.Element} The rendered TopBar component.
@@ -31,6 +31,7 @@ const TopBar = ({ handleOptionsClick }) => {
     removeNewItem,
     setCart,
     numTotalItems,
+    customerName,
   } = useGlobalState();
 
   const subtotal = cart.reduce(
@@ -39,14 +40,15 @@ const TopBar = ({ handleOptionsClick }) => {
   );
   const tax = subtotal * 0.15;
   const total = subtotal + tax;
+  console.log(customerName);
 
-/**
- * Handles the language change event by updating the application's current language.
- * @param {Object} e - The event object containing the selected language value.
- * @property {string} e.target.value - The new language code to set.
- * @returns {void}
- * @author Brandon Batac
- */
+  /**
+   * Handles the language change event by updating the application's current language.
+   * @param {Object} e - The event object containing the selected language value.
+   * @property {string} e.target.value - The new language code to set.
+   * @returns {void}
+   * @author Brandon Batac
+   */
   const handleLanguageChange = (e) => {
     const newLanguage = e.target.value;
     changeLanguage(newLanguage);
@@ -55,6 +57,15 @@ const TopBar = ({ handleOptionsClick }) => {
   return (
     <div className={styles.KioskItemPanel}>
       <div className={styles.leftButtons}>
+        <h1 className={styles.welcomeHeader}>
+          {customerName === "Guest"
+            ? currentLanguage === "en"
+              ? "Welcome, Guest"
+              : translations["Welcome, Guest"]
+            : currentLanguage === "en"
+            ? "Welcome, " + customerName
+            : translations["Welcome, "] + customerName}
+        </h1>
         <div className={styles.cartAndPriceContainer}>
           <button
             className={styles.circleButton}
@@ -115,7 +126,7 @@ const TopBar = ({ handleOptionsClick }) => {
  *
  * Fetches the top-selling item of the month from the server, matches it with the global menu data,
  * and displays its details. Handles loading, error states, and supports multilingual translations.
- * @author Uzair Khan 
+ * @author Uzair Khan
  *
  * @function RecommendedItem
  * @returns {JSX.Element} JSX rendering the recommended item panel.
@@ -145,12 +156,12 @@ const RecommendedItem = () => {
 
   const { menu } = useGlobalState();
   useEffect(() => {
-/**
- * Fetches the top-selling item from the server and updates the component state.
- * @author Uzair Khan
- * @returns {Promise<void>}
- * @throws {Error} If the fetch fails or the response is not ok.
- */
+    /**
+     * Fetches the top-selling item from the server and updates the component state.
+     * @author Uzair Khan
+     * @returns {Promise<void>}
+     * @throws {Error} If the fetch fails or the response is not ok.
+     */
     const fetchTopItem = async () => {
       try {
         const response = await fetch("/api/top-selling-item");
@@ -321,10 +332,10 @@ const KioskItemPanel = ({}) => {
 /**
  * BottomBar component for the kiosk page.
  * Displays a reminder to choose a meal above.
- * 
+ *
  * @component
  * @author Uzair Khan
- * 
+ *
  * @returns {JSX.Element} The rendered BottomBar component.
  */
 const BottomBar = () => {
@@ -342,10 +353,10 @@ const BottomBar = () => {
  * KioskItemPage component serves as the main page for the kiosk application.
  * It displays a circle with the number 1, a top header with a translate button and an accessibility button, a middle panel with the item selection buttons, and a bottom panel with a reminder to choose a meal above.
  * It also handles the state for the options menu and toggles the options menu when the translate button is clicked.
- * 
+ *
  * @component
  * @author Uzair Khan
- * 
+ *
  * @returns {JSX.Element} The rendered kiosk page component.
  */
 const KioskItemPage = () => {
@@ -354,40 +365,43 @@ const KioskItemPage = () => {
   const { toggleTheme, currentTheme, isPandaMember, toggleSize, isLargeText } =
     useGlobalState();
 
-/**
- * Toggles the state of the options menu.
- * If the menu is currently open, it will be closed, and vice versa.
- * This function is used to handle the click event for opening or closing the options menu.
- * @author Uzair Khan
- * @returns {void}
- */
+  /**
+   * Toggles the state of the options menu.
+   * If the menu is currently open, it will be closed, and vice versa.
+   * This function is used to handle the click event for opening or closing the options menu.
+   * @author Uzair Khan
+   * @returns {void}
+   */
   const handleOptionsClick = () => {
     setIsOptionsOpen(!isOptionsOpen);
   };
 
   return (
     <>
-    <Head>
-      {/* Add or update the page title */}
-      <title>Item Order Selection</title>
-      {/* Add other metadata if needed */}
-      <meta name="description" content="Start an Order by Selecting a Bigger Plate" />
-    </Head>
-    <div className={styles.layout}>
-      <div className={styles.circle}>
-        <p>1</p>
-      </div>
+      <Head>
+        {/* Add or update the page title */}
+        <title>Item Order Selection</title>
+        {/* Add other metadata if needed */}
+        <meta
+          name="description"
+          content="Start an Order by Selecting a Bigger Plate"
+        />
+      </Head>
+      <div className={styles.layout}>
+        <div className={styles.circle}>
+          <p>1</p>
+        </div>
 
-      <div className={styles.topHeader}>
-        <TopBar>handleOptionsClick = {handleOptionsClick}</TopBar>
+        <div className={styles.topHeader}>
+          <TopBar>handleOptionsClick = {handleOptionsClick}</TopBar>
+        </div>
+        <div className={styles.midPanel}>
+          <KioskItemPanel />
+        </div>
+        <div className={styles.bottomPanel}>
+          <BottomBar />
+        </div>
       </div>
-      <div className={styles.midPanel}>
-        <KioskItemPanel />
-      </div>
-      <div className={styles.bottomPanel}>
-        <BottomBar />
-      </div>
-    </div>
     </>
   );
 };

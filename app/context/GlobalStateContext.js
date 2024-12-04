@@ -4,8 +4,8 @@ import { textArray } from "./translateTextArray";
 
 /**
  * @file GlobalStateContext.js
- * @description Provides a global state management system for the application using React's Context API. 
- * Includes utility functions, global variables, and state for user preferences, cart management, 
+ * @description Provides a global state management system for the application using React's Context API.
+ * Includes utility functions, global variables, and state for user preferences, cart management,
  * menu operations, and more.
  *
  * @components
@@ -18,7 +18,6 @@ import { textArray } from "./translateTextArray";
  *
  * @author Uzair Khan, Brandon Batac, Andrew Popovici
  */
-
 
 const GlobalStateContext = createContext();
 
@@ -36,7 +35,7 @@ export const GlobalStateProvider = ({ children }) => {
 
   //variables for current customer
   const [customerPhoneNumber, setCustomerPhoneNumber] = useState("");
-  const [customerName, setCustomerName] = useState("");
+  const [customerName, setCustomerName] = useState("Guest");
   const [customerTotalPoints, setCustomerTotalPoints] = useState(0);
   const [customer10PercentOff, setCustomer10PercentOff] = useState(false);
 
@@ -206,28 +205,28 @@ export const GlobalStateProvider = ({ children }) => {
     setNumTotalItems(numTotalItems - 1);
   };
 
-/**
- * Clears all items from the cart and resets the total number of items to zero.
- * This function is used to empty the cart, typically after a purchase is completed or the cart is reset.
- * 
- * @returns {void}
- * 
- * @author Andrew Popovici
- */
+  /**
+   * Clears all items from the cart and resets the total number of items to zero.
+   * This function is used to empty the cart, typically after a purchase is completed or the cart is reset.
+   *
+   * @returns {void}
+   *
+   * @author Andrew Popovici
+   */
   const clearCart = () => {
     setCart([]);
     setNumTotalItems(0);
   };
 
-// Function to reset the count of tracked sides to zero
-/**
- * Resets the count of tracked side items to zero and updates the menu state to reflect this change.
- * It sets the count of side items in the menu to 0.
- * This is useful when clearing the sides of an order.
- * 
- * @returns {void}
- * @author Uzair Khan
- */
+  // Function to reset the count of tracked sides to zero
+  /**
+   * Resets the count of tracked side items to zero and updates the menu state to reflect this change.
+   * It sets the count of side items in the menu to 0.
+   * This is useful when clearing the sides of an order.
+   *
+   * @returns {void}
+   * @author Uzair Khan
+   */
   const resetTrackedSides = () => {
     setNumTrackedSides(0);
     setMenu((menu) =>
@@ -235,15 +234,15 @@ export const GlobalStateProvider = ({ children }) => {
     );
   };
 
-// Function to reset the count of tracked entrees to zero
-/**
- * Resets the count of tracked entree items to zero and updates the menu state to reflect this change.
- * It sets the count of entree items in the menu to 0.
- * This is useful when clearing the entrees of an order.
- * 
- * @returns {void}
- * @author Uzair Khan
- */
+  // Function to reset the count of tracked entrees to zero
+  /**
+   * Resets the count of tracked entree items to zero and updates the menu state to reflect this change.
+   * It sets the count of entree items in the menu to 0.
+   * This is useful when clearing the entrees of an order.
+   *
+   * @returns {void}
+   * @author Uzair Khan
+   */
   const resetTrackedEntrees = () => {
     setNumTrackedEntrees(0);
     setMenu((menu) =>
@@ -253,16 +252,15 @@ export const GlobalStateProvider = ({ children }) => {
     );
   };
 
-
-// Function to reset the count of other tracked items to zero
-/**
- * Resets the count of other items (appetizers, desserts, drinks) to zero and updates the menu state.
- * It sets the count for appetizer, dessert, and drink items to 0.
- * This is useful when clearing non-entree items of an order.
- * 
- * @returns {void}
- * @author Uzair Khan
- */
+  // Function to reset the count of other tracked items to zero
+  /**
+   * Resets the count of other items (appetizers, desserts, drinks) to zero and updates the menu state.
+   * It sets the count for appetizer, dessert, and drink items to 0.
+   * This is useful when clearing non-entree items of an order.
+   *
+   * @returns {void}
+   * @author Uzair Khan
+   */
   const resetTrackedOthers = () => {
     setNumTrackedOthers(0);
     setMenu((menu) =>
@@ -278,27 +276,27 @@ export const GlobalStateProvider = ({ children }) => {
   const [priceMap, setPriceMap] = useState({}); //stores item prices
   const [menu, setMenu] = useState([]); //stores menu item data
 
-// Function to update the total item count
-/**
- * Updates the total item count by summing the tracked sides and entrees.
- * This count may be used to track the total number of items in an order.
- * 
- * @returns {void}
- * @author Uzair Khan
- */
+  // Function to update the total item count
+  /**
+   * Updates the total item count by summing the tracked sides and entrees.
+   * This count may be used to track the total number of items in an order.
+   *
+   * @returns {void}
+   * @author Uzair Khan
+   */
   const updateTotalItemCount = () => {
     setTotalItemCount(numTrackedSides + numTrackedEntrees);
   };
 
-// Function to fetch menu items from an API
-/**
- * Fetches menu items from the API and updates the menu state with the retrieved data.
- * This function retrieves the items, assigns an initial count of 0 to each item, and creates a price map.
- * It also sets the designation of each item to "default" if not specified.
- * 
- * @returns {Promise<void>} - A promise that resolves when the menu items are successfully fetched and the state is updated.
- * @author Uzair Khan
- */
+  // Function to fetch menu items from an API
+  /**
+   * Fetches menu items from the API and updates the menu state with the retrieved data.
+   * This function retrieves the items, assigns an initial count of 0 to each item, and creates a price map.
+   * It also sets the designation of each item to "default" if not specified.
+   *
+   * @returns {Promise<void>} - A promise that resolves when the menu items are successfully fetched and the state is updated.
+   * @author Uzair Khan
+   */
   const fetchMenuItems = async () => {
     try {
       const response = await fetch("/api/menu-get-items");
@@ -398,7 +396,7 @@ export const GlobalStateProvider = ({ children }) => {
         customerTotalPoints,
         setCustomerTotalPoints,
         customer10PercentOff,
-        setCustomer10PercentOff
+        setCustomer10PercentOff,
       }}
     >
       {children}

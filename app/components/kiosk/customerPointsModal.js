@@ -40,19 +40,23 @@ const CustomerPointsModal = ({ onClose, isOpen }) => {
     customerTotalPoints,
     customerPhoneNumber,
     setCustomer10PercentOff,
+    currentLanguage,
+    setCustomerName,
     translations,
   } = useGlobalState();
   const [modalMessage, setModalMessage] = useState("");
 
   useEffect(() => {
     if (customerTotalPoints >= 1000) {
+      console.log(currentLanguage);
       setModalMessage(
-        translations["You have"] +
-          ` ${customerTotalPoints} ` +
-          translations[
-            "points! Would you like to use 1000 points for a 10% discount?"
-          ] ||
-          `You have ${customerTotalPoints} points! Would you like to use 1000 points for a 10% discount?`
+        currentLanguage === "en"
+          ? `You have ${customerTotalPoints} points! Would you like to use 1000 points for a 10% discount?`
+          : translations["You have"] +
+              ` ${customerTotalPoints} ` +
+              translations[
+                "points! Would you like to use 1000 points for a 10% discount?"
+              ]
       );
     } else {
       const pointsNeeded = 1000 - customerTotalPoints;
@@ -83,6 +87,7 @@ const CustomerPointsModal = ({ onClose, isOpen }) => {
       const data = await response.json();
       alert("You've used 1000 points for a 10% discount!");
       setCustomer10PercentOff(true);
+      setCustomerName(data.customer.name);
       onClose(); // Close the modal after successful update
     } else {
       const data = await response.json();
@@ -120,7 +125,7 @@ const CustomerPointsModal = ({ onClose, isOpen }) => {
               className={`${styles.button} ${styles.redButton}`}
               onClick={onClose}
             >
-              Close
+              {translations["Close"] || "Close"}
             </button>
           </div>
         )}

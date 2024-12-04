@@ -1,6 +1,7 @@
 export const textArray = [
   "We Wok For You",
-  "Tap to Order Now",
+  "Tap to Order Now as Guest",
+  "Tap to Order Now as ",
   "A La Carte",
   "Select:",
   "Any Item",
@@ -96,10 +97,6 @@ export const textArray = [
   "Teriyaki Sauce",
   "Hot Mustard",
   "Any Food Item",
-  "BOWL",
-  "PLATE",
-  "BIGGER PLATE",
-  "A LA CARTE",
   "Loading recommended item...",
   "Item not found in the menu.",
   "This month's hot item",
@@ -126,4 +123,6 @@ export const textArray = [
   "Phone Number:",
   "Name:",
   "Date of Birth (optional):",
+  "Welcome, Guest",
+  "Welcome, ",
 ];
