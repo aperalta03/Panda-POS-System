@@ -7,7 +7,7 @@ const openai = new OpenAI({
 
 /**
  * 
- ** @author Alonso Peralta Espinoza
+ ** @author Alonso Peralta Espinoza, Anson Thai
  *
  * Generates a conversational AI response based on user input, chat context, and menu item retrieval.
  *
@@ -114,7 +114,7 @@ export default async function handler(req, res) {
                 { role: "system", content: systemPrompt },
                 { role: "user", content: userMessage },
             ],
-            
+
             max_tokens: isTextToSpeech ? 1000 : 1000, // Adjust max_tokens based on request type
         });
         console.log(systemPrompt);

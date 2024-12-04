@@ -11,7 +11,7 @@ import styles from "./accessButton.module.css";
  * 4. Current Size: Displays the current font size of the site.
  *
  * This component is designed to be used in conjunction with the GlobalStateContext and the useGlobalState hook.
- * @author Uzair Khan, Alonso Peralta Espinsosa
+ * @author Uzair Khan, Alonso Peralta Espinsosa, Anson Thai
  * @returns {JSX.Element} The AccessibilityButton component.
  */
 const AccessibilityButton = () => {
