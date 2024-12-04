@@ -12,6 +12,8 @@ const UpdateInventoryItemModal = ({ isOpen, onClose }) => {
     const [needed4GameWeek, setNeeded4GameWeek] = useState("");
     const [deleteId, setDeleteId] = useState(""); // State for delete ID
 
+    
+
     const handleSubmit = async () => {
         if (
             isNaN(parseInt(inventoryId)) ||
@@ -25,23 +27,41 @@ const UpdateInventoryItemModal = ({ isOpen, onClose }) => {
             return;
         }
 
+        console.log('data before sending:', {
+            inventoryId,
+            itemName,
+            itemType,
+            ingredients,
+            currAmount,
+            needed4Week,
+            needed4GameWeek,
+        });
+
         try {
+            
             const payload = {
                 inventory_id: parseInt(inventoryId),
                 item_name: itemName,
                 item_type: itemType,
-                ingredients: ingredients ? ingredients.split(",").join(",") : null,
+                ingredients: ingredients, 
+                // ? ingredients.split(",").join(",") : null,
                 curr_amount: parseInt(currAmount),
                 needed4Week: parseInt(needed4Week),        // Match database column casing
                 needed4GameWeek: parseInt(needed4GameWeek) // Match database column casing
             };
+            console.log('checking payload:', {
+                payload
+            });
+
+            console.log("Payload being sent to the API:", JSON.stringify(payload, null, 2));
+
 
             const response = await fetch("/api/update-inventory-item", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),
             });
-
+            
             if (!response.ok) throw new Error("Failed to update inventory item");
 
             alert("Item updated successfully!");
