@@ -4,12 +4,51 @@ import { Modal, Button } from '@mui/material';
 
 import Head from "next/head"; // Import Head for managing the document head
 
+
+/**
+ * Kitchen Page Component
+ *
+ * @author Anson Thai
+ *
+ * @description
+ * Displays orders and their items in a grid layout.
+ * Supports text-to-speech for each order, removing sales, and updating order status.
+ *
+ * @features
+ * - Text-to-Speech: Reads out the items in each sale.
+ * - Remove Sale: Deletes a sale from the orders list.
+ * - Update Order Status: Updates the status of an order item.
+ *
+ * @state
+ * - orders: Holds the list of orders, each containing a sale number and an array of items.
+ * - isModalOpen: Boolean indicating whether the cancel order modal is open.
+ * - cancelOrderDetails: Holds the sale number and order number of the order to be cancelled.
+ *
+ * @methods
+ * - handleTextToSpeech: Generates a text-to-speech message for the given sale number.
+ * - handleRemoveSale: Removes a sale from the orders list.
+ * - handleStartOrder: Updates the status of an order item to 'Cooking'.
+ * - handleCompleteOrder: Updates the status of an order item to 'Completed'.
+ * - openCancelModal: Opens the cancel order modal with the given sale number and order number.
+ * - handleCancelOrder: Cancels an order and removes it from the orders list.
+ * - closeModal: Closes the cancel order modal.
+ *
+ * @dependencies
+ * - Material-UI: For modal, form controls, and buttons.
+ */
 const KitchenPage = () => {
     const [orders, setOrders] = useState([]);
-    const [openModal, setOpenModal] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [cancelOrderDetails, setCancelOrderDetails] = useState({ saleNumber: null, orderNumber: null });
 
     useEffect(() => {
+        /**
+         * Fetches orders from the server and updates the component state.
+         *
+         * This function is called whenever the component mounts or updates.
+         * It fetches the orders list from the server and updates the component state.
+         * If the server returns an error, it logs the error to the console.
+         */
         const fetchOrders = async () => {
             try {
                 const response = await fetch('/api/kitchen-get-orders');
@@ -54,7 +93,16 @@ const KitchenPage = () => {
         }
     };
 
-    
+    /**
+     * Removes a sale from the kitchen screen.
+     *
+     * Sends a POST request to the server to remove the sale.
+     * If successful, it updates the orders list in the local state.
+     * Logs an error if the request fails or encounters an exception.
+     *
+     * @async
+     * @param {number} saleNumber - The unique identifier for the sale.
+     */
     const removeSale = async (saleNumber) => {
         try {
             const response = await fetch('/api/kitchen-remove-sale', {
@@ -75,30 +123,32 @@ const KitchenPage = () => {
         }
     };
 
-    
+    /**
+     * Announces the items in the sale with the given sale number.
+     *
+     * It finds the sale in the orders list and iterates over its items. For each item, it
+     * determines the counts of each component and generates a string description of the
+     * item. It then creates a SpeechSynthesisUtterance object with that string and
+     * speaks it using the window.speechSynthesis object.
+     *
+     * If the sale is not found, it speaks a message indicating that.
+     *
+     * @param {number} saleNumber - The unique identifier for the sale.
+     */
     const textToSpeech = async (saleNumber) => {
-
         const saleToSpeech = orders.find(order => order.saleNumber === saleNumber);
 
         if (saleToSpeech) {
-
             const { items } = saleToSpeech;
 
             items.forEach(item => {
-
-                if (item.status === "Completed") {
-                    return;
-                }
-
                 const { orderNumber, plateSize, components } = item;
 
-                // Count the frequency of components
                 const componentCounts = components.reduce((acc, component) => {
                     acc[component] = (acc[component] || 0) + 1;
                     return acc;
                 }, {});
 
-                // Adjust for special rules (Super Greens, Chow Mein, Fried Rice, White Steamed Rice)
                 const specialComponents = ["Super Greens", "Chow Mein", "Fried Rice", "White Steamed Rice"];
                 specialComponents.forEach(side => {
                     if (componentCounts[side]) {
@@ -113,7 +163,6 @@ const KitchenPage = () => {
                     }
                 });
 
-                // Construct the component description
                 const componentsArray = Object.entries(componentCounts)
                     .map(([component, count]) => {
                         if (count === 2) return `double ${component}`;
@@ -122,21 +171,15 @@ const KitchenPage = () => {
                         return count > 3 ? `${count} times ${component}` : component;
                     });
 
-                // Add "and" before the final component
                 const componentDescription = componentsArray.length > 1
                     ? `${componentsArray.slice(0, -1).join(', ')}, and ${componentsArray[componentsArray.length - 1]}`
                     : componentsArray[0] || '';
 
-                // Construct the speech message
                 const message = `Order number ${orderNumber}: ${plateSize} with ${componentDescription}`;
-                console.log(message); // For debugging
-
-                // Speak the message
                 const utterance = new SpeechSynthesisUtterance(message);
                 window.speechSynthesis.speak(utterance);
             });
         } else {
-            console.log("No matching order found.");
             const utterance = new SpeechSynthesisUtterance(`No matching order found for sale number ${saleNumber}`);
             window.speechSynthesis.speak(utterance);
         }
@@ -149,7 +192,7 @@ const KitchenPage = () => {
     const handleRemoveSale = (saleNumber) => {
         removeSale(saleNumber);
     };
-    
+
     const handleStartOrder = (saleNumber, orderNumber) => {
         updateOrderStatus(saleNumber, orderNumber, 'Cooking');
     };
@@ -160,10 +203,8 @@ const KitchenPage = () => {
 
     const openCancelModal = (saleNumber, orderNumber) => {
         setCancelOrderDetails({ saleNumber, orderNumber });
-        setOpenModal(true);
+        setIsModalOpen(true);
     };
-
-   
 
     const handleCancelOrder = async () => {
         try {
@@ -192,37 +233,30 @@ const KitchenPage = () => {
         } catch (error) {
             console.error('Error cancelling order:', error);
         } finally {
-            setOpenModal(false);
+            setIsModalOpen(false);
         }
     };
 
     const closeModal = () => {
-        setOpenModal(false);
+        setIsModalOpen(false);
     };
 
     return (
-        <>
-        <Head>
-          {/* Add or update the page title */}
-          <title>Kitchen View</title>
-          {/* Add other metadata if needed */}
-          <meta name="description" content="Start, Modify, and end orders in the kitchen" />
-        </Head>
         <div className={styles.gridContainer}>
             {orders.map(order => (
                 <div className={styles.saleContainer} key={order.saleNumber}>
                     <div className={styles.saleHeader}>SALE #{order.saleNumber}</div>
                     {order.items.every(item => item.status === 'Completed') ? (
                         <button
-                            className={`${styles.removeSaleButton}`}
-                            onClick={() => handleRemoveSale(order.saleNumber)} // Add your handler for removing the sale
+                            className={styles.removeSaleButton}
+                            onClick={() => handleRemoveSale(order.saleNumber)}
                         >
                             REMOVE SALE
                         </button>
                     ) : (
                         <button
-                            className={`${styles.textToSpeechButton}`} // Apply appropriate styling for this button
-                            onClick={() => handleTextToSpeech(order.saleNumber)} // Add your handler for text-to-speech functionality
+                            className={styles.textToSpeechButton}
+                            onClick={() => handleTextToSpeech(order.saleNumber)}
                         >
                             TEXT TO SPEECH
                         </button>
@@ -250,16 +284,14 @@ const KitchenPage = () => {
                                         </span>
                                     </div>
                                     <button
-                                        className={`${styles.startOrderButton} ${item.status === 'Cooking' && styles.activeStart
-                                            }`}
+                                        className={`${styles.startOrderButton} ${item.status === 'Cooking' && styles.activeStart}`}
                                         onClick={() => handleStartOrder(order.saleNumber, item.orderNumber)}
                                         disabled={item.status !== 'Not Started'}
                                     >
                                         START ORDER
                                     </button>
                                     <button
-                                        className={`${styles.completeButton} ${item.status === 'Completed' && styles.activeComplete
-                                            }`}
+                                        className={`${styles.completeButton} ${item.status === 'Completed' && styles.activeComplete}`}
                                         onClick={() => handleCompleteOrder(order.saleNumber, item.orderNumber)}
                                         disabled={item.status !== 'Cooking'}
                                     >
@@ -278,7 +310,7 @@ const KitchenPage = () => {
                 </div>
             ))}
 
-            <Modal open={openModal} onClose={closeModal}>
+            <Modal open={isModalOpen} onClose={closeModal}>
                 <div className={styles.modalContent}>
                     <h2>Are you sure you want to cancel this order?</h2>
                     <div className={styles.modalButtons}>
@@ -288,7 +320,6 @@ const KitchenPage = () => {
                 </div>
             </Modal>
         </div>
-        </>
     );
 };
 

@@ -2,6 +2,20 @@ import React from 'react';
 import { useUser } from '../../context/userProvider'; 
 import styles from './managerProfile.module.css';
 
+/**
+ * ManagerProfile Component
+ * 
+ * @author Anson Thai
+ *
+ * @description
+ * A component for displaying the manager's profile information.
+ *
+ * @features
+ * - Displays the manager's name.
+ * - Displays the manager's profile picture.
+ *
+ * @returns {React.ReactElement} A React functional component.
+ */
 const ManagerProfile = () => {
     const { loggedInName } = useUser();
 

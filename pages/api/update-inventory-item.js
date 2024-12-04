@@ -1,7 +1,55 @@
 import database from '../../utils/database';
 
+
 /**
- * Updates or inserts an inventory item in the database.
+ * Handles updating an inventory item.
+ * @author Anson Thai
+ * @api {post} /api/update-inventory-item
+ * @apiName UpdateInventoryItem
+ * @apiGroup Manager
+ *
+ * @apiParam {Number} inventory_id Unique ID for the inventory item.
+ * @apiParam {String} item_name Name of the inventory item.
+ * @apiParam {String} item_type Type of the inventory item (e.g., food item, supply).
+ * @apiParam {String} [ingredients] List of ingredients used in menu items (NULL for non-menu items).
+ * @apiParam {Number} curr_amount Current stock level of the inventory item.
+ * @apiParam {Number} needed4week Amount needed for a standard week.
+ * @apiParam {Number} needed4gameweek Amount needed for a peak-demand "game week".
+ *
+ * @apiSuccess {Object} Response object with a success message.
+ * 
+ * @apiError (400) {Object} Response object with an error message for invalid input data.
+ * @apiError (500) {Object} Response object with an error message for other server issues.
+ *
+ * @apiExample {curl} Example usage:
+ *   curl -X POST \
+ *     http://localhost:3000/api/update-inventory-item \
+ *     -H 'Content-Type: application/json' \
+ *     -d '{
+ *           "inventory_id": 100,
+ *           "item_name": "name",
+ *           "item_type": "type",
+ *           "ingredients": "a, b, c",
+ *           "curr_amount": 100,
+ *           "needed4week": 100,
+ *           "needed4gameweek": 100
+ *         }'
+ *
+ * @apiSuccessExample {json} Success response:
+ *     {
+ *       "message": "Inventory item updated successfully"
+ *     }
+ *
+ * @apiErrorExample {json} Error response for invalid input data:
+ *     {
+ *       "error": "Invalid input data"
+ *     }
+ *
+ * @apiErrorExample {json} Error response for other server issues:
+ *     {
+ *       "error": "Failed to update inventory item",
+ *       "details": "Error message from the server"
+ *     }
  */
 export default async function handler(req, res) {
     console.log('Received payload:', req.body);
