@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: pages/api/login-info.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: pages/api/login-info.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import fs from 'fs';
+import path from 'path';
+import database from '../../utils/database';
+
+/**
+ * API Route to Retrieve All Employee Information from the Database
+ *
+ * @author Conner Black
+ *
+ * @description
+ * This API endpoint retrieves the information of all employees from the database. It expects a `GET` request with no 
+ * parameters. It returns a list of all employees, including their `employeeID`, `name`, and `isManager` status. If an 
+ * error occurs during the database query or while processing the data, appropriate error messages are returned.
+ *
+ * @features
+ * - Database Interaction: Reads an SQL query from a file to fetch all employee information from the database.
+ * - Data Transformation: Maps the returned data to a simpler structure containing only `employeeID`, `name`, and `isManager`.
+ * - Error Handling: Catches errors related to database issues and responds with appropriate error messages.
+ * - Method Validation: Only allows `GET` requests. Returns a `405 Method Not Allowed` error for other HTTP methods.
+ *
+ * @response
+ * - `200 OK`: Returns a list of all employees with their `employeeID`, `name`, and `isManager` status.
+ * - `500 Internal Server Error`: Returns an error message if a database error occurs while fetching the employee data.
+ * - `405 Method Not Allowed`: Returns this error if the request method is not `GET`.
+ *
+ * @dependencies
+ * - `fs`: For reading the SQL query file that fetches all employee data.
+ * - `path`: For resolving the file path to the SQL query.
+ * - `database`: Utility module for interacting with the database.
+ *
+ * @example
+ * GET /api/employee-info
+ *
+ * Response (All Employees Retrieved Successfully):
+ * {
+ *   "data": [
+ *     {
+ *       "employeeID": "123",
+ *       "name": "John Doe",
+ *       "isManager": true
+ *     },
+ *     {
+ *       "employeeID": "124",
+ *       "name": "Jane Smith",
+ *       "isManager": false
+ *     }
+ *   ]
+ * }
+ *
+ * Response (Database Error):
+ * {
+ *   "error": "Error fetching Employee info"
+ * }
+ */
+
+export default async function handler(req, res) {
+    if (req.method === 'GET') {
+        try {
+            const filePath = path.join(process.cwd(), 'utils', 'sql', 'employee-info.sql');
+            const queryText = fs.readFileSync(filePath, 'utf-8');
+
+            const result = await database.query(queryText);
+
+            const employeeData = result.rows.map((employee) => ({
+                employeeID: employee.employee_id, 
+                name: `${employee.first_name} ${employee.last_name}`, 
+                isManager: employee.is_manager   
+            }));
+
+            // Return the transformed data
+            res.status(200).json({ data: employeeData });
+        } catch (error) {
+            console.error('Error fetching Employee info:', error);
+            res.status(500).json({ error: 'Error fetching Employee info' });
+        }
+    } else {
+        res.setHeader('Allow', ['GET']);
+        res.status(405).end(`Method ${req.method} Not Allowed`);
+    }
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AccessibilityButton">AccessibilityButton</a></li><li><a href="global.html#AddEmployeeForm">AddEmployeeForm</a></li><li><a href="global.html#AddMenuModal">AddMenuModal</a></li><li><a href="global.html#AiAgent">AiAgent</a></li><li><a href="global.html#BottomBar">BottomBar</a></li><li><a href="global.html#BottomPanel">BottomPanel</a></li><li><a href="global.html#ButtonGrid">ButtonGrid</a></li><li><a href="global.html#CartPage">CartPage</a></li><li><a href="global.html#CashierPage">CashierPage</a></li><li><a href="global.html#Customer">Customer</a></li><li><a href="global.html#CustomerLogIn">CustomerLogIn</a></li><li><a href="global.html#CustomerPointsModal">CustomerPointsModal</a></li><li><a href="global.html#CustomerSignUp">CustomerSignUp</a></li><li><a href="global.html#DropDowns">DropDowns</a></li><li><a href="global.html#EditEmployeeModal">EditEmployeeModal</a></li><li><a href="global.html#EmployeeIdModal">EmployeeIdModal</a></li><li><a href="global.html#EmployeeViewerModal">EmployeeViewerModal</a></li><li><a href="global.html#GlobalStateProvider">GlobalStateProvider</a></li><li><a href="global.html#InventoryTable">InventoryTable</a></li><li><a href="global.html#ItemFrame">ItemFrame</a></li><li><a href="global.html#KioskALaCartePage">KioskALaCartePage</a></li><li><a href="global.html#KioskBiggerPlatePage">KioskBiggerPlatePage</a></li><li><a href="global.html#KioskBowlPage">KioskBowlPage</a></li><li><a href="global.html#KioskItemPage">KioskItemPage</a></li><li><a href="global.html#KioskItemPanel">KioskItemPanel</a></li><li><a href="global.html#KioskPage">KioskPage</a></li><li><a href="global.html#KioskPlatePage">KioskPlatePage</a></li><li><a href="global.html#KitchenPage">KitchenPage</a></li><li><a href="global.html#KitchenTV">KitchenTV</a></li><li><a href="global.html#Landing">Landing</a></li><li><a href="global.html#Loading">Loading</a></li><li><a href="global.html#LoginOAuth">LoginOAuth</a></li><li><a href="global.html#Manager">Manager</a></li><li><a href="global.html#ManagerProfile">ManagerProfile</a></li><li><a href="global.html#Menu">Menu</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#OrderPanel">OrderPanel</a></li><li><a href="global.html#RecommendationPanel">RecommendationPanel</a></li><li><a href="global.html#ResetPassword">ResetPassword</a></li><li><a href="global.html#ResetSalesDataModal">ResetSalesDataModal</a></li><li><a href="global.html#RestockReportModal">RestockReportModal</a></li><li><a href="global.html#RoleProvider">RoleProvider</a></li><li><a href="global.html#SalesChart">SalesChart</a></li><li><a href="global.html#SalesReportModal">SalesReportModal</a></li><li><a href="global.html#SignOAuth">SignOAuth</a></li><li><a href="global.html#ThankYouPage">ThankYouPage</a></li><li><a href="global.html#TopBar">TopBar</a></li><li><a href="global.html#UpdateInventoryItemModal">UpdateInventoryItemModal</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li><li><a href="global.html#Welcome">Welcome</a></li><li><a href="global.html#XReportModal">XReportModal</a></li><li><a href="global.html#ZReportModal">ZReportModal</a></li><li><a href="global.html#generateToken">generateToken</a></li><li><a href="global.html#translateAllText">translateAllText</a></li><li><a href="global.html#translateAllText-TranslatesanarrayoftextsintothetargetlanguageusingGoogleTranslateAPI.">translateAllText - Translates an array of texts into the target language using Google Translate API.</a></li><li><a href="global.html#useTranslate">useTranslate</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Wed Dec 04 2024 17:56:55 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: app/components/manager/salesChart.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: app/components/manager/salesChart.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>// salesChart.js
+
+import React, { useState, useEffect } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { Line } from 'react-chartjs-2';
+import styles from './salesChart.module.css';
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    TimeScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend,
+} from 'chart.js';
+import 'chartjs-adapter-date-fns';
+import { enUS } from 'date-fns/locale';
+
+// Register Chart.js components
+ChartJS.register(CategoryScale, LinearScale, TimeScale, PointElement, LineElement, Title, Tooltip, Legend);
+
+/**
+ * SalesChart Component
+ * 
+ * @author Alonso Peralta Espinoza, Anson Thai
+ *
+ * @description
+ * Visualizes sales data over time using a Line Chart. Users can select a time frame and an item for analysis.
+ *
+ * @features
+ * - Fetches sales data from `/api/sales-chart`.
+ * - Aggregates data based on selected time frame (Hourly, Daily, Weekly, Monthly, Yearly).
+ * - Provides dropdowns for selecting time frame and item.
+ * - Validates date ranges and item selection.
+ *
+ * @state
+ * - `startDate`, `endDate`: Manages the selected date range.
+ * - `dataset`: Stores processed sales data for the chart.
+ * - `error`: Tracks errors during data fetch or validation.
+ * - `selectedTimeFrame`: Tracks the selected aggregation time frame.
+ * - `selectedItem`: Tracks the selected item for sales analysis.
+ * - `items`: Stores the list of items available for selection.
+ *
+ * @methods
+ * - `fetchSalesData`: Fetches and processes sales data based on user inputs.
+ * - `processSalesData`: Aggregates data for chart visualization.
+ * - `getWeekYear`: Helper function to calculate week-year format.
+ *
+ * @example
+ * &lt;SalesChart />
+ */
+const SalesChart = () => {
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
+    const [dataset, setDataset] = useState([]);
+    const [error, setError] = useState(null);
+    const [selectedTimeFrame, setSelectedTimeFrame] = useState('Daily');
+    const [selectedItem, setSelectedItem] = useState('');
+    const [items, setItems] = useState([]);
+
+    // Fetch items for the dropdown on component mount
+    useEffect(() => {
+        const fetchItems = async () => {
+            try {
+                const response = await fetch('/api/items');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch items');
+                }
+                const data = await response.json();
+                setItems(data.items);
+            } catch (error) {
+                console.error('Error fetching items:', error);
+                setError('Error fetching items. Please try again.');
+            }
+        };
+        fetchItems();
+    }, []);
+
+   
+    /**
+     * Checks if a given date range is valid, meaning the start date is before or equal to the end date,
+     * and both dates are in the past or present.
+     * 
+     * @author Anson Thai
+     *
+     * @param {Date} start The start date of the range
+     * @param {Date} end The end date of the range
+     * @returns {boolean} Whether the date range is valid
+     */
+    const isValidTimeWindow = (start, end) => {
+        const today = new Date();
+        return start &lt;= end &amp;&amp; start &lt;= today &amp;&amp; end &lt;= today;
+    };
+
+    useEffect(() => {
+        const fetchSalesData = async () => {
+            if (!isValidTimeWindow(startDate, endDate)) {
+                setError('Invalid date range: Start date must be before end date, and dates cannot be in the future.');
+                return;
+            }
+
+            if (!selectedItem) {
+                setError('Please select an item.');
+                return;
+            }
+
+            setError(null); // Clear any previous error messages
+
+            try {
+                const response = await fetch(
+                    `/api/sales-chart?startDate=${startDate.toISOString().slice(0, 10)}&amp;endDate=${endDate
+                        .toISOString()
+                        .slice(0, 10)}&amp;item=${encodeURIComponent(selectedItem)}`
+                );
+                if (!response.ok) {
+                    throw new Error('Failed to fetch data');
+                }
+                const data = await response.json();
+
+                // Process data to aggregate sales counts per selected time frame
+                const aggregatedData = processSalesData(data.data, selectedTimeFrame);
+
+                setDataset(aggregatedData);
+            } catch (error) {
+                console.error('Error fetching sales data:', error);
+                setError('Error fetching sales data. Please try again.');
+            }
+        };
+
+        fetchSalesData();
+    }, [startDate, endDate, selectedTimeFrame, selectedItem]);
+
+    
+/**
+ * Aggregates sales data entries based on the specified time frame.
+ * 
+ * @author Anson Thai
+ *
+ * @param {Array} data - Array of sales data entries. Each entry should contain
+ *                       `date_of_sale` and `time_of_sale` properties.
+ * @param {String} timeFrame - The time frame for aggregation. Possible values are
+ *                             'Hourly', 'Daily', 'Weekly', 'Monthly', 'Yearly'.
+ *
+ * @returns {Array} An array of objects containing `label` and `value` properties.
+ *                  `label` represents the aggregated time period and `value` is
+ *                  the count of sales in that period. The array is sorted by date.
+ */
+    const processSalesData = (data, timeFrame) => {
+        const salesCountMap = new Map();
+
+        data.forEach((entry) => {
+            // console.log('Entry:', entry);
+            const dateOfSale = new Date(entry.date_of_sale.slice(0,10) + 'T' + entry.time_of_sale); // Combine date and time
+            let key = '';
+            // console.log(dateOfSale);
+
+            switch (timeFrame) {
+                case 'Hourly':
+                    key = dateOfSale.toISOString().slice(0, 13) + ':00'; // YYYY-MM-DDTHH:00
+                    break;
+                case 'Daily':
+                    key = dateOfSale.toISOString().slice(0, 10); // YYYY-MM-DD
+                    break;
+                case 'Weekly':
+                    key = getWeekYear(dateOfSale); // e.g., "2023-W42"
+                    break;
+                case 'Monthly':
+                    key = dateOfSale.toISOString().slice(0, 7); // YYYY-MM
+                    break;
+                case 'Yearly':
+                    key = dateOfSale.getFullYear().toString(); // YYYY
+                    break;
+                default:
+                    key = dateOfSale.toISOString().slice(0, 10);
+            }
+
+            salesCountMap.set(key, (salesCountMap.get(key) || 0) + 1);
+        });
+
+        // Convert the map to an array sorted by date
+        return Array.from(salesCountMap)
+            .sort((a, b) => new Date(a[0]) - new Date(b[0]))
+            .map(([label, value]) => ({ label, value }));
+    };
+
+   
+/**
+ * Calculates the week-year format for a given date.
+ * 
+ * @author Anson Thai
+ *
+ * @param {Date} date - The date for which to calculate the week-year.
+ * @returns {string|null} A string in the format "YYYY-Www" representing the 
+ *                        year and the week number, or null if the date is invalid.
+ * @example
+ * // returns "2023-W42"
+ * getWeekYear(new Date('2023-10-19'));
+ */
+    const getWeekYear = (date) => {
+
+        if (!(date instanceof Date) || isNaN(date)) {
+            console.error("Invalid date provided.");
+            return null; // Return null or handle the error as needed
+        }
+        
+        const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
+        const days = Math.floor((date - firstDayOfYear) / (24 * 60 * 60 * 1000));
+        const weekNumber = Math.ceil((days + firstDayOfYear.getDay() + 1) / 7);
+        console.log(`${date.getFullYear()}-W${weekNumber}`);
+
+        return `${date.getFullYear()}-W${weekNumber}`;
+    };
+
+    const chartData = {
+        labels: dataset.map((item) => item.label),
+        datasets: [
+            {
+                label: `Total Sales for ${selectedItem}`,
+                data: dataset.map((item) => item.value),
+                borderColor: '#D22730',
+                backgroundColor: 'rgba(210, 39, 48, 0.5)',
+                fill: false,
+            },
+        ],
+    };
+
+    const chartOptions = {
+        scales: {
+            x: {
+                type: 'time',
+                time: {
+                    unit:
+                        selectedTimeFrame === 'Hourly'
+                            ? 'hour'
+                            : selectedTimeFrame === 'Daily'
+                                ? 'day'
+                                : selectedTimeFrame === 'Weekly'
+                                    ? 'week'
+                                    : selectedTimeFrame === 'Monthly'
+                                        ? 'month'
+                                        : 'year',
+                    tooltipFormat:
+                        selectedTimeFrame === 'Hourly'
+                            ? 'PPpp'
+                            : selectedTimeFrame === 'Daily'
+                                ? 'PP'
+                                : selectedTimeFrame === 'Weekly'
+                                    ? "yyyy-'W'II"
+                                    : selectedTimeFrame === 'Monthly'
+                                        ? 'MMM yyyy'
+                                        : 'yyyy',
+                    displayFormats: {
+                        hour: 'MMM d, h a',
+                        day: 'MMM d',
+                        week: "yyyy-'W'II",
+                        month: 'MMM yyyy',
+                        year: 'yyyy',
+                    },
+                },
+                adapters: {
+                    date: {
+                        locale: enUS,
+                    },
+                },
+            },
+        },
+    };
+
+    return (
+        &lt;div className={styles.salesChartContainer}>
+            &lt;div className={styles.chartHeader}>
+                &lt;h2 className={styles.subtitle}>Sales Chart&lt;/h2>
+                &lt;div className={styles.filters}>
+                    &lt;div className={styles.datePickers}>
+                        &lt;label>
+                            Start Date:
+                            &lt;DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
+                        &lt;/label>
+                        &lt;label>
+                            End Date:
+                            &lt;DatePicker selected={endDate} onChange={(date) => setEndDate(date)} />
+                        &lt;/label>
+                    &lt;/div>
+                    &lt;div className={styles.selects}>
+                        &lt;label>
+                            Time Frame:
+                            &lt;select
+                                value={selectedTimeFrame}
+                                onChange={(e) => setSelectedTimeFrame(e.target.value)}
+                            >
+                                &lt;option value="Hourly">Hourly&lt;/option>
+                                &lt;option value="Daily">Daily&lt;/option>
+                                &lt;option value="Weekly">Weekly&lt;/option>
+                                &lt;option value="Monthly">Monthly&lt;/option>
+                                &lt;option value="Yearly">Yearly&lt;/option>
+                            &lt;/select>
+                        &lt;/label>
+                        &lt;label>
+                            Item:
+                            &lt;select value={selectedItem} onChange={(e) => setSelectedItem(e.target.value)}>
+                                &lt;option value="">Select an item&lt;/option>
+                                {items.map((item, index) => (
+                                    &lt;option key={index} value={item.item_name}>
+                                        {item.item_name}
+                                    &lt;/option>
+                                ))}
+                            &lt;/select>
+                        &lt;/label>
+                    &lt;/div>
+                &lt;/div>
+            &lt;/div>
+            {error &amp;&amp; &lt;p className={styles.errorText}>{error}&lt;/p>}
+            &lt;div className={styles.chart}>
+                &lt;Line data={chartData} options={chartOptions} />
+            &lt;/div>
+        &lt;/div>
+    );
+};
+
+export default SalesChart;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AccessibilityButton">AccessibilityButton</a></li><li><a href="global.html#AddEmployeeForm">AddEmployeeForm</a></li><li><a href="global.html#AddMenuModal">AddMenuModal</a></li><li><a href="global.html#AiAgent">AiAgent</a></li><li><a href="global.html#BottomBar">BottomBar</a></li><li><a href="global.html#BottomPanel">BottomPanel</a></li><li><a href="global.html#ButtonGrid">ButtonGrid</a></li><li><a href="global.html#CartPage">CartPage</a></li><li><a href="global.html#CashierPage">CashierPage</a></li><li><a href="global.html#Customer">Customer</a></li><li><a href="global.html#CustomerLogIn">CustomerLogIn</a></li><li><a href="global.html#CustomerPointsModal">CustomerPointsModal</a></li><li><a href="global.html#CustomerSignUp">CustomerSignUp</a></li><li><a href="global.html#DropDowns">DropDowns</a></li><li><a href="global.html#EditEmployeeModal">EditEmployeeModal</a></li><li><a href="global.html#EmployeeIdModal">EmployeeIdModal</a></li><li><a href="global.html#EmployeeViewerModal">EmployeeViewerModal</a></li><li><a href="global.html#GlobalStateProvider">GlobalStateProvider</a></li><li><a href="global.html#InventoryTable">InventoryTable</a></li><li><a href="global.html#ItemFrame">ItemFrame</a></li><li><a href="global.html#KioskALaCartePage">KioskALaCartePage</a></li><li><a href="global.html#KioskBiggerPlatePage">KioskBiggerPlatePage</a></li><li><a href="global.html#KioskBowlPage">KioskBowlPage</a></li><li><a href="global.html#KioskItemPage">KioskItemPage</a></li><li><a href="global.html#KioskItemPanel">KioskItemPanel</a></li><li><a href="global.html#KioskPage">KioskPage</a></li><li><a href="global.html#KioskPlatePage">KioskPlatePage</a></li><li><a href="global.html#KitchenPage">KitchenPage</a></li><li><a href="global.html#KitchenTV">KitchenTV</a></li><li><a href="global.html#Landing">Landing</a></li><li><a href="global.html#Loading">Loading</a></li><li><a href="global.html#LoginOAuth">LoginOAuth</a></li><li><a href="global.html#Manager">Manager</a></li><li><a href="global.html#ManagerProfile">ManagerProfile</a></li><li><a href="global.html#Menu">Menu</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#OrderPanel">OrderPanel</a></li><li><a href="global.html#RecommendationPanel">RecommendationPanel</a></li><li><a href="global.html#ResetPassword">ResetPassword</a></li><li><a href="global.html#ResetSalesDataModal">ResetSalesDataModal</a></li><li><a href="global.html#RestockReportModal">RestockReportModal</a></li><li><a href="global.html#RoleProvider">RoleProvider</a></li><li><a href="global.html#SalesChart">SalesChart</a></li><li><a href="global.html#SalesReportModal">SalesReportModal</a></li><li><a href="global.html#SignOAuth">SignOAuth</a></li><li><a href="global.html#ThankYouPage">ThankYouPage</a></li><li><a href="global.html#TopBar">TopBar</a></li><li><a href="global.html#UpdateInventoryItemModal">UpdateInventoryItemModal</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li><li><a href="global.html#Welcome">Welcome</a></li><li><a href="global.html#XReportModal">XReportModal</a></li><li><a href="global.html#ZReportModal">ZReportModal</a></li><li><a href="global.html#generateToken">generateToken</a></li><li><a href="global.html#translateAllText">translateAllText</a></li><li><a href="global.html#translateAllText-TranslatesanarrayoftextsintothetargetlanguageusingGoogleTranslateAPI.">translateAllText - Translates an array of texts into the target language using Google Translate API.</a></li><li><a href="global.html#useTranslate">useTranslate</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Wed Dec 04 2024 17:56:55 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

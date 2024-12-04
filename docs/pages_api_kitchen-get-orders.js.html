@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: pages/api/kitchen-get-orders.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: pages/api/kitchen-get-orders.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import database from '../../utils/database';
+
+/**
+ * API Route to Fetch Kitchen Orders
+ * 
+ * @author Anson Thai
+ *
+ * @description
+ * Handles `GET` requests to retrieve kitchen orders from the database. Orders
+ * are grouped by `saleNumber` and include sale details and associated items
+ * for each sale. This API is designed to fetch orders originating from a kiosk.
+ *
+ * @features
+ * - **Database Query**: Retrieves sales and their associated items using a 
+ *   `LEFT JOIN` on `salesRecord` and `saleItems`.
+ * - **Data Grouping**: Groups items by `saleNumber` for structured JSON output.
+ * - **Error Handling**: Catches and logs database errors, returning a 500 status code.
+ * - **Request Validation**: Ensures only `GET` requests are processed.
+ *
+ * @requestMethod
+ * - `GET`: Fetches the orders.
+ *
+ * @response
+ * - `200 OK`: Returns a JSON object containing the grouped orders.
+ * - `500 Internal Server Error`: Returns an error message if data retrieval fails.
+ * - `405 Method Not Allowed`: Returns an error message if the request method is not `GET`.
+ *
+ * @returns {Object} JSON response with grouped orders:
+ * - `orders` (Array): Array of order objects grouped by `saleNumber`.
+ *   - `saleNumber` (number): Unique identifier for the sale.
+ *   - `saleDate` (Date): Date of the sale.
+ *   - `saleTime` (string): Time of the sale.
+ *   - `totalPrice` (number): Total price of the sale.
+ *   - `employeeID` (number): ID of the employee who processed the sale.
+ *   - `source` (string): Source of the sale (e.g., "Kiosk").
+ *   - `items` (Array): Array of items for the sale, where each item contains:
+ *     - `orderNumber` (number): Order number.
+ *     - `plateSize` (string): Size of the plate.
+ *     - `components` (Array): List of components in the plate.
+ *     - `status` (string): Status of the order (e.g., "Not Started", "In Progress", "Completed").
+ *
+ * @example
+ * // Request:
+ * GET /api/kitchen-orders
+ *
+ * // Response:
+ * {
+ *   "orders": [
+ *     {
+ *       "saleNumber": 12345,
+ *       "saleDate": "2024-01-01",
+ *       "saleTime": "12:34:56",
+ *       "totalPrice": 29.99,
+ *       "employeeID": 1001,
+ *       "source": "Kiosk",
+ *       "items": [
+ *         {
+ *           "orderNumber": 1,
+ *           "plateSize": "Large",
+ *           "components": [
+ *             { "componentName": "Chicken", "quantity": 2 },
+ *             { "componentName": "Rice", "quantity": 1 }
+ *           ],
+ *           "status": "In Progress"
+ *         }
+ *       ]
+ *     }
+ *   ]
+ * }
+ *
+ * // Error Response:
+ * {
+ *   "error": "Error fetching orders"
+ * }
+ */
+export default async function handler(req, res) {
+    if (req.method === 'GET') {
+        try {
+            const salesQuery = `
+                SELECT 
+                    sr.saleNumber,
+                    sr.saleDate,
+                    sr.saleTime,
+                    sr.totalPrice,
+                    sr.employeeID,
+                    sr.source,
+                    si.plateSize,
+                    si.components,
+                    si.status,
+                    si.orderNumber
+                FROM salesRecord sr
+                LEFT JOIN saleItems si ON sr.saleNumber = si.saleNumber
+                WHERE sr.source = 'Kiosk'
+                ORDER BY sr.saleNumber, si.orderNumber;
+            `;
+
+            const result = await database.query(salesQuery);
+
+            // Group items by saleNumber
+            const orders = {};
+            result.rows.forEach(row => {
+                const saleNumber = row.salenumber;
+
+                if (!orders[saleNumber]) {
+                    orders[saleNumber] = {
+                        saleNumber,
+                        saleDate: row.saledate,
+                        saleTime: row.saletime, // Corrected from 'row.saltime' to 'row.saletime'
+                        totalPrice: row.totalprice,
+                        employeeID: row.employeeid,
+                        source: row.source,
+                        items: [],
+                    };
+                }
+
+                // Parse 'components' if it's a string
+                let components = row.components;
+                if (typeof components === 'string') {
+                    try {
+                        components = JSON.parse(components);
+                    } catch (e) {
+                        console.error('Error parsing components:', e);
+                        components = [];
+                    }
+                }
+
+                orders[saleNumber].items.push({
+                    orderNumber: row.ordernumber,
+                    plateSize: row.platesize,
+                    components,
+                    status: row.status
+                });
+            });
+
+            res.status(200).json({ orders: Object.values(orders) });
+        } catch (error) {
+            console.error('Error fetching orders:', error);
+            res.status(500).json({ error: 'Error fetching orders' });
+        }
+    } else {
+        res.setHeader('Allow', ['GET']);
+        res.status(405).end(`Method ${req.method} Not Allowed`);
+    }
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AccessibilityButton">AccessibilityButton</a></li><li><a href="global.html#AddEmployeeForm">AddEmployeeForm</a></li><li><a href="global.html#AddMenuModal">AddMenuModal</a></li><li><a href="global.html#AiAgent">AiAgent</a></li><li><a href="global.html#BottomBar">BottomBar</a></li><li><a href="global.html#BottomPanel">BottomPanel</a></li><li><a href="global.html#ButtonGrid">ButtonGrid</a></li><li><a href="global.html#CartPage">CartPage</a></li><li><a href="global.html#CashierPage">CashierPage</a></li><li><a href="global.html#Customer">Customer</a></li><li><a href="global.html#CustomerLogIn">CustomerLogIn</a></li><li><a href="global.html#CustomerPointsModal">CustomerPointsModal</a></li><li><a href="global.html#CustomerSignUp">CustomerSignUp</a></li><li><a href="global.html#DropDowns">DropDowns</a></li><li><a href="global.html#EditEmployeeModal">EditEmployeeModal</a></li><li><a href="global.html#EmployeeIdModal">EmployeeIdModal</a></li><li><a href="global.html#EmployeeViewerModal">EmployeeViewerModal</a></li><li><a href="global.html#GlobalStateProvider">GlobalStateProvider</a></li><li><a href="global.html#InventoryTable">InventoryTable</a></li><li><a href="global.html#ItemFrame">ItemFrame</a></li><li><a href="global.html#KioskALaCartePage">KioskALaCartePage</a></li><li><a href="global.html#KioskBiggerPlatePage">KioskBiggerPlatePage</a></li><li><a href="global.html#KioskBowlPage">KioskBowlPage</a></li><li><a href="global.html#KioskItemPage">KioskItemPage</a></li><li><a href="global.html#KioskItemPanel">KioskItemPanel</a></li><li><a href="global.html#KioskPage">KioskPage</a></li><li><a href="global.html#KioskPlatePage">KioskPlatePage</a></li><li><a href="global.html#KitchenPage">KitchenPage</a></li><li><a href="global.html#KitchenTV">KitchenTV</a></li><li><a href="global.html#Landing">Landing</a></li><li><a href="global.html#Loading">Loading</a></li><li><a href="global.html#LoginOAuth">LoginOAuth</a></li><li><a href="global.html#Manager">Manager</a></li><li><a href="global.html#ManagerProfile">ManagerProfile</a></li><li><a href="global.html#Menu">Menu</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#OrderPanel">OrderPanel</a></li><li><a href="global.html#RecommendationPanel">RecommendationPanel</a></li><li><a href="global.html#ResetPassword">ResetPassword</a></li><li><a href="global.html#ResetSalesDataModal">ResetSalesDataModal</a></li><li><a href="global.html#RestockReportModal">RestockReportModal</a></li><li><a href="global.html#RoleProvider">RoleProvider</a></li><li><a href="global.html#SalesChart">SalesChart</a></li><li><a href="global.html#SalesReportModal">SalesReportModal</a></li><li><a href="global.html#SignOAuth">SignOAuth</a></li><li><a href="global.html#ThankYouPage">ThankYouPage</a></li><li><a href="global.html#TopBar">TopBar</a></li><li><a href="global.html#UpdateInventoryItemModal">UpdateInventoryItemModal</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li><li><a href="global.html#Welcome">Welcome</a></li><li><a href="global.html#XReportModal">XReportModal</a></li><li><a href="global.html#ZReportModal">ZReportModal</a></li><li><a href="global.html#generateToken">generateToken</a></li><li><a href="global.html#translateAllText">translateAllText</a></li><li><a href="global.html#translateAllText-TranslatesanarrayoftextsintothetargetlanguageusingGoogleTranslateAPI.">translateAllText - Translates an array of texts into the target language using Google Translate API.</a></li><li><a href="global.html#useTranslate">useTranslate</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Wed Dec 04 2024 17:56:55 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

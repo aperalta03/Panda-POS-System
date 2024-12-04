@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: app/components/manager/reports/salesReport.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: app/components/manager/reports/salesReport.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useState } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import Modal from '@mui/material/Modal';
+import styles from './salesReport.module.css';
+
+/**
+ * Sales Report Modal Component
+ * 
+ * @author Alonso Peralta Espinoza
+ *
+ * @description
+ * Displays a detailed sales report for a specified date range.
+ * Allows managers to generate reports and view total sales and item-specific details.
+ *
+ * @features
+ * - Date pickers for selecting report range.
+ * - Fetch and display sales data from `/api/sales-report`.
+ * - Handles loading and error states gracefully.
+ *
+ * @state
+ * - `reportData`: Stores the sales report data.
+ * - `loading`: Indicates whether data is being fetched.
+ * - `error`: Stores error messages during fetch.
+ *
+ * @methods
+ * - `fetchReportData`: Fetches sales report data based on selected dates.
+ *
+ * @example
+ * &lt;SalesReportModal
+ *   isOpen={true}
+ *   onClose={() => {}}
+ *   startDate={new Date()}
+ *   endDate={new Date()}
+ *   setStartDate={(date) => {}}
+ *   setEndDate={(date) => {}}
+ * />
+ */
+
+const SalesReportModal = ({
+  isOpen,
+  onClose,
+  startDate,
+  setStartDate,
+  endDate,
+  setEndDate,
+}) => {
+  const [reportData, setReportData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  // Helper function to round up to two decimal places
+  const roundUpToTwoDecimalPlaces = (num) => {
+    return (Math.ceil(num * 100) / 100).toFixed(2);
+  };
+
+  // Function to fetch report data from API
+  const fetchReportData = async () => {
+    setLoading(true);
+    setError(null);
+
+    const formattedStartDate = startDate.toISOString().split('T')[0];
+    const formattedEndDate = endDate.toISOString().split('T')[0];
+
+    try {
+      const response = await fetch(
+        `/api/sales-report?startDate=${formattedStartDate}&amp;endDate=${formattedEndDate}`
+      );
+      if (!response.ok) {
+        throw new Error('Failed to fetch data');
+      }
+      const data = await response.json();
+      setReportData(data.data || []); // Set report data if available
+    } catch (error) {
+      console.error('Error fetching sales report:', error);
+      setError('Failed to fetch data. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    &lt;Modal open={isOpen} onClose={onClose}>
+      &lt;div className={styles.modalBox}>
+        &lt;h2>Sales Report&lt;/h2>
+
+        {/* Date Pickers for selecting start and end dates */}
+        &lt;div className={styles.datePickerContainer}>
+          &lt;DatePicker
+            selected={startDate}
+            onChange={(date) => setStartDate(date)}
+          />
+          &lt;DatePicker
+            selected={endDate}
+            onChange={(date) => setEndDate(date)}
+          />
+        &lt;/div>
+
+        &lt;div style={{ display: 'flex', gap: '20px' }}>
+            &lt;button onClick={fetchReportData} className={styles.fetchButton}>
+                Generate Report
+            &lt;/button>
+            
+            &lt;button onClick={onClose} className={styles.closeButton}>
+                Close
+            &lt;/button>
+        &lt;/div>
+        
+        {/* Display loading, error, or report data */}
+        {loading &amp;&amp; &lt;p>Loading...&lt;/p>}
+        {error &amp;&amp; &lt;p className={styles.errorText}>{error}&lt;/p>}
+
+        {reportData.length > 0 &amp;&amp; (
+          &lt;div className={styles.scrollableTableContainer}>
+            &lt;table className={styles.reportTable}>
+              &lt;thead>
+                &lt;tr>
+                  &lt;th>Item Name&lt;/th>
+                  &lt;th>Total Sold&lt;/th>
+                  &lt;th>Total Revenue&lt;/th>
+                &lt;/tr>
+              &lt;/thead>
+              &lt;tbody>
+                {reportData.map((item, index) => (
+                  &lt;tr key={index}>
+                    &lt;td>{item.item_name}&lt;/td>
+                    &lt;td>{item.total_sold}&lt;/td>
+                    &lt;td>{roundUpToTwoDecimalPlaces(item.total_revenue)}&lt;/td>
+                  &lt;/tr>
+                ))}
+              &lt;/tbody>
+            &lt;/table>
+          &lt;/div>
+        )}
+      &lt;/div>
+    &lt;/Modal>
+  );
+};
+
+export default SalesReportModal;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AccessibilityButton">AccessibilityButton</a></li><li><a href="global.html#AddEmployeeForm">AddEmployeeForm</a></li><li><a href="global.html#AddMenuModal">AddMenuModal</a></li><li><a href="global.html#AiAgent">AiAgent</a></li><li><a href="global.html#BottomBar">BottomBar</a></li><li><a href="global.html#BottomPanel">BottomPanel</a></li><li><a href="global.html#ButtonGrid">ButtonGrid</a></li><li><a href="global.html#CartPage">CartPage</a></li><li><a href="global.html#CashierPage">CashierPage</a></li><li><a href="global.html#Customer">Customer</a></li><li><a href="global.html#CustomerLogIn">CustomerLogIn</a></li><li><a href="global.html#CustomerPointsModal">CustomerPointsModal</a></li><li><a href="global.html#CustomerSignUp">CustomerSignUp</a></li><li><a href="global.html#DropDowns">DropDowns</a></li><li><a href="global.html#EditEmployeeModal">EditEmployeeModal</a></li><li><a href="global.html#EmployeeIdModal">EmployeeIdModal</a></li><li><a href="global.html#EmployeeViewerModal">EmployeeViewerModal</a></li><li><a href="global.html#GlobalStateProvider">GlobalStateProvider</a></li><li><a href="global.html#InventoryTable">InventoryTable</a></li><li><a href="global.html#ItemFrame">ItemFrame</a></li><li><a href="global.html#KioskALaCartePage">KioskALaCartePage</a></li><li><a href="global.html#KioskBiggerPlatePage">KioskBiggerPlatePage</a></li><li><a href="global.html#KioskBowlPage">KioskBowlPage</a></li><li><a href="global.html#KioskItemPage">KioskItemPage</a></li><li><a href="global.html#KioskItemPanel">KioskItemPanel</a></li><li><a href="global.html#KioskPage">KioskPage</a></li><li><a href="global.html#KioskPlatePage">KioskPlatePage</a></li><li><a href="global.html#KitchenPage">KitchenPage</a></li><li><a href="global.html#KitchenTV">KitchenTV</a></li><li><a href="global.html#Landing">Landing</a></li><li><a href="global.html#Loading">Loading</a></li><li><a href="global.html#LoginOAuth">LoginOAuth</a></li><li><a href="global.html#Manager">Manager</a></li><li><a href="global.html#ManagerProfile">ManagerProfile</a></li><li><a href="global.html#Menu">Menu</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#OrderPanel">OrderPanel</a></li><li><a href="global.html#RecommendationPanel">RecommendationPanel</a></li><li><a href="global.html#ResetPassword">ResetPassword</a></li><li><a href="global.html#ResetSalesDataModal">ResetSalesDataModal</a></li><li><a href="global.html#RestockReportModal">RestockReportModal</a></li><li><a href="global.html#RoleProvider">RoleProvider</a></li><li><a href="global.html#SalesChart">SalesChart</a></li><li><a href="global.html#SalesReportModal">SalesReportModal</a></li><li><a href="global.html#SignOAuth">SignOAuth</a></li><li><a href="global.html#ThankYouPage">ThankYouPage</a></li><li><a href="global.html#TopBar">TopBar</a></li><li><a href="global.html#UpdateInventoryItemModal">UpdateInventoryItemModal</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li><li><a href="global.html#Welcome">Welcome</a></li><li><a href="global.html#XReportModal">XReportModal</a></li><li><a href="global.html#ZReportModal">ZReportModal</a></li><li><a href="global.html#generateToken">generateToken</a></li><li><a href="global.html#translateAllText">translateAllText</a></li><li><a href="global.html#translateAllText-TranslatesanarrayoftextsintothetargetlanguageusingGoogleTranslateAPI.">translateAllText - Translates an array of texts into the target language using Google Translate API.</a></li><li><a href="global.html#useTranslate">useTranslate</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Wed Dec 04 2024 17:56:55 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
