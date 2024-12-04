@@ -14,7 +14,7 @@ import Head from "next/head"; // Import Head for managing the document head
  * and start over, and provides a button to place the order. Additionally, it
  * displays a panel with recommended items and a summary of the order costs.
  *
- * @author Andrew Popovici
+ * @author Andrew Popovici, Brandon Batac
  * @returns {JSX.Element} The rendered CartPage component.
  */
 const CartPage = () => {
@@ -110,7 +110,7 @@ const CartPage = () => {
    *
    * @throws {Error} Logs an error if the order fails to save or if there is an error during the fetch.
    *
-   * @author Andrew Popovici
+   * @author Andrew Popovici, Brandon Batac
    */
   const handlePlaceOrder = async () => {
     const employeeID = 1;

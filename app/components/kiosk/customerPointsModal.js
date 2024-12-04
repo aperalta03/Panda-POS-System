@@ -6,7 +6,7 @@ import styles from "./customerPointsModal.module.css";
 /**
  * Customer Points Modal Component
  *
- * @author Conner Black
+ * @author Conner Black, Brandon Batac
  *
  * @description
  * A modal component that displays the customer's current points and offers an option to redeem points

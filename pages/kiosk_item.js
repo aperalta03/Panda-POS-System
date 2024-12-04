@@ -158,7 +158,7 @@ const RecommendedItem = () => {
   useEffect(() => {
     /**
      * Fetches the top-selling item from the server and updates the component state.
-     * @author Uzair Khan
+     * @author Uzair Khan, Brandon Batac
      * @returns {Promise<void>}
      * @throws {Error} If the fetch fails or the response is not ok.
      */
