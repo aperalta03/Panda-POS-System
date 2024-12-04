@@ -48,7 +48,7 @@ const CustomerPointsModal = ({ onClose, isOpen }) => {
 
   useEffect(() => {
     if (customerTotalPoints >= 1000) {
-      console.log(currentLanguage);
+      console.log(customerTotalPoints);
       setModalMessage(
         currentLanguage === "en"
           ? `You have ${customerTotalPoints} points! Would you like to use 1000 points for a 10% discount?`
@@ -59,11 +59,13 @@ const CustomerPointsModal = ({ onClose, isOpen }) => {
               ]
       );
     } else {
+      console.log(customerTotalPoints);
       const pointsNeeded = 1000 - customerTotalPoints;
       setModalMessage(
         `You are ${pointsNeeded} points away from earning 1000 points for a 10% discount.`
       );
     }
+    setCustomer10PercentOff(customerTotalPoints > 1000);
   }, [customerTotalPoints]);
 
   const handleApplyDiscount = async () => {
@@ -86,8 +88,7 @@ const CustomerPointsModal = ({ onClose, isOpen }) => {
     if (response.ok) {
       const data = await response.json();
       alert("You've used 1000 points for a 10% discount!");
-      setCustomer10PercentOff(true);
-      setCustomerName(data.customer.name);
+      setCustomer10PercentOff(customerTotalPoints > 1000);
       onClose(); // Close the modal after successful update
     } else {
       const data = await response.json();

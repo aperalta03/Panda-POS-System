@@ -34,6 +34,10 @@ const CartPage = () => {
     numTotalItems,
     removeItemFromCart,
     clearCart,
+    customerTotalPoints,
+    setCustomerTotalPoints,
+    totalSpent,
+    setTotalSpent,
   } = useGlobalState();
   const { toggleTheme, currentTheme, isPandaMember, toggleSize, isLargeText } =
     useGlobalState();
@@ -120,6 +124,7 @@ const CartPage = () => {
     const saleDate = now.toLocaleDateString("en-CA"); //need this for the correct time zone
     const saleTime = now.toTimeString().split(" ")[0];
     console.log(saleDate);
+    setTotalSpent(total.toFixed(2));
     const orderDetails = {
       saleDate,
       saleTime,
@@ -152,6 +157,21 @@ const CartPage = () => {
 
       if (response.ok) {
         console.log("Order saved successfully");
+        console.log("Points before: ", customerTotalPoints);
+        if (customer10PercentOff) {
+          setCustomerTotalPoints((prevPoints) => {
+            console.log("10 percent off, subtracting 1000 points");
+            return prevPoints - 1000;
+          });
+        }
+        const pointsGained = Math.floor(total * 10);
+        console.log("Points gained: ", pointsGained);
+        setCustomerTotalPoints((prevPoints) => {
+          const updatedPoints = prevPoints + pointsGained;
+          console.log("Points after gaining: ", updatedPoints);
+          return updatedPoints;
+        });
+        console.log("Points after: ", customerTotalPoints);
       } else {
         const errorData = await response.json();
         console.error("Failed to save order", errorData);

@@ -38,6 +38,7 @@ export const GlobalStateProvider = ({ children }) => {
   const [customerName, setCustomerName] = useState("Guest");
   const [customerTotalPoints, setCustomerTotalPoints] = useState(0);
   const [customer10PercentOff, setCustomer10PercentOff] = useState(false);
+  const [totalSpent, setTotalSpent] = useState(0);
 
   useEffect(() => {
     // Apply the theme to the body or a specific wrapper
@@ -381,6 +382,8 @@ export const GlobalStateProvider = ({ children }) => {
         clearCart,
         numTotalItems,
         setNumTotalItems,
+        totalSpent,
+        setTotalSpent,
         /*styling toggles */
         currentTheme,
         toggleTheme,
