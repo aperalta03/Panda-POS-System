@@ -30,7 +30,6 @@ export const textArray = [
   "Total |",
   "Choose A Meal Above",
   "Select Items",
-  "Super Greens",
   "Select Sides",
   "Select Entrees",
   "Checkout",
@@ -125,4 +124,5 @@ export const textArray = [
   "Date of Birth (optional):",
   "Welcome, Guest",
   "Welcome, ",
+  "Discount (10%):",
 ];

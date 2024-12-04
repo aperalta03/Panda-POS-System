@@ -173,6 +173,7 @@
   padding-right: 10px;
   z-index: 1;
   position: relative;
+  min-height: 80px;
 }
 
 /* Scrollbar styles */
@@ -241,7 +242,7 @@
   border: 1px solid var(--border);
   max-width: 650px; /* Adjusted width */
   width: 100%;
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
 /* Title for the extras section */
@@ -384,7 +385,7 @@
 /* Container for price summary details and total */
 .priceSummary {
   display: flex;
-  margin-top: 20px;
+  margin-top: -40px;
   gap: 20px;
   color: var(--order-summary-color);
   align-items: flex-start;
@@ -400,9 +401,11 @@
 
 /* Left-aligned container for price details */
 .priceDetailsContainer {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  bottom: 40px;
 }
 
 /* Styling for individual price details */
@@ -415,6 +418,7 @@
   align-self: flex-end;
   gap: 5px;
   margin-top: 5px;
+  margin-right: 15px;
   color: var(--order-summary-text-color);
 }
 .priceDetail span:first-child {
@@ -428,6 +432,7 @@
   color: var(--price-text-color);
   border-top-left-radius: 20px;
   width: 300px;
+  margin-top: 60px;
 }
 
 /* Styling for total price labels */
@@ -447,4 +452,11 @@
 .bottomContainer,
 .orderSummary {
   z-index: 1;
+}
+
+.welcomeHeader {
+  font-size: 1.6rem;
+  color: black;
+  font-weight: bold;
+  margin-right: 50px;
 }
