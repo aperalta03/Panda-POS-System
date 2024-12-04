@@ -4,7 +4,7 @@ import database from '../../utils/database';
 
 /**
  * 
- ** @author Alonso Peralta Espinoza
+ * @author Alonso Peralta Espinoza
  *
  * Updates the active/inactive status of an employee in the database.
  *

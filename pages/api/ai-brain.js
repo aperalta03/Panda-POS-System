@@ -7,7 +7,7 @@ const openai = new OpenAI({
 
 /**
  * 
- ** @author Alonso Peralta Espinoza
+ * @author Alonso Peralta Espinoza
  *
  * Generates a conversational AI response based on user input, chat context, and menu item retrieval.
  *

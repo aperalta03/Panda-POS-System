@@ -9,7 +9,7 @@ import Head from "next/head"; // Import Head for managing the document head
 /**
  * ThankYouPage Component
  *
- * @author Uzair Khan, Alonso Espinosa
+ * @author Uzair Khan, Alonso Peralta Espinoza
  *
  * @description
  * Displays a thank-you page after an order, including a dynamic order number and fortune.
@@ -39,24 +39,27 @@ const ThankYouPage = () => {
     setCustomer10PercentOff,
     totalSpent,
     customerName,
+    currentLanguage,
   } = useGlobalState();
   const [fortune, setFortune] = useState("Fetching your fortune...");
   const pointsUsed = customer10PercentOff ? 1000 : 0;
   const pointsGained = Math.floor(totalSpent * 10);
 
   useEffect(() => {
+
     /**
      * Fetches a fortune message from the `/api/fortune-ai` API endpoint
      * and updates the component state with the response.
      * If the API call fails, it sets a default fortune message.
-     * @author Alonso Espinosa
+     * @author Alonso Peralta Espinoza
      * @async
      * @returns {Promise<void>}
      * @throws {Error} If the fetch fails or the response is not ok.
      */
+
     const fetchFortune = async () => {
       try {
-        const response = await fetch("/api/fortune-ai");
+        const response = await fetch(`/api/fortune-ai?currentLanguage=${currentLanguage}`);
         const data = await response.json();
         setFortune(data.fortune || "Your fortune could not be fetched.");
       } catch (error) {
@@ -95,7 +98,7 @@ const ThankYouPage = () => {
     return () => {
       window.removeEventListener("click", handleClick);
     };
-  }, [router]);
+  }, [router, currentLanguage]);
 
   return (
     <>

@@ -6,7 +6,7 @@ const openai = new OpenAI({
 
 /**
  * 
- ** @author Alonso Peralta Espinoza
+ * @author Alonso Peralta Espinoza
  *
  * Generates a fortune cookie-style message using a fine-tuned AI model.
  *
@@ -45,13 +45,20 @@ export default async function handler(req, res) {
     }
 
     try {
+
+        //** Current Language **//
+        const { currentLanguage } = req.query;
+        if (!currentLanguage) {
+            return res.status(400).json({ error: "Missing 'currentLanguage' parameter." });
+        }
+
         //** AI Fortune Cookie **// - Using FINETUNED MODEL
         const response = await openai.chat.completions.create({
             model: "ft:gpt-4o-mini-2024-07-18:personal:pos-system-model1:AWFW78N3",
             messages: [
                 {
                     role: "system",
-                    content: `You are a wise fortune cookie AI. Your task is to create short, positive, and inspiring fortunes. 
+                    content: `Using this language: ${currentLanguage}. You are a wise fortune cookie AI. Your task is to create short, positive, and inspiring fortunes. 
                                 Fortunes should be concise and similar to those found in real fortune cookies.`,
                 },
                 { role: "user", content: "Generate a fortune cookie fortune." },

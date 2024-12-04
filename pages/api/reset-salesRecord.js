@@ -2,7 +2,7 @@ import database from '../../utils/database';
 
 /**
  * 
- ** @author Alonso Peralta Espinoza
+ * @author Alonso Peralta Espinoza
  *
  * Resets sales data by truncating `saleItems` and `salesRecord` tables.
  *

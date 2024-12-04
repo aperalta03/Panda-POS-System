@@ -6,7 +6,7 @@ import bcrypt from 'bcrypt';
 
 /**
  * 
- ** @author Alonso Peralta Espinoza
+ * @author Alonso Peralta Espinoza
  *
  * Handles various authentication actions such as login, signup, email verification, and password reset.
  *

@@ -4,7 +4,7 @@ import path from 'path';
 
 /**
  * 
- ** @author Alonso Peralta Espinoza, Connner Black
+ * @author Alonso Peralta Espinoza, Connner Black
  *
  * Retrieves hourly sales data for the current day (X-Report).
  *

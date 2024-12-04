@@ -2,7 +2,7 @@ import database from '../../utils/database';
 
 /**
  * 
- ** @author Alonso Peralta Espinoza
+ * @author Alonso Peralta Espinoza
  *
  * Re-syncs the IDs of menu items and their respective inventory items.
  *
