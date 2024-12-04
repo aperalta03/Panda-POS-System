@@ -41,27 +41,34 @@ const KitchenPage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [cancelOrderDetails, setCancelOrderDetails] = useState({ saleNumber: null, orderNumber: null });
 
-    useEffect(() => {
-        /**
-         * Fetches orders from the server and updates the component state.
-         *
-         * This function is called whenever the component mounts or updates.
-         * It fetches the orders list from the server and updates the component state.
-         * If the server returns an error, it logs the error to the console.
-         */
-        const fetchOrders = async () => {
-            try {
-                const response = await fetch('/api/kitchen-get-orders');
-                const data = await response.json();
-                setOrders(data.orders);
-            } catch (error) {
-                console.error('Error fetching orders:', error);
-            }
-        };
+    // Fetch orders from the server
+    const fetchOrders = async () => {
+        try {
+            const response = await fetch('/api/kitchen-get-orders');
+            const data = await response.json();
+            setOrders(data.orders);
+        } catch (error) {
+            console.error('Error fetching orders:', error);
+        }
+    };
 
-        fetchOrders();
+    // Periodically fetch orders every second
+    useEffect(() => {
+        fetchOrders(); // Initial fetch
+        const interval = setInterval(fetchOrders, 1000); // Fetch every second
+
+        return () => clearInterval(interval); // Cleanup interval on component unmount
     }, []);
 
+    /**
+     * Updates the status of an order item and updates the orders list.
+     *
+     * @param {number} saleNumber - The unique identifier for the sale.
+     * @param {number} orderNumber - The order number to update.
+     * @param {string} newStatus - The new status of the order (e.g., "Not Started", "Cooking", "Completed").
+     *
+     * @returns {Promise<void>}
+     */
     const updateOrderStatus = async (saleNumber, orderNumber, newStatus) => {
         try {
             const response = await fetch('/api/kitchen-update-order-status', {
@@ -94,14 +101,12 @@ const KitchenPage = () => {
     };
 
     /**
-     * Removes a sale from the kitchen screen.
+     * Removes a sale from the kitchen view by making a POST request to /api/kitchen-remove-sale
+     * with the saleNumber as the request body.
      *
-     * Sends a POST request to the server to remove the sale.
-     * If successful, it updates the orders list in the local state.
-     * Logs an error if the request fails or encounters an exception.
+     * @param {number} saleNumber - The sale number to remove
      *
-     * @async
-     * @param {number} saleNumber - The unique identifier for the sale.
+     * @returns {Promise<void>}
      */
     const removeSale = async (saleNumber) => {
         try {
@@ -124,18 +129,18 @@ const KitchenPage = () => {
     };
 
     /**
-     * Announces the items in the sale with the given sale number.
+     * Takes a sale number as input and speaks out the corresponding order.
+     * It will iterate through the items of the sale and generate a message
+     * that describes the order, including the order number, plate size, and
+     * components. The message is then spoken out using the
+     * SpeechSynthesis API.
      *
-     * It finds the sale in the orders list and iterates over its items. For each item, it
-     * determines the counts of each component and generates a string description of the
-     * item. It then creates a SpeechSynthesisUtterance object with that string and
-     * speaks it using the window.speechSynthesis object.
+     * If no matching order is found, it will speak out a message
+     * indicating that no matching order was found.
      *
-     * If the sale is not found, it speaks a message indicating that.
-     *
-     * @param {number} saleNumber - The unique identifier for the sale.
+     * @param {number} saleNumber - The sale number to speak out.
      */
-    const textToSpeech = async (saleNumber) => {
+    const textToSpeech = (saleNumber) => {
         const saleToSpeech = orders.find(order => order.saleNumber === saleNumber);
 
         if (saleToSpeech) {
@@ -149,33 +154,14 @@ const KitchenPage = () => {
                     return acc;
                 }, {});
 
-                const specialComponents = ["Super Greens", "Chow Mein", "Fried Rice", "White Steamed Rice"];
-                specialComponents.forEach(side => {
-                    if (componentCounts[side]) {
-                        const count = componentCounts[side];
-                        if (count === 1) {
-                            componentCounts[side] = 0.5; // Single = half
-                        } else if (count === 2) {
-                            componentCounts[side] = 1; // Double = one
-                        } else if (count > 2) {
-                            componentCounts[side] = 1 + (count - 2); // Two = one, extras count normally
-                        }
-                    }
+                const componentsArray = Object.entries(componentCounts).map(([component, count]) => {
+                    if (count === 2) return `double ${component}`;
+                    if (count === 3) return `triple ${component}`;
+                    if (count === 1) return component;
+                    return `${count} times ${component}`;
                 });
 
-                const componentsArray = Object.entries(componentCounts)
-                    .map(([component, count]) => {
-                        if (count === 2) return `double ${component}`;
-                        if (count === 3) return `triple ${component}`;
-                        if (count === 0.5) return `half ${component}`;
-                        return count > 3 ? `${count} times ${component}` : component;
-                    });
-
-                const componentDescription = componentsArray.length > 1
-                    ? `${componentsArray.slice(0, -1).join(', ')}, and ${componentsArray[componentsArray.length - 1]}`
-                    : componentsArray[0] || '';
-
-                const message = `Order number ${orderNumber}: ${plateSize} with ${componentDescription}`;
+                const message = `Order number ${orderNumber}: ${plateSize} with ${componentsArray.join(', ')}`;
                 const utterance = new SpeechSynthesisUtterance(message);
                 window.speechSynthesis.speak(utterance);
             });
@@ -184,27 +170,26 @@ const KitchenPage = () => {
             window.speechSynthesis.speak(utterance);
         }
     };
-
-    const handleTextToSpeech = (saleNumber) => {
-        textToSpeech(saleNumber);
-    };
-
-    const handleRemoveSale = (saleNumber) => {
-        removeSale(saleNumber);
-    };
-
-    const handleStartOrder = (saleNumber, orderNumber) => {
-        updateOrderStatus(saleNumber, orderNumber, 'Cooking');
-    };
-
-    const handleCompleteOrder = (saleNumber, orderNumber) => {
-        updateOrderStatus(saleNumber, orderNumber, 'Completed');
-    };
-
+    /**
+     * Opens the cancellation modal for the given sale number and order number.
+     * 
+     * @param {number} saleNumber - The sale number of the order to cancel.
+     * @param {number} orderNumber - The order number to cancel.
+     */
     const openCancelModal = (saleNumber, orderNumber) => {
         setCancelOrderDetails({ saleNumber, orderNumber });
         setIsModalOpen(true);
     };
+    /**
+     * Handles the cancellation of an order.
+     * 
+     * @description
+     * Calls the `/api/kitchen-cancel-order` API endpoint to cancel the order.
+     * If the request is successful, it removes the order from the list of orders
+     * if it has no items left. If the request fails, it logs an error message.
+     * 
+     * @returns {undefined}
+     */
 
     const handleCancelOrder = async () => {
         try {
@@ -237,9 +222,7 @@ const KitchenPage = () => {
         }
     };
 
-    const closeModal = () => {
-        setIsModalOpen(false);
-    };
+    const closeModal = () => setIsModalOpen(false);
 
     return (
         <div className={styles.gridContainer}>
@@ -249,14 +232,14 @@ const KitchenPage = () => {
                     {order.items.every(item => item.status === 'Completed') ? (
                         <button
                             className={styles.removeSaleButton}
-                            onClick={() => handleRemoveSale(order.saleNumber)}
+                            onClick={() => removeSale(order.saleNumber)}
                         >
                             REMOVE SALE
                         </button>
                     ) : (
                         <button
                             className={styles.textToSpeechButton}
-                            onClick={() => handleTextToSpeech(order.saleNumber)}
+                            onClick={() => textToSpeech(order.saleNumber)}
                         >
                             TEXT TO SPEECH
                         </button>
@@ -285,14 +268,14 @@ const KitchenPage = () => {
                                     </div>
                                     <button
                                         className={`${styles.startOrderButton} ${item.status === 'Cooking' && styles.activeStart}`}
-                                        onClick={() => handleStartOrder(order.saleNumber, item.orderNumber)}
+                                        onClick={() => updateOrderStatus(order.saleNumber, item.orderNumber, 'Cooking')}
                                         disabled={item.status !== 'Not Started'}
                                     >
                                         START ORDER
                                     </button>
                                     <button
                                         className={`${styles.completeButton} ${item.status === 'Completed' && styles.activeComplete}`}
-                                        onClick={() => handleCompleteOrder(order.saleNumber, item.orderNumber)}
+                                        onClick={() => updateOrderStatus(order.saleNumber, item.orderNumber, 'Completed')}
                                         disabled={item.status !== 'Cooking'}
                                     >
                                         COMPLETE

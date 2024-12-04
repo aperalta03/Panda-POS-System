@@ -33,30 +33,35 @@ const InventoryTable = () => {
     const [error, setError] = useState(null);
     const [sortConfig, setSortConfig] = useState({ key: 'name', direction: 'ascending' });
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch('/api/inventory-table');
-                if (!response.ok) {
-                    throw new Error('Failed to fetch inventory data');
-                }
-                const data = await response.json();
-
-                const adjustedData = data.data.map(item => ({
-                    ...item,
-                    to_order: item.to_order < 0 ? 0 : item.to_order,
-                }));
-
-                setInventoryData(adjustedData);
-                setLoading(false);
-            } catch (error) {
-                console.error('Error fetching inventory data:', error);
-                setError('Failed to load inventory data');
-                setLoading(false);
+    const fetchData = async () => {
+        try {
+            const response = await fetch('/api/inventory-table');
+            if (!response.ok) {
+                throw new Error('Failed to fetch inventory data');
             }
-        };
+            const data = await response.json();
 
-        fetchData();
+            const adjustedData = data.data.map(item => ({
+                ...item,
+                to_order: item.to_order < 0 ? 0 : item.to_order,
+            }));
+
+            setInventoryData(adjustedData);
+            setLoading(false);
+        } catch (error) {
+            console.error('Error fetching inventory data:', error);
+            setError('Failed to load inventory data');
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchData(); // Initial fetch
+        const intervalId = setInterval(() => {
+            fetchData();
+        }, 1000); // Fetch data every second
+
+        return () => clearInterval(intervalId); // Cleanup interval on component unmount
     }, []);
 
     const sortedData = React.useMemo(() => {
@@ -75,14 +80,6 @@ const InventoryTable = () => {
         return sorted;
     }, [inventoryData, sortConfig]);
 
-/**
- * Updates the sorting configuration based on the specified column key.
- * Toggles the sorting direction between ascending and descending if the same column is clicked consecutively.
- *
- * @author Alonso Peralta Espinoza
- * 
- * @param {string} key - The column key to sort by.
- */
     const requestSort = (key) => {
         let direction = 'ascending';
         if (sortConfig.key === key && sortConfig.direction === 'ascending') {
