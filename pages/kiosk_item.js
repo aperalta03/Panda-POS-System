@@ -57,7 +57,7 @@ const TopBar = ({ handleOptionsClick }) => {
   return (
     <div className={styles.KioskItemPanel}>
       <div className={styles.leftButtons}>
-        <h1 className={styles.welcomeHeader}>
+        {/*<h1 className={styles.welcomeHeader}>
           {customerName === "Guest"
             ? currentLanguage === "en"
               ? "Welcome, Guest"
@@ -65,7 +65,7 @@ const TopBar = ({ handleOptionsClick }) => {
             : currentLanguage === "en"
             ? "Welcome, " + customerName
             : translations["Welcome, "] + customerName}
-        </h1>
+        </h1>*/}
         <div className={styles.cartAndPriceContainer}>
           <button
             className={styles.circleButton}

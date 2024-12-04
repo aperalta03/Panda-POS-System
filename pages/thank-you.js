@@ -40,6 +40,7 @@ const ThankYouPage = () => {
     totalSpent,
     customerName,
     currentLanguage,
+    setIsPandaMember,
   } = useGlobalState();
   const [fortune, setFortune] = useState("Fetching your fortune...");
   const pointsUsed = customer10PercentOff ? 1000 : 0;
@@ -91,6 +92,7 @@ const ThankYouPage = () => {
       setCustomerName("Guest");
       setCustomerPhoneNumber("");
       setCustomer10PercentOff(false);
+      setIsPandaMember(false);
       router.push("/kiosk");
     };
     window.addEventListener("click", handleClick);

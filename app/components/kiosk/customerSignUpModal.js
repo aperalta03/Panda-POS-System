@@ -10,6 +10,7 @@ const CustomerSignUp = ({ isOpen, onClose }) => {
     setCustomerName,
     setCustomerTotalPoints,
     translations,
+    setIsPandaMember,
   } = useGlobalState();
   const [isPointsModalOpen, setPointsModalOpen] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -48,6 +49,7 @@ const CustomerSignUp = ({ isOpen, onClose }) => {
         setCustomerPhoneNumber(phoneNumber);
         setCustomerTotalPoints(0);
         setPointsModalOpen(true);
+        setIsPandaMember(true);
         onClose(); // Close the modal
       } else {
         alert(result.error || "Failed to add customer");

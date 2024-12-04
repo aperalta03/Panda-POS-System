@@ -59,6 +59,7 @@ const CustomerLogIn = ({ onClose, isOpen }) => {
     setCustomerName,
     setCustomerTotalPoints,
     translations,
+    setIsPandaMember,
   } = useGlobalState();
   const [isSignUpModalOpen, setSignUpModalOpen] = useState(false);
   const [isPointsModalOpen, setPointsModalOpen] = useState(false);
@@ -109,6 +110,7 @@ const CustomerLogIn = ({ onClose, isOpen }) => {
         setCustomerName(name);
         setCustomerPhoneNumber(phoneNumber);
         setCustomerTotalPoints(totalPoints);
+        setIsPandaMember(true);
         setPointsModalOpen(true); // Open the customer points modal
         onClose(); // Close the login modal on success
       } else {

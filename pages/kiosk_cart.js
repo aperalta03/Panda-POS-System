@@ -363,7 +363,7 @@ const CartPage = () => {
             <RecommendationsPanel />
           </div>
           <div className={styles.orderSummary}>
-            <h1 className={styles.welcomeHeader}>
+            {/*<h1 className={styles.welcomeHeader}>
               {customerName === "Guest"
                 ? currentLanguage === "en"
                   ? "Welcome, Guest"
@@ -371,7 +371,7 @@ const CartPage = () => {
                 : currentLanguage === "en"
                 ? "Welcome, " + customerName
                 : translations["Welcome, "] + customerName}
-            </h1>
+            </h1>*/}
             <button
               className={styles.placeOrderButton}
               onClick={handlePlaceOrder}
