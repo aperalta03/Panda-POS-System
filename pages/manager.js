@@ -47,7 +47,7 @@ const Manager = () => {
         <>
         <Head>
           {/* Add or update the page title */}
-          <title>Manger View Page</title>
+          <title>Manager View Page</title>
           {/* Add other metadata if needed */}
           <meta name="description" content="View and Modify as a Manager" />
         </Head>
