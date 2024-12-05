@@ -58,21 +58,24 @@ export default async function handler(req, res) {
     }
 
     try {
-        // ** Validate Chat Context **
-        const validChatContext = chatContext.filter(
-            (msg) => msg && typeof msg === "object" && "role" in msg && "content" in msg
-        );
 
-        // ** Prepare System Prompt **
         let systemPrompt = "";
 
         if (isTextToSpeech) {
-            // ** Text-to-Speech Request Context **
-            systemPrompt = `You are an assistant that summarizes and corrects grammatical errors in the provided text. Provide a clear, concise summary, and correct any grammatical mistakes. The summary should be suitable for reading aloud to a user who may have visual impairments.`;
-        } else {
-            // ** Regular Chat Request Context **
 
-            // ** Get Menu Items ** (Database Retrieval)
+            //** Text-to-Speech Request Context **//
+            systemPrompt = `You are an assistant that summarizes and corrects grammatical errors in the provided text. 
+                            Provide a clear, concise summary, and correct any grammatical mistakes. 
+                            The summary should be suitable for reading aloud to a user who may have visual impairments.`;
+
+        } else {
+
+            //** Chat Context **// - RAG
+            const validChatContext = chatContext.filter(
+                (msg) => msg && typeof msg === "object" && "role" in msg && "content" in msg
+            );
+
+            //** Database Retrieval **// - RAG
             const menuQuery = `
                 SELECT name, description, price, calories, designation
                 FROM menu
@@ -98,6 +101,7 @@ export default async function handler(req, res) {
 
             systemPrompt = `You are an AI Agent for Panda Express. You aid customer queries. When asked for dishes, they are expecting a Panda Express option, not a recipe.
             This is your relevant menu context: ${menuContext}
+            This is the user's chat context: ${JSON.stringify(validChatContext)}
             Your answers should be:
             - Concise
             - Precise
@@ -106,20 +110,18 @@ export default async function handler(req, res) {
             - Include emojis related to Panda Express when suitable.`;
         }
 
-        // ** Generate Response **
+        //** Generate Response **// - Fine-Tunned Model
         const response = await openai.chat.completions.create({
             model: "ft:gpt-4o-mini-2024-07-18:personal:pos-system-model1:AWFW78N3",
             messages: [
-                ...validChatContext,
                 { role: "system", content: systemPrompt },
                 { role: "user", content: userMessage },
             ],
             
-            max_tokens: isTextToSpeech ? 1000 : 1000, // Adjust max_tokens based on request type
+            max_tokens: 1000,
         });
-        console.log(systemPrompt);
 
-        // ** Output Message **
+        //** Output Message **//
         const botResponse = response.choices[0].message.content.trim();
 
         res.status(200).json({ response: botResponse });
