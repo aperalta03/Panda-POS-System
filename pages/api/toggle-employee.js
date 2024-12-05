@@ -6,10 +6,8 @@ import database from '../../utils/database';
  * 
  * @author Alonso Peralta Espinoza
  * 
- * @module api/toggle-employee
- *
  * Updates the active/inactive status of an employee in the database.
- *
+ * @module api/toggle-employee
  * @api {post} /api/toggle-employee
  * @apiName ToggleEmployeeStatus
  * @apiGroup Employee

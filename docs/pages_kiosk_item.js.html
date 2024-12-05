@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: pages/kiosk_item.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: pages/kiosk_item.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useState, useEffect, useContext } from "react";
+import styles from "./kiosk_item.module.css";
+import { useRouter } from "next/router";
+import { useGlobalState } from "../app/context/GlobalStateContext";
+import TranslateButton from "@/app/components/kiosk/translateButton";
+import { Margin } from "@mui/icons-material";
+
+import AccessibilityButton from "./accessButton";
+import Head from "next/head"; // Import Head for managing the document head
+
+/**
+ * TopBar component for the kiosk page.
+ * Displays panel information, a tracker of selected items, and utility buttons such as translation and accessibility.
+ *
+ * @component
+ * @author Uzair Khan
+ *
+ * @param {Object} props - Component properties.
+ * @param {function} props.handleOptionsClick - Callback to handle navigation to the options page.
+ * @returns {JSX.Element} The rendered TopBar component.
+ */
+const TopBar = ({ handleOptionsClick }) => {
+  const router = useRouter();
+  const { currentLanguage, changeLanguage, translations } = useGlobalState();
+  const {
+    cart,
+    addItemToCart,
+    removeItemFromCart,
+    clearCart,
+    newItem,
+    removeNewItem,
+    setCart,
+    numTotalItems,
+    customerName,
+  } = useGlobalState();
+
+  const subtotal = cart.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0
+  );
+  const tax = subtotal * 0.15;
+  const total = subtotal + tax;
+  console.log(customerName);
+
+  /**
+   * Handles the language change event by updating the application's current language.
+   * @param {Object} e - The event object containing the selected language value.
+   * @property {string} e.target.value - The new language code to set.
+   * @returns {void}
+   * @author Brandon Batac
+   */
+  const handleLanguageChange = (e) => {
+    const newLanguage = e.target.value;
+    changeLanguage(newLanguage);
+  };
+
+  return (
+    &lt;div className={styles.KioskItemPanel}>
+      &lt;div className={styles.leftButtons}>
+        &lt;h1 className={styles.welcomeHeader}>
+          {customerName === "Guest"
+            ? currentLanguage === "en"
+              ? "Welcome, Guest"
+              : translations["Welcome, Guest"]
+            : currentLanguage === "en"
+            ? "Welcome, " + customerName
+            : translations["Welcome, "] + customerName}
+        &lt;/h1>
+        &lt;div className={styles.cartAndPriceContainer}>
+          &lt;button
+            className={styles.circleButton}
+            onClick={() => {
+              router.push("/kiosk_cart");
+            }}
+          >
+            &lt;img
+              src="/cart2_img.png"
+              alt="Cart Icon"
+              className={styles.cartImage}
+            />
+          &lt;/button>
+          &lt;div className={styles.cartItemCount}>{numTotalItems}&lt;/div>
+          &lt;h1 className={styles.priceLabel}>${total.toFixed(2)}&lt;/h1>
+        &lt;/div>
+        &lt;div className={styles.gearButtonContainer}>
+          &lt;AccessibilityButton />
+        &lt;/div>
+        &lt;TranslateButton
+          currentLanguage={currentLanguage}
+          onLanguageChange={handleLanguageChange}
+          customStyles={{ margin: "10px" }}
+        />
+      &lt;/div>
+      &lt;div className={styles.leftPanel}>
+        &lt;div className={styles.rightButtons}>
+          &lt;button
+            className={styles.checkOut}
+            onClick={() => {
+              router.push("/kiosk_cart");
+            }}
+          >
+            {translations["Checkout"] || "Checkout"}
+          &lt;/button>
+          &lt;button
+            className={styles.genStartOver}
+            onClick={() => {
+              clearCart();
+              router.push("/kiosk");
+            }}
+          >
+            &lt;div className={styles.inlineText}>
+              &lt;span className={styles.x}>X&lt;/span>
+              &lt;span className={styles.startOver}>
+                {translations["Start Over"] || "Start Over"}
+              &lt;/span>
+            &lt;/div>
+          &lt;/button>
+        &lt;/div>
+      &lt;/div>
+    &lt;/div>
+  );
+};
+
+/**
+ * RecommendedItem Component
+ *
+ * Fetches the top-selling item of the month from the server, matches it with the global menu data,
+ * and displays its details. Handles loading, error states, and supports multilingual translations.
+ * @author Uzair Khan
+ *
+ * @function RecommendedItem
+ * @returns {JSX.Element} JSX rendering the recommended item panel.
+ *
+ * @typedef {Object} MenuItem
+ * @property {string} name - The name of the menu item.
+ * @property {string} description - The description of the menu item.
+ * @property {number} calories - The calorie count of the menu item.
+ * @property {string} designation - The designation or category of the menu item.
+ * @property {string} image - URL to the image of the menu item.
+ *
+ * @typedef {Object} TopItem
+ * @property {string} item_name - The name of the top-selling item fetched from the server.
+ *
+ * @state {TopItem|null} topItem - Stores the name of the top-selling item.
+ * @state {boolean} loading - Tracks the loading status of the API fetch operation.
+ * @state {string|null} error - Stores any error messages from the fetch operation.
+ *
+ * @global {Object} useGlobalState - Provides access to global state variables like `menu`, `translations`, etc.
+ * @global {Array&lt;MenuItem>} menu - The global menu list containing all menu items and their details.
+ */
+const RecommendedItem = () => {
+  const [topItem, setTopItem] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const { currentLanguage, changeLanguage, translations } = useGlobalState();
+
+  const { menu } = useGlobalState();
+  useEffect(() => {
+    /**
+     * Fetches the top-selling item from the server and updates the component state.
+     * @author Uzair Khan, Brandon Batac
+     * @returns {Promise&lt;void>}
+     * @throws {Error} If the fetch fails or the response is not ok.
+     */
+    const fetchTopItem = async () => {
+      try {
+        const response = await fetch("/api/top-selling-item");
+        if (!response.ok) {
+          throw new Error("Failed to fetch top-selling item");
+        }
+        const data = await response.json();
+        setTopItem(data.data);
+      } catch (err) {
+        console.error("Error fetching top-selling item:", err);
+        setError("Failed to load recommended item.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTopItem();
+  }, []);
+
+  if (loading)
+    return (
+      &lt;p className={styles.recLabel}>
+        {translations["Loading recommended item..."] ||
+          "Loading recommended item..."}
+      &lt;/p>
+    );
+  if (error) return &lt;p className={styles.error}>{error}&lt;/p>;
+
+  // Match topItem fetched with global vars to get information
+  const matchedItem = menu.find((item) => item.name === topItem?.item_name);
+  if (!matchedItem) {
+    return (
+      &lt;p>
+        {translations["Item not found in the menu."] ||
+          "Item not found in the menu."}
+      &lt;/p>
+    );
+  }
+  //Get item details
+  const { name, calories, description, designation, image } = matchedItem;
+
+  return (
+    &lt;div className={styles.recommendedItemPanel}>
+      &lt;div className={styles.recLeftPanel}>
+        &lt;h2 className={styles.recLabel}>
+          {translations["This month's hot item"] || "This month's hot item"}
+        &lt;/h2>
+        &lt;div className={styles.itemDetails}>
+          &lt;p className={styles.recItemName}>{translations[name] || name}&lt;/p>
+          &lt;p className={styles.recItemDescription}>{description}&lt;/p>
+          &lt;div className={styles.itemInfo}>
+            &lt;p className={styles.recItemCalories}>
+              {currentLanguage === "en"
+                ? "Calories: "
+                : translations["Calories"] + ": "}
+              {calories || "N/A"} |
+              {currentLanguage === "en"
+                ? " Designation: "
+                : translations[" Designation: "]}
+              {designation
+                ? currentLanguage === "en"
+                  ? designation
+                  : translations[designation]
+                : "None"}
+            &lt;/p>
+          &lt;/div>
+        &lt;/div>
+      &lt;/div>
+
+      &lt;div className={styles.recRightPanel}>
+        &lt;img
+          src={matchedItem.image}
+          alt={matchedItem.name}
+          className={styles.itemRecImg}
+        />
+      &lt;/div>
+    &lt;/div>
+  );
+};
+
+/**
+ * KioskItemPanel component for the kiosk page.
+ * Displays a grid of panels representing the different menu items available to order.
+ * Each panel displays the name, price, and details of the item, with a button to navigate to the item's order page.
+ * @author Uzair Khan
+ * @returns {JSX.Element} The rendered KioskItemPanel component.
+ */
+const KioskItemPanel = ({}) => {
+  const router = useRouter();
+  const { currentLanguage, changeLanguage, translations } = useGlobalState();
+  return (
+    &lt;div className={styles.midPanel}>
+      &lt;div className={styles.itemButtons}>
+        &lt;RecommendedItem />
+
+        &lt;button
+          onClick={() => {
+            router.push("/kiosk_bowl");
+          }}
+        >
+          &lt;p className={styles.itemLeft}>
+            {translations["Bowl | $9.50"] || "Bowl | $9.50"}
+          &lt;/p>
+          &lt;div className={styles.itemRight}>
+            &lt;div className={styles.itemText}>
+              &lt;p>{translations["1 Side"] || "1 Side"}&lt;/p>
+              &lt;p>{translations["1 Entree"] || "1 Entree"}&lt;/p>
+            &lt;/div>
+            &lt;img src="/bowl_img.png" alt="" className={styles.itemImg} />
+          &lt;/div>
+        &lt;/button>
+        &lt;button
+          onClick={() => {
+            router.push("/kiosk_plate");
+          }}
+        >
+          &lt;p className={styles.itemLeft}>
+            {translations["Plate | $11.50"] || "Plate | $11.50"}
+          &lt;/p>
+          &lt;div className={styles.itemRight}>
+            &lt;div className={styles.itemText}>
+              &lt;p>{translations["1 Side"] || "1 Side"}&lt;/p>
+              &lt;p>{translations["2 Entree"] || "2 Entree"}&lt;/p>
+            &lt;/div>
+            &lt;img
+              src="/plate_img.png"
+              alt="Panda Express Plate"
+              className={styles.itemImg}
+            />
+          &lt;/div>
+        &lt;/button>
+        &lt;button
+          onClick={() => {
+            router.push("/kiosk_bigger_plate");
+          }}
+        >
+          &lt;p className={styles.itemLeft}>
+            {translations["Bigger Plate | $13.50"] || "Bigger Plate | $13.50"}
+          &lt;/p>
+          &lt;div className={styles.itemRight}>
+            &lt;div className={styles.itemText}>
+              &lt;p>{translations["1 Side"] || "1 Side"}&lt;/p>
+              &lt;p>{translations["3 Entree"] || "3 Entree"}&lt;/p>
+            &lt;/div>
+            &lt;img
+              src="/bigger_plate_img.png"
+              alt="Panda Express Bigger Plate"
+              className={styles.itemImg}
+            />
+          &lt;/div>
+        &lt;/button>
+        &lt;button
+          onClick={() => {
+            router.push("/kiosk_a_la_carte");
+          }}
+        >
+          &lt;p className={styles.itemLeft}>
+            {translations["A La Carte"] || "A La Carte"}
+          &lt;/p>
+          &lt;div className={styles.itemRight}>
+            &lt;div className={styles.itemText}>
+              &lt;p>{translations["Any Food Item"] || "Any Food Item"}&lt;/p>
+              &lt;p>{translations["Any Drink"] || "Any Drink"}&lt;/p>
+            &lt;/div>
+            &lt;img
+              src="/a_la_carte_img.png"
+              alt="Panda Express A La Carte"
+              className={styles.itemImg}
+            />
+          &lt;/div>
+        &lt;/button>
+      &lt;/div>
+    &lt;/div>
+  );
+};
+
+/**
+ * BottomBar component for the kiosk page.
+ * Displays a reminder to choose a meal above.
+ *
+ * @component
+ * @author Uzair Khan
+ *
+ * @returns {JSX.Element} The rendered BottomBar component.
+ */
+const BottomBar = () => {
+  const { currentLanguage, changeLanguage, translations } = useGlobalState();
+  return (
+    &lt;div className={styles.bottomPanel}>
+      &lt;h1 className={styles.bottomHeader}>
+        {translations["Choose A Meal Above"] || "Choose A Meal Above"}
+      &lt;/h1>
+    &lt;/div>
+  );
+};
+
+/**
+ * KioskItemPage component serves as the main page for the kiosk application.
+ * It displays a circle with the number 1, a top header with a translate button and an accessibility button, a middle panel with the item selection buttons, and a bottom panel with a reminder to choose a meal above.
+ * It also handles the state for the options menu and toggles the options menu when the translate button is clicked.
+ *
+ * @component
+ * @author Uzair Khan
+ *
+ * @returns {JSX.Element} The rendered kiosk page component.
+ */
+const KioskItemPage = () => {
+  const router = useRouter();
+  const [isOptionsOpens, setIsOptionsOpen] = useState(false);
+  const { toggleTheme, currentTheme, isPandaMember, toggleSize, isLargeText } =
+    useGlobalState();
+
+  /**
+   * Toggles the state of the options menu.
+   * If the menu is currently open, it will be closed, and vice versa.
+   * This function is used to handle the click event for opening or closing the options menu.
+   * @author Uzair Khan
+   * @returns {void}
+   */
+  const handleOptionsClick = () => {
+    setIsOptionsOpen(!isOptionsOpen);
+  };
+
+  return (
+    &lt;>
+      &lt;Head>
+        {/* Add or update the page title */}
+        &lt;title>Item Order Selection&lt;/title>
+        {/* Add other metadata if needed */}
+        &lt;meta
+          name="description"
+          content="Start an Order by Selecting a Bigger Plate"
+        />
+      &lt;/Head>
+      &lt;div className={styles.layout}>
+        &lt;div className={styles.circle}>
+          &lt;p>1&lt;/p>
+        &lt;/div>
+
+        &lt;div className={styles.topHeader}>
+          &lt;TopBar>handleOptionsClick = {handleOptionsClick}&lt;/TopBar>
+        &lt;/div>
+        &lt;div className={styles.midPanel}>
+          &lt;KioskItemPanel />
+        &lt;/div>
+        &lt;div className={styles.bottomPanel}>
+          &lt;BottomBar />
+        &lt;/div>
+      &lt;/div>
+    &lt;/>
+  );
+};
+
+export default KioskItemPage;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-api_add-employee.html">api/add-employee</a></li><li><a href="module-api_cashier-getMenu.html">api/cashier-getMenu</a></li><li><a href="module-api_customerLogin.html">api/customerLogin</a></li><li><a href="module-api_customerSignUp.html">api/customerSignUp</a></li><li><a href="module-api_deleteItem.html">api/deleteItem</a></li><li><a href="module-api_deleteSale.html">api/deleteSale</a></li><li><a href="module-api_employee-viewer.html">api/employee-viewer</a></li><li><a href="module-api_fortune-ai.html">api/fortune-ai</a></li><li><a href="module-api_generate-z-report.html">api/generate-z-report</a></li><li><a href="module-api_get-employee-info.html">api/get-employee-info</a></li><li><a href="module-api_inventory-table.html">api/inventory-table</a></li><li><a href="module-api_items.html">api/items</a></li><li><a href="module-api_kitchen-cancel-order.html">api/kitchen-cancel-order</a></li><li><a href="module-api_kitchen-get-orders.html">api/kitchen-get-orders</a></li><li><a href="module-api_kitchen-remove-sale.html">api/kitchen-remove-sale</a></li><li><a href="module-api_kitchen-update-order-status.html">api/kitchen-update-order-status</a></li><li><a href="module-api_login-info.html">api/login-info</a></li><li><a href="module-api_menu-get-items.html">api/menu-get-items</a></li><li><a href="module-api_oauth.html">api/oauth</a></li><li><a href="module-api_reset-salesRecord.html">api/reset-salesRecord</a></li><li><a href="module-api_restock-Report-inventory.html">api/restock-Report-inventory</a></li><li><a href="module-api_resyncIds.html">api/resyncIds</a></li><li><a href="module-api_sales-chart.html">api/sales-chart</a></li><li><a href="module-api_sales-report.html">api/sales-report</a></li><li><a href="module-api_toggle-employee.html">api/toggle-employee</a></li><li><a href="module-api_top-selling-item.html">api/top-selling-item</a></li><li><a href="module-api_update-employee.html">api/update-employee</a></li><li><a href="module-api_update-inventory-item.html">api/update-inventory-item</a></li><li><a href="module-api_updateCustomerPoints.html">api/updateCustomerPoints</a></li><li><a href="module-api_updateIngredient.html">api/updateIngredient</a></li><li><a href="module-api_updateMenuItem.html">api/updateMenuItem</a></li><li><a href="module-api_updateSalesRecord.html">api/updateSalesRecord</a></li><li><a href="module-api_updateSeasonalItem.html">api/updateSeasonalItem</a></li><li><a href="module-api_x-report.html">api/x-report</a></li><li><a href="module-api_z-report.html">api/z-report</a></li></ul><h3>Global</h3><ul><li><a href="global.html#AccessibilityButton">AccessibilityButton</a></li><li><a href="global.html#AddEmployeeForm">AddEmployeeForm</a></li><li><a href="global.html#AddMenuModal">AddMenuModal</a></li><li><a href="global.html#AiAgent">AiAgent</a></li><li><a href="global.html#BottomBar">BottomBar</a></li><li><a href="global.html#BottomPanel">BottomPanel</a></li><li><a href="global.html#ButtonGrid">ButtonGrid</a></li><li><a href="global.html#CartPage">CartPage</a></li><li><a href="global.html#CashierPage">CashierPage</a></li><li><a href="global.html#Customer">Customer</a></li><li><a href="global.html#CustomerLogIn">CustomerLogIn</a></li><li><a href="global.html#CustomerPointsModal">CustomerPointsModal</a></li><li><a href="global.html#CustomerSignUp">CustomerSignUp</a></li><li><a href="global.html#DropDowns">DropDowns</a></li><li><a href="global.html#EditEmployeeModal">EditEmployeeModal</a></li><li><a href="global.html#EmployeeIdModal">EmployeeIdModal</a></li><li><a href="global.html#EmployeeViewerModal">EmployeeViewerModal</a></li><li><a href="global.html#GlobalStateProvider">GlobalStateProvider</a></li><li><a href="global.html#InventoryTable">InventoryTable</a></li><li><a href="global.html#ItemFrame">ItemFrame</a></li><li><a href="global.html#KioskALaCartePage">KioskALaCartePage</a></li><li><a href="global.html#KioskBiggerPlatePage">KioskBiggerPlatePage</a></li><li><a href="global.html#KioskBowlPage">KioskBowlPage</a></li><li><a href="global.html#KioskItemPage">KioskItemPage</a></li><li><a href="global.html#KioskItemPanel">KioskItemPanel</a></li><li><a href="global.html#KioskPage">KioskPage</a></li><li><a href="global.html#KioskPlatePage">KioskPlatePage</a></li><li><a href="global.html#KitchenPage">KitchenPage</a></li><li><a href="global.html#KitchenTV">KitchenTV</a></li><li><a href="global.html#Landing">Landing</a></li><li><a href="global.html#Loading">Loading</a></li><li><a href="global.html#LoginOAuth">LoginOAuth</a></li><li><a href="global.html#Manager">Manager</a></li><li><a href="global.html#ManagerProfile">ManagerProfile</a></li><li><a href="global.html#Menu">Menu</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#OrderPanel">OrderPanel</a></li><li><a href="global.html#RecommendationPanel">RecommendationPanel</a></li><li><a href="global.html#ResetPassword">ResetPassword</a></li><li><a href="global.html#ResetSalesDataModal">ResetSalesDataModal</a></li><li><a href="global.html#RestockReportModal">RestockReportModal</a></li><li><a href="global.html#RoleProvider">RoleProvider</a></li><li><a href="global.html#SalesChart">SalesChart</a></li><li><a href="global.html#SalesReportModal">SalesReportModal</a></li><li><a href="global.html#SignOAuth">SignOAuth</a></li><li><a href="global.html#ThankYouPage">ThankYouPage</a></li><li><a href="global.html#TopBar">TopBar</a></li><li><a href="global.html#UpdateInventoryItemModal">UpdateInventoryItemModal</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li><li><a href="global.html#Welcome">Welcome</a></li><li><a href="global.html#XReportModal">XReportModal</a></li><li><a href="global.html#ZReportModal">ZReportModal</a></li><li><a href="global.html#handleTextToSpeech">handleTextToSpeech</a></li><li><a href="global.html#handler">handler</a></li><li><a href="global.html#translateAllText">translateAllText</a></li><li><a href="global.html#translateAllText-TranslatesanarrayoftextsintothetargetlanguageusingGoogleTranslateAPI.">translateAllText - Translates an array of texts into the target language using Google Translate API.</a></li><li><a href="global.html#useTranslate">useTranslate</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Wed Dec 04 2024 19:03:51 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

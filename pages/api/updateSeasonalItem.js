@@ -6,10 +6,8 @@ import database from "../../utils/database";
  * 
  * @author Alonso Peralta Espinoza
  * 
- * @module api/updateSeasonalItem
- *
  * Updates the seasonal menu item and its associated inventory and ingredients.
- *
+ * @module api/updateSeasonalItem
  * @api {post} /api/updateSeasonalItem
  * @apiName UpdateSeasonalItem
  * @apiGroup Manager

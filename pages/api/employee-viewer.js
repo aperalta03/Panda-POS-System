@@ -5,10 +5,10 @@ import database from '../../utils/database';
 /**
  * 
  * @author Alonso Peralta Espinoza
- * 
- * @module api/employee-viewer
  *
  * Fetches employee data from the database for viewing.
+ * 
+ * @module api/employee-viewer
  *
  * @api {get} /api/employee-viewer
  * @apiName EmployeeViewer

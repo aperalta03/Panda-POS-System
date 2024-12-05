@@ -8,10 +8,8 @@ import bcrypt from 'bcrypt';
  * 
  * @author Alonso Peralta Espinoza
  * 
- * @module api/oauth
- *
  * Handles various authentication actions such as login, signup, email verification, and password reset.
- *
+ * @module api/oauth
  * @api {post} /api/oauth
  * @apiName Auth
  * @apiGroup Authentication

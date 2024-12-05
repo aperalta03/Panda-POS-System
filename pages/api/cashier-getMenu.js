@@ -3,10 +3,10 @@ import database from '../../utils/database';
 /**
  * 
  * @author Alonso Peralta Espinoza
- * 
- * @module api/cashier-getMenu
  *
  * Retrieves menu items from the database, sorted by type and menu item ID.
+ * 
+ * @module api/cashier-getMenu
  *
  * @api {get} /api/cashier-getMenu
  * @apiName GetMenuItemsSorted

@@ -6,9 +6,9 @@ import path from 'path';
  * 
  * @author Alonso Peralta Espinoza
  * 
- * @module api/generate-z-report
- *
  * Generates the Z-Report, records sales in the database, and resets sales data.
+ * 
+ * @module api/generate-z-report
  *
  * @api {post} /api/generate-z-report
  * @apiName GenerateZReport

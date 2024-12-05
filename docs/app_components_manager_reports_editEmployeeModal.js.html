@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: app/components/manager/reports/editEmployeeModal.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: app/components/manager/reports/editEmployeeModal.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useState, useEffect } from 'react';
+import Modal from '@mui/material/Modal';
+import Switch from '@mui/material/Switch';
+import styles from './editEmployeeModal.module.css'; // Import the CSS file
+
+/**
+ * Edit Employee Modal Component
+ *
+ * @author Conner Black
+ *
+ * @description
+ * A modal form component for editing an existing employee's details. 
+ * It pre-fills the form with the current employee data and allows for modifications.
+ * Once the form is submitted, the updated employee information is sent to the server.
+ *
+ * @features
+ * - Pre-filling: The modal form is populated with the employee data passed via props.
+ * - Field Editing: Allows editing of fields such as name, phone number, hourly rate, and employment status (manager, part-time).
+ * - Switches for Employment Type: Provides toggle switches for "Manager" and "Part-Time" status.
+ * - State Management: Manages form data changes and tracks the updated employee data.
+ * - API Integration: Sends updated data to the server through an API call on form submission.
+ *
+ * @state
+ * - `updatedEmployeeData`: Holds the modified employee data that will be submitted. Includes fields such as `first_name`, `last_name`, `phone_number`, `hourly_rate`, `is_manager`, `is_part_time`, and `employee_id`.
+ *
+ * @methods
+ * - `handleChange`: Updates the component state with changes to form input fields, handling both text input and switch toggles.
+ * - `handleSubmit`: Prevents the default form submission and prepares the updated employee data for saving.
+ * - `handleSave`: Makes an API request to update the employee data on the server and handles success or failure responses.
+ *
+ * @formStructure
+ * - Employee:
+ *   - Fields: First Name, Last Name, Phone Number, Hourly Rate, Is Manager (Switch), Is Part-Time (Switch).
+ *
+ * @dependencies
+ * - Material-UI: For modal, switch components, and general styling.
+ *
+ * @example
+ * &lt;EditEmployeeModal 
+ *   isOpen={true} 
+ *   onClose={() => {}} 
+ *   employeeData={{ first_name: 'John', last_name: 'Doe', phone_number: '1234567890', hourly_rate: 20, is_manager: true, is_part_time: false, employee_id: '123' }} 
+ *   onSave={(updatedData) => { console.log('Updated Employee:', updatedData); }} 
+ * />
+ */
+
+const EditEmployeeModal = ({ isOpen, onClose, employeeData, onSave }) => {
+  const [updatedEmployeeData, setUpdatedEmployeeData] = useState({
+    first_name: '',
+    last_name: '',
+    phone_number: '',
+    hourly_rate: '',
+    is_manager: false,
+    is_part_time: false,
+    employee_id: ''
+  });
+
+  useEffect(() => {
+    if (isOpen &amp;&amp; employeeData) {
+      // If employeeData exists, update the state with that data
+      setUpdatedEmployeeData({
+        first_name: employeeData.first_name || '',
+        last_name: employeeData.last_name || '',
+        phone_number: employeeData.phone_number || '',
+        hourly_rate: employeeData.hourly_rate || '',
+        is_manager: employeeData.is_manager || false,
+        is_part_time: employeeData.is_part_time || false,
+        employee_id: employeeData.employee_id || ''
+      });
+    }
+  }, [isOpen, employeeData]);
+
+  // Handle input change to update state
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setUpdatedEmployeeData((prevData) => ({
+      ...prevData,
+      [name]: type === 'checkbox' ? checked : value, // Update based on the input type
+    }));
+  };
+
+  // This function will be triggered when the submit button is clicked
+  const handleSubmit = (e) => {
+    e.preventDefault(); // Prevent default form submission behavior (page reload)
+
+    // Ensure that blank fields retain the current values from employeeData if available
+    const dataToSubmit = {
+      ...updatedEmployeeData,
+      first_name: updatedEmployeeData.first_name || employeeData?.first_name, // Use updated value or fallback to employeeData
+      last_name: updatedEmployeeData.last_name || employeeData?.last_name,
+      phone_number: updatedEmployeeData.phone_number || employeeData?.phone_number,
+      hourly_rate: updatedEmployeeData.hourly_rate || employeeData?.hourly_rate,
+      is_manager: updatedEmployeeData.is_manager !== undefined ? updatedEmployeeData.is_manager : employeeData?.is_manager,
+      is_part_time: updatedEmployeeData.is_part_time !== undefined ? updatedEmployeeData.is_part_time : employeeData?.is_part_time,
+    };
+
+    handleSave(dataToSubmit); // Call the function to save the data with the current or updated values
+  };
+
+  // This is where the actual API call happens
+  const handleSave = async (dataToSubmit) => {
+    if (!dataToSubmit.employee_id) {
+      console.error('Employee ID is required');
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/update-employee', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(dataToSubmit), // Send the updated employee data in the request body
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update employee');
+      }
+
+      const data = await response.json(); // Get the response data
+      console.log('Employee updated successfully:', data);
+
+      onSave(dataToSubmit); // Call the onSave callback with the updated data
+      onClose(); // Close the modal
+    } catch (error) {
+      console.error('Error updating employee:', error);
+    }
+  };
+
+  return (
+    &lt;Modal open={isOpen} onClose={onClose}>
+      &lt;div className={styles.modalBox}>
+        &lt;h2>Edit Employee&lt;/h2>
+        &lt;form onSubmit={handleSubmit}> {/* form submits on pressing "Save" */}
+          &lt;div className={styles.field}>
+            &lt;label>First Name: &lt;/label>
+            &lt;input
+              type="text"
+              name="first_name"
+              value={updatedEmployeeData.first_name}
+              onChange={handleChange}
+            />
+          &lt;/div>
+
+          &lt;div className={styles.field}>
+            &lt;label>Last Name: &lt;/label>
+            &lt;input
+              type="text"
+              name="last_name"
+              value={updatedEmployeeData.last_name}
+              onChange={handleChange}
+            />
+          &lt;/div>
+
+          &lt;div className={styles.field}>
+            &lt;label>Phone Number: &lt;/label>
+            &lt;input
+              type="text"
+              name="phone_number"
+              value={updatedEmployeeData.phone_number}
+              onChange={handleChange}
+            />
+          &lt;/div>
+
+          &lt;div className={styles.field}>
+            &lt;label>Hourly Rate: &lt;/label>
+            &lt;input
+              type="number"
+              name="hourly_rate"
+              value={updatedEmployeeData.hourly_rate}
+              onChange={handleChange}
+            />
+          &lt;/div>
+
+          &lt;div className={styles['switch-container']}>
+          &lt;label>
+            Is Manager?
+            &lt;Switch
+              name="is_manager"
+              checked={updatedEmployeeData.is_manager}
+              onChange={handleChange} // Handle the switch toggle
+            />
+          &lt;/label>
+        &lt;/div>
+
+        &lt;div className={styles['switch-container']}>
+          &lt;label>
+            Is Part-Time?
+            &lt;Switch
+              name="is_part_time"
+              checked={updatedEmployeeData.is_part_time}
+              onChange={handleChange} // Handle the switch toggle
+            />
+          &lt;/label>
+        &lt;/div>
+
+          &lt;button type="submit">Save&lt;/button> {/* Only triggers API call when clicked */}
+        &lt;/form>
+      &lt;/div>
+    &lt;/Modal>
+  );
+};
+
+export default EditEmployeeModal;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-api_add-employee.html">api/add-employee</a></li><li><a href="module-api_cashier-getMenu.html">api/cashier-getMenu</a></li><li><a href="module-api_customerLogin.html">api/customerLogin</a></li><li><a href="module-api_customerSignUp.html">api/customerSignUp</a></li><li><a href="module-api_deleteItem.html">api/deleteItem</a></li><li><a href="module-api_deleteSale.html">api/deleteSale</a></li><li><a href="module-api_employee-viewer.html">api/employee-viewer</a></li><li><a href="module-api_fortune-ai.html">api/fortune-ai</a></li><li><a href="module-api_generate-z-report.html">api/generate-z-report</a></li><li><a href="module-api_get-employee-info.html">api/get-employee-info</a></li><li><a href="module-api_inventory-table.html">api/inventory-table</a></li><li><a href="module-api_items.html">api/items</a></li><li><a href="module-api_kitchen-cancel-order.html">api/kitchen-cancel-order</a></li><li><a href="module-api_kitchen-get-orders.html">api/kitchen-get-orders</a></li><li><a href="module-api_kitchen-remove-sale.html">api/kitchen-remove-sale</a></li><li><a href="module-api_kitchen-update-order-status.html">api/kitchen-update-order-status</a></li><li><a href="module-api_login-info.html">api/login-info</a></li><li><a href="module-api_menu-get-items.html">api/menu-get-items</a></li><li><a href="module-api_oauth.html">api/oauth</a></li><li><a href="module-api_reset-salesRecord.html">api/reset-salesRecord</a></li><li><a href="module-api_restock-Report-inventory.html">api/restock-Report-inventory</a></li><li><a href="module-api_resyncIds.html">api/resyncIds</a></li><li><a href="module-api_sales-chart.html">api/sales-chart</a></li><li><a href="module-api_sales-report.html">api/sales-report</a></li><li><a href="module-api_toggle-employee.html">api/toggle-employee</a></li><li><a href="module-api_top-selling-item.html">api/top-selling-item</a></li><li><a href="module-api_update-employee.html">api/update-employee</a></li><li><a href="module-api_update-inventory-item.html">api/update-inventory-item</a></li><li><a href="module-api_updateCustomerPoints.html">api/updateCustomerPoints</a></li><li><a href="module-api_updateIngredient.html">api/updateIngredient</a></li><li><a href="module-api_updateMenuItem.html">api/updateMenuItem</a></li><li><a href="module-api_updateSalesRecord.html">api/updateSalesRecord</a></li><li><a href="module-api_updateSeasonalItem.html">api/updateSeasonalItem</a></li><li><a href="module-api_x-report.html">api/x-report</a></li><li><a href="module-api_z-report.html">api/z-report</a></li></ul><h3>Global</h3><ul><li><a href="global.html#AccessibilityButton">AccessibilityButton</a></li><li><a href="global.html#AddEmployeeForm">AddEmployeeForm</a></li><li><a href="global.html#AddMenuModal">AddMenuModal</a></li><li><a href="global.html#AiAgent">AiAgent</a></li><li><a href="global.html#BottomBar">BottomBar</a></li><li><a href="global.html#BottomPanel">BottomPanel</a></li><li><a href="global.html#ButtonGrid">ButtonGrid</a></li><li><a href="global.html#CartPage">CartPage</a></li><li><a href="global.html#CashierPage">CashierPage</a></li><li><a href="global.html#Customer">Customer</a></li><li><a href="global.html#CustomerLogIn">CustomerLogIn</a></li><li><a href="global.html#CustomerPointsModal">CustomerPointsModal</a></li><li><a href="global.html#CustomerSignUp">CustomerSignUp</a></li><li><a href="global.html#DropDowns">DropDowns</a></li><li><a href="global.html#EditEmployeeModal">EditEmployeeModal</a></li><li><a href="global.html#EmployeeIdModal">EmployeeIdModal</a></li><li><a href="global.html#EmployeeViewerModal">EmployeeViewerModal</a></li><li><a href="global.html#GlobalStateProvider">GlobalStateProvider</a></li><li><a href="global.html#InventoryTable">InventoryTable</a></li><li><a href="global.html#ItemFrame">ItemFrame</a></li><li><a href="global.html#KioskALaCartePage">KioskALaCartePage</a></li><li><a href="global.html#KioskBiggerPlatePage">KioskBiggerPlatePage</a></li><li><a href="global.html#KioskBowlPage">KioskBowlPage</a></li><li><a href="global.html#KioskItemPage">KioskItemPage</a></li><li><a href="global.html#KioskItemPanel">KioskItemPanel</a></li><li><a href="global.html#KioskPage">KioskPage</a></li><li><a href="global.html#KioskPlatePage">KioskPlatePage</a></li><li><a href="global.html#KitchenPage">KitchenPage</a></li><li><a href="global.html#KitchenTV">KitchenTV</a></li><li><a href="global.html#Landing">Landing</a></li><li><a href="global.html#Loading">Loading</a></li><li><a href="global.html#LoginOAuth">LoginOAuth</a></li><li><a href="global.html#Manager">Manager</a></li><li><a href="global.html#ManagerProfile">ManagerProfile</a></li><li><a href="global.html#Menu">Menu</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#OrderPanel">OrderPanel</a></li><li><a href="global.html#RecommendationPanel">RecommendationPanel</a></li><li><a href="global.html#ResetPassword">ResetPassword</a></li><li><a href="global.html#ResetSalesDataModal">ResetSalesDataModal</a></li><li><a href="global.html#RestockReportModal">RestockReportModal</a></li><li><a href="global.html#RoleProvider">RoleProvider</a></li><li><a href="global.html#SalesChart">SalesChart</a></li><li><a href="global.html#SalesReportModal">SalesReportModal</a></li><li><a href="global.html#SignOAuth">SignOAuth</a></li><li><a href="global.html#ThankYouPage">ThankYouPage</a></li><li><a href="global.html#TopBar">TopBar</a></li><li><a href="global.html#UpdateInventoryItemModal">UpdateInventoryItemModal</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li><li><a href="global.html#Welcome">Welcome</a></li><li><a href="global.html#XReportModal">XReportModal</a></li><li><a href="global.html#ZReportModal">ZReportModal</a></li><li><a href="global.html#handleTextToSpeech">handleTextToSpeech</a></li><li><a href="global.html#handler">handler</a></li><li><a href="global.html#translateAllText">translateAllText</a></li><li><a href="global.html#translateAllText-TranslatesanarrayoftextsintothetargetlanguageusingGoogleTranslateAPI.">translateAllText - Translates an array of texts into the target language using Google Translate API.</a></li><li><a href="global.html#useTranslate">useTranslate</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Wed Dec 04 2024 19:03:51 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

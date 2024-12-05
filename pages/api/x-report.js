@@ -6,10 +6,8 @@ import path from 'path';
  * 
  * @author Alonso Peralta Espinoza, Connner Black
  * 
- * @module api/x-report
- *
  * Retrieves hourly sales data for the current day (X-Report).
- *
+ * @module api/x-report
  * @api {get} /api/x-report
  * @apiName GetXReport
  * @apiGroup Reports

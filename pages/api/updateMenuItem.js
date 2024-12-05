@@ -2,12 +2,9 @@ import database from '../../utils/database';
 
 /**
  * 
- ** @author Alonso Peralta Espinoza
-
- * @module api/updateMenuItem
- *
+ * @author Alonso Peralta Espinoza
  * Adds a new menu item to the database and links it with its ingredients.
- *
+ * @module api/updateMenuItem
  * @api {post} /api/updateMenuItem
  * @apiName UpdateMenuItem
  * @apiGroup Manager

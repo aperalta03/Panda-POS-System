@@ -6,10 +6,8 @@ import database from '../../utils/database';
  * 
  * @author Alonso Peralta Espinoza
  * 
- * @module api/sales-chart
- *
  * Retrieves sales chart data for a specific menu item within a given date range.
- *
+ * @module api/sales-chart
  * @api {get} /api/sales-chart
  * @apiName SalesChart
  * @apiGroup Sales

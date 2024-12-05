@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: pages/login-oauth.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: pages/login-oauth.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import Script from 'next/script';
+import { Box, Button, TextField, Typography, Divider } from '@mui/material';
+import styles from './oauth.module.css';
+import Image from 'next/image';
+
+
+import Head from "next/head"; // Import Head for managing the document head
+
+/**
+ * LoginOAuth Component
+ * 
+ * @author Alonso Peralta Espinoza
+ *
+ * @description
+ * Login page allowing users to sign in using email/password or Google OAuth.
+ *
+ * @features
+ * - Email/password authentication.
+ * - Google Sign-In integration.
+ * - Password reset functionality.
+ * - Navigation to the sign-up page.
+ * 
+ * @api
+ * - `/api/oauth` (POST):
+ *   - Action `login`: Validates user credentials.
+ *   - Action `forgot-password`: Sends a password reset email.
+ *   - Action `google`: Authenticates the user via Google OAuth.
+ *
+ * @returns {React.ReactElement} A React functional component.
+ */
+
+const LoginOAuth = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const router = useRouter();
+
+  const handleForgotPassword = () => {
+    const email = prompt('Enter your email:');
+    if (!email) return;
+  
+    fetch('/api/oauth', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'forgot-password', email }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.error) {
+          alert('Failed to send password reset email.');
+        } else {
+          alert('Password reset email sent!');
+        }
+      });
+  };  
+
+  const handleCredentialResponse = (response) => {
+    const id_token = response.credential;
+
+    fetch('/api/oauth', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ action: 'google', token: id_token }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.error) {
+          console.error('Login Error:', data.error);
+          alert('Login failed: ' + data.error);
+        } else {
+          router.push('/landing');
+        }
+      })
+      .catch((error) => {
+        console.error('Login Error:', error);
+        alert('An error occurred during login.');
+      });
+  };
+
+  const handleEmailPasswordLogin = async (e) => {
+    e.preventDefault();
+    fetch('/api/oauth', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ action: 'login', email, password }),
+    })
+      .then(async (res) => {
+        const data = await res.json();
+  
+        if (!res.ok) {
+          alert(`Login failed: ${data.error}`);
+          return;
+        }
+        router.push('/landing');
+      })
+      .catch((error) => {
+        console.error('Login Error:', error);
+        alert('An unexpected error occurred. Please try again.');
+      });
+  };  
+
+  useEffect(() => {
+    const initializeGoogleSignIn = () => {
+      if (google &amp;&amp; google.accounts &amp;&amp; google.accounts.id) {
+        google.accounts.id.initialize({
+          client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+          callback: handleCredentialResponse,
+        });
+        google.accounts.id.renderButton(
+          document.getElementById('google-signin-button'),
+          { theme: 'outline', size: 'large', width: '100%' }
+        );
+      }
+    };
+
+    if (window.google &amp;&amp; window.google.accounts &amp;&amp; window.google.accounts.id) {
+      initializeGoogleSignIn();
+    } else {
+      window.addEventListener('google-loaded', initializeGoogleSignIn);
+    }
+
+    return () => {
+      window.removeEventListener('google-loaded', initializeGoogleSignIn);
+    };
+  }, []);
+
+  return (
+    &lt;>
+        &lt;Head>
+          {/* Add or update the page title */}
+          &lt;title>Login Page&lt;/title>
+          {/* Add other metadata if needed */}
+          &lt;meta name="description" content="Login to Panda Express" />
+        &lt;/Head>
+      &lt;Script
+        src="https://accounts.google.com/gsi/client"
+        strategy="afterInteractive"
+        onLoad={() => {
+          const event = new Event('google-loaded');
+          window.dispatchEvent(event);
+        }}
+      />
+      &lt;Box className={styles.container}>
+        {/* Blobs */}
+        &lt;Image src="/chickenmaxxing_logo.png" alt="Logo" width={100} height={100} className={styles.logo} />
+        &lt;Image src="/panda_express.png" alt="Logo" width={100} height={100} className={styles.pandalogo} />
+        &lt;div className={styles.upBlob}>&lt;/div>
+        &lt;div className={styles.downBlob}>&lt;/div>
+        &lt;div className={styles.centerBlob}>&lt;/div>
+        &lt;Box className={styles.card}>
+          &lt;Typography variant="h4" className={styles.title}>
+            Log In
+          &lt;/Typography>
+          &lt;Box className={styles.form}>
+            &lt;TextField
+              fullWidth
+              label="Email"
+              variant="outlined"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className={styles.input}
+            />
+            &lt;TextField
+              fullWidth
+              label="Password"
+              type="password"
+              variant="outlined"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className={styles.input}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' &amp;&amp; !e.shiftKey) {
+                  e.preventDefault();
+                  handleEmailPasswordLogin(e);
+                }
+              }}
+            />
+            &lt;Button
+              fullWidth
+              variant="contained"
+              className={styles.emailButton}
+              onClick={handleEmailPasswordLogin}
+            >
+              Log in
+            &lt;/Button>
+            &lt;Typography className={styles.link} onClick={handleForgotPassword}>
+              Forgot your password?
+            &lt;/Typography>
+            &lt;Divider className={styles.divider}>OR&lt;/Divider>
+            &lt;Box id="google-signin-button" className={styles.googleButton}>&lt;/Box>
+          &lt;/Box>
+          &lt;Typography className={styles.footer}>
+            Don’t have an account?{' '}
+            &lt;span className={styles.link} onClick={() => router.push('/signup-oauth')}>
+              Sign up
+            &lt;/span>
+          &lt;/Typography>
+        &lt;/Box>
+      &lt;/Box>
+    &lt;/>
+  );
+};
+
+export default LoginOAuth;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-api_add-employee.html">api/add-employee</a></li><li><a href="module-api_cashier-getMenu.html">api/cashier-getMenu</a></li><li><a href="module-api_customerLogin.html">api/customerLogin</a></li><li><a href="module-api_customerSignUp.html">api/customerSignUp</a></li><li><a href="module-api_deleteItem.html">api/deleteItem</a></li><li><a href="module-api_deleteSale.html">api/deleteSale</a></li><li><a href="module-api_employee-viewer.html">api/employee-viewer</a></li><li><a href="module-api_fortune-ai.html">api/fortune-ai</a></li><li><a href="module-api_generate-z-report.html">api/generate-z-report</a></li><li><a href="module-api_get-employee-info.html">api/get-employee-info</a></li><li><a href="module-api_inventory-table.html">api/inventory-table</a></li><li><a href="module-api_items.html">api/items</a></li><li><a href="module-api_kitchen-cancel-order.html">api/kitchen-cancel-order</a></li><li><a href="module-api_kitchen-get-orders.html">api/kitchen-get-orders</a></li><li><a href="module-api_kitchen-remove-sale.html">api/kitchen-remove-sale</a></li><li><a href="module-api_kitchen-update-order-status.html">api/kitchen-update-order-status</a></li><li><a href="module-api_login-info.html">api/login-info</a></li><li><a href="module-api_menu-get-items.html">api/menu-get-items</a></li><li><a href="module-api_oauth.html">api/oauth</a></li><li><a href="module-api_reset-salesRecord.html">api/reset-salesRecord</a></li><li><a href="module-api_restock-Report-inventory.html">api/restock-Report-inventory</a></li><li><a href="module-api_resyncIds.html">api/resyncIds</a></li><li><a href="module-api_sales-chart.html">api/sales-chart</a></li><li><a href="module-api_sales-report.html">api/sales-report</a></li><li><a href="module-api_toggle-employee.html">api/toggle-employee</a></li><li><a href="module-api_top-selling-item.html">api/top-selling-item</a></li><li><a href="module-api_update-employee.html">api/update-employee</a></li><li><a href="module-api_update-inventory-item.html">api/update-inventory-item</a></li><li><a href="module-api_updateCustomerPoints.html">api/updateCustomerPoints</a></li><li><a href="module-api_updateIngredient.html">api/updateIngredient</a></li><li><a href="module-api_updateMenuItem.html">api/updateMenuItem</a></li><li><a href="module-api_updateSalesRecord.html">api/updateSalesRecord</a></li><li><a href="module-api_updateSeasonalItem.html">api/updateSeasonalItem</a></li><li><a href="module-api_x-report.html">api/x-report</a></li><li><a href="module-api_z-report.html">api/z-report</a></li></ul><h3>Global</h3><ul><li><a href="global.html#AccessibilityButton">AccessibilityButton</a></li><li><a href="global.html#AddEmployeeForm">AddEmployeeForm</a></li><li><a href="global.html#AddMenuModal">AddMenuModal</a></li><li><a href="global.html#AiAgent">AiAgent</a></li><li><a href="global.html#BottomBar">BottomBar</a></li><li><a href="global.html#BottomPanel">BottomPanel</a></li><li><a href="global.html#ButtonGrid">ButtonGrid</a></li><li><a href="global.html#CartPage">CartPage</a></li><li><a href="global.html#CashierPage">CashierPage</a></li><li><a href="global.html#Customer">Customer</a></li><li><a href="global.html#CustomerLogIn">CustomerLogIn</a></li><li><a href="global.html#CustomerPointsModal">CustomerPointsModal</a></li><li><a href="global.html#CustomerSignUp">CustomerSignUp</a></li><li><a href="global.html#DropDowns">DropDowns</a></li><li><a href="global.html#EditEmployeeModal">EditEmployeeModal</a></li><li><a href="global.html#EmployeeIdModal">EmployeeIdModal</a></li><li><a href="global.html#EmployeeViewerModal">EmployeeViewerModal</a></li><li><a href="global.html#GlobalStateProvider">GlobalStateProvider</a></li><li><a href="global.html#InventoryTable">InventoryTable</a></li><li><a href="global.html#ItemFrame">ItemFrame</a></li><li><a href="global.html#KioskALaCartePage">KioskALaCartePage</a></li><li><a href="global.html#KioskBiggerPlatePage">KioskBiggerPlatePage</a></li><li><a href="global.html#KioskBowlPage">KioskBowlPage</a></li><li><a href="global.html#KioskItemPage">KioskItemPage</a></li><li><a href="global.html#KioskItemPanel">KioskItemPanel</a></li><li><a href="global.html#KioskPage">KioskPage</a></li><li><a href="global.html#KioskPlatePage">KioskPlatePage</a></li><li><a href="global.html#KitchenPage">KitchenPage</a></li><li><a href="global.html#KitchenTV">KitchenTV</a></li><li><a href="global.html#Landing">Landing</a></li><li><a href="global.html#Loading">Loading</a></li><li><a href="global.html#LoginOAuth">LoginOAuth</a></li><li><a href="global.html#Manager">Manager</a></li><li><a href="global.html#ManagerProfile">ManagerProfile</a></li><li><a href="global.html#Menu">Menu</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#OrderPanel">OrderPanel</a></li><li><a href="global.html#RecommendationPanel">RecommendationPanel</a></li><li><a href="global.html#ResetPassword">ResetPassword</a></li><li><a href="global.html#ResetSalesDataModal">ResetSalesDataModal</a></li><li><a href="global.html#RestockReportModal">RestockReportModal</a></li><li><a href="global.html#RoleProvider">RoleProvider</a></li><li><a href="global.html#SalesChart">SalesChart</a></li><li><a href="global.html#SalesReportModal">SalesReportModal</a></li><li><a href="global.html#SignOAuth">SignOAuth</a></li><li><a href="global.html#ThankYouPage">ThankYouPage</a></li><li><a href="global.html#TopBar">TopBar</a></li><li><a href="global.html#UpdateInventoryItemModal">UpdateInventoryItemModal</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li><li><a href="global.html#Welcome">Welcome</a></li><li><a href="global.html#XReportModal">XReportModal</a></li><li><a href="global.html#ZReportModal">ZReportModal</a></li><li><a href="global.html#handleTextToSpeech">handleTextToSpeech</a></li><li><a href="global.html#handler">handler</a></li><li><a href="global.html#translateAllText">translateAllText</a></li><li><a href="global.html#translateAllText-TranslatesanarrayoftextsintothetargetlanguageusingGoogleTranslateAPI.">translateAllText - Translates an array of texts into the target language using Google Translate API.</a></li><li><a href="global.html#useTranslate">useTranslate</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Wed Dec 04 2024 19:03:51 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
