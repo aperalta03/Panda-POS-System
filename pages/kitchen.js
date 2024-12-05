@@ -8,7 +8,7 @@ import Head from "next/head"; // Import Head for managing the document head
 /**
  * Kitchen Page Component
  *
- * @author Anson Thai
+ * @author Anson Thai, Alonso Peralta Espinoza
  *
  * @description
  * Displays orders and their items in a grid layout.
