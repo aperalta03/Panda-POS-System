@@ -2,7 +2,7 @@
 
 /**
  * 
- ** @author Alonso Peralta Espinoza
+ * @author Alonso Peralta Espinoza
  *
  * Generates a restock report identifying inventory items that need replenishment.
  *

@@ -2,7 +2,7 @@
 
 /**
  * 
- ** @author Alonso Peralta Espinoza
+ * @author Alonso Peralta Espinoza
  *
  * Toggles the active status (`is_active`) of an employee.
  *

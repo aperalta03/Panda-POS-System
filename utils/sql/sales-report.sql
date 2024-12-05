@@ -2,7 +2,7 @@
 
 /**
  * 
- ** @author Alonso Peralta Espinoza
+ * @author Alonso Peralta Espinoza
  *
  * Generates a sales report summarizing item quantities sold and total revenue within a date range.
  *

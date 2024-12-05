@@ -1,7 +1,7 @@
 
 /**
  * 
- ** @author Alonso Peralta Espinoza
+ * @author Alonso Peralta Espinoza
  *
  * Generates a sales report for individual items, including total quantities sold and total revenue.
  *

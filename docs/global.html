@@ -235,14 +235,7 @@
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>// Wrapping the application with RoleProvider
-&lt;RoleProvider>
-  &lt;App />
-&lt;/RoleProvider>
-
-// Using the context in a component
-const { role, setRole } = useRole();
-setRole("manager");</code></pre>
+    <pre class="prettyprint"><code>// Wrapping the application with RoleProvider&lt;RoleProvider>  &lt;App />&lt;/RoleProvider>// Using the context in a componentconst { role, setRole } = useRole();setRole("manager");</code></pre>
 
 
 
@@ -335,13 +328,7 @@ setRole("manager");</code></pre>
 
 
 <div class="description">
-    AccessibilityButton is a component that displays an accessible icon and a dropdown menu containing three options:
-1. Switch Theme: Switches the theme of the site between a low-vision theme and a normal theme.
-2. Adjust Font Size: Adjusts the font size of the site between 100%, 110%, 120%, and 130%.
-3. Current Theme: Displays the current theme of the site.
-4. Current Size: Displays the current font size of the site.
-
-This component is designed to be used in conjunction with the GlobalStateContext and the useGlobalState hook.
+    AccessibilityButton is a component that displays an accessible icon and a dropdown menu containing three options:1. Switch Theme: Switches the theme of the site between a low-vision theme and a normal theme.2. Adjust Font Size: Adjusts the font size of the site between 100%, 110%, 120%, and 130%.3. Current Theme: Displays the current theme of the site.4. Current Size: Displays the current font size of the site.This component is designed to be used in conjunction with the GlobalStateContext and the useGlobalState hook.
 </div>
 
 
@@ -458,8 +445,7 @@ This component is designed to be used in conjunction with the GlobalStateContext
 
 
 <div class="description">
-    A modal form component that allows for adding a new employee to the system.
-Supports capturing essential employee details and submitting them to an API.
+    A modal form component that allows for adding a new employee to the system.Supports capturing essential employee details and submitting them to an API.
 </div>
 
 
@@ -559,9 +545,7 @@ Supports capturing essential employee details and submitting them to an API.
 
 
 <div class="description">
-    A modal component for managing menu items, ingredients, and inventory.
-Supports adding, editing, deleting, and re-syncing menu and inventory data.
-Dynamically renders input fields based on the selected item type.
+    A modal component for managing menu items, ingredients, and inventory.Supports adding, editing, deleting, and re-syncing menu and inventory data.Dynamically renders input fields based on the selected item type.
 </div>
 
 
@@ -661,9 +645,7 @@ Dynamically renders input fields based on the selected item type.
 
 
 <div class="description">
-    A conversational AI agent interface that enables users to interact with an AI model via chat.
-Features include auto-scrolling, an initial welcome message, API calls for AI responses,
-and a real-time typing effect to simulate a conversational experience.
+    A conversational AI agent interface that enables users to interact with an AI model via chat.Features include auto-scrolling, an initial welcome message, API calls for AI responses,and a real-time typing effect to simulate a conversational experience.
 </div>
 
 
@@ -785,8 +767,7 @@ and a real-time typing effect to simulate a conversational experience.
 
 
 <div class="description">
-    BottomBar component for the kiosk page.
-Displays a reminder to choose a meal above.
+    BottomBar component for the kiosk page.Displays a reminder to choose a meal above.
 </div>
 
 
@@ -1008,10 +989,7 @@ Displays a reminder to choose a meal above.
     <dt class="tag-author">Author:</dt>
     <dd class="tag-author">
         <ul>
-            <li>Uzair Khan, Brandon Batac
-
-Component that displays the total cost of the order, including tax,
-at the bottom of the screen.  It also includes a button to pay.</li>
+            <li>Uzair Khan, Brandon BatacComponent that displays the total cost of the order, including tax,at the bottom of the screen.  It also includes a button to pay.</li>
         </ul>
     </dd>
     
@@ -1312,9 +1290,7 @@ at the bottom of the screen.  It also includes a button to pay.</li>
     <dt class="tag-author">Author:</dt>
     <dd class="tag-author">
         <ul>
-            <li>Uzair Khan
-
-Renders a grid of buttons for cashier to select menu items and update quantities.</li>
+            <li>Uzair KhanRenders a grid of buttons for cashier to select menu items and update quantities.</li>
         </ul>
     </dd>
     
@@ -1372,10 +1348,7 @@ Renders a grid of buttons for cashier to select menu items and update quantities
 
 
 <div class="description">
-    The CartPage component renders the checkout page with the customer's current
-order. It displays the items in the cart, allows the customer to remove items
-and start over, and provides a button to place the order. Additionally, it
-displays a panel with recommended items and a summary of the order costs.
+    The CartPage component renders the checkout page with the customer's currentorder. It displays the items in the cart, allows the customer to remove itemsand start over, and provides a button to place the order. Additionally, itdisplays a panel with recommended items and a summary of the order costs.
 </div>
 
 
@@ -1492,9 +1465,7 @@ displays a panel with recommended items and a summary of the order costs.
 
 
 <div class="description">
-    Renders the cashier interface for managing orders, including menu items, order panel, and payment processing.
-Utilizes state hooks to track menu items, order quantities, net cost, and more. Fetches menu data on component mount
-and provides functionality to add, delete, and process orders.
+    Renders the cashier interface for managing orders, including menu items, order panel, and payment processing.Utilizes state hooks to track menu items, order quantities, net cost, and more. Fetches menu data on component mountand provides functionality to add, delete, and process orders.
 </div>
 
 
@@ -2521,9 +2492,7 @@ and provides functionality to add, delete, and process orders.
 
 
 <div class="description">
-    A modal interface for viewing and managing employees.
-Features include listing employees, editing employee details, toggling active status,
-adding new employees, and displaying detailed information via sub-modals.
+    A modal interface for viewing and managing employees.Features include listing employees, editing employee details, toggling active status,adding new employees, and displaying detailed information via sub-modals.
 </div>
 
 
@@ -3079,16 +3048,7 @@ adding new employees, and displaying detailed information via sub-modals.
 
 
 <div class="description">
-    This component serves as the main page for the kiosk application, allowing users to select items from the menu.
-It renders a sticky top bar with a cart icon and a sticky bottom bar with a back to menu button and a done button.
-Based on the `currentStep` state, it renders a different set of item frames in the main content area.
-It also handles the logic for the buttons in the bottom bar, including going back to the menu and going to the cart.
-
-Effects:
-- Navigates to the menu page when the back to menu button is clicked.
-- Navigates to the cart page when the done button is clicked.
-- Resets the tracked items and returns to the sides step when the done button is clicked.
-- Fetches menu items and logs them to the console.
+    This component serves as the main page for the kiosk application, allowing users to select items from the menu.It renders a sticky top bar with a cart icon and a sticky bottom bar with a back to menu button and a done button.Based on the `currentStep` state, it renders a different set of item frames in the main content area.It also handles the logic for the buttons in the bottom bar, including going back to the menu and going to the cart.Effects:- Navigates to the menu page when the back to menu button is clicked.- Navigates to the cart page when the done button is clicked.- Resets the tracked items and returns to the sides step when the done button is clicked.- Fetches menu items and logs them to the console.
 </div>
 
 
@@ -3205,17 +3165,7 @@ Effects:
 
 
 <div class="description">
-    This component serves as the main page for the kiosk application, allowing users to select items from the menu.
-It renders a sticky top bar with a cart icon and a sticky bottom bar with a back to menu button and a done button.
-Based on the `currentStep` state, it renders a different set of item frames in the main content area.
-It also handles the logic for the buttons in the bottom bar, including going back to the menu and going to the cart.
-
-Effects:
-- Navigates to the menu page when the back to menu button is clicked.
-- Navigates to the cart page when the done button is clicked.
-- Navigates to side selection proccess when Back to sides is clicked.
-- Resets the tracked items and returns to the sides step when the done button is clicked.
-- Fetches menu items and logs them to the console.
+    This component serves as the main page for the kiosk application, allowing users to select items from the menu.It renders a sticky top bar with a cart icon and a sticky bottom bar with a back to menu button and a done button.Based on the `currentStep` state, it renders a different set of item frames in the main content area.It also handles the logic for the buttons in the bottom bar, including going back to the menu and going to the cart.Effects:- Navigates to the menu page when the back to menu button is clicked.- Navigates to the cart page when the done button is clicked.- Navigates to side selection proccess when Back to sides is clicked.- Resets the tracked items and returns to the sides step when the done button is clicked.- Fetches menu items and logs them to the console.
 </div>
 
 
@@ -3332,17 +3282,7 @@ Effects:
 
 
 <div class="description">
-    This component serves as the main page for the kiosk application, allowing users to select items from the menu.
-It renders a sticky top bar with a cart icon and a sticky bottom bar with a back to menu button and a done button.
-Based on the `currentStep` state, it renders a different set of item frames in the main content area.
-It also handles the logic for the buttons in the bottom bar, including going back to the menu and going to the cart.
-
-Effects:
-- Navigates to the menu page when the back to menu button is clicked.
-- Navigates to the cart page when the done button is clicked.
-- Navigates to side selection proccess when Back to sides is clicked.
-- Resets the tracked items and returns to the sides step when the done button is clicked.
-- Fetches menu items and logs them to the console.
+    This component serves as the main page for the kiosk application, allowing users to select items from the menu.It renders a sticky top bar with a cart icon and a sticky bottom bar with a back to menu button and a done button.Based on the `currentStep` state, it renders a different set of item frames in the main content area.It also handles the logic for the buttons in the bottom bar, including going back to the menu and going to the cart.Effects:- Navigates to the menu page when the back to menu button is clicked.- Navigates to the cart page when the done button is clicked.- Navigates to side selection proccess when Back to sides is clicked.- Resets the tracked items and returns to the sides step when the done button is clicked.- Fetches menu items and logs them to the console.
 </div>
 
 
@@ -3459,9 +3399,7 @@ Effects:
 
 
 <div class="description">
-    KioskItemPage component serves as the main page for the kiosk application.
-It displays a circle with the number 1, a top header with a translate button and an accessibility button, a middle panel with the item selection buttons, and a bottom panel with a reminder to choose a meal above.
-It also handles the state for the options menu and toggles the options menu when the translate button is clicked.
+    KioskItemPage component serves as the main page for the kiosk application.It displays a circle with the number 1, a top header with a translate button and an accessibility button, a middle panel with the item selection buttons, and a bottom panel with a reminder to choose a meal above.It also handles the state for the options menu and toggles the options menu when the translate button is clicked.
 </div>
 
 
@@ -3578,9 +3516,7 @@ It also handles the state for the options menu and toggles the options menu when
 
 
 <div class="description">
-    KioskItemPanel component for the kiosk page.
-Displays a grid of panels representing the different menu items available to order.
-Each panel displays the name, price, and details of the item, with a button to navigate to the item's order page.
+    KioskItemPanel component for the kiosk page.Displays a grid of panels representing the different menu items available to order.Each panel displays the name, price, and details of the item, with a button to navigate to the item's order page.
 </div>
 
 
@@ -3697,8 +3633,7 @@ Each panel displays the name, price, and details of the item, with a button to n
 
 
 <div class="description">
-    KioskPage component serves as the main entry point for the Panda Express kiosk application.
-It sets up the page's metadata and layout, including the welcome component, which allows users to start an order.
+    KioskPage component serves as the main entry point for the Panda Express kiosk application.It sets up the page's metadata and layout, including the welcome component, which allows users to start an order.
 </div>
 
 
@@ -3864,17 +3799,7 @@ It sets up the page's metadata and layout, including the welcome component, whic
 
 
 <div class="description">
-    This component serves as the main page for the kiosk application, allowing users to select items from the menu.
-It renders a sticky top bar with a cart icon and a sticky bottom bar with a back to menu button and a done button.
-Based on the `currentStep` state, it renders a different set of item frames in the main content area.
-It also handles the logic for the buttons in the bottom bar, including going back to the menu and going to the cart.
-
-Effects:
-- Navigates to the menu page when the back to menu button is clicked.
-- Navigates to the cart page when the done button is clicked.
-- Navigates to side selection proccess when Back to sides is clicked.
-- Resets the tracked items and returns to the sides step when the done button is clicked.
-- Fetches menu items and logs them to the console.
+    This component serves as the main page for the kiosk application, allowing users to select items from the menu.It renders a sticky top bar with a cart icon and a sticky bottom bar with a back to menu button and a done button.Based on the `currentStep` state, it renders a different set of item frames in the main content area.It also handles the logic for the buttons in the bottom bar, including going back to the menu and going to the cart.Effects:- Navigates to the menu page when the back to menu button is clicked.- Navigates to the cart page when the done button is clicked.- Navigates to side selection proccess when Back to sides is clicked.- Resets the tracked items and returns to the sides step when the done button is clicked.- Fetches menu items and logs them to the console.
 </div>
 
 
@@ -3991,8 +3916,7 @@ Effects:
 
 
 <div class="description">
-    Displays orders and their items in a grid layout.
-Supports text-to-speech for each order, removing sales, and updating order status.
+    Displays orders and their items in a grid layout.Supports text-to-speech for each order, removing sales, and updating order status.
 </div>
 
 
@@ -4167,19 +4091,7 @@ Supports text-to-speech for each order, removing sales, and updating order statu
 
         
 <div class="param-desc">
-    JSON response with grouped orders.
-- `orders` (Array): Array of order objects grouped by `saleNumber`.
-  - `saleNumber` (number): Unique identifier for the sale.
-  - `saleDate` (Date): Date of the sale.
-  - `saleTime` (string): Time of the sale.
-  - `totalPrice` (number): Total price of the sale.
-  - `employeeID` (number): ID of the employee who processed the sale.
-  - `source` (string): Source of the sale (e.g., "Kiosk").
-  - `items` (Array): Array of items for the sale, where each item contains:
-    - `orderNumber` (number): Order number.
-    - `plateSize` (string): Size of the plate.
-    - `components` (Array): List of components in the plate.
-    - `status` (string): Status of the order (e.g., "Not Started", "In Progress", "Completed").
+    JSON response with grouped orders.- `orders` (Array): Array of order objects grouped by `saleNumber`.  - `saleNumber` (number): Unique identifier for the sale.  - `saleDate` (Date): Date of the sale.  - `saleTime` (string): Time of the sale.  - `totalPrice` (number): Total price of the sale.  - `employeeID` (number): ID of the employee who processed the sale.  - `source` (string): Source of the sale (e.g., "Kiosk").  - `items` (Array): Array of items for the sale, where each item contains:    - `orderNumber` (number): Order number.    - `plateSize` (string): Size of the plate.    - `components` (Array): List of components in the plate.    - `status` (string): Status of the order (e.g., "Not Started", "In Progress", "Completed").
 </div>
 
 
@@ -4203,38 +4115,7 @@ Supports text-to-speech for each order, removing sales, and updating order statu
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>// Request:
-GET /api/kitchen-orders
-
-// Response:
-{
-  "orders": [
-    {
-      "saleNumber": 12345,
-      "saleDate": "2024-01-01",
-      "saleTime": "12:34:56",
-      "totalPrice": 29.99,
-      "employeeID": 1001,
-      "source": "Kiosk",
-      "items": [
-        {
-          "orderNumber": 1,
-          "plateSize": "Large",
-          "components": [
-            { "componentName": "Chicken", "quantity": 2 },
-            { "componentName": "Rice", "quantity": 1 }
-          ],
-          "status": "In Progress"
-        }
-      ]
-    }
-  ]
-}
-
-// Error Response:
-{
-  "error": "Error fetching orders"
-}</code></pre>
+    <pre class="prettyprint"><code>// Request:GET /api/kitchen-orders// Response:{  "orders": [    {      "saleNumber": 12345,      "saleDate": "2024-01-01",      "saleTime": "12:34:56",      "totalPrice": 29.99,      "employeeID": 1001,      "source": "Kiosk",      "items": [        {          "orderNumber": 1,          "plateSize": "Large",          "components": [            { "componentName": "Chicken", "quantity": 2 },            { "componentName": "Rice", "quantity": 1 }          ],          "status": "In Progress"        }      ]    }  ]}// Error Response:{  "error": "Error fetching orders"}</code></pre>
 
 
 
@@ -4720,8 +4601,7 @@ GET /api/kitchen-orders
 
 
 <div class="description">
-    A React functional component that displays the manager's profile information, 
-including their name and a placeholder profile picture.
+    A React functional component that displays the manager's profile information, including their name and a placeholder profile picture.
 </div>
 
 
@@ -4825,16 +4705,7 @@ including their name and a placeholder profile picture.
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>// Usage example
-import ManagerProfile from './managerProfile';
-
-function Dashboard() {
-  return (
-    &lt;div>
-      &lt;ManagerProfile />
-    &lt;/div>
-  );
-}</code></pre>
+    <pre class="prettyprint"><code>// Usage exampleimport ManagerProfile from './managerProfile';function Dashboard() {  return (    &lt;div>      &lt;ManagerProfile />    &lt;/div>  );}</code></pre>
 
 
 
@@ -5117,9 +4988,7 @@ function Dashboard() {
 
             
 
-            <td class="description last">An array of objects, each of which contains
-  a 'plateSize' property and a 'components' property, which is an array of
-  strings representing the components of the plate.</td>
+            <td class="description last">An array of objects, each of which contains  a 'plateSize' property and a 'components' property, which is an array of  strings representing the components of the plate.</td>
         </tr>
 
     
@@ -5142,8 +5011,7 @@ function Dashboard() {
 
             
 
-            <td class="description last">Function to call when the 'DELETE' button is
-  clicked.  It should take one argument, the index of the order to delete.</td>
+            <td class="description last">Function to call when the 'DELETE' button is  clicked.  It should take one argument, the index of the order to delete.</td>
         </tr>
 
     
@@ -5166,8 +5034,7 @@ function Dashboard() {
 
             
 
-            <td class="description last">The name of the seasonal item to be
-  displayed in the order panel.</td>
+            <td class="description last">The name of the seasonal item to be  displayed in the order panel.</td>
         </tr>
 
     
@@ -5201,9 +5068,7 @@ function Dashboard() {
     <dt class="tag-author">Author:</dt>
     <dd class="tag-author">
         <ul>
-            <li>Brandon Batac
-
-Component that displays a list of all items in the current order.</li>
+            <li>Brandon BatacComponent that displays a list of all items in the current order.</li>
         </ul>
     </dd>
     
@@ -5462,9 +5327,7 @@ Component that displays a list of all items in the current order.</li>
 
 
 <div class="description">
-    A modal that allows managers to:
-1. Delete a specific sale entry by Sales ID.
-2. Reset daily sales data for `salesRecord` and `saleItems` tables.
+    A modal that allows managers to:1. Delete a specific sale entry by Sales ID.2. Reset daily sales data for `salesRecord` and `saleItems` tables.
 </div>
 
 
@@ -5564,8 +5427,7 @@ Component that displays a list of all items in the current order.</li>
 
 
 <div class="description">
-    Displays a report of inventory items that need restocking based on current and required stock levels.
-Highlights low-stock items and sorts them for easy identification.
+    Displays a report of inventory items that need restocking based on current and required stock levels.Highlights low-stock items and sorts them for easy identification.
 </div>
 
 
@@ -5765,8 +5627,7 @@ Highlights low-stock items and sorts them for easy identification.
 
 
 <div class="description">
-    Displays a detailed sales report for a specified date range.
-Allows managers to generate reports and view total sales and item-specific details.
+    Displays a detailed sales report for a specified date range.Allows managers to generate reports and view total sales and item-specific details.
 </div>
 
 
@@ -5848,14 +5709,7 @@ Allows managers to generate reports and view total sales and item-specific detai
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>&lt;SalesReportModal
-  isOpen={true}
-  onClose={() => {}}
-  startDate={new Date()}
-  endDate={new Date()}
-  setStartDate={(date) => {}}
-  setEndDate={(date) => {}}
-/></code></pre>
+    <pre class="prettyprint"><code>&lt;SalesReportModal  isOpen={true}  onClose={() => {}}  startDate={new Date()}  endDate={new Date()}  setStartDate={(date) => {}}  setEndDate={(date) => {}}/></code></pre>
 
 
 
@@ -6107,8 +5961,7 @@ Allows managers to generate reports and view total sales and item-specific detai
 
 
 <div class="description">
-    TopBar component for the kiosk page.
-Displays panel information, a tracker of selected items, and utility buttons such as translation and accessibility.
+    TopBar component for the kiosk page.Displays panel information, a tracker of selected items, and utility buttons such as translation and accessibility.
 </div>
 
 
@@ -6392,8 +6245,7 @@ Displays panel information, a tracker of selected items, and utility buttons suc
 
 
 <div class="description">
-    TopBar component for the kiosk page.
-Displays panel information, a tracker of selected items, and utility buttons such as translation and accessibility.
+    TopBar component for the kiosk page.Displays panel information, a tracker of selected items, and utility buttons such as translation and accessibility.
 </div>
 
 
@@ -6677,8 +6529,7 @@ Displays panel information, a tracker of selected items, and utility buttons suc
 
 
 <div class="description">
-    TopBar component for the kiosk page.
-Displays panel information, a tracker of selected items, and utility buttons such as translation and accessibility.
+    TopBar component for the kiosk page.Displays panel information, a tracker of selected items, and utility buttons such as translation and accessibility.
 </div>
 
 
@@ -6962,8 +6813,7 @@ Displays panel information, a tracker of selected items, and utility buttons suc
 
 
 <div class="description">
-    TopBar component for the kiosk page.
-Displays panel information, a tracker of selected items, and utility buttons such as translation and accessibility.
+    TopBar component for the kiosk page.Displays panel information, a tracker of selected items, and utility buttons such as translation and accessibility.
 </div>
 
 
@@ -7178,8 +7028,7 @@ Displays panel information, a tracker of selected items, and utility buttons suc
 
 
 <div class="description">
-    TopBar component for the kiosk page.
-Displays panel information, a tracker of selected items, and utility buttons such as translation and accessibility.
+    TopBar component for the kiosk page.Displays panel information, a tracker of selected items, and utility buttons such as translation and accessibility.
 </div>
 
 
@@ -7463,10 +7312,7 @@ Displays panel information, a tracker of selected items, and utility buttons suc
 
 
 <div class="description">
-    A React modal component for managing inventory items. This component provides
-functionality for creating new inventory items, updating existing ones, deleting
-items, and re-syncing IDs between related database tables. Input fields dynamically
-adjust based on whether the inventory ID is new or existing.
+    A React modal component for managing inventory items. This component providesfunctionality for creating new inventory items, updating existing ones, deletingitems, and re-syncing IDs between related database tables. Input fields dynamicallyadjust based on whether the inventory ID is new or existing.
 </div>
 
 
@@ -7548,8 +7394,7 @@ adjust based on whether the inventory ID is new or existing.
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>// Rendering the modal
-&lt;UpdateInventoryItemModal isOpen={true} onClose={() => setModalOpen(false)} /></code></pre>
+    <pre class="prettyprint"><code>// Rendering the modal&lt;UpdateInventoryItemModal isOpen={true} onClose={() => setModalOpen(false)} /></code></pre>
 
 
 
@@ -7850,8 +7695,7 @@ adjust based on whether the inventory ID is new or existing.
 
 
 <div class="description">
-    Displays an hourly breakdown of sales for the current day.
-Provides a total sales summary at the bottom.
+    Displays an hourly breakdown of sales for the current day.Provides a total sales summary at the bottom.
 </div>
 
 
@@ -7951,8 +7795,7 @@ Provides a total sales summary at the bottom.
 
 
 <div class="description">
-    Displays a summary of daily sales, including items sold and total revenue.
-Allows managers to generate the Z Report and reset sales data for the day.
+    Displays a summary of daily sales, including items sold and total revenue.Allows managers to generate the Z Report and reset sales data for the day.
 </div>
 
 
@@ -8085,9 +7928,7 @@ Allows managers to generate the Z Report and reset sales data for the day.
     <dt class="tag-author">Author:</dt>
     <dd class="tag-author">
         <ul>
-            <li>Alonso Peralta Espinoza
-
-Handles various authentication actions such as login, signup, email verification, and password reset.</li>
+            <li>Alonso Peralta EspinozaHandles various authentication actions such as login, signup, email verification, and password reset.</li>
         </ul>
     </dd>
     
@@ -8145,10 +7986,7 @@ Handles various authentication actions such as login, signup, email verification
 
 
 <div class="description">
-    Translates an array of text strings into a specified target language using the Google Translate API.
-
-The function sends a POST request to the Google Translate API with the provided text array and target language.
-It processes the API response to extract the translated texts and updates the translations state accordingly.
+    Translates an array of text strings into a specified target language using the Google Translate API.The function sends a POST request to the Google Translate API with the provided text array and target language.It processes the API response to extract the translated texts and updates the translations state accordingly.
 </div>
 
 
@@ -8349,10 +8187,7 @@ It processes the API response to extract the translated texts and updates the tr
 
 
 <div class="description">
-    Provides translation functionality and context to its children components.
-
-This component maintains the current language and a set of translations for the application.
-It uses the Google Translate API to convert text and updates the translations state with the results.
+    Provides translation functionality and context to its children components.This component maintains the current language and a set of translations for the application.It uses the Google Translate API to convert text and updates the translations state with the results.
 </div>
 
 
@@ -8530,10 +8365,7 @@ It uses the Google Translate API to convert text and updates the translations st
 
 
 <div class="description">
-    RecommendedItem Component
-
-Fetches the top-selling item of the month from the server, matches it with the global menu data,
-and displays its details. Handles loading, error states, and supports multilingual translations.
+    RecommendedItem ComponentFetches the top-selling item of the month from the server, matches it with the global menu data,and displays its details. Handles loading, error states, and supports multilingual translations.
 </div>
 
 
@@ -8791,7 +8623,7 @@ and displays its details. Handles loading, error states, and supports multilingu
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Wed Dec 04 2024 17:56:55 GMT-0600 (Central Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Wed Dec 04 2024 18:07:20 GMT-0600 (Central Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

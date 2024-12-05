@@ -2,7 +2,7 @@
 
 /**
  * 
- ** @author Alonso Peralta Espinoza
+ * @author Alonso Peralta Espinoza
  *
  * Retrieves inventory data, including current stock levels, weekly requirements, and items to reorder.
  *

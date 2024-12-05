@@ -1,7 +1,7 @@
 
 /**
  * 
- ** @author Alonso Peralta Espinoza
+ * @author Alonso Peralta Espinoza
  *
  * Inserts data from `salesRecord` into the `sales` table and assigns new sale numbers.
  *
