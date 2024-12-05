@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: app/components/kiosk/customerSignUpModal.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: app/components/kiosk/customerSignUpModal.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useState, useEffect } from "react";
+import { useGlobalState } from "../../context/GlobalStateContext";
+import CustomerPointsModal from "./customerPointsModal";
+import Modal from "@mui/material/Modal";
+import styles from "./customerSignUpModal.module.css";
+
+/**
+ * Customer Sign Up Modal Component
+ *
+ * @author Conner Black, Brandon Batac
+ *
+ * @description
+ * A modal component that allows customers to sign up. It prompts the user to enter their phone number and name, and
+ * optionally enter their date of birth. The component interacts with an API to add the customer and then closes the
+ * modal. If the customer is added successfully, the component opens a points modal to display the customer's current
+ * points balance.
+ *
+ * @features
+ * - Form with input fields for phone number, name, and date of birth
+ * - Submit button that sends a POST request to the server with the input data
+ * - Points modal that is opened when the customer is added successfully
+ * - API integration to add the customer
+ *
+ * @state
+ * - `phoneNumber`: The customer's phone number
+ * - `name`: The customer's name
+ * - `dateOfBirth`: The customer's date of birth (optional)
+ * - `isPointsModalOpen`: Whether the points modal is open
+ *
+ * @methods
+ * - `handleSubmit`: Sends the request to the server to add the customer after validating the input data
+ *
+ * @dependencies
+ * - React: For component structure and state management
+ * - Material-UI: For the modal component and styling
+ * - `GlobalStateContext`: For accessing and updating customer data such as total points and phone number
+ *
+ * @example
+ * &lt;CustomerSignUp isOpen={true} onClose={() => {}} />
+ */
+const CustomerSignUp = ({ isOpen, onClose }) => {
+  const {
+    setCustomerPhoneNumber,
+    setCustomerName,
+    setCustomerTotalPoints,
+    translations,
+    setIsPandaMember,
+  } = useGlobalState();
+  const [isPointsModalOpen, setPointsModalOpen] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [name, setName] = useState("");
+  const [dateOfBirth, setDateOfBirth] = useState("");
+
+  // Reset the input fields whenever the modal is opened
+  useEffect(() => {
+    if (isOpen) {
+      setPhoneNumber("");
+      setName("");
+      setDateOfBirth("");
+    }
+  }, [isOpen]);
+
+  // Function to handle form submission
+  const handleSubmit = async () => {
+    const data = {
+      phoneNumber,
+      name,
+      date_of_birth: dateOfBirth || null, // Optional date of birth
+    };
+
+    try {
+      const response = await fetch("/api/customerSignUp", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      const result = await response.json();
+      if (response.ok) {
+        alert("Customer added successfully");
+        setCustomerName(name);
+        setCustomerPhoneNumber(phoneNumber);
+        setCustomerTotalPoints(0);
+        setPointsModalOpen(true);
+        setIsPandaMember(true);
+        onClose(); // Close the modal
+      } else {
+        alert(result.error || "Failed to add customer");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("An error occurred. Please try again.");
+    }
+  };
+
+  return (
+    &lt;Modal open={isOpen} onClose={onClose}>
+      &lt;div className={styles.modal}>
+        &lt;h2>{translations["Customer Sign Up"] || "Customer Sign Up"}&lt;/h2>
+        &lt;div className={styles.form}>
+          &lt;div>
+            &lt;label>{translations["Phone Number:"] || "Phone Number:"}&lt;/label>
+            &lt;input
+              type="tel"
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+              placeholder="Enter phone number"
+            />
+          &lt;/div>
+          &lt;div>
+            &lt;label>{translations["Name:"] || "Name:"}&lt;/label>
+            &lt;input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Enter your name"
+            />
+          &lt;/div>
+          &lt;div>
+            &lt;label>
+              {translations["Date of Birth (optional):"] ||
+                "Date of Birth (optional):"}
+            &lt;/label>
+            &lt;input
+              type="date"
+              value={dateOfBirth}
+              onChange={(e) => setDateOfBirth(e.target.value)}
+            />
+          &lt;/div>
+        &lt;/div>
+        &lt;div className={styles["button-container"]}>
+          &lt;button className={styles["submit-btn"]} onClick={handleSubmit}>
+            {translations["Submit"] || "Submit"}
+          &lt;/button>
+        &lt;/div>
+      &lt;/div>
+    &lt;/Modal>
+  );
+};
+
+export default CustomerSignUp;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AccessibilityButton">AccessibilityButton</a></li><li><a href="global.html#AddEmployeeForm">AddEmployeeForm</a></li><li><a href="global.html#AddMenuModal">AddMenuModal</a></li><li><a href="global.html#AiAgent">AiAgent</a></li><li><a href="global.html#BottomBar">BottomBar</a></li><li><a href="global.html#BottomPanel">BottomPanel</a></li><li><a href="global.html#ButtonGrid">ButtonGrid</a></li><li><a href="global.html#CartPage">CartPage</a></li><li><a href="global.html#CashierPage">CashierPage</a></li><li><a href="global.html#Customer">Customer</a></li><li><a href="global.html#CustomerLogIn">CustomerLogIn</a></li><li><a href="global.html#CustomerPointsModal">CustomerPointsModal</a></li><li><a href="global.html#CustomerSignUp">CustomerSignUp</a></li><li><a href="global.html#DropDowns">DropDowns</a></li><li><a href="global.html#EditEmployeeModal">EditEmployeeModal</a></li><li><a href="global.html#EmployeeIdModal">EmployeeIdModal</a></li><li><a href="global.html#EmployeeViewerModal">EmployeeViewerModal</a></li><li><a href="global.html#GlobalStateProvider">GlobalStateProvider</a></li><li><a href="global.html#InventoryTable">InventoryTable</a></li><li><a href="global.html#ItemFrame">ItemFrame</a></li><li><a href="global.html#KioskALaCartePage">KioskALaCartePage</a></li><li><a href="global.html#KioskBiggerPlatePage">KioskBiggerPlatePage</a></li><li><a href="global.html#KioskBowlPage">KioskBowlPage</a></li><li><a href="global.html#KioskItemPage">KioskItemPage</a></li><li><a href="global.html#KioskItemPanel">KioskItemPanel</a></li><li><a href="global.html#KioskPage">KioskPage</a></li><li><a href="global.html#KioskPlatePage">KioskPlatePage</a></li><li><a href="global.html#KitchenPage">KitchenPage</a></li><li><a href="global.html#KitchenTV">KitchenTV</a></li><li><a href="global.html#Landing">Landing</a></li><li><a href="global.html#Loading">Loading</a></li><li><a href="global.html#LoginOAuth">LoginOAuth</a></li><li><a href="global.html#Manager">Manager</a></li><li><a href="global.html#ManagerProfile">ManagerProfile</a></li><li><a href="global.html#Menu">Menu</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#OrderPanel">OrderPanel</a></li><li><a href="global.html#RecommendationPanel">RecommendationPanel</a></li><li><a href="global.html#ResetPassword">ResetPassword</a></li><li><a href="global.html#ResetSalesDataModal">ResetSalesDataModal</a></li><li><a href="global.html#RestockReportModal">RestockReportModal</a></li><li><a href="global.html#RoleProvider">RoleProvider</a></li><li><a href="global.html#SalesChart">SalesChart</a></li><li><a href="global.html#SalesReportModal">SalesReportModal</a></li><li><a href="global.html#SignOAuth">SignOAuth</a></li><li><a href="global.html#ThankYouPage">ThankYouPage</a></li><li><a href="global.html#TopBar">TopBar</a></li><li><a href="global.html#UpdateInventoryItemModal">UpdateInventoryItemModal</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li><li><a href="global.html#Welcome">Welcome</a></li><li><a href="global.html#XReportModal">XReportModal</a></li><li><a href="global.html#ZReportModal">ZReportModal</a></li><li><a href="global.html#generateToken">generateToken</a></li><li><a href="global.html#translateAllText">translateAllText</a></li><li><a href="global.html#translateAllText-TranslatesanarrayoftextsintothetargetlanguageusingGoogleTranslateAPI.">translateAllText - Translates an array of texts into the target language using Google Translate API.</a></li><li><a href="global.html#useTranslate">useTranslate</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Wed Dec 04 2024 17:56:55 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

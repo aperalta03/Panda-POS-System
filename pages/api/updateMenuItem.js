@@ -2,7 +2,7 @@ import database from '../../utils/database';
 
 /**
  * 
- * @author Alonso Peralta Espinoza
+ ** @author Alonso Peralta Espinoza
  *
  * Adds a new menu item to the database and links it with its ingredients.
  *

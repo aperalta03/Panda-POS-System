@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: pages/kiosk_plate.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: pages/kiosk_plate.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useState, useEffect } from "react";
+import styles from "./kiosk_bowl.module.css";
+import { useRouter } from "next/router";
+import { useGlobalState } from "../app/context/GlobalStateContext"; //import global state
+import ItemFrame from "./itemFrame";
+import TranslateButton from "@/app/components/kiosk/translateButton";
+import AccessibilityButton from './accessButton';
+
+import Head from "next/head"; // Import Head for managing the document head
+
+/**
+ * TopBar component for the kiosk page.
+ * Displays panel information, a tracker of selected items, and utility buttons such as translation and accessibility.
+ * 
+ * @component
+ * @author Uzair Khan
+ * 
+ * @param {Object} props - Component properties.
+ * @param {function} props.handleCartClick - Callback to handle navigation to the cart.
+ * @param {number} props.numTrackedSides - Number of tracked side items.
+ * @param {number} props.numTrackedEntrees - Number of tracked entree items.
+ * @param {number} props.numTrackedOthers - Number of tracked other items.
+ * @returns {JSX.Element} The rendered TopBar component.
+ */
+const TopBar = ({ handleCartClick, numTrackedSides, numTrackedEntrees }) => {
+  const router = useRouter();
+  const { currentLanguage, changeLanguage, translations, numTotalItems } = useGlobalState();
+
+    /**
+ * Handles the language change event by updating the application's current language.
+ * @author Brandon Batac
+ * @param {Object} e - The event object containing the selected language value.
+ * @property {string} e.target.value - The new language code to set.
+ * @returns {void}
+ */
+  const handleLanguageChange = (e) => {
+    const newLanguage = e.target.value;
+    changeLanguage(newLanguage);
+  };
+
+  return (
+    &lt;div className={styles.KioskItemPanel}>
+      &lt;div className={styles.leftTopPanel}>
+        &lt;h1 className={styles.plateName}>{translations["Plate"] || "Plate"}&lt;/h1>
+        &lt;h3 className={styles.selectLabel}>
+          {translations["Select:"] || "Select:"}
+        &lt;/h3>
+        &lt;h3 className={styles.sideLabel}>
+          {translations["1 Side"] || "1 Side"}
+        &lt;/h3>
+        &lt;h3 className={styles.entreeLabel}>
+          {translations["2 Entrees"] || "2 Entrees"}
+        &lt;/h3>
+      &lt;/div>
+      &lt;div className={styles.rightTopPanel}>
+        &lt;div className={styles.rightTopRow}>
+          &lt;TranslateButton
+            currentLanguage={currentLanguage}
+            onLanguageChange={handleLanguageChange}
+            customStyles={{}}
+          />
+          &lt;button className={styles.checkOut} onClick={handleCartClick}>
+            &lt;img src="/cart2_img.png" alt="Cart" className={styles.cartImage} />
+          &lt;/button>
+          &lt;div className={styles.cartItemCount}>{numTotalItems}&lt;/div>
+          &lt;AccessibilityButton />
+        &lt;/div>
+        &lt;div className={styles.quantContainer}>
+          &lt;div className={styles.sideContainer}>
+            &lt;h2 className={styles.sideQuant}>{numTrackedSides}&lt;/h2>
+            &lt;h2 className={styles.sideQuantLabel}>
+              {translations["Side"] || "Side"}
+            &lt;/h2>
+          &lt;/div>
+          &lt;div className={styles.entreeContainer}>
+            &lt;h2 className={styles.entreeQuant}>{numTrackedEntrees}&lt;/h2>
+            &lt;h2 className={styles.entreeQuantLabel}>
+              {translations["Entree"] || "Entree"}
+            &lt;/h2>
+          &lt;/div>
+        &lt;/div>
+      &lt;/div>
+    &lt;/div>
+  );
+};
+
+/**
+ * This component serves as the main page for the kiosk application, allowing users to select items from the menu.
+ * It renders a sticky top bar with a cart icon and a sticky bottom bar with a back to menu button and a done button.
+ * Based on the `currentStep` state, it renders a different set of item frames in the main content area.
+ * It also handles the logic for the buttons in the bottom bar, including going back to the menu and going to the cart.
+ * 
+ * Effects:
+ * - Navigates to the menu page when the back to menu button is clicked.
+ * - Navigates to the cart page when the done button is clicked.
+ * - Navigates to side selection proccess when Back to sides is clicked.
+ * - Resets the tracked items and returns to the sides step when the done button is clicked.
+ * - Fetches menu items and logs them to the console.
+ * 
+ * @component
+ * @author Uzair Khan
+ * 
+ * @returns {JSX.Element} The rendered kiosk page component.
+ */
+const KioskPlatePage = () => {
+  const router = useRouter();
+  const {
+    menu,
+    priceMap,
+    numTrackedSides,
+    numTrackedEntrees,
+    totalItemCount,
+    resetTrackedSides,
+    resetTrackedEntrees,
+    isDone,
+    setDone,
+    translations,
+    toggleTheme, 
+    currentTheme, 
+    isPandaMember,
+    toggleSize,
+    isLargeText 
+  } = useGlobalState();
+  const [currentStep, setCurrentStep] = useState("sides"); //step var to indicate whether selecting sides or entrees
+  const { cart, addItemToCart, removeItemFromCart, clearCart, newItem, removeNewItem } = useGlobalState();
+
+    /**
+   * Sets the `isDone` state based on the number of tracked sides and entrees.
+   * @author Uzair Khan
+   */
+  useEffect(() => {
+    if (numTrackedSides === 1 &amp;&amp; numTrackedEntrees === 2) {
+      setDone(true); // Mark as done when both side and entree are selected
+    } else {
+      setDone(false);
+    }
+  }, [numTrackedSides, numTrackedEntrees, setDone]);
+
+
+    /**
+   * set currentStep based on the number of tracked sides and entrees.
+   * @author Uzair Khan
+   */
+  useEffect(() => {
+    if (numTrackedSides &lt; 1) {
+      setCurrentStep("sides");
+    } else if (numTrackedSides >= 1 &amp;&amp; numTrackedEntrees &lt; 2) {
+      setCurrentStep("entrees");
+    }
+  }, [numTrackedSides, numTrackedEntrees]);
+
+
+    /**
+   * Effect to log menu items for debugging purposes.
+   * @author Brandon Batac
+   * @throws Logs to the console if the menu is not properly populated.
+   */
+  useEffect(() => {
+    console.log("Menu items:", menu);
+  }, [menu]);
+
+  /**
+   * Handles setting the currentStep back to sides to initalize the side selection process.
+   * Resets tracked item counters.
+   * @author Uzair Khan
+   */
+  const handleBackToSides = () => {
+    resetTrackedSides();
+    resetTrackedEntrees();
+    setCurrentStep("sides");
+    removeNewItem();
+
+    setTimeout(() => setCurrentStep("sides"), 0);
+  };
+
+  /**
+   * Handles completing the current step and adding the new item to the cart.
+   * Resets tracked item counters and navigates to the item selection page based on if the done button is clicked.
+   * @author Uzair Khan, Andrew Popovici
+   * @throws Will throw an error if `newItem` fails to add to the cart.
+   */
+  const handleDone = () => {
+    resetTrackedSides();
+    resetTrackedEntrees();
+    setCurrentStep("sides"); 
+    newItem.type = "PLATE";
+    newItem.price += 11.50;
+    addItemToCart(newItem);
+    removeNewItem();
+
+    setTimeout(() => setCurrentStep("sides"), 0);
+
+    router.push("/kiosk_item");
+};
+
+  /**
+   * Handles navigation to the cart page.
+   * @author Uzair Khan
+   * @throws Will throw an error if router navigation fails.
+   */
+  const handleCartClick = () => {
+    resetTrackedSides();
+    resetTrackedEntrees();
+    setCurrentStep("sides");
+    removeNewItem();
+
+    setTimeout(() => setCurrentStep("sides"), 0);
+    router.push("/kiosk_cart");
+  };
+
+    /**
+   * Handles navigation back to the menu page.
+   * @author Uzair Khan
+   * @throws Will throw an error if router navigation fails.
+   */
+  const handleBackToMenu = () => {
+    resetTrackedSides();
+    resetTrackedEntrees();
+    setCurrentStep("sides");
+    removeNewItem();
+
+    setTimeout(() => setCurrentStep("sides"), 0);
+    router.push("/kiosk_item");
+  };
+
+  let itemsToDisplay = []; //item frames to display depending on selection step
+  let headerText = ""; //info text that changes based on selection step
+  if (numTrackedSides &lt; 1) {
+    //side selection
+    itemsToDisplay = menu.filter((item) => item.type === "side");
+    headerText = "Select Sides";
+  } 
+  else {
+    //entree selection
+    itemsToDisplay = menu.filter((item) => item.type === "entree");
+    headerText = "Select Entrees";
+  }
+
+  return (
+    &lt;>
+    &lt;Head>
+      {/* Add or update the page title */}
+      &lt;title>Plate Order Selection&lt;/title>
+      {/* Add other metadata if needed */}
+      &lt;meta name="description" content="Create a Plate order given our Menu" />
+    &lt;/Head>
+    &lt;div className={styles.layout}>
+      &lt;div className={styles.circle}>
+        &lt;p>1&lt;/p>
+      &lt;/div>
+
+      &lt;div className={styles.topHeader}>
+
+        &lt;TopBar
+          handleCartClick={handleCartClick}
+          numTrackedSides={numTrackedSides}
+          numTrackedEntrees={numTrackedEntrees}
+        />
+      &lt;/div>
+      {headerText &amp;&amp; &lt;h2 className={styles.itemHeader}>{headerText}&lt;/h2>}
+      &lt;div className={styles.itemsContainer}>
+        {itemsToDisplay.map((item) => (
+          &lt;ItemFrame key={item.name} item={item} isDone={isDone} />
+        ))}
+      &lt;/div>
+
+      {/* Creates and renders a sticky bottom bar */}
+      &lt;div className={styles.bottomBar}>
+        {/* For sides step */}
+        {currentStep === "sides" &amp;&amp; (
+          &lt;>
+            &lt;button
+              className={styles.backToMenuButton}
+              onClick={handleBackToMenu}
+            >
+              &lt;div className={styles.inlineText}>
+                &lt;span className={styles.x}>&amp;gt; &lt;/span>
+                &lt;span className={styles.backMenu}>
+                  {translations["Back to Menu"] || "Back to Menu"}
+                &lt;/span>
+              &lt;/div>
+            &lt;/button>
+            &lt;button
+              className={styles.doneButton}
+              onClick={handleDone}
+              disabled={numTrackedSides !== 1 || numTrackedEntrees !== 2}
+            >
+              {translations["Done"] || "Done"}
+            &lt;/button>
+          &lt;/>
+        )}
+
+        {/* For entrees step */}
+        {currentStep === "entrees" &amp;&amp; (
+          &lt;>
+            &lt;button className={styles.bottomButton} onClick={handleBackToSides}>
+              &lt;div className={styles.inlineText}>
+                &lt;span className={styles.x}>&amp;gt; &lt;/span>
+                &lt;span className={styles.backSides}>
+                  {translations["Back to Sides"] || "Back to Sides"}
+                &lt;/span>
+              &lt;/div>
+            &lt;/button>
+            &lt;button
+              className={styles.backToMenuButton}
+              onClick={handleBackToMenu}
+            >
+              &lt;div className={styles.inlineText}>
+                &lt;span className={styles.x}>&amp;gt; &lt;/span>
+                &lt;span className={styles.backMenu}>
+                  {translations["Back to Menu"] || "Back to Menu"}
+                &lt;/span>
+              &lt;/div>
+            &lt;/button>
+            &lt;button
+              className={styles.doneButton}
+              onClick={handleDone}
+              disabled={numTrackedSides !== 1 || numTrackedEntrees !== 2}
+            >
+              {translations["Done"] || "Done"}
+            &lt;/button>
+          &lt;/>
+        )}
+      &lt;/div>
+    &lt;/div>
+    &lt;/>
+  );
+};
+
+export default KioskPlatePage;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AccessibilityButton">AccessibilityButton</a></li><li><a href="global.html#AddEmployeeForm">AddEmployeeForm</a></li><li><a href="global.html#AddMenuModal">AddMenuModal</a></li><li><a href="global.html#AiAgent">AiAgent</a></li><li><a href="global.html#BottomBar">BottomBar</a></li><li><a href="global.html#BottomPanel">BottomPanel</a></li><li><a href="global.html#ButtonGrid">ButtonGrid</a></li><li><a href="global.html#CartPage">CartPage</a></li><li><a href="global.html#CashierPage">CashierPage</a></li><li><a href="global.html#Customer">Customer</a></li><li><a href="global.html#CustomerLogIn">CustomerLogIn</a></li><li><a href="global.html#CustomerPointsModal">CustomerPointsModal</a></li><li><a href="global.html#CustomerSignUp">CustomerSignUp</a></li><li><a href="global.html#DropDowns">DropDowns</a></li><li><a href="global.html#EditEmployeeModal">EditEmployeeModal</a></li><li><a href="global.html#EmployeeIdModal">EmployeeIdModal</a></li><li><a href="global.html#EmployeeViewerModal">EmployeeViewerModal</a></li><li><a href="global.html#GlobalStateProvider">GlobalStateProvider</a></li><li><a href="global.html#InventoryTable">InventoryTable</a></li><li><a href="global.html#ItemFrame">ItemFrame</a></li><li><a href="global.html#KioskALaCartePage">KioskALaCartePage</a></li><li><a href="global.html#KioskBiggerPlatePage">KioskBiggerPlatePage</a></li><li><a href="global.html#KioskBowlPage">KioskBowlPage</a></li><li><a href="global.html#KioskItemPage">KioskItemPage</a></li><li><a href="global.html#KioskItemPanel">KioskItemPanel</a></li><li><a href="global.html#KioskPage">KioskPage</a></li><li><a href="global.html#KioskPlatePage">KioskPlatePage</a></li><li><a href="global.html#KitchenPage">KitchenPage</a></li><li><a href="global.html#KitchenTV">KitchenTV</a></li><li><a href="global.html#Landing">Landing</a></li><li><a href="global.html#Loading">Loading</a></li><li><a href="global.html#LoginOAuth">LoginOAuth</a></li><li><a href="global.html#Manager">Manager</a></li><li><a href="global.html#ManagerProfile">ManagerProfile</a></li><li><a href="global.html#Menu">Menu</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#OrderPanel">OrderPanel</a></li><li><a href="global.html#RecommendationPanel">RecommendationPanel</a></li><li><a href="global.html#ResetPassword">ResetPassword</a></li><li><a href="global.html#ResetSalesDataModal">ResetSalesDataModal</a></li><li><a href="global.html#RestockReportModal">RestockReportModal</a></li><li><a href="global.html#RoleProvider">RoleProvider</a></li><li><a href="global.html#SalesChart">SalesChart</a></li><li><a href="global.html#SalesReportModal">SalesReportModal</a></li><li><a href="global.html#SignOAuth">SignOAuth</a></li><li><a href="global.html#ThankYouPage">ThankYouPage</a></li><li><a href="global.html#TopBar">TopBar</a></li><li><a href="global.html#UpdateInventoryItemModal">UpdateInventoryItemModal</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li><li><a href="global.html#Welcome">Welcome</a></li><li><a href="global.html#XReportModal">XReportModal</a></li><li><a href="global.html#ZReportModal">ZReportModal</a></li><li><a href="global.html#generateToken">generateToken</a></li><li><a href="global.html#translateAllText">translateAllText</a></li><li><a href="global.html#translateAllText-TranslatesanarrayoftextsintothetargetlanguageusingGoogleTranslateAPI.">translateAllText - Translates an array of texts into the target language using Google Translate API.</a></li><li><a href="global.html#useTranslate">useTranslate</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Wed Dec 04 2024 17:56:55 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
