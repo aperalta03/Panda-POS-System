@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: app/components/agent/ai-agent.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: app/components/agent/ai-agent.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useState, useEffect, useRef } from 'react';
+import SendIcon from '@mui/icons-material/Send';
+import SmartToyIcon from '@mui/icons-material/SmartToy';
+import PersonIcon from '@mui/icons-material/Person';
+import { Box, Typography, TextField, IconButton } from '@mui/material';
+import ReactMarkdown from 'react-markdown';
+import styles from './ai-agent.module.css';
+
+/**
+ * AI Chat Component
+ *
+ * @author Alonso Peralta Espinoza
+ * 
+ * @description
+ * A conversational AI agent interface that enables users to interact with an AI model via chat.
+ * Features include auto-scrolling, an initial welcome message, API calls for AI responses,
+ * and a real-time typing effect to simulate a conversational experience.
+ *
+ * @features
+ * - Auto Scroll: Automatically scrolls to the bottom when new messages arrive.
+ * - Initial Bot Message: Displays a welcome message on component mount.
+ * - API Integration: Sends user messages to the `/api/ai-brain` endpoint and retrieves responses.
+ * - Typing Effect: Simulates bot typing for better user interaction.
+ *
+ * @state
+ * - `prompt`: Holds the user's input text.
+ * - `messages`: Stores the chat history, including user and bot messages.
+ * - `botTypingMessage`: Displays the bot's typing animation.
+ * - `loading`: Indicates whether a bot response is being processed.
+ * - `context`: Maintains the chat context for consistent conversations.
+ *
+ * @methods
+ * - `handleSubmit`: Handles the submission of user input, calls the API, and updates the chat context.
+ * - `typeResponse`: Displays bot messages with a typing effect.
+ * - `useEffect`: Automatically scrolls the chatbox and displays the initial bot message.
+ *
+ * @returns {React.ReactElement} A styled chat component with conversational capabilities.
+ *
+ * @dependencies
+ * - Material-UI: For icons, buttons, and input fields.
+ * - ReactMarkdown: For rendering markdown content in bot responses.
+ *
+ * @example
+ * &lt;AiAgent />
+ */
+
+const AiAgent = () => {
+    const [prompt, setPrompt] = useState('');
+    const [messages, setMessages] = useState([]);
+    const [botTypingMessage, setBotTypingMessage] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [context, setContext] = useState([]);
+    const chatboxRef = useRef(null);
+
+    //** Auto Scroll **//
+    useEffect(() => {
+        if (chatboxRef.current) {
+            chatboxRef.current.scrollTop = chatboxRef.current.scrollHeight;
+        }
+    }, [messages, botTypingMessage]);
+
+    //** Initial Bot Message **//
+    useEffect(() => {
+        typeResponse("I am PandAI, here to answer your questions about our app!");
+    }, []);
+
+    //** API Call **//
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (!prompt.trim() || loading) return;
+
+        const userMessage = prompt.trim();
+        const newMessage = { role: "user", content: userMessage };
+        setMessages((prev) => [...prev, { sender: 'user', text: userMessage }]);
+        setContext((prev) => [...prev, newMessage]);
+
+        const updatedContext = [...context, newMessage];
+
+        setPrompt('');
+        setLoading(true);
+
+        try {
+            const res = await fetch('/api/ai-brain', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chatContext: updatedContext, userMessage }),
+            });
+
+            if (!res.ok) throw new Error('Failed to fetch response.');
+
+            const data = await res.json();
+            const botMessage = data.response?.trim() || '...';
+
+            if (typeof botMessage !== 'string') {
+                console.error('Invalid bot response:', botMessage);
+                throw new Error('Invalid bot response.');
+            }
+
+            const botReply = { role: "assistant", content: botMessage };
+            setContext((prev) => [...prev, botReply]);
+
+            typeResponse(botMessage);
+        } catch (error) {
+            console.error('Error:', error);
+            setMessages((prev) => [
+                ...prev,
+                { sender: 'bot', text: 'An error occurred. Please try again.' },
+            ]);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    //** Typer Effect **//
+    const typeResponse = (text) => {
+        const characters = [...text];
+        let index = 0;
+        setBotTypingMessage('');
+
+        const typingInterval = setInterval(() => {
+            if (index &lt; characters.length) {
+                const nextChar = characters[index];
+                setBotTypingMessage((prev) => prev + nextChar);
+                index++;
+            } else {
+                clearInterval(typingInterval);
+                setMessages((prev) => [...prev, { sender: 'bot', text }]);
+                setBotTypingMessage('');
+            }
+        }, 10); // Typing Speed
+    };
+
+    return (
+        &lt;Box className={styles.chatOrb}>
+            {/* Before Hover */}
+            &lt;Box className={styles.orbContent}>
+                &lt;SmartToyIcon fontSize="large" />
+            &lt;/Box>
+            {/* After Hover */}
+            &lt;Box className={styles.chatContent}>
+                &lt;Box ref={chatboxRef} className={styles.chatbox}>
+                    {messages.map((message, index) => (
+                        &lt;Box
+                            key={index}
+                            className={
+                                message.sender === 'user'
+                                    ? styles.userMessageContainer
+                                    : styles.botMessageContainer
+                            }
+                        >
+                            {message.sender === 'bot' &amp;&amp; (
+                                &lt;SmartToyIcon className={styles.messageIcon} />
+                            )}
+                            &lt;Typography
+                                className={
+                                    message.sender === 'user'
+                                        ? styles.userMessage
+                                        : styles.botMessage
+                                }
+                            >
+                                &lt;ReactMarkdown>{message.text}&lt;/ReactMarkdown>
+                            &lt;/Typography>
+                            {message.sender === 'user' &amp;&amp; (
+                                &lt;PersonIcon className={styles.messageIcon} />
+                            )}
+                        &lt;/Box>
+                    ))}
+                    {botTypingMessage &amp;&amp; (
+                        &lt;Box className={styles.botMessageContainer}>
+                            &lt;SmartToyIcon className={styles.messageIcon} />
+                            &lt;Typography className={styles.botMessage}>
+                                &lt;ReactMarkdown>{botTypingMessage}&lt;/ReactMarkdown>
+                            &lt;/Typography>
+                        &lt;/Box>
+                    )}
+                &lt;/Box>
+                &lt;form onSubmit={handleSubmit} className={styles.form}>
+                    &lt;TextField
+                        value={prompt}
+                        onChange={(e) => setPrompt(e.target.value)}
+                        placeholder="Type your message..."
+                        fullWidth
+                        className={styles.inputField}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter' &amp;&amp; !e.shiftKey) {
+                                e.preventDefault();
+                                handleSubmit(e);
+                            }
+                        }}
+                        disabled={loading}
+                        sx={{
+                            '&amp; .MuiOutlinedInput-root': {
+                                '&amp; fieldset': {
+                                    borderColor: 'black', // Default state
+                                },
+                                '&amp;:hover fieldset': {
+                                    borderColor: 'black', // Hover state
+                                },
+                                '&amp;.Mui-focused fieldset': {
+                                    borderColor: 'black', // Focused state
+                                },
+                                '&amp;.Mui-disabled fieldset': {
+                                    borderColor: 'black', // Disabled state
+                                },
+                            },
+                        }}
+                    />
+                    &lt;IconButton
+                        type="submit"
+                        color="primary"
+                        disabled={loading}
+                        className={styles.sendButton}
+                    >
+                        &lt;SendIcon />
+                    &lt;/IconButton>
+                &lt;/form>
+            &lt;/Box>
+        &lt;/Box>
+    );
+};
+
+export default AiAgent;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-api_add-employee.html">api/add-employee</a></li><li><a href="module-api_cashier-getMenu.html">api/cashier-getMenu</a></li><li><a href="module-api_customerLogin.html">api/customerLogin</a></li><li><a href="module-api_customerSignUp.html">api/customerSignUp</a></li><li><a href="module-api_deleteItem.html">api/deleteItem</a></li><li><a href="module-api_deleteSale.html">api/deleteSale</a></li><li><a href="module-api_employee-viewer.html">api/employee-viewer</a></li><li><a href="module-api_fortune-ai.html">api/fortune-ai</a></li><li><a href="module-api_generate-z-report.html">api/generate-z-report</a></li><li><a href="module-api_get-employee-info.html">api/get-employee-info</a></li><li><a href="module-api_inventory-table.html">api/inventory-table</a></li><li><a href="module-api_items.html">api/items</a></li><li><a href="module-api_kitchen-cancel-order.html">api/kitchen-cancel-order</a></li><li><a href="module-api_kitchen-get-orders.html">api/kitchen-get-orders</a></li><li><a href="module-api_kitchen-remove-sale.html">api/kitchen-remove-sale</a></li><li><a href="module-api_kitchen-update-order-status.html">api/kitchen-update-order-status</a></li><li><a href="module-api_login-info.html">api/login-info</a></li><li><a href="module-api_menu-get-items.html">api/menu-get-items</a></li><li><a href="module-api_oauth.html">api/oauth</a></li><li><a href="module-api_reset-salesRecord.html">api/reset-salesRecord</a></li><li><a href="module-api_restock-Report-inventory.html">api/restock-Report-inventory</a></li><li><a href="module-api_resyncIds.html">api/resyncIds</a></li><li><a href="module-api_sales-chart.html">api/sales-chart</a></li><li><a href="module-api_sales-report.html">api/sales-report</a></li><li><a href="module-api_toggle-employee.html">api/toggle-employee</a></li><li><a href="module-api_top-selling-item.html">api/top-selling-item</a></li><li><a href="module-api_update-employee.html">api/update-employee</a></li><li><a href="module-api_update-inventory-item.html">api/update-inventory-item</a></li><li><a href="module-api_updateCustomerPoints.html">api/updateCustomerPoints</a></li><li><a href="module-api_updateIngredient.html">api/updateIngredient</a></li><li><a href="module-api_updateMenuItem.html">api/updateMenuItem</a></li><li><a href="module-api_updateSalesRecord.html">api/updateSalesRecord</a></li><li><a href="module-api_updateSeasonalItem.html">api/updateSeasonalItem</a></li><li><a href="module-api_x-report.html">api/x-report</a></li><li><a href="module-api_z-report.html">api/z-report</a></li></ul><h3>Global</h3><ul><li><a href="global.html#AccessibilityButton">AccessibilityButton</a></li><li><a href="global.html#AddEmployeeForm">AddEmployeeForm</a></li><li><a href="global.html#AddMenuModal">AddMenuModal</a></li><li><a href="global.html#AiAgent">AiAgent</a></li><li><a href="global.html#BottomBar">BottomBar</a></li><li><a href="global.html#BottomPanel">BottomPanel</a></li><li><a href="global.html#ButtonGrid">ButtonGrid</a></li><li><a href="global.html#CartPage">CartPage</a></li><li><a href="global.html#CashierPage">CashierPage</a></li><li><a href="global.html#Customer">Customer</a></li><li><a href="global.html#CustomerLogIn">CustomerLogIn</a></li><li><a href="global.html#CustomerPointsModal">CustomerPointsModal</a></li><li><a href="global.html#CustomerSignUp">CustomerSignUp</a></li><li><a href="global.html#DropDowns">DropDowns</a></li><li><a href="global.html#EditEmployeeModal">EditEmployeeModal</a></li><li><a href="global.html#EmployeeIdModal">EmployeeIdModal</a></li><li><a href="global.html#EmployeeViewerModal">EmployeeViewerModal</a></li><li><a href="global.html#GlobalStateProvider">GlobalStateProvider</a></li><li><a href="global.html#InventoryTable">InventoryTable</a></li><li><a href="global.html#ItemFrame">ItemFrame</a></li><li><a href="global.html#KioskALaCartePage">KioskALaCartePage</a></li><li><a href="global.html#KioskBiggerPlatePage">KioskBiggerPlatePage</a></li><li><a href="global.html#KioskBowlPage">KioskBowlPage</a></li><li><a href="global.html#KioskItemPage">KioskItemPage</a></li><li><a href="global.html#KioskItemPanel">KioskItemPanel</a></li><li><a href="global.html#KioskPage">KioskPage</a></li><li><a href="global.html#KioskPlatePage">KioskPlatePage</a></li><li><a href="global.html#KitchenPage">KitchenPage</a></li><li><a href="global.html#KitchenTV">KitchenTV</a></li><li><a href="global.html#Landing">Landing</a></li><li><a href="global.html#Loading">Loading</a></li><li><a href="global.html#LoginOAuth">LoginOAuth</a></li><li><a href="global.html#Manager">Manager</a></li><li><a href="global.html#ManagerProfile">ManagerProfile</a></li><li><a href="global.html#Menu">Menu</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#OrderPanel">OrderPanel</a></li><li><a href="global.html#RecommendationPanel">RecommendationPanel</a></li><li><a href="global.html#ResetPassword">ResetPassword</a></li><li><a href="global.html#ResetSalesDataModal">ResetSalesDataModal</a></li><li><a href="global.html#RestockReportModal">RestockReportModal</a></li><li><a href="global.html#RoleProvider">RoleProvider</a></li><li><a href="global.html#SalesChart">SalesChart</a></li><li><a href="global.html#SalesReportModal">SalesReportModal</a></li><li><a href="global.html#SignOAuth">SignOAuth</a></li><li><a href="global.html#ThankYouPage">ThankYouPage</a></li><li><a href="global.html#TopBar">TopBar</a></li><li><a href="global.html#UpdateInventoryItemModal">UpdateInventoryItemModal</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li><li><a href="global.html#Welcome">Welcome</a></li><li><a href="global.html#XReportModal">XReportModal</a></li><li><a href="global.html#ZReportModal">ZReportModal</a></li><li><a href="global.html#handleTextToSpeech">handleTextToSpeech</a></li><li><a href="global.html#handler">handler</a></li><li><a href="global.html#translateAllText">translateAllText</a></li><li><a href="global.html#translateAllText-TranslatesanarrayoftextsintothetargetlanguageusingGoogleTranslateAPI.">translateAllText - Translates an array of texts into the target language using Google Translate API.</a></li><li><a href="global.html#useTranslate">useTranslate</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Thu Dec 05 2024 00:37:38 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

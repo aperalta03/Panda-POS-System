@@ -3,36 +3,32 @@ import fs from 'fs';
 import path from 'path';
 
 /**
- * 
  * @author Alonso Peralta Espinoza
- * 
- * Generates the Z-Report, records sales in the database, and resets sales data.
- * 
+ *
  * @module api/generate-z-report
  *
- * @api {post} /api/generate-z-report
- * @apiName GenerateZReport
- * @apiGroup Reports
+ * @description Generates the Z-Report, records sales in the database, and resets sales data.
  *
- * @apiSuccess {Object} Response object with a success message confirming the Z-Report generation and data reset.
- * 
- * @apiError (500) {Object} Response object with an error message for server issues during the Z-Report process.
+ * @features
+ * - Generates the Z-Report
+ * - Records sales in the salesRecord table
+ * - Resets sales data in the salesRecord and saleItems tables
  *
- * @apiExample {curl} Example usage:
- *   curl -X POST \
- *     http://localhost:3000/api/z-report-sales
+ * @requestBody
+ * No request body is required.
  *
- * @apiSuccessExample {json} Success response:
- *     {
- *       "message": "Z Report generated, sales recorded, and data reset."
- *     }
+ * @response
+ * {
+ *   "message": "Z Report generated, sales recorded, and data reset."
+ * }
  *
- * @apiErrorExample {json} General server error response:
- *     {
- *       "error": "Error generating Z Report"
- *     }
+ * @dependencies
+ * - utils/database.js
+ *
+ * @example
+ * curl -X POST \
+ *   http://localhost:3000/api/generate-z-report
  */
-
 export default async function handler(req, res) {
   if (req.method === 'POST') {
     try {

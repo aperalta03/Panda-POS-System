@@ -4,36 +4,38 @@ import database from '../../utils/database';
  * 
  * @author Alonso Peralta Espinoza
  *
- * Retrieves menu items from the database, sorted by type and menu item ID.
- * 
  * @module api/cashier-getMenu
  *
- * @api {get} /api/cashier-getMenu
- * @apiName GetMenuItemsSorted
- * @apiGroup Menu
+ * @description
+ * Retrieves menu items from the database, sorted by type and menu item ID. This endpoint is used to
+ * fetch all menu items available for a cashier in a structured format.
  *
- * @apiSuccess {Object} Response object containing an array of sorted menu items.
- * 
- * @apiError (500) {Object} Response object with an error message for server issues.
- * 
- * @apiExample {curl} Example usage:
- *   curl -X GET \
- *     http://localhost:3000/api/menu-items-sorted
+ * @features
+ * - Fetch Menu Items: Retrieves menu items from the database.
+ * - Sorting: Items are sorted by type and menu item ID.
+ * - JSON Response: Provides the menu data in a structured JSON format.
  *
- * @apiSuccessExample {json} Success response:
- *     {
- *       "data": [
- *         { "name": "Plate", "price": 9.99, "type": "box" },
- *         { "name": "Coca Cola", "price": 1.99, "type": "drink" }
- *       ]
- *     }
+ * @requestBody
+ * - None: This is a `GET` request and does not require a request body.
  *
- * @apiErrorExample {json} General server error response:
- *     {
- *       "error": "Failed to fetch menu items"
- *     }
+ * @response
+ * - `200 OK`: Returns a JSON array of sorted menu items.
+ * - `500 Internal Server Error`: Returns an error message in case of a server issue.
+ *
+ * @dependencies
+ * - `database`: Utility module for database queries.
+ *
+ * @example
+ * curl -X GET http://localhost:3000/api/cashier-getMenu
+ *
+ * Response:
+ * {
+ *   "data": [
+ *     { "name": "Plate", "price": 9.99, "type": "box" },
+ *     { "name": "Coca Cola", "price": 1.99, "type": "drink" }
+ *   ]
+ * }
  */
-
 export default async function handler(req, res) {
   if (req.method === 'GET') {
     try {
