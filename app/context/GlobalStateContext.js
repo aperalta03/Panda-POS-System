@@ -5,17 +5,23 @@ import { TroubleshootOutlined } from "@mui/icons-material";
 
 /**
  * @file GlobalStateContext.js
- * @description Provides a global state management system for the application using React's Context API.
- * Includes utility functions, global variables, and state for user preferences, cart management,
- * menu operations, and more.
+ * @description Manages global state for the application using React's Context API. It includes utility functions
+ * and state management for user preferences, cart operations, menu management, and more.
  *
- * @components
- * - **GlobalStateProvider**: Provides the global state and utility functions to all child components.
- * - **useGlobalState**: A custom hook for accessing the global state more easily.
+ * @component GlobalStateProvider
+ * @description Provides global state and utility functions to all child components.
  *
- * @usage
- * - Wrap your application in `<GlobalStateProvider>` to give all components access to the global state.
- * - Use the `useGlobalState` hook to access or modify global state variables and functions.
+ * @function useGlobalState
+ * @description A custom hook for accessing and modifying the global state.
+ *
+ * @example
+ * // Wrap your application with GlobalStateProvider
+ * <GlobalStateProvider>
+ *   <App />
+ * </GlobalStateProvider>
+ *
+ * // Access global state using the useGlobalState hook
+ * const { state, dispatch } = useGlobalState();
  *
  * @author Uzair Khan, Brandon Batac, Andrew Popovici
  */
@@ -428,3 +434,4 @@ export const GlobalStateProvider = ({ children }) => {
 
 // Custom hook for easier access to the context
 export const useGlobalState = () => useContext(GlobalStateContext);
+

@@ -3,28 +3,23 @@ import { Modal, Box, Typography, Button, TextField, Divider } from '@mui/materia
 import styles from './resetSales.module.css';
 
 /**
- * Reset Sales Data Modal Component
- * 
- * @author Alonso Peralta Espinoza
- *
  * @description
  * A modal that allows managers to:
  * 1. Delete a specific sale entry by Sales ID.
  * 2. Reset daily sales data for `salesRecord` and `saleItems` tables.
+ * 
+ * @author Alonso Peralta Espinoza
  *
- * @features
- * - Allows input of a Sales ID to delete a specific sale entry.
- * - Confirmation dialog to reset daily sales data.
- * - API call to `/api/delete-sale-by-id` for deleting a sale by ID.
- * - API call to `/api/reset-salesRecord` for resetting daily sales data.
- * - Displays success or error messages based on API response.
+ * @param {object} props - The properties passed to the component.
+ * @param {boolean} props.isOpen - Controls whether the modal is visible.
+ * @param {function} props.onClose - Callback function to close the modal.
  *
- * @methods
- * - `handleDeleteSaleById`: Sends an API request to delete a specific sale by ID.
- * - `handleResetSalesData`: Triggers the API call to reset all sales data.
+ * @returns {React.ReactElement} The rendered ResetSalesDataModal component.
  *
  * @example
  * <ResetSalesDataModal isOpen={true} onClose={() => {}} />
+ *
+ * @module resetSales
  */
 
 const ResetSalesDataModal = ({ isOpen, onClose }) => {

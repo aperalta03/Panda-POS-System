@@ -3,43 +3,47 @@ import path from 'path';
 import db from '../../utils/database';
 
 /**
- * 
- * @author Alonso Peralta Espinoza
- * 
+ * @description
  * Retrieves restock data including current stock and amounts needed for the week and game week.
+ * @author Alonso Peralta Espinoza
  * @module api/restock-Report-inventory
- * @api {get} /api/restock-Report-inventory
- * @apiName GetRestockReport
- * @apiGroup Inventory
  *
- * @apiSuccess {Object} Response object containing an array of restock data.
- * 
- * @apiError (500) {Object} Response object with an error message for server issues during data retrieval.
+ * @features
+ * - Retrieves restock data, including current stock and amounts needed for the week and game week.
+ * - Provides structured JSON response with restock data.
+ * - Handles errors for server issues during data retrieval.
  *
- * @apiExample {curl} Example usage:
- *   curl -X GET \
- *     http://localhost:3000/api/restock-report
+ * @requestMethod
+ * - `GET`: Fetches the restock data.
  *
- * @apiSuccessExample {json} Success response:
- *     [
- *       {
- *         "itemName": "Chicken Breast",
- *         "currentStock": 50,
- *         "neededForWeek": 100,
- *         "neededForGameWeek": 150
- *       },
- *       {
- *         "itemName": "Orange Sauce",
- *         "currentStock": 20,
- *         "neededForWeek": 50,
- *         "neededForGameWeek": 70
- *       }
- *     ]
+ * @response
+ * - `200 OK`: Returns a JSON array containing the restock data.
+ * - `500 Internal Server Error`: Returns an error message if there is an issue fetching the data.
  *
- * @apiErrorExample {json} General server error response:
- *     {
- *       "error": "Failed to fetch restock data"
- *     }
+ * @example
+ * // Request:
+ * GET /api/restock-Report-inventory
+ *
+ * // Response:
+ * [
+ *   {
+ *     "itemName": "Chicken Breast",
+ *     "currentStock": 50,
+ *     "neededForWeek": 100,
+ *     "neededForGameWeek": 150
+ *   },
+ *   {
+ *     "itemName": "Orange Sauce",
+ *     "currentStock": 20,
+ *     "neededForWeek": 50,
+ *     "neededForGameWeek": 70
+ *   }
+ * ]
+ *
+ * @errorExample {json} Error response for server issues:
+ * {
+ *   "error": "Failed to fetch restock data"
+ * }
  */
 
 export default async function handler(req, res) {

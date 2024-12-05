@@ -3,39 +3,22 @@ import Modal from '@mui/material/Modal';
 import styles from './addEmployeeForm.module.css'; // Import your CSS for styling
 
 /**
- * Add Employee Form Component
- *
- * @author Conner Black
- *
  * @description
  * A modal form component that allows for adding a new employee to the system.
  * Supports capturing essential employee details and submitting them to an API.
+ * 
+ * @param {object} props - The properties passed to the component.
+ * @param {boolean} props.isOpen - Controls whether the modal is visible.
+ * @param {function} props.onClose - Callback function to close the modal.
+ * @param {function} props.onSubmit - Callback function to handle employee data submission.
  *
- * @features
- * - Form Inputs: Collects employee details such as ID, name, birth date, phone number, hourly rate, and employment type (manager, part-time).
- * - Validation: Displays an error message if submission fails (e.g., due to invalid input).
- * - State Management: Manages form data and error messages using React hooks.
- * - Modal Interaction: Allows opening and closing the form modal through parent control.
- *
- * @state
- * - `newEmployee`: Holds the employee data to be submitted. Includes fields such as `employee_id`, `first_name`, `last_name`, `date_of_birth`, `phone_number`, `hourly_rate`, `is_manager`, and `is_parttime`.
- * - `errorMessage`: Stores the error message to be displayed in case of invalid data or submission failure.
- *
- * @methods
- * - `handleInputChange`: Handles changes to form input fields, updating the corresponding employee data.
- * - `handleSubmit`: Submits the employee data to the server, handles error response, and triggers parent callbacks (`onSubmit` and `onClose`).
- *
- * @formStructure
- * - Employee:
- *   - Fields: Employee ID, First Name, Last Name, Date of Birth, Phone Number, Hourly Rate, Manager (checkbox), Part-Time (checkbox).
- *
- * @dependencies
- * - Material-UI: For modal component and styling.
+ * @returns {React.ReactElement} The rendered AddEmployeeForm component.
  *
  * @example
  * <AddEmployeeForm isOpen={true} onClose={() => {}} onSubmit={(employee) => {}} />
+ *
+ * @module addEmployeeForm
  */
-
 const AddEmployeeForm = ({ isOpen, onClose, onSubmit }) => {
   const [newEmployee, setNewEmployee] = useState({
     employee_id: '',

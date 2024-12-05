@@ -1,18 +1,12 @@
 import database from '../../utils/database';
 import fs from 'fs';
 import path from 'path';
-
 /**
+ * @description
+ * Generates the Z-Report, records sales in the database, and resets sales data.
+ *
  * @author Alonso Peralta Espinoza
- *
  * @module api/generate-z-report
- *
- * @description Generates the Z-Report, records sales in the database, and resets sales data.
- *
- * @features
- * - Generates the Z-Report
- * - Records sales in the salesRecord table
- * - Resets sales data in the salesRecord and saleItems tables
  *
  * @requestBody
  * No request body is required.
@@ -21,9 +15,6 @@ import path from 'path';
  * {
  *   "message": "Z Report generated, sales recorded, and data reset."
  * }
- *
- * @dependencies
- * - utils/database.js
  *
  * @example
  * curl -X POST \

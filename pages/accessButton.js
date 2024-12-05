@@ -4,30 +4,32 @@ import { useGlobalState } from "../app/context/GlobalStateContext";
 import styles from "./accessButton.module.css";
 
 /**
- * AccessibilityButton
- *
+ * @description
  * This component provides accessibility options for the site, including:
  * - Switching between themes (e.g., low-vision theme, normal theme).
  * - Adjusting the font size.
  * - A text-to-speech feature to summarize and read out page content.
+ * 
+ * @author Uzair Khan, Alonso Peralta Espinosas, Anson Thai
  *
- * Features:
- * - A dropdown menu with accessible options.
- * - Real-time positioning of the dropdown for optimal visibility.
- * - Integration with an AI-powered backend for text-to-speech summaries.
- *
- * @component
- * @author Uzair Khan, Alonso Peralta Espinsosa, Anson Thai
  * @returns {JSX.Element} The AccessibilityButton component.
+ * 
+ * @example
+ * // Usage example
+ * <AccessibilityButton />
+ * 
+ * @module accessButton
  */
 
-// Main Component
-
 /**
+ * @description
  * Handles theme toggling, font resizing, and text-to-speech functionality via a dropdown menu.
+ * 
+ * @authon Uzair Khan, Alonso Peralta Espinosas
  *
- * @function AccessibilityButton
  * @returns {JSX.Element} The accessibility button with dropdown functionality.
+ * 
+ * @function AccessibilityButton
  */
 const AccessibilityButton = () => {
     const {
@@ -44,7 +46,15 @@ const AccessibilityButton = () => {
     const buttonRef = useRef(null);
     const dropdownRef = useRef(null);
 
-    // Prevent Parent Interference
+
+    /**
+     * Handles the button click event by toggling the visibility of the dropdown menu.
+     * Prevents the event from propagating up the DOM tree.
+     * @param {Event} e - The event object containing information about the button click.
+     * @returns {void}
+     * @author Uzair Khan
+     * @function handleButtonClick
+     */
     const handleButtonClick = (e) => {
         e.stopPropagation();
         setDropdownVisible((prev) => !prev);
@@ -82,6 +92,17 @@ const AccessibilityButton = () => {
     }, [dropdownVisible]);
 
     useEffect(() => {
+    /**
+     * @description
+     * Handles the logic for closing the dropdown menu when
+     * the user clicks outside of it.
+     * 
+     * @author Uzair Khan
+     * 
+     * @param {MouseEvent} event The event object from the mousedown event.
+     * @function handleClickOutside
+     * @private
+     */
         const handleClickOutside = (event) => {
             if (
                 buttonRef.current &&

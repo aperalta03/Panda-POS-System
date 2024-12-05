@@ -3,45 +3,43 @@ import path from 'path';
 import database from '../../utils/database';
 
 /**
- * 
- * @author Alonso Peralta Espinoza
- * 
+ * @description
  * Retrieves sales chart data for a specific menu item within a given date range.
+ * @author Alonso Peralta Espinoza
  * @module api/sales-chart
- * @api {get} /api/sales-chart
- * @apiName SalesChart
- * @apiGroup Sales
- *
- * @apiParam {String} startDate Start date for the sales chart data (YYYY-MM-DD format).
- * @apiParam {String} endDate End date for the sales chart data (YYYY-MM-DD format).
- * @apiParam {String} item Name of the menu item to filter sales data by.
- *
- * @apiSuccess {Object} Response object containing sales chart data.
  * 
- * @apiError (400) {Object} Response object with an error message when required query parameters are missing.
- * @apiError (500) {Object} Response object with an error message for server issues.
+ * @param {string} startDate - Start date for the sales chart data (YYYY-MM-DD format).
+ * @param {string} endDate - End date for the sales chart data (YYYY-MM-DD format).
+ * @param {string} item - Name of the menu item to filter sales data by.
+ * 
+ * @returns {Object} Response object containing sales chart data.
+ * 
+ * @response
+ * - `200 OK`: Returns the sales chart data.
+ * - `400 Bad Request`: Returns an error message when required query parameters are missing.
+ * - `500 Internal Server Error`: Returns an error message for server issues.
+ * 
+ * @example
+ * // Request:
+ * GET /api/sales-chart?startDate=2024-01-01&endDate=2024-01-31&item=Orange%20Chicken
  *
- * @apiExample {curl} Example usage:
- *   curl -X GET \
- *     'http://localhost:3000/api/sales-chart?startDate=2024-01-01&endDate=2024-01-31&item=Orange%20Chicken'
+ * // Response:
+ * {
+ *   "data": [
+ *     { "date": "2024-01-01", "sales": 100 },
+ *     { "date": "2024-01-02", "sales": 120 }
+ *   ]
+ * }
  *
- * @apiSuccessExample {json} Success response:
- *     {
- *       "data": [
- *         { "date": "2024-01-01", "sales": 100 },
- *         { "date": "2024-01-02", "sales": 120 }
- *       ]
- *     }
+ * @errorExample {json} Error response for missing parameters:
+ * {
+ *   "error": "Missing required query parameters"
+ * }
  *
- * @apiErrorExample {json} Error response for missing parameters:
- *     {
- *       "error": "Missing required query parameters"
- *     }
- *
- * @apiErrorExample {json} General server error response:
- *     {
- *       "error": "Error fetching sales chart data"
- *     }
+ * @errorExample {json} General server error response:
+ * {
+ *   "error": "Error fetching sales chart data"
+ * }
  */
 
 export default async function handler(req, res) {

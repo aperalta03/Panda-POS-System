@@ -5,50 +5,37 @@ const openai = new OpenAI({
 });
 
 /**
- * Fortune Cookie AI Endpoint
- * 
- * @author Alonso Peralta Espinoza
- * 
- * @module api/fortune-ai
- * 
  * @description
  * Generates a fortune cookie-style message using a fine-tuned AI model. The language of the fortune is determined by the `currentLanguage` parameter.
- * 
- * @features
- * - Generates a random fortune cookie-style message.
- * - Supports multiple languages using the `currentLanguage` parameter.
- * - Returns a JSON response with the generated fortune cookie message.
- * 
+ *
+ * @author Alonso Peralta Espinoza
+ * @module api/fortune-ai
+ *
  * @requestBody
  * The `currentLanguage` parameter is required in the query string.
- * 
+ *
  * @response
  * The response is a JSON object with the generated fortune cookie message.
- * 
- * @dependencies
- * - `openai` package for interacting with the OpenAI API.
- * - `process.env.OPENAI_API_KEY` environment variable for the OpenAI API key.
- * 
+ *
  * @example
  * curl -X GET \
  *   http://localhost:3000/api/fortune-ai?currentLanguage=en
  * 
- * @example
  * // Example response:
  * {
  *   "fortune": "Great things are on the horizon for you!"
  * }
- * 
+ *
  * @errorExample {json} Error response for method not allowed:
  * {
  *   "error": "Method not allowed. Use GET."
  * }
- * 
+ *
  * @errorExample {json} Error response for missing language:
  * {
  *   "error": "Missing 'currentLanguage' parameter."
  * }
- * 
+ *
  * @errorExample {json} General server error response:
  * {
  *   "error": "Failed to generate fortune. Please try again."

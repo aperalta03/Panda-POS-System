@@ -8,23 +8,28 @@ import { useUser } from "../app/context/userProvider";
 import Head from "next/head"; // Import Head for managing the document head
 
 /**
- * @function CashierPage
- * @description Renders the cashier interface for managing orders, including menu items, order panel, and payment processing.
+ * @description
+ * Renders the cashier interface for managing orders, including menu items, order panel, and payment processing.
  * Utilizes state hooks to track menu items, order quantities, net cost, and more. Fetches menu data on component mount
  * and provides functionality to add, delete, and process orders.
  *
- * @param {Object} user - The user object containing employee information, including `employeeID`.
- * @param {Array<Object>} menuItems - List of menu items fetched from the server, each containing `name` and `price`.
- * @param {number} netCost - The current net cost of the orders placed, calculated dynamically.
- * @param {Object<string, number>} quantities - Map of item names to their current quantities in the order.
- * @param {Object<string, number>} priceMap - Map of item names to their respective prices.
- * @param {Array<Object>} orders - Array of objects representing current orders with plate sizes and their components.
- * @param {Object<string, number>} minQuantities - Map of item names to their minimum required quantities for the order.
- * @param {boolean} seasonalItemActive - Indicates if the seasonal item is currently active.
+ * @param {Object} props - The properties passed to the component.
+ * @param {Object} props.user - The user object containing employee information, including `employeeID`.
+ * @param {Array<Object>} props.menuItems - List of menu items fetched from the server, each containing `name` and `price`.
+ * @param {number} props.netCost - The current net cost of the orders placed, calculated dynamically.
+ * @param {Object<string, number>} props.quantities - Map of item names to their current quantities in the order.
+ * @param {Object<string, number>} props.priceMap - Map of item names to their respective prices.
+ * @param {Array<Object>} props.orders - Array of objects representing current orders with plate sizes and their components.
+ * @param {Object<string, number>} props.minQuantities - Map of item names to their minimum required quantities for the order.
+ * @param {boolean} props.seasonalItemActive - Indicates if the seasonal item is currently active.
  *
  * @returns {JSX.Element} The rendered cashier page component.
+ * 
+ * @example
+ * // Usage example
+ * <CashierPage user={userObject} menuItems={menuItemsArray} netCost={100.0} quantities={quantitiesMap} priceMap={priceMap} orders={ordersArray} minQuantities={minQuantitiesMap} seasonalItemActive={true} />
  *
- * @author Brandon Batac, Uzair Khan
+ * @module cashier
  */
 
 const CashierPage = () => {
@@ -76,7 +81,7 @@ const CashierPage = () => {
    * If the order is successfully saved, it resets the net cost, item quantities, and orders.
    *
    * @async
-   * @function
+   * @function handlePayClick
    * @returns {void} Shows an alert if order details are incomplete or if there is an error during the fetch.
    *
    * @throws {Error} Logs an error if the order fails to save or if there is an error during the fetch.
@@ -143,7 +148,7 @@ const CashierPage = () => {
   /**
    * Updates the orders array with a new order and updates the minimum
    * quantities of each item in the order.
-   *
+   * @function addOrderToPanel
    * @param {string} plateSize - The size of the plate for the order.
    * @param {Array<string>} components - The components of the order.
    *
@@ -172,6 +177,7 @@ const CashierPage = () => {
   /**
    * Deletes an order from the orders array and updates the net cost, quantities,
    * and minimum quantities of each item accordingly.
+   * @function deleteOrder
    *
    * @param {number} index - The index of the order to delete in the orders array.
    *

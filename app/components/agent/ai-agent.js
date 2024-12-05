@@ -7,41 +7,21 @@ import ReactMarkdown from 'react-markdown';
 import styles from './ai-agent.module.css';
 
 /**
- * AI Chat Component
- *
+ * 
  * @author Alonso Peralta Espinoza
  * 
  * @description
- * A conversational AI agent interface that enables users to interact with an AI model via chat.
- * Features include auto-scrolling, an initial welcome message, API calls for AI responses,
- * and a real-time typing effect to simulate a conversational experience.
- *
- * @features
- * - Auto Scroll: Automatically scrolls to the bottom when new messages arrive.
- * - Initial Bot Message: Displays a welcome message on component mount.
- * - API Integration: Sends user messages to the `/api/ai-brain` endpoint and retrieves responses.
- * - Typing Effect: Simulates bot typing for better user interaction.
- *
- * @state
- * - `prompt`: Holds the user's input text.
- * - `messages`: Stores the chat history, including user and bot messages.
- * - `botTypingMessage`: Displays the bot's typing animation.
- * - `loading`: Indicates whether a bot response is being processed.
- * - `context`: Maintains the chat context for consistent conversations.
- *
- * @methods
- * - `handleSubmit`: Handles the submission of user input, calls the API, and updates the chat context.
- * - `typeResponse`: Displays bot messages with a typing effect.
- * - `useEffect`: Automatically scrolls the chatbox and displays the initial bot message.
- *
- * @returns {React.ReactElement} A styled chat component with conversational capabilities.
- *
- * @dependencies
- * - Material-UI: For icons, buttons, and input fields.
- * - ReactMarkdown: For rendering markdown content in bot responses.
+ * A conversational AI chat interface that allows users to interact with an AI model through chat.
+ * It features real-time typing effects, auto-scrolling, and API integration for fetching AI-generated responses.
+ * 
+ * @param {object} props - The properties passed to the component.
+ * @returns {React.ReactElement} The rendered AiAgent component.
  *
  * @example
+ * import AiAgent from './components/AiAgent';
  * <AiAgent />
+ * 
+ * @module ai-agent
  */
 
 const AiAgent = () => {

@@ -3,29 +3,22 @@ import Modal from '@mui/material/Modal';
 import styles from './zReport.module.css';
 
 /**
- * Z Report Modal Component
- * 
- * @author Alonso Peralta Espinoza, Conner Black
- *
  * @description
  * Displays a summary of daily sales, including items sold and total revenue.
  * Allows managers to generate the Z Report and reset sales data for the day.
+ * 
+ * @author Alonso Peralta Espinoza, Conner Black
  *
- * @features
- * - Fetch Z Report data from `/api/z-report`.
- * - Generate a new Z Report and reset data via `/api/generate-z-report`.
- * - Displays total sales and item-specific details.
+ * @param {object} props - The properties passed to the component.
+ * @param {boolean} props.isOpen - A boolean indicating whether the modal is open.
+ * @param {function} props.onClose - A function to close the modal.
  *
- * @state
- * - `reportData`: Stores the Z Report data.
- * - `totalSales`: Stores the total sales for the day.
- *
- * @methods
- * - `fetchSalesData`: Fetches Z Report data from the API.
- * - `generateZReport`: Triggers the API call to generate the Z Report and reset data.
+ * @returns {React.ReactElement} The rendered Z Report Modal component.
  *
  * @example
  * <ZReportModal isOpen={true} onClose={() => {}} />
+ *
+ * @module zReport
  */
 
 const ZReportModal = ({ isOpen, onClose }) => {

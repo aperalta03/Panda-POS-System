@@ -9,18 +9,21 @@ import AccessibilityButton from './accessButton';
 import Head from "next/head"; // Import Head for managing the document head
 
 /**
- * TopBar component for the kiosk page.
- * Displays panel information, a tracker of selected items, and utility buttons such as translation and accessibility.
+ * @description
+ * TopBar component for the kiosk page. Displays panel information, a tracker of selected items, 
+ * and utility buttons such as translation and accessibility.
  * 
- * @component
  * @author Uzair Khan
- * 
+ *
  * @param {Object} props - Component properties.
  * @param {function} props.handleCartClick - Callback to handle navigation to the cart.
  * @param {number} props.numTrackedSides - Number of tracked side items.
  * @param {number} props.numTrackedEntrees - Number of tracked entree items.
  * @param {number} props.numTrackedOthers - Number of tracked other items.
+ *
  * @returns {JSX.Element} The rendered TopBar component.
+ *
+ * @module kiosk_a_la_carte
  */
 const TopBar = ({
   handleCartClick,

@@ -7,22 +7,19 @@ import { Box, Typography } from '@mui/material';
 import Head from "next/head"; // Import Head for managing the document head
 
 /**
- * VerifyEmail Component
+ * @description
+ * Handles email verification using a token passed as a query parameter.
  * 
  * @author Alonso Peralta Espinoza
  *
- * @description
- * Handles email verification using a token passed as a query parameter.
- *
- * @features
- * - Sends the token to the server for verification.
- * - Displays success or failure messages based on the server response.
- * - Redirects to the login page upon successful verification.
- *
- * @api
- * - `/api/oauth` (POST): Action `verify-email`: Verifies the email using the provided token.
+ * @param {object} props - The properties passed to the component.
  *
  * @returns {React.ReactElement} A React functional component.
+ *
+ * @example
+ * <VerifyEmail />
+ *
+ * @module verify-email
  */
 
 const VerifyEmail = () => {

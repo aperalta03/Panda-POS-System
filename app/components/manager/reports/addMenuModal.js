@@ -2,6 +2,25 @@ import React, { useState } from 'react';
 import { Modal, Box, TextField, Button, MenuItem, Select, InputLabel, FormControl, Divider } from '@mui/material';
 import styles from './addMenuModal.module.css';
 
+
+/**
+ * @description
+ * A modal component for managing menu items, ingredients, and inventory.
+ * Supports adding, editing, deleting, and re-syncing menu and inventory data.
+ * Dynamically renders input fields based on the selected item type.
+ * 
+ * @param {object} props - The properties passed to the component.
+ * @param {boolean} props.isOpen - Controls whether the modal is visible.
+ * @param {function} props.onClose - Callback function to close the modal.
+ *
+ * @returns {React.ReactElement} The rendered AddMenuModal component.
+ *
+ * @example
+ * <AddMenuModal isOpen={true} onClose={() => {}} />
+ *
+ * @module addMenuModal
+ */
+
 const AddMenuModal = ({ isOpen, onClose }) => {
   const [type, setType] = useState("Seasonal Item");
   const [formData, setFormData] = useState({

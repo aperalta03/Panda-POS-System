@@ -9,6 +9,7 @@ import AccessibilityButton from './accessButton';
 import Head from "next/head"; // Import Head for managing the document head
 
 /**
+ * @description
  * TopBar component for the kiosk page.
  * Displays panel information, a tracker of selected items, and utility buttons such as translation and accessibility.
  * 
@@ -21,13 +22,16 @@ import Head from "next/head"; // Import Head for managing the document head
  * @param {number} props.numTrackedEntrees - Number of tracked entree items.
  * @param {number} props.numTrackedOthers - Number of tracked other items.
  * @returns {JSX.Element} The rendered TopBar component.
+ * @module kiosk_bowl
  */
 const TopBar = ({ handleCartClick, numTrackedSides, numTrackedEntrees }) => {
   const router = useRouter();
   const { currentLanguage, changeLanguage, translations, numTotalItems } = useGlobalState();
 
   /**
+* @description
  * Handles the language change event by updating the application's current language.
+ * @function
  * @author Brandon Batac
  * @param {Object} e - The event object containing the selected language value.
  * @property {string} e.target.value - The new language code to set.
@@ -84,11 +88,11 @@ const TopBar = ({ handleCartClick, numTrackedSides, numTrackedEntrees }) => {
 };
 
 /**
+ * @description
  * This component serves as the main page for the kiosk application, allowing users to select items from the menu.
  * It renders a sticky top bar with a cart icon and a sticky bottom bar with a back to menu button and a done button.
  * Based on the `currentStep` state, it renders a different set of item frames in the main content area.
  * It also handles the logic for the buttons in the bottom bar, including going back to the menu and going to the cart.
- * 
  * Effects:
  * - Navigates to the menu page when the back to menu button is clicked.
  * - Navigates to the cart page when the done button is clicked.
@@ -165,6 +169,7 @@ const KioskBowlPage = () => {
 
   /**
    * Handles setting the currentStep back to sides to initalize the side selection process.
+   * @function
    * Resets tracked item counters.
    * @author Uzair Khan
    */
@@ -180,6 +185,7 @@ const KioskBowlPage = () => {
   /**
    * Handles completing the current step and adding the new item to the cart.
    * Resets tracked item counters and navigates to the item selection page based on if the done button is clicked.
+   * @function
    * @author Uzair Khan, Andrew Popovici
    * @throws Will throw an error if `newItem` fails to add to the cart.
    */
@@ -199,6 +205,7 @@ const KioskBowlPage = () => {
 
   /**
    * Handles navigation to the cart page.
+   * @function
    * @author Uzair Khan
    * @throws Will throw an error if router navigation fails.
    */
@@ -215,6 +222,7 @@ const KioskBowlPage = () => {
   
   /**
    * Handles navigation back to the menu page.
+   * @function
    * @author Uzair Khan
    * @throws Will throw an error if router navigation fails.
    */

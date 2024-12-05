@@ -2,19 +2,44 @@ import React, { useState, useEffect, useMemo } from "react";
 import styles from "./cashierComponents.module.css";
 
 /**
- * 
  * @author Uzair Khan
  * 
- * Renders a grid of buttons for cashier to select menu items and update quantities.
+ * @description
+ * A React component that renders a grid of buttons for the cashier to select menu items 
+ * and update their quantities. Supports managing plate sizes, quantities, and associated items 
+ * for orders.
  * 
- * @param {function} setNetCost - Function to update net cost of order.
- * @param {object} priceMap - Map of menu items to their prices.
- * @param {object} quantities - Map of menu items to their quantities.
- * @param {function} setQuantities - Function to update quantities map.
- * @param {function} addOrderToPanel - Function to add order to panel.
- * @param {object} minQuantities - Map of menu items to their minimum quantities.
- * @param {array} sides - Array of side menu items.
- * @param {array} menuItems - Array of menu items.
+ * @param {object} props - The properties passed to the component.
+ * @param {function} props.setNetCost - Function to update the net cost of the order.
+ * @param {object} props.priceMap - A map of menu items to their respective prices.
+ * @param {object} props.quantities - A map of menu items to their current quantities.
+ * @param {function} props.setQuantities - Function to update the quantities map.
+ * @param {function} props.addOrderToPanel - Function to add the completed order to the panel.
+ * @param {object} props.minQuantities - A map of menu items to their minimum quantities.
+ * @param {array} props.sides - An array of side menu items.
+ * @param {array} props.menuItems - An array of menu items with their details.
+ * 
+ * @returns {JSX.Element} The ButtonGrid component.
+ * 
+ * @example
+ * // Example usage:
+ * <ButtonGrid 
+ *   setNetCost={(newCost) => console.log(newCost)}
+ *   priceMap={{ Bowl: 5.99, Plate: 7.99, "Bigger Plate": 9.99 }}
+ *   quantities={{ Bowl: 1, Plate: 0, "Bigger Plate": 0 }}
+ *   setQuantities={(updatedQuantities) => console.log(updatedQuantities)}
+ *   addOrderToPanel={(plate, items) => console.log(plate, items)}
+ *   minQuantities={{ Bowl: 1 }}
+ *   sides={['Spring Roll', 'Dumpling']}
+ *   menuItems={[
+ *     { name: 'Bowl', type: 'plate' },
+ *     { name: 'Spring Roll', type: 'side' },
+ *   ]}
+ * />
+ * 
+ * @since 1.0.0
+ * 
+ * @module buttonGrid
  */
 
 const ButtonGrid = ({

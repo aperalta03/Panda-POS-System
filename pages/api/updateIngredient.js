@@ -1,53 +1,50 @@
 import database from '../../utils/database';
 
 /**
- * 
- * @author Alonso Peralta Espinoza
- *
+ * @description
  * Adds a new ingredient to the inventory database.
+ * @author Alonso Peralta Espinoza
  * @module api/updateIngredient
- * @api {post} /api/updateIngredient
- * @apiName UpdateIngredient
- * @apiGroup Manager
  *
- * @apiParam {Number} inventory_id Unique ID for the inventory item.
- * @apiParam {String} name Name of the ingredient.
- * @apiParam {String} item_type Type of the item (default is "ingredient").
- * @apiParam {Number} curr_amount Current amount of the ingredient in stock.
- * @apiParam {Number} needed4week Amount needed for a week.
- * @apiParam {Number} needed4gameweek Amount needed for a game week.
+ * @param {Number} inventory_id - Unique ID for the inventory item.
+ * @param {String} name - Name of the ingredient.
+ * @param {String} item_type - Type of the item (default is "ingredient").
+ * @param {Number} curr_amount - Current amount of the ingredient in stock.
+ * @param {Number} needed4week - Amount needed for a week.
+ * @param {Number} needed4gameweek - Amount needed for a game week.
  *
- * @apiSuccess {Object} Response object with a success message.
- * 
- * @apiError (400) {Object} Response object with an error message when ID is already in use.
- * @apiError (500) {Object} Response object with an error message for other server issues.
+ * @returns {Object} - Response object with a success message.
  *
- * @apiExample {curl} Example usage:
- *   curl -X POST \
- *     http://localhost:3000/api/updateIngredient \
- *     -H 'Content-Type: application/json' \
- *     -d '{
- *           "inventory_id": 101,
- *           "name": "Chicken Breast",
- *           "curr_amount": 50,
- *           "needed4week": 100,
- *           "needed4gameweek": 150
- *         }'
+ * @response
+ * - `200 OK`: Returns a success message if the ingredient is added successfully.
+ * - `400 Bad Request`: Returns an error message when the ID is already in use.
+ * - `500 Internal Server Error`: Returns an error message for server issues.
  *
- * @apiSuccessExample {json} Success response:
- *     {
- *       "message": "Ingredient added successfully"
- *     }
+ * @example
+ * // Request:
+ * POST /api/updateIngredient
+ * {
+ *   "inventory_id": 101,
+ *   "name": "Chicken Breast",
+ *   "curr_amount": 50,
+ *   "needed4week": 100,
+ *   "needed4gameweek": 150
+ * }
  *
- * @apiErrorExample {json} Error response when ID is already in use:
- *     {
- *       "error": "ID in Use. Please use a unique inventory_id."
- *     }
+ * // Response:
+ * {
+ *   "message": "Ingredient added successfully"
+ * }
  *
- * @apiErrorExample {json} General server error response:
- *     {
- *       "error": "Error adding ingredient"
- *     }
+ * @errorExample {json} Error response when ID is already in use:
+ * {
+ *   "error": "ID in Use. Please use a unique inventory_id."
+ * }
+ *
+ * @errorExample {json} General server error response:
+ * {
+ *   "error": "Error adding ingredient"
+ * }
  */
 
  

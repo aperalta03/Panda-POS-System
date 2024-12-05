@@ -23,34 +23,32 @@ import { enUS } from 'date-fns/locale';
 ChartJS.register(CategoryScale, LinearScale, TimeScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 /**
- * SalesChart Component
- * 
- * @author Alonso Peralta Espinoza, Anson Thai
- *
  * @description
  * Visualizes sales data over time using a Line Chart. Users can select a time frame and an item for analysis.
  *
- * @features
- * - Fetches sales data from `/api/sales-chart`.
- * - Aggregates data based on selected time frame (Hourly, Daily, Weekly, Monthly, Yearly).
- * - Provides dropdowns for selecting time frame and item.
- * - Validates date ranges and item selection.
+ * @author Alonso Peralta Espinoza, Anson Thai
  *
- * @state
- * - `startDate`, `endDate`: Manages the selected date range.
- * - `dataset`: Stores processed sales data for the chart.
- * - `error`: Tracks errors during data fetch or validation.
- * - `selectedTimeFrame`: Tracks the selected aggregation time frame.
- * - `selectedItem`: Tracks the selected item for sales analysis.
- * - `items`: Stores the list of items available for selection.
+ * @param {object} props - The properties passed to the component.
+ * @param {string} props.selectedTimeFrame - The time frame selected for data aggregation (Hourly, Daily, Weekly, Monthly, Yearly).
+ * @param {string} props.selectedItem - The item selected for sales analysis.
+ * @param {array} props.items - The list of available items for selection.
  *
- * @methods
- * - `fetchSalesData`: Fetches and processes sales data based on user inputs.
- * - `processSalesData`: Aggregates data for chart visualization.
- * - `getWeekYear`: Helper function to calculate week-year format.
+ * @returns {React.ReactElement} A Line Chart visualizing sales data.
  *
  * @example
- * <SalesChart />
+ * // Usage example
+ * import SalesChart from './salesChart';
+ *
+ * function Dashboard() {
+ *   return (
+ *     <div>
+ *       <SalesChart selectedTimeFrame="Monthly" selectedItem="Item 1" items={["Item 1", "Item 2"]} />
+ *     </div>
+ *   );
+ * }
+ *
+ *
+ * @module salesChart
  */
 const SalesChart = () => {
     const [startDate, setStartDate] = useState(new Date());

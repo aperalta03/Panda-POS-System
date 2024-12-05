@@ -11,8 +11,6 @@ import database from '../../utils/database';
  * Handles adding a new employee to the database. This function validates input data, interacts with the database,
  * and returns a success or error response.
  * 
- * @function addEmployee
- * 
  * @param {Object} employeeData - The details of the employee to add.
  * @param {string} employeeData.employee_id - The unique identifier for the employee.
  * @param {string} employeeData.first_name - The employee's first name.

@@ -4,34 +4,34 @@ import path from 'path';
 
 /**
  * 
- * @author Alonso Peralta Espinoza, Connner Black
+ * @author Alonso Peralta Espinoza, Conner Black
  * 
+ * @description
  * Retrieves hourly sales data for the current day (X-Report).
  * @module api/x-report
- * @api {get} /api/x-report
- * @apiName GetXReport
- * @apiGroup Reports
  *
- * @apiSuccess {Object} Response object containing hourly sales data.
- * 
- * @apiError (500) {Object} Response object with an error message for server issues during data retrieval.
+ * @returns {Object} Response object containing hourly sales data.
  *
- * @apiExample {curl} Example usage:
- *   curl -X GET \
- *     http://localhost:3000/api/x-report
+ * @response
+ * - `200 OK`: Returns a JSON object with hourly sales data.
+ * - `500 Internal Server Error`: Returns an error message for server issues during data retrieval.
  *
- * @apiSuccessExample {json} Success response:
- *     {
- *       "data": [
- *         { "hour": 9, "sales": 150.25 },
- *         { "hour": 10, "sales": 200.75 }
- *       ]
- *     }
+ * @example
+ * // Request:
+ * GET /api/x-report
  *
- * @apiErrorExample {json} General server error response:
- *     {
- *       "error": "Error fetching X-Report data"
- *     }
+ * // Response:
+ * {
+ *   "data": [
+ *     { "hour": 9, "sales": 150.25 },
+ *     { "hour": 10, "sales": 200.75 }
+ *   ]
+ * }
+ *
+ * @errorExample {json} General server error response:
+ * {
+ *   "error": "Error fetching X-Report data"
+ * }
  */
 
 

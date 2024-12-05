@@ -2,6 +2,24 @@ import React, { useState } from 'react';
 import { Modal, Box, TextField, Button } from '@mui/material';
 import styles from './updatePriceModal.module.css';
 
+/**
+ * @description
+ * A React modal component for updating the price of an item. It provides input
+ * fields for the item name and the new price, with validation to ensure both
+ * fields are correctly filled before submission.
+ * 
+ * @param {object} props - The properties passed to the component.
+ * @param {boolean} props.isOpen - Controls the visibility of the modal.
+ * @param {function} props.onClose - Callback function to close the modal after a successful
+ *   price update.
+ *
+ * @returns {React.ReactElement} The rendered UpdatePriceModal component.
+ *
+ * @example
+ * <UpdatePriceModal isOpen={true} onClose={() => {}} />
+ *
+ * @module updatePriceModal
+ */
 const UpdatePriceModal = ({ isOpen, onClose }) => {
   const [itemName, setItemName] = useState("");
   const [itemPrice, setItemPrice] = useState("");

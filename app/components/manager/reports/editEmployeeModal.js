@@ -4,36 +4,20 @@ import Switch from '@mui/material/Switch';
 import styles from './editEmployeeModal.module.css'; // Import the CSS file
 
 /**
- * Edit Employee Modal Component
- *
- * @author Conner Black
- *
  * @description
  * A modal form component for editing an existing employee's details. 
  * It pre-fills the form with the current employee data and allows for modifications.
  * Once the form is submitted, the updated employee information is sent to the server.
+ * 
+ * @author Conner Black
  *
- * @features
- * - Pre-filling: The modal form is populated with the employee data passed via props.
- * - Field Editing: Allows editing of fields such as name, phone number, hourly rate, and employment status (manager, part-time).
- * - Switches for Employment Type: Provides toggle switches for "Manager" and "Part-Time" status.
- * - State Management: Manages form data changes and tracks the updated employee data.
- * - API Integration: Sends updated data to the server through an API call on form submission.
+ * @param {object} props - The properties passed to the component.
+ * @param {boolean} props.isOpen - Controls whether the modal is visible.
+ * @param {function} props.onClose - Callback function to close the modal.
+ * @param {object} props.employeeData - The current employee data to pre-fill the form.
+ * @param {function} props.onSave - Callback function to save the updated employee data.
  *
- * @state
- * - `updatedEmployeeData`: Holds the modified employee data that will be submitted. Includes fields such as `first_name`, `last_name`, `phone_number`, `hourly_rate`, `is_manager`, `is_part_time`, and `employee_id`.
- *
- * @methods
- * - `handleChange`: Updates the component state with changes to form input fields, handling both text input and switch toggles.
- * - `handleSubmit`: Prevents the default form submission and prepares the updated employee data for saving.
- * - `handleSave`: Makes an API request to update the employee data on the server and handles success or failure responses.
- *
- * @formStructure
- * - Employee:
- *   - Fields: First Name, Last Name, Phone Number, Hourly Rate, Is Manager (Switch), Is Part-Time (Switch).
- *
- * @dependencies
- * - Material-UI: For modal, switch components, and general styling.
+ * @returns {React.ReactElement} The rendered EditEmployeeModal component.
  *
  * @example
  * <EditEmployeeModal 
@@ -42,6 +26,8 @@ import styles from './editEmployeeModal.module.css'; // Import the CSS file
  *   employeeData={{ first_name: 'John', last_name: 'Doe', phone_number: '1234567890', hourly_rate: 20, is_manager: true, is_part_time: false, employee_id: '123' }} 
  *   onSave={(updatedData) => { console.log('Updated Employee:', updatedData); }} 
  * />
+ *
+ * @module editEmployeeModal
  */
 
 const EditEmployeeModal = ({ isOpen, onClose, employeeData, onSave }) => {

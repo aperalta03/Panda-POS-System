@@ -9,13 +9,21 @@ import RecommendationsPanel from "./rec_panel";
 import Head from "next/head"; // Import Head for managing the document head
 
 /**
+ * @description
  * The CartPage component renders the checkout page with the customer's current
  * order. It displays the items in the cart, allows the customer to remove items
  * and start over, and provides a button to place the order. Additionally, it
  * displays a panel with recommended items and a summary of the order costs.
  *
  * @author Andrew Popovici, Brandon Batac
+ *
  * @returns {JSX.Element} The rendered CartPage component.
+ *
+ * @example
+ * <CartPage />
+ *
+ *
+ * @module kiosk_cart
  */
 const CartPage = () => {
   const router = useRouter();
@@ -89,6 +97,7 @@ const CartPage = () => {
   };
 
   /**
+   * @description
    * Resets the cart and the number of total items to 0.
    * This is used when the user selects the "Start Over" button.
    * @author Andrew Popovici
@@ -100,6 +109,7 @@ const CartPage = () => {
   };
 
   /**
+   * @description
    * Handles the payment process by creating an orderDetails object with the
    * current sale information and sending it to the server to update the sales record.
    * If the order is successfully saved, it resets the net cost, item quantities, and orders.
@@ -212,6 +222,7 @@ const CartPage = () => {
   };
 
   /**
+   * @description
    * Removes an item from the cart and decrements the total number of items
    * in the cart by 1.
    * @param {number} id - The id of the item to remove.

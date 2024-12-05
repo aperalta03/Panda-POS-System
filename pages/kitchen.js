@@ -6,35 +6,23 @@ import Head from "next/head"; // Import Head for managing the document head
 
 
 /**
- * Kitchen Page Component
- *
- * @author Anson Thai, Alonso Peralta Espinoza
- *
  * @description
  * Displays orders and their items in a grid layout.
  * Supports text-to-speech for each order, removing sales, and updating order status.
+ * 
+ * @author Anson Thai, Alonso Peralta Espinoza
  *
- * @features
- * - Text-to-Speech: Reads out the items in each sale.
- * - Remove Sale: Deletes a sale from the orders list.
- * - Update Order Status: Updates the status of an order item.
+ * @param {object} props - The properties passed to the component.
+ * @param {Array<Object>} props.orders - Holds the list of orders, each containing a sale number and an array of items.
+ * @param {boolean} props.isModalOpen - Boolean indicating whether the cancel order modal is open.
+ * @param {object} props.cancelOrderDetails - Holds the sale number and order number of the order to be cancelled.
  *
- * @state
- * - orders: Holds the list of orders, each containing a sale number and an array of items.
- * - isModalOpen: Boolean indicating whether the cancel order modal is open.
- * - cancelOrderDetails: Holds the sale number and order number of the order to be cancelled.
+ * @returns {JSX.Element} The rendered Kitchen Page component.
  *
- * @methods
- * - handleTextToSpeech: Generates a text-to-speech message for the given sale number.
- * - handleRemoveSale: Removes a sale from the orders list.
- * - handleStartOrder: Updates the status of an order item to 'Cooking'.
- * - handleCompleteOrder: Updates the status of an order item to 'Completed'.
- * - openCancelModal: Opens the cancel order modal with the given sale number and order number.
- * - handleCancelOrder: Cancels an order and removes it from the orders list.
- * - closeModal: Closes the cancel order modal.
+ * @example
+ * <KitchenPage orders={ordersArray} isModalOpen={true} cancelOrderDetails={cancelDetailsObject} />
  *
- * @dependencies
- * - Material-UI: For modal, form controls, and buttons.
+ * @module Kitchen
  */
 const KitchenPage = () => {
     const [orders, setOrders] = useState([]);

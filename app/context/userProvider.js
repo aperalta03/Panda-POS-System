@@ -1,5 +1,31 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 
+
+/**
+ * @file UserProvider.js
+ * @description Provides the user context for managing user information across the application.
+ *
+ * @author Uzair Khan, Brandon Batac
+ *
+ * @description This component stores and updates the user's information in state and
+ * localStorage. It automatically loads the saved user information from localStorage
+ * on component mount and provides a context for accessing and updating the user's
+ * information throughout the app.
+ *
+ * @property {string} loggedInName - Tracks the user's name.
+ * @property {string} loggedInEmail - Tracks the user's email.
+ * @property {boolean} isLoggedIn - Tracks whether the user is logged in or not.
+ *
+ * @example
+ * // Wrapping the application with UserProvider
+ * <UserProvider>
+ *   <App />
+ * </UserProvider>
+ *
+ * // Using the context in a component
+ * const { loggedInName, loggedInEmail, isLoggedIn } = useUser();
+ */
+
 // Create context
 const UserContext = createContext();
 
@@ -42,3 +68,4 @@ export const UserProvider = ({ children }) => {
     </UserContext.Provider>
   );
 };
+
