@@ -4,6 +4,8 @@ import database from '../../utils/database';
 /**
  * Handles updating an inventory item.
  * @author Anson Thai
+ * 
+ * @module api/update-inventory-item
  * @api {post} /api/update-inventory-item
  * @apiName UpdateInventoryItem
  * @apiGroup Manager

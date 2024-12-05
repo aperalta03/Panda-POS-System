@@ -9,6 +9,8 @@ const openai = new OpenAI({
  * 
  * @author Alonso Peralta Espinoza
  * 
+ * @module api/fortune-ai
+ * 
  * @description
  * Generates a fortune cookie-style message using a fine-tuned AI model. The language of the fortune is determined by the `currentLanguage` parameter.
  *

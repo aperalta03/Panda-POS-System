@@ -1,14 +1,17 @@
 {
     "source": {
         "include": [
-            "app",
-            "pages"
-        ], 
-        "exclude": [
-            "node_modules"
+            "./app", 
+            "./pages",
+            "./utils",
+            "./pages/api"
         ],
-        "includePattern": ".+\\.js(doc|x)?$",
-        "excludePattern": "(^|\\/|\\\\)_"
+        "exclude": [
+            "node_modules" 
+        ],
+        "includePattern": ".+\\.js(doc|x)?$", 
+        "excludePattern": "(^|\\/|\\\\)_", 
+        "recurse": true 
     },
     "opts": {
         "destination": "./docs",

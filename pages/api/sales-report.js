@@ -6,6 +6,8 @@ import database from '../../utils/database';
  * API Route to Fetch Sales Report
  *
  * @author Conner Black
+ * 
+ * @module api/sales-report
  *
  * @description
  * This API endpoint retrieves the sales report data between a given date range. It expects a `GET` request with the query parameters 

@@ -6,6 +6,8 @@ import database from '../../utils/database';
  * API Route to Update an Employee's Information in the Database
  *
  * @author Conner Black
+ * 
+ * @module api/update-employee
  *
  * @description
  * This API endpoint updates the information of an existing employee in the database. It expects a `POST` request with the 

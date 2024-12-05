@@ -7,6 +7,8 @@ import path from 'path';
  *
  * @author Conner Black
  * 
+ * @module api/updateCustomerPoints
+ * 
  * @description
  * This API endpoint allows for the updating of a customer's points based on their phone number. It accepts a `POST` 
  * request with the necessary customer information (specifically `phoneNumber` and `points`). If the customer exists 

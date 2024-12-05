@@ -4,6 +4,8 @@ import database from '../../utils/database';
  * API Route to Update Order Status
  *
  * @author Anson Thai
+ * 
+ * @module api/kitchen-update-order-status
  *
  * @description
  * Handles `POST` requests to update an order's status in the database. This API

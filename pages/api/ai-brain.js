@@ -6,50 +6,69 @@ const openai = new OpenAI({
 });
 
 /**
- * 
+ * AI Brain Handler
+ *
+ * This handler processes requests for generating AI responses using OpenAI's GPT model.
+ * It supports two modes:
+ * - Text-to-Speech (TTS) mode for summarizing text content.
+ * - Regular chat mode for answering user queries, including menu item retrieval.
+ *
  * @author Alonso Peralta Espinoza, Anson Thai
- *
- * Generates a conversational AI response based on user input, chat context, and menu item retrieval.
- *
- * @api {post} /api/ai-brain
- * @apiName ChatContext
- * @apiGroup AI
- *
- * @apiParam {Array} chatContext Optional array of previous chat messages. Each message should be an object containing `role` and `content`.
- * @apiParam {String} userMessage The user's query or message to the AI.
- *
- * @apiSuccess {String} response AI-generated response based on user input and retrieved menu context.
  * 
- * @apiError (400) {Object} Response object with an error message when `userMessage` is missing.
- * @apiError (500) {Object} Response object with an error message for AI generation or database issues.
+ * @module api/ai-brain
+ * 
+ * @async
+ * @function handler
+ * @param {Object} req - The HTTP request object.
+ * @param {Object} req.body - The request payload.
+ * @param {Array} [req.body.chatContext=[]] - Optional chat history for the conversation. Each message should have:
+ *    - `role` {string}: The speaker's role (`"user"`, `"assistant"`, or `"system"`).
+ *    - `content` {string}: The message text.
+ * @param {string} req.body.userMessage - The user's current message or query.
+ * @param {boolean} [req.body.isTextToSpeech=false] - Flag indicating if the request is for Text-to-Speech mode.
+ * @param {Object} res - The HTTP response object.
+ * 
+ * @returns {Promise<void>} Sends a JSON response with the AI-generated message or an error.
  *
- * @apiExample {curl} Example usage:
- *   curl -X POST \
- *     http://localhost:3000/api/chat-context \
- *     -H 'Content-Type: application/json' \
- *     -d '{
- *           "chatContext": [
- *             { "role": "user", "content": "Tell me about Orange Chicken" }
- *           ],
- *           "userMessage": "What is Kung Pao Chicken?"
- *         }'
- *
- * @apiSuccessExample {json} Success response:
- *     {
- *       "response": "Kung Pao Chicken: A classic spicy dish with chicken, peanuts, and vegetables - $10.99, 600 calories."
- *     }
- *
- * @apiErrorExample {json} Error response for missing user message:
- *     {
- *       "error": "Missing user message"
- *     }a
- *
- * @apiErrorExample {json} General server error response:
- *     {
- *       "error": "Error generating response"
- *     }
+ * @throws {Object} Sends a 400 error if `userMessage` is missing.
+ * @throws {Object} Sends a 500 error if there is an issue with AI generation or database operations.
+ * 
+ * @example Request Example (Chat Mode):
+ * curl -X POST \
+ *   http://localhost:3000/api/ai-brain \
+ *   -H 'Content-Type: application/json' \
+ *   -d '{
+ *         "chatContext": [
+ *           { "role": "user", "content": "Tell me about Orange Chicken" }
+ *         ],
+ *         "userMessage": "What is Kung Pao Chicken?"
+ *       }'
+ * 
+ * @example Request Example (Text-to-Speech Mode):
+ * curl -X POST \
+ *   http://localhost:3000/api/ai-brain \
+ *   -H 'Content-Type: application/json' \
+ *   -d '{
+ *         "chatContext": [],
+ *         "userMessage": "Summarize the following page content for accessibility...",
+ *         "isTextToSpeech": true
+ *       }'
+ * 
+ * @example Success Response:
+ * {
+ *   "response": "Kung Pao Chicken: A classic spicy dish with chicken, peanuts, and vegetables - $10.99, 600 calories."
+ * }
+ * 
+ * @example Error Response (Missing userMessage):
+ * {
+ *   "error": "Missing user message"
+ * }
+ * 
+ * @example Error Response (Server Error):
+ * {
+ *   "error": "Error generating response"
+ * }
  */
-
 export default async function handler(req, res) {
     const { chatContext = [], userMessage, isTextToSpeech = false } = req.body;
 

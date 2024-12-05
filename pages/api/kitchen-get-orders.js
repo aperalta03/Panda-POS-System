@@ -4,6 +4,8 @@ import database from '../../utils/database';
  * API Route to Fetch Kitchen Orders
  * 
  * @author Anson Thai
+ * 
+ * @module api/kitchen-get-orders
  *
  * @description
  * Handles `GET` requests to retrieve kitchen orders from the database. Orders

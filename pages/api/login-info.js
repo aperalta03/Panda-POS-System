@@ -6,6 +6,8 @@ import database from '../../utils/database';
  * API Route to Retrieve All Employee Information from the Database
  *
  * @author Conner Black
+ * 
+ * @module api/login-info
  *
  * @description
  * This API endpoint retrieves the information of all employees from the database. It expects a `GET` request with no 

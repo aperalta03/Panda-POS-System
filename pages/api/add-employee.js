@@ -6,7 +6,9 @@ import database from '../../utils/database';
  * API Route to Add a New Employee
  *
  * @author Conner Black
- *
+ * 
+ * @module api/add-employee
+ * 
  * @description
  * This API endpoint handles adding a new employee to the database. It expects a `POST` request
  * containing employee details in the request body. The data is validated, formatted, and inserted into
@@ -68,7 +70,6 @@ import database from '../../utils/database';
  *   }
  * }
  */
-
 export default async function handler(req, res) {
     if (req.method === 'POST') {
         const {

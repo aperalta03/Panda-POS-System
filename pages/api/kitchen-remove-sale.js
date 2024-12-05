@@ -4,6 +4,8 @@ import database from '../../utils/database';
  * API Route to Remove a Sale from the Kitchen
  *
  * @author Anson Thai
+ * 
+ * @module api/kitchen-remove-sale
  *
  * @description
  * Handles `POST` requests to remove a sale from the kitchen. The request body

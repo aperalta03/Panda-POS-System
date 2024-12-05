@@ -4,6 +4,8 @@ import database from '../../utils/database';
  * Handles GET requests to fetch distinct item names from the inventory.
  * 
  * @author Alonso Peralta Espinoza
+ * 
+ * @module api/items
  *
  * @param {Object} req - The HTTP request object.
  * @param {Object} res - The HTTP response object.

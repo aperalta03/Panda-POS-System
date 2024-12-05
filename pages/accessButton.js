@@ -4,15 +4,30 @@ import { useGlobalState } from "../app/context/GlobalStateContext";
 import styles from "./accessButton.module.css";
 
 /**
- * AccessibilityButton is a component that displays an accessible icon and a dropdown menu containing three options:
- * 1. Switch Theme: Switches the theme of the site between a low-vision theme and a normal theme.
- * 2. Adjust Font Size: Adjusts the font size of the site between 100%, 110%, 120%, and 130%.
- * 3. Current Theme: Displays the current theme of the site.
- * 4. Current Size: Displays the current font size of the site.
+ * AccessibilityButton
  *
- * This component is designed to be used in conjunction with the GlobalStateContext and the useGlobalState hook.
+ * This component provides accessibility options for the site, including:
+ * - Switching between themes (e.g., low-vision theme, normal theme).
+ * - Adjusting the font size.
+ * - A text-to-speech feature to summarize and read out page content.
+ *
+ * Features:
+ * - A dropdown menu with accessible options.
+ * - Real-time positioning of the dropdown for optimal visibility.
+ * - Integration with an AI-powered backend for text-to-speech summaries.
+ *
+ * @component
  * @author Uzair Khan, Alonso Peralta Espinsosa, Anson Thai
  * @returns {JSX.Element} The AccessibilityButton component.
+ */
+
+// Main Component
+
+/**
+ * Handles theme toggling, font resizing, and text-to-speech functionality via a dropdown menu.
+ *
+ * @function AccessibilityButton
+ * @returns {JSX.Element} The accessibility button with dropdown functionality.
  */
 const AccessibilityButton = () => {
     const {
@@ -89,7 +104,16 @@ const AccessibilityButton = () => {
 
 
 
-    // Handle Text to Speech
+    /**
+      * Handles text-to-speech functionality by summarizing page content and reading it aloud.
+      *
+      * - Sends the page content to the AI API for summarization.
+      * - Plays the AI response using the Web Speech API.
+      * @author Anson Thai
+      * @async s
+      * @function handleTextToSpeech
+      * @throws Will alert the user if text-to-speech is not supported.
+      */
     const handleTextToSpeech = async () => {
         if (!("speechSynthesis" in window)) {
             alert("Sorry, your browser does not support text-to-speech.");

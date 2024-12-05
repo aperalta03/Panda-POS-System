@@ -3,6 +3,8 @@ import database from '../../utils/database';
 /**
  * 
  * @author Alonso Peralta Espinoza
+ * 
+ * @module api/resyncIds
  *
  * Re-syncs the IDs of menu items and their respective inventory items.
  *

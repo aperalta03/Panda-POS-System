@@ -6,6 +6,8 @@ import database from '../../utils/database';
  * API Route to Add a New Customer to the Database
  *
  * @author Conner Black
+ * 
+ * @module api/customerSignUp
  *
  * @description
  * This API endpoint adds a new customer to the database using the provided `phoneNumber`, `name`, and `date_of_birth`.

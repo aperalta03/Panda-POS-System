@@ -5,6 +5,8 @@ import db from '../../utils/database';
 /**
  * 
  * @author Alonso Peralta Espinoza
+ * 
+ * @module api/restock-Report-inventory
  *
  * Retrieves restock data including current stock and amounts needed for the week and game week.
  *

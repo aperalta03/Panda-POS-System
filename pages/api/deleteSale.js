@@ -4,6 +4,8 @@ import database from '../../utils/database';
  * Delete a specific sale by Sale Number.
  * 
  * @author Alonso Peralta Espinoza
+ * 
+ * @module api/deleteSale
  *
  * @description
  * Deletes a sale entry from the `sales` table using the provided `sale_number`.

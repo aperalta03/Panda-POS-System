@@ -5,6 +5,8 @@ import database from '../../utils/database';
 /**
  * 
  * @author Uzair Khan, Alonso Peralta Espinoza
+ * 
+ * @module api/menu-get-items
  *
  * Fetches all available menu items from the database.
  *

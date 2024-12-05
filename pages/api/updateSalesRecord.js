@@ -5,6 +5,8 @@ import path from "path";
 /**
  *
  * @author Alonso Peralta Espinoza, Brandon Batac
+ * 
+ * @module api/updateSalesRecord
  *
  * Inserts a new sales record into the database along with associated order details.
  *

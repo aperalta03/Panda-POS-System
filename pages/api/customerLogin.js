@@ -6,6 +6,8 @@ import database from '../../utils/database';
  * API Route to Retrieve Customer Data by Phone Number
  *
  * @author Conner Black
+ * 
+ * @module api/customerLogin
  *
  * @description
  * This API endpoint retrieves customer information from the database based on the provided phone number.

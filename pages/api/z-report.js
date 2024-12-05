@@ -5,6 +5,8 @@ import path from 'path';
 /**
  * 
  * @author Alonso Peralta Espinoza, Conner Black
+ * 
+ * @module api/z-report
  *
  * Retrieves Z-Report data including items sold, quantities, and total revenue.
  *

@@ -4,6 +4,8 @@ import database from '../../utils/database';
  * API Route to Cancel an Order
  *
  * @author Anson Thai
+ * 
+ * @module api/kitchen-cancel-order
  *
  * @description
  * This API endpoint handles the cancellation of an order. It expects a `POST` request

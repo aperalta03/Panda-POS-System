@@ -7,6 +7,8 @@ import database from '../../utils/database';
  *
  * @author Uzair Khan
  * 
+ * @module api/top-selling-item
+ * 
  * @param {Object} req - The HTTP request object.
  * @param {Object} res - The HTTP response object.
  *

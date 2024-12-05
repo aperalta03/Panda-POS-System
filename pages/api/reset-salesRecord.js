@@ -3,6 +3,8 @@ import database from '../../utils/database';
 /**
  * 
  * @author Alonso Peralta Espinoza
+ * 
+ * @module api/reset-salesRecord
  *
  * Resets sales data by truncating `saleItems` and `salesRecord` tables.
  *

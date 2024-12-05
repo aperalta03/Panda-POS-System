@@ -3,6 +3,8 @@ import database from '../../utils/database';
 /**
  * 
  * @author Alonso Peralta Espinoza
+ * 
+ * @module api/updateIngredient
  *
  * Adds a new ingredient to the inventory database.
  *

@@ -3,6 +3,8 @@ import database from '../../utils/database';
 /**
  * 
  * @author Alonso Peralta Espinoza
+ * 
+ * @module api/deleteItem
  *
  * Deletes an inventory item and its linked menu item if applicable.
  *
