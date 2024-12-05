@@ -146,28 +146,29 @@ const CartPage = () => {
       return;
     }
 
-    if (customerName != "Guest") {
-      const pointsGained = Math.floor(total * 10);
-      console.log("Points gained: ", pointsGained);
-      const updatedPoints = customerTotalPoints + pointsGained;
+    
+    const pointsGained = Math.floor(total * 10);
+    console.log("Points gained: ", pointsGained);
+    const updatedPoints = customerTotalPoints + pointsGained;
 
-      try {
-        const response = await fetch(
-          `${window.location.origin}/api/updateSalesRecord`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(orderDetails),
-          }
-        );
+    try {
+      const response = await fetch(
+        `${window.location.origin}/api/updateSalesRecord`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(orderDetails),
+        }
+      );
 
-        if (response.ok) {
-          console.log("Order saved successfully");
-          console.log("Points before: ", customerTotalPoints);
-          if (customer10PercentOff) {
-            console.log("Congrats you got 10 percent off");
-          }
-          //updating the customer database with the new points
+      if (response.ok) {
+        console.log("Order saved successfully");
+        console.log("Points before: ", customerTotalPoints);
+        if (customer10PercentOff) {
+          console.log("Congrats you got 10 percent off");
+        }
+        //updating the customer database with the new points
+        if (customerName != "Guest") {
           try {
             const response = await fetch("/api/updateCustomerPoints", {
               method: "POST",
@@ -195,16 +196,16 @@ const CartPage = () => {
           } catch (error) {
             console.error("Error adding points to the database:", error);
           }
-          console.log("Points after: ", updatedPoints);
-        } else {
-          const errorData = await response.json();
-          console.error("Failed to save order", errorData);
         }
-      } catch (error) {
-        console.error("Error:", error);
+        console.log("Points after: ", updatedPoints);
+      } else {
+        const errorData = await response.json();
+        console.error("Failed to save order", errorData);
       }
-      setCustomerTotalPoints(updatedPoints);
+    } catch (error) {
+      console.error("Error:", error);
     }
+    setCustomerTotalPoints(updatedPoints);
     router.push("/thank-you");
     setNumTotalItems(0);
     clearCart();
