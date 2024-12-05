@@ -201,6 +201,7 @@
   display: flex;
   justify-content: center; /* Center horizontally */
   margin-top: 20px; /* Spacing from "Tap to Order Now" */
+  z-index: 1;
 }
 
 .openModalButton {

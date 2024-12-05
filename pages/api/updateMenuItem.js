@@ -62,8 +62,8 @@ export default async function handler(req, res) {
         try {
             // Insert into `menu` table
             const menuInsertQuery = `
-        INSERT INTO menu (menu_item_id, name, price, calories, description, designation, type)
-        VALUES ($1, $2, $3, $4, $5, $6, $7)
+        INSERT INTO menu (menu_item_id, name, price, calories, description, designation, type, image)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, 'Seasonal_Item.png')
         RETURNING menu_item_id;
       `;
             await database.query(menuInsertQuery, [

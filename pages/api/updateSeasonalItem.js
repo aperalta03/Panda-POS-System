@@ -81,6 +81,7 @@ import database from "../../utils/database";
         calories = $4, 
         description = COALESCE($5, description), 
         type = $6
+        image = 'Seasonal_Item.png'
       WHERE menu_item_id = $1;
     `;
     await database.query(updateMenuQuery, [

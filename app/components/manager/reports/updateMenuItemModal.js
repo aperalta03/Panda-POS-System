@@ -187,6 +187,7 @@ const AddMenuModal = ({ isOpen, onClose }) => {
             </Box>
             <TextField label="Description" fullWidth margin="normal" value={formData.description} onChange={(e) => handleInputChange("description", e.target.value)} />
             <TextField label="Ingredients (comma-separated)" fullWidth margin="normal" value={formData.ingredients} onChange={(e) => handleInputChange("ingredients", e.target.value)} />
+            <TextField label="Image (Example.png)" fullWidth margin="normal" />
           </>
         )}
 
@@ -203,6 +204,7 @@ const AddMenuModal = ({ isOpen, onClose }) => {
             </Box>
             <TextField label="Description" multiline rows={3} fullWidth margin="normal" value={formData.description} onChange={(e) => handleInputChange("description", e.target.value)} />
             <TextField label="Ingredients (comma-separated)" multiline rows={2} fullWidth margin="normal" value={formData.ingredients} onChange={(e) => handleInputChange("ingredients", e.target.value)}/>
+            <TextField label="Image (Example.png)" fullWidth margin="normal" />
           </>
         )}
 
