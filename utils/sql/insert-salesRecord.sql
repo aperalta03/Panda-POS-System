@@ -2,7 +2,7 @@
 
 /**
  * 
- ** @author Alonso Peralta Espinoza
+ * @author Alonso Peralta Espinoza
  *
  * Handles the process of recording a new sale, updating sale items, and decrementing inventory based on items sold.
  *

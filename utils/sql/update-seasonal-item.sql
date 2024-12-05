@@ -1,6 +1,6 @@
 /**
  * 
- ** @author Alonso Peralta Espinoza
+ * @author Alonso Peralta Espinoza
  *
  * Updates the seasonal menu item and its associated inventory and ingredients.
  *

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: pages/signup-oauth.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: pages/signup-oauth.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useState } from 'react';
+import { useRouter } from 'next/router';
+import { Box, Button, TextField, Typography } from '@mui/material';
+import styles from './oauth.module.css';
+import Image from 'next/image';
+
+
+/**
+ * SignOAuth Component
+ * 
+ * @author Alonso Peralta Espinoza
+ *
+ * @description
+ * Sign-up page for users, allowing them to register using an employee ID, email, and password.
+ *
+ * @features
+ * - Validates passwords and ensures they match.
+ * - Sends user data to the server for registration.
+ * - Redirects to the login page upon successful sign-up.
+ *
+ * @api
+ * - `/api/oauth` (POST): Action `signup`: Registers a new user with employee ID, email, and password.
+ *
+ * @returns {React.ReactElement} A React functional component.
+ */
+
+const SignOAuth = () => {
+  const [employee_id, setEmployeeId] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const router = useRouter();
+
+  const handleEmailPasswordSignUp = async (e) => {
+    e.preventDefault();
+    if (password !== confirmPassword) {
+      alert("Passwords don't match");
+      return;
+    }
+
+    fetch('/api/oauth', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ action: 'signup', employee_id, email, password }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.error) {
+          console.error('Signup Error:', data.error);
+          alert('Signup failed: ' + data.error);
+        } else {
+          router.push('/login-oauth');
+        }
+      })
+      .catch((error) => {
+        console.error('Signup Error:', error);
+        alert('An error occurred during signup.');
+      });
+  };
+
+  return (
+    &lt;Box className={styles.container}>
+      &lt;Image src="/chickenmaxxing_logo.png" alt="Logo" width={100} height={100} className={styles.logo} />
+      &lt;Image src="/panda_express.png" alt="Logo" width={100} height={100} className={styles.pandalogo} />
+      &lt;div className={styles.upBlob}>&lt;/div>
+      &lt;div className={styles.downBlob}>&lt;/div>
+      &lt;div className={styles.centerBlob}>&lt;/div>
+      &lt;Box className={styles.card}>
+        &lt;Typography variant="h4" className={styles.title}>
+          Sign Up
+        &lt;/Typography>
+        &lt;Box className={styles.form}>
+          &lt;TextField
+            fullWidth
+            label="Employee ID"
+            variant="outlined"
+            value={employee_id}
+            onChange={(e) => setEmployeeId(e.target.value)}
+            className={styles.input}
+          />
+          &lt;TextField
+            fullWidth
+            label="Email"
+            variant="outlined"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className={styles.input}
+          />
+          &lt;TextField
+            fullWidth
+            label="Password"
+            type="password"
+            variant="outlined"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className={styles.input}
+          />
+          &lt;TextField
+            fullWidth
+            label="Confirm Password"
+            type="password"
+            variant="outlined"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            className={styles.input}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' &amp;&amp; !e.shiftKey) {
+                e.preventDefault();
+                handleEmailPasswordSignUp(e);
+              }
+            }}
+          />
+          &lt;Button
+            fullWidth
+            variant="contained"
+            className={styles.emailButton}
+            onClick={handleEmailPasswordSignUp}
+          >
+            Sign Up
+          &lt;/Button>
+        &lt;/Box>
+        &lt;Typography className={styles.footer}>
+          Already have an account?{' '}
+          &lt;span className={styles.link} onClick={() => router.push('/login-oauth')}>
+            Log in
+          &lt;/span>
+        &lt;/Typography>
+      &lt;/Box>
+    &lt;/Box>
+  );
+};
+
+export default SignOAuth;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AccessibilityButton">AccessibilityButton</a></li><li><a href="global.html#AddEmployeeForm">AddEmployeeForm</a></li><li><a href="global.html#AddMenuModal">AddMenuModal</a></li><li><a href="global.html#AiAgent">AiAgent</a></li><li><a href="global.html#BottomBar">BottomBar</a></li><li><a href="global.html#BottomPanel">BottomPanel</a></li><li><a href="global.html#ButtonGrid">ButtonGrid</a></li><li><a href="global.html#CartPage">CartPage</a></li><li><a href="global.html#CashierPage">CashierPage</a></li><li><a href="global.html#Customer">Customer</a></li><li><a href="global.html#CustomerLogIn">CustomerLogIn</a></li><li><a href="global.html#CustomerPointsModal">CustomerPointsModal</a></li><li><a href="global.html#CustomerSignUp">CustomerSignUp</a></li><li><a href="global.html#DropDowns">DropDowns</a></li><li><a href="global.html#EditEmployeeModal">EditEmployeeModal</a></li><li><a href="global.html#EmployeeIdModal">EmployeeIdModal</a></li><li><a href="global.html#EmployeeViewerModal">EmployeeViewerModal</a></li><li><a href="global.html#GlobalStateProvider">GlobalStateProvider</a></li><li><a href="global.html#InventoryTable">InventoryTable</a></li><li><a href="global.html#ItemFrame">ItemFrame</a></li><li><a href="global.html#KioskALaCartePage">KioskALaCartePage</a></li><li><a href="global.html#KioskBiggerPlatePage">KioskBiggerPlatePage</a></li><li><a href="global.html#KioskBowlPage">KioskBowlPage</a></li><li><a href="global.html#KioskItemPage">KioskItemPage</a></li><li><a href="global.html#KioskItemPanel">KioskItemPanel</a></li><li><a href="global.html#KioskPage">KioskPage</a></li><li><a href="global.html#KioskPlatePage">KioskPlatePage</a></li><li><a href="global.html#KitchenPage">KitchenPage</a></li><li><a href="global.html#KitchenTV">KitchenTV</a></li><li><a href="global.html#Landing">Landing</a></li><li><a href="global.html#Loading">Loading</a></li><li><a href="global.html#LoginOAuth">LoginOAuth</a></li><li><a href="global.html#Manager">Manager</a></li><li><a href="global.html#ManagerProfile">ManagerProfile</a></li><li><a href="global.html#Menu">Menu</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#OrderPanel">OrderPanel</a></li><li><a href="global.html#RecommendationPanel">RecommendationPanel</a></li><li><a href="global.html#ResetPassword">ResetPassword</a></li><li><a href="global.html#ResetSalesDataModal">ResetSalesDataModal</a></li><li><a href="global.html#RestockReportModal">RestockReportModal</a></li><li><a href="global.html#RoleProvider">RoleProvider</a></li><li><a href="global.html#SalesChart">SalesChart</a></li><li><a href="global.html#SalesReportModal">SalesReportModal</a></li><li><a href="global.html#SignOAuth">SignOAuth</a></li><li><a href="global.html#ThankYouPage">ThankYouPage</a></li><li><a href="global.html#TopBar">TopBar</a></li><li><a href="global.html#UpdateInventoryItemModal">UpdateInventoryItemModal</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li><li><a href="global.html#Welcome">Welcome</a></li><li><a href="global.html#XReportModal">XReportModal</a></li><li><a href="global.html#ZReportModal">ZReportModal</a></li><li><a href="global.html#generateToken">generateToken</a></li><li><a href="global.html#translateAllText">translateAllText</a></li><li><a href="global.html#translateAllText-TranslatesanarrayoftextsintothetargetlanguageusingGoogleTranslateAPI.">translateAllText - Translates an array of texts into the target language using Google Translate API.</a></li><li><a href="global.html#useTranslate">useTranslate</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Wed Dec 04 2024 18:07:20 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

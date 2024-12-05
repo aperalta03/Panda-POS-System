@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: app/components/manager/reports/zReport.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: app/components/manager/reports/zReport.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useState, useEffect } from 'react';
+import Modal from '@mui/material/Modal';
+import styles from './zReport.module.css';
+
+/**
+ * Z Report Modal Component
+ * 
+ * @author Alonso Peralta Espinoza, Conner Black
+ *
+ * @description
+ * Displays a summary of daily sales, including items sold and total revenue.
+ * Allows managers to generate the Z Report and reset sales data for the day.
+ *
+ * @features
+ * - Fetch Z Report data from `/api/z-report`.
+ * - Generate a new Z Report and reset data via `/api/generate-z-report`.
+ * - Displays total sales and item-specific details.
+ *
+ * @state
+ * - `reportData`: Stores the Z Report data.
+ * - `totalSales`: Stores the total sales for the day.
+ *
+ * @methods
+ * - `fetchSalesData`: Fetches Z Report data from the API.
+ * - `generateZReport`: Triggers the API call to generate the Z Report and reset data.
+ *
+ * @example
+ * &lt;ZReportModal isOpen={true} onClose={() => {}} />
+ */
+
+const ZReportModal = ({ isOpen, onClose }) => {
+  const [reportData, setReportData] = useState([]);
+  const [totalSales, setTotalSales] = useState(0);
+
+  const fetchSalesData = async () => {
+    try {
+      const response = await fetch('/api/z-report');
+      if (!response.ok) throw new Error('Failed to fetch sales data');
+      
+      const salesData = await response.json();
+      setReportData(salesData.report || []);
+      setTotalSales(salesData.total || 0);
+    } catch (error) {
+      console.error("Error fetching sales data:", error);
+      setReportData([]);
+      setTotalSales(0);
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      fetchSalesData();
+    }
+  }, [isOpen]);
+
+  const generateZReport = async () => {
+    try {
+      const response = await fetch('/api/generate-z-report', { method: 'POST' });
+      const data = await response.json();
+
+      if (response.ok) {
+        alert(data.message);
+      } else {
+        alert('Error generating Z Report');
+      }
+      onClose();
+    } catch (error) {
+      console.error('Error generating Z report:', error);
+      alert('Error generating Z Report');
+    }
+  };
+
+  return (
+    &lt;Modal open={isOpen} onClose={onClose}>
+      &lt;div className={styles.modalBox}>
+        &lt;h2 className={styles.reportTitle}>Z Report&lt;/h2>
+        &lt;div className={styles.scrollableContent}>
+          &lt;table className={styles.reportTable}>
+            &lt;thead>
+              &lt;tr>
+                &lt;th>Item&lt;/th>
+                &lt;th>Quantity Sold&lt;/th>
+                &lt;th>Total Price&lt;/th>
+              &lt;/tr>
+            &lt;/thead>
+            &lt;tbody>
+              {reportData.length === 0 ? (
+                &lt;tr>
+                  &lt;td colSpan="3">No data available&lt;/td>
+                &lt;/tr>
+              ) : (
+                reportData.map((data, index) => (
+                  &lt;tr key={index}>
+                    &lt;td>{data.itemName}&lt;/td>
+                    &lt;td>{data.count}&lt;/td>
+                    &lt;td>${data.totalPrice}&lt;/td>
+                  &lt;/tr>
+                ))
+              )}
+            &lt;/tbody>
+          &lt;/table>
+        &lt;/div>
+
+        &lt;div className={styles.bottomContainer}>
+          &lt;div className={styles.totalContainer}>
+            &lt;strong>Total Sales: ${totalSales}&lt;/strong>
+          &lt;/div>
+          &lt;button onClick={generateZReport} className={styles.generateButton}>
+            Generate Z Report
+          &lt;/button>
+          &lt;button onClick={onClose} className={styles.closeButton}>
+            Close
+          &lt;/button>
+        &lt;/div>
+      &lt;/div>
+    &lt;/Modal>
+  );
+};
+
+export default ZReportModal;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AccessibilityButton">AccessibilityButton</a></li><li><a href="global.html#AddEmployeeForm">AddEmployeeForm</a></li><li><a href="global.html#AddMenuModal">AddMenuModal</a></li><li><a href="global.html#AiAgent">AiAgent</a></li><li><a href="global.html#BottomBar">BottomBar</a></li><li><a href="global.html#BottomPanel">BottomPanel</a></li><li><a href="global.html#ButtonGrid">ButtonGrid</a></li><li><a href="global.html#CartPage">CartPage</a></li><li><a href="global.html#CashierPage">CashierPage</a></li><li><a href="global.html#Customer">Customer</a></li><li><a href="global.html#CustomerLogIn">CustomerLogIn</a></li><li><a href="global.html#CustomerPointsModal">CustomerPointsModal</a></li><li><a href="global.html#CustomerSignUp">CustomerSignUp</a></li><li><a href="global.html#DropDowns">DropDowns</a></li><li><a href="global.html#EditEmployeeModal">EditEmployeeModal</a></li><li><a href="global.html#EmployeeIdModal">EmployeeIdModal</a></li><li><a href="global.html#EmployeeViewerModal">EmployeeViewerModal</a></li><li><a href="global.html#GlobalStateProvider">GlobalStateProvider</a></li><li><a href="global.html#InventoryTable">InventoryTable</a></li><li><a href="global.html#ItemFrame">ItemFrame</a></li><li><a href="global.html#KioskALaCartePage">KioskALaCartePage</a></li><li><a href="global.html#KioskBiggerPlatePage">KioskBiggerPlatePage</a></li><li><a href="global.html#KioskBowlPage">KioskBowlPage</a></li><li><a href="global.html#KioskItemPage">KioskItemPage</a></li><li><a href="global.html#KioskItemPanel">KioskItemPanel</a></li><li><a href="global.html#KioskPage">KioskPage</a></li><li><a href="global.html#KioskPlatePage">KioskPlatePage</a></li><li><a href="global.html#KitchenPage">KitchenPage</a></li><li><a href="global.html#KitchenTV">KitchenTV</a></li><li><a href="global.html#Landing">Landing</a></li><li><a href="global.html#Loading">Loading</a></li><li><a href="global.html#LoginOAuth">LoginOAuth</a></li><li><a href="global.html#Manager">Manager</a></li><li><a href="global.html#ManagerProfile">ManagerProfile</a></li><li><a href="global.html#Menu">Menu</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#OrderPanel">OrderPanel</a></li><li><a href="global.html#RecommendationPanel">RecommendationPanel</a></li><li><a href="global.html#ResetPassword">ResetPassword</a></li><li><a href="global.html#ResetSalesDataModal">ResetSalesDataModal</a></li><li><a href="global.html#RestockReportModal">RestockReportModal</a></li><li><a href="global.html#RoleProvider">RoleProvider</a></li><li><a href="global.html#SalesChart">SalesChart</a></li><li><a href="global.html#SalesReportModal">SalesReportModal</a></li><li><a href="global.html#SignOAuth">SignOAuth</a></li><li><a href="global.html#ThankYouPage">ThankYouPage</a></li><li><a href="global.html#TopBar">TopBar</a></li><li><a href="global.html#UpdateInventoryItemModal">UpdateInventoryItemModal</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li><li><a href="global.html#Welcome">Welcome</a></li><li><a href="global.html#XReportModal">XReportModal</a></li><li><a href="global.html#ZReportModal">ZReportModal</a></li><li><a href="global.html#generateToken">generateToken</a></li><li><a href="global.html#translateAllText">translateAllText</a></li><li><a href="global.html#translateAllText-TranslatesanarrayoftextsintothetargetlanguageusingGoogleTranslateAPI.">translateAllText - Translates an array of texts into the target language using Google Translate API.</a></li><li><a href="global.html#useTranslate">useTranslate</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Wed Dec 04 2024 18:07:20 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

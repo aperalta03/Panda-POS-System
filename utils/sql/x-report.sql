@@ -1,7 +1,7 @@
 
 /**
  * 
- ** @author Alonso Peralta Espinoza
+ * @author Alonso Peralta Espinoza
  *
  * Retrieves hourly sales data for the current day (X-Report).
  *

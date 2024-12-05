@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: pages/cashier.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: pages/cashier.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useState, useEffect } from "react";
+import ButtonGrid from "../app/components/cashier/buttonGrid";
+import OrderPanel from "../app/components/cashier/orderPanel";
+import BottomPanel from "../app/components/cashier/bottomPanel";
+import styles from "./cashier.module.css";
+import { useUser } from "../app/context/userProvider";
+
+import Head from "next/head"; // Import Head for managing the document head
+
+/**
+ * @function CashierPage
+ * @description Renders the cashier interface for managing orders, including menu items, order panel, and payment processing.
+ * Utilizes state hooks to track menu items, order quantities, net cost, and more. Fetches menu data on component mount
+ * and provides functionality to add, delete, and process orders.
+ *
+ * @param {Object} user - The user object containing employee information, including `employeeID`.
+ * @param {Array&lt;Object>} menuItems - List of menu items fetched from the server, each containing `name` and `price`.
+ * @param {number} netCost - The current net cost of the orders placed, calculated dynamically.
+ * @param {Object&lt;string, number>} quantities - Map of item names to their current quantities in the order.
+ * @param {Object&lt;string, number>} priceMap - Map of item names to their respective prices.
+ * @param {Array&lt;Object>} orders - Array of objects representing current orders with plate sizes and their components.
+ * @param {Object&lt;string, number>} minQuantities - Map of item names to their minimum required quantities for the order.
+ * @param {boolean} seasonalItemActive - Indicates if the seasonal item is currently active.
+ *
+ * @returns {JSX.Element} The rendered cashier page component.
+ *
+ * @author Brandon Batac, Uzair Khan
+ */
+
+const CashierPage = () => {
+  const { employeeID } = useUser();
+
+  const plateSizes = ["Bowl", "Plate", "Bigger Plate", "A La Carte"];
+  const sides = [
+    "Super Greens",
+    "Chow Mein",
+    "White Steamed Rice",
+    "Fried Rice",
+  ];
+
+  const [menuItems, setMenuItems] = useState([]);
+  const [netCost, setNetCost] = useState(0.0);
+  const [quantities, setQuantities] = useState({});
+  const [priceMap, setPriceMap] = useState({});
+  const [orders, setOrders] = useState([]);
+  const [minQuantities, setMinQuantities] = useState({});
+  const [seasonalItemActive, setSeasonalItemActive] = useState(false);
+
+  useEffect(() => {
+    const fetchMenuItems = async () => {
+      try {
+        const response = await fetch("/api/cashier-getMenu");
+        const data = await response.json();
+
+        const prices = {};
+        const quantitiesInit = {};
+        data.data.forEach(({ name, price }) => {
+          prices[name] = price;
+          quantitiesInit[name] = 0;
+        });
+
+        setPriceMap(prices);
+        setQuantities(quantitiesInit);
+        setMenuItems(data.data);
+      } catch (error) {
+        console.error("Error fetching menu items:", error);
+      }
+    };
+
+    fetchMenuItems();
+  }, []);
+
+  /**
+   * Handles the payment process by creating an orderDetails object with the
+   * current sale information and sending it to the server to update the sales record.
+   * If the order is successfully saved, it resets the net cost, item quantities, and orders.
+   *
+   * @async
+   * @function
+   * @returns {void} Shows an alert if order details are incomplete or if there is an error during the fetch.
+   *
+   * @throws {Error} Logs an error if the order fails to save or if there is an error during the fetch.
+   *
+   * @param {number} netCost - The current net cost of the orders.
+   * @param {number} employeeID - The ID of the employee processing the order.
+   * @param {Array&lt;Object>} orders - The array of current orders with plate sizes and components.
+   *
+   * @author Brandon Batac
+   * @author Uzair Khan
+   */
+  const handlePayClick = async () => {
+    const now = new Date();
+    const saleDate = now.toLocaleDateString("en-CA"); //need this for the correct time zone
+    const saleTime = now.toTimeString().split(" ")[0];
+    console.log(saleDate);
+    const orderDetails = {
+      saleDate,
+      saleTime,
+      totalPrice: (netCost + netCost * 0.0625).toFixed(2),
+      employeeID,
+      orders: orders,
+      source: "Cashier",
+    };
+
+    if (!saleDate || !saleTime || !employeeID || !orderDetails.orders.length) {
+      console.error("Missing critical order details:", {
+        saleDate,
+        saleTime,
+        employeeID,
+        orders: orderDetails.orders,
+      });
+      alert("Order details are incomplete. Please try again.");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `${window.location.origin}/api/updateSalesRecord`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(orderDetails),
+        }
+      );
+
+      if (response.ok) {
+        console.log("Order saved successfully");
+      } else {
+        const errorData = await response.json();
+        console.error("Failed to save order", errorData);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+
+    setNetCost(0);
+    setQuantities(
+      Object.keys(quantities).reduce((acc, item) => ({ ...acc, [item]: 0 }), {})
+    );
+    setOrders([]);
+  };
+
+  /**
+   * Updates the orders array with a new order and updates the minimum
+   * quantities of each item in the order.
+   *
+   * @param {string} plateSize - The size of the plate for the order.
+   * @param {Array&lt;string>} components - The components of the order.
+   *
+   * @returns {void} Updates the orders array and the minimum quantities of each item.
+   *
+   * @author Brandon Batac, Uzair Khan
+   */
+  const addOrderToPanel = (plateSize, components) => {
+    setOrders((prevOrders) => [...prevOrders, { plateSize, components }]);
+
+    setMinQuantities((prevMin) => {
+      const updatedMin = { ...prevMin };
+
+      components.forEach((item) => {
+        if (sides.includes(item)) {
+          updatedMin[item] = (updatedMin[item] || 0) + 0.5;
+        } else {
+          updatedMin[item] = (updatedMin[item] || 0) + 1;
+        }
+      });
+
+      return updatedMin;
+    });
+  };
+
+  /**
+   * Deletes an order from the orders array and updates the net cost, quantities,
+   * and minimum quantities of each item accordingly.
+   *
+   * @param {number} index - The index of the order to delete in the orders array.
+   *
+   * @returns {void} Updates the orders array, net cost, quantities, and minimum quantities.
+   *
+   * @author Brandon Batac, Uzair Khan
+   */
+  const deleteOrder = (index) => {
+    const orderToDelete = orders[index];
+    const orderCost =
+      orderToDelete.plateSize === "A La Carte"
+        ? orderToDelete.components.reduce(
+            (total, item) => total + priceMap[item],
+            0
+          )
+        : priceMap[orderToDelete.plateSize];
+
+    setNetCost((prev) => prev - orderCost);
+
+    const updatedQuantities = { ...quantities };
+    const updatedMinQuantities = { ...minQuantities };
+
+    if (plateSizes.includes(orderToDelete.plateSize)) {
+      updatedQuantities[orderToDelete.plateSize] = Math.max(
+        (updatedQuantities[orderToDelete.plateSize] || 0) - 1,
+        0
+      );
+    }
+
+    orderToDelete.components.forEach((item) => {
+      if (sides.includes(item)) {
+        updatedQuantities[item] = Math.max(
+          (updatedQuantities[item] || 0) - 0.5,
+          0
+        );
+        updatedMinQuantities[item] = Math.max(
+          (updatedMinQuantities[item] || 0) - 0.5,
+          0
+        );
+      } else {
+        updatedQuantities[item] = Math.max(
+          (updatedQuantities[item] || 0) - 1,
+          0
+        );
+        updatedMinQuantities[item] = Math.max(
+          (updatedMinQuantities[item] || 0) - 1,
+          0
+        );
+      }
+    });
+
+    setQuantities(updatedQuantities);
+    setMinQuantities(updatedMinQuantities);
+    setOrders((prevOrders) => prevOrders.filter((_, i) => i !== index));
+  };
+
+  const handleSeasonalAddDelete = () => {
+    setSeasonalItemActive(!seasonalItemActive);
+  };
+
+  return (
+    &lt;>
+    &lt;Head>
+      {/* Add or update the page title */}
+      &lt;title>Cashier Order View&lt;/title>
+      {/* Add other metadata if needed */}
+      &lt;meta name="description" content="Cashiers may create orders and proccess payments for customers" />
+    &lt;/Head>
+    &lt;div className={styles.mainContainer}>
+      &lt;div className={styles.layout}>
+        &lt;OrderPanel orders={orders} onDelete={deleteOrder} />
+        &lt;ButtonGrid
+          setNetCost={setNetCost}
+          priceMap={priceMap}
+          quantities={quantities}
+          setQuantities={setQuantities}
+          addOrderToPanel={addOrderToPanel}
+          minQuantities={minQuantities}
+          sides={sides}
+          menuItems={menuItems}
+        />
+      &lt;/div>
+      &lt;BottomPanel
+        netCost={netCost}
+        handlePayClick={handlePayClick}
+        priceMap={priceMap}
+        setPriceMap={setPriceMap}
+        setQuantities={setQuantities}
+        seasonalItemActive={seasonalItemActive}
+      />
+    &lt;/div>
+    &lt;/>
+  );
+};
+
+export default CashierPage;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AccessibilityButton">AccessibilityButton</a></li><li><a href="global.html#AddEmployeeForm">AddEmployeeForm</a></li><li><a href="global.html#AddMenuModal">AddMenuModal</a></li><li><a href="global.html#AiAgent">AiAgent</a></li><li><a href="global.html#BottomBar">BottomBar</a></li><li><a href="global.html#BottomPanel">BottomPanel</a></li><li><a href="global.html#ButtonGrid">ButtonGrid</a></li><li><a href="global.html#CartPage">CartPage</a></li><li><a href="global.html#CashierPage">CashierPage</a></li><li><a href="global.html#Customer">Customer</a></li><li><a href="global.html#CustomerLogIn">CustomerLogIn</a></li><li><a href="global.html#CustomerPointsModal">CustomerPointsModal</a></li><li><a href="global.html#CustomerSignUp">CustomerSignUp</a></li><li><a href="global.html#DropDowns">DropDowns</a></li><li><a href="global.html#EditEmployeeModal">EditEmployeeModal</a></li><li><a href="global.html#EmployeeIdModal">EmployeeIdModal</a></li><li><a href="global.html#EmployeeViewerModal">EmployeeViewerModal</a></li><li><a href="global.html#GlobalStateProvider">GlobalStateProvider</a></li><li><a href="global.html#InventoryTable">InventoryTable</a></li><li><a href="global.html#ItemFrame">ItemFrame</a></li><li><a href="global.html#KioskALaCartePage">KioskALaCartePage</a></li><li><a href="global.html#KioskBiggerPlatePage">KioskBiggerPlatePage</a></li><li><a href="global.html#KioskBowlPage">KioskBowlPage</a></li><li><a href="global.html#KioskItemPage">KioskItemPage</a></li><li><a href="global.html#KioskItemPanel">KioskItemPanel</a></li><li><a href="global.html#KioskPage">KioskPage</a></li><li><a href="global.html#KioskPlatePage">KioskPlatePage</a></li><li><a href="global.html#KitchenPage">KitchenPage</a></li><li><a href="global.html#KitchenTV">KitchenTV</a></li><li><a href="global.html#Landing">Landing</a></li><li><a href="global.html#Loading">Loading</a></li><li><a href="global.html#LoginOAuth">LoginOAuth</a></li><li><a href="global.html#Manager">Manager</a></li><li><a href="global.html#ManagerProfile">ManagerProfile</a></li><li><a href="global.html#Menu">Menu</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#OrderPanel">OrderPanel</a></li><li><a href="global.html#RecommendationPanel">RecommendationPanel</a></li><li><a href="global.html#ResetPassword">ResetPassword</a></li><li><a href="global.html#ResetSalesDataModal">ResetSalesDataModal</a></li><li><a href="global.html#RestockReportModal">RestockReportModal</a></li><li><a href="global.html#RoleProvider">RoleProvider</a></li><li><a href="global.html#SalesChart">SalesChart</a></li><li><a href="global.html#SalesReportModal">SalesReportModal</a></li><li><a href="global.html#SignOAuth">SignOAuth</a></li><li><a href="global.html#ThankYouPage">ThankYouPage</a></li><li><a href="global.html#TopBar">TopBar</a></li><li><a href="global.html#UpdateInventoryItemModal">UpdateInventoryItemModal</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li><li><a href="global.html#Welcome">Welcome</a></li><li><a href="global.html#XReportModal">XReportModal</a></li><li><a href="global.html#ZReportModal">ZReportModal</a></li><li><a href="global.html#generateToken">generateToken</a></li><li><a href="global.html#translateAllText">translateAllText</a></li><li><a href="global.html#translateAllText-TranslatesanarrayoftextsintothetargetlanguageusingGoogleTranslateAPI.">translateAllText - Translates an array of texts into the target language using Google Translate API.</a></li><li><a href="global.html#useTranslate">useTranslate</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Wed Dec 04 2024 18:07:20 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
