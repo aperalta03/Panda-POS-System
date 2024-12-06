@@ -36,11 +36,11 @@ import database from '../../utils/database';
  *   "error": "Error fetching inventory data"
  * }
  */
+
 export default async function handler(req, res) {
     if (req.method === 'GET') {
         try {
             const filePath = path.join(process.cwd(), 'utils', 'sql', 'inventory-table.sql');
-            // console.log("SQL file path:", filePath);
             const queryText = fs.readFileSync(filePath, 'utf-8');
 
             const result = await database.query(queryText);

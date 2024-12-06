@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import style from './inventoryTable.module.css';
 
 /**
- * @author Alonso Peralta Espinoza
+ * @author Alonso
  * 
  * @description
- * Displays a sortable table of inventory items, including stock levels and reorder quantities.
+ * Displays a sortable table of inventory items, including stock levels, reorder quantities, and associated menu item IDs (MID).
  * 
  * @state
  * - `inventoryData`: Stores the fetched inventory data.
@@ -58,10 +58,13 @@ const InventoryTable = () => {
         if (!sortConfig.key) return inventoryData;
 
         const sorted = [...inventoryData].sort((a, b) => {
-            if (a[sortConfig.key] < b[sortConfig.key]) {
+            const aValue = a[sortConfig.key] === null ? Infinity : a[sortConfig.key];
+            const bValue = b[sortConfig.key] === null ? Infinity : b[sortConfig.key];
+
+            if (aValue < bValue) {
                 return sortConfig.direction === 'ascending' ? -1 : 1;
             }
-            if (a[sortConfig.key] > b[sortConfig.key]) {
+            if (aValue > bValue) {
                 return sortConfig.direction === 'ascending' ? 1 : -1;
             }
             return 0;
@@ -70,14 +73,12 @@ const InventoryTable = () => {
         return sorted;
     }, [inventoryData, sortConfig]);
 
-/**
- * Updates the sorting configuration based on the specified column key.
- * Toggles the sorting direction between ascending and descending if the same column is clicked consecutively.
- *
- * @author Alonso Peralta Espinoza
- * 
- * @param {string} key - The column key to sort by.
- */
+    /**
+     * Updates the sorting configuration based on the specified column key.
+     * Toggles the sorting direction between ascending and descending if the same column is clicked consecutively.
+     *
+     * @param {string} key - The column key to sort by.
+     */
     const requestSort = (key) => {
         let direction = 'ascending';
         if (sortConfig.key === key && sortConfig.direction === 'ascending') {
@@ -96,6 +97,7 @@ const InventoryTable = () => {
                     <thead>
                         <tr>
                             <th onClick={() => requestSort('id')} className={style.clickableHeader}>ID</th>
+                            <th onClick={() => requestSort('mid')} className={style.clickableHeader}>MID</th>
                             <th onClick={() => requestSort('name')} className={style.clickableHeader}>Item Name</th>
                             <th onClick={() => requestSort('stocked')} className={style.clickableHeader}>Stocked</th>
                             <th onClick={() => requestSort('required')} className={style.clickableHeader}>Required</th>
@@ -106,6 +108,7 @@ const InventoryTable = () => {
                         {sortedData.map((item, index) => (
                             <tr key={index}>
                                 <td>{item.id}</td>
+                                <td>{item.mid || ''}</td>
                                 <td>{item.name}</td>
                                 <td>{item.stocked}</td>
                                 <td>{item.required}</td>

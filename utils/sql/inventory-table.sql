@@ -27,12 +27,15 @@
  */
 
 SELECT 
-    inventory_id AS id,
-    item_name AS name,
-    curr_amount AS stocked,
-    needed4week AS required,
-    (needed4week - curr_amount) AS to_order
+    inventory.inventory_id AS id,
+    inventory.item_name AS name,
+    inventory.curr_amount AS stocked,
+    inventory.needed4week AS required,
+    (inventory.needed4week - inventory.curr_amount) AS to_order,
+    menu_inventory.menu_item_id AS mid
 FROM 
     inventory
+LEFT JOIN 
+    menu_inventory ON inventory.inventory_id = menu_inventory.inventory_id
 ORDER BY
-    inventory_id;
+    mid ASC NULLS LAST, inventory.inventory_id ASC;
