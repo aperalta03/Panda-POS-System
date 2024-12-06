@@ -166,7 +166,7 @@ const DeleteSales = ({ isOpen, onClose }) => {
                     }
                   >
                     <TableCell>{sale.sale_number}</TableCell>
-                    <TableCell>Click me</TableCell>
+                    <TableCell>Sale Details</TableCell>
                   </TableRow>
                   {expandedRow === sale.sale_number && (
                     <TableRow>
