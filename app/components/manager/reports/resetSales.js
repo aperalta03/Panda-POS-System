@@ -164,7 +164,7 @@ const DeleteSales = ({ isOpen, onClose }) => {
           <TableHead>
             <TableRow>
               <TableCell>Sale ID</TableCell>
-              <TableCell>Item Type</TableCell>
+              <TableCell>Item</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -172,7 +172,9 @@ const DeleteSales = ({ isOpen, onClose }) => {
               <React.Fragment key={sale.sale_number}>
                 <TableRow onClick={() => setExpandedRow(expandedRow === sale.sale_number ? null : sale.sale_number)}>
                   <TableCell>{sale.sale_number}</TableCell>
-                  <TableCell>{sale.item_type}</TableCell>
+                  <TableCell>
+                    Click me
+                  </TableCell>
                 </TableRow>
                 {expandedRow === sale.sale_number && (
                   <TableRow>
@@ -181,7 +183,11 @@ const DeleteSales = ({ isOpen, onClose }) => {
                         <Typography variant="subtitle1">Items:</Typography>
                         <ul>
                           {sale.items && sale.items.length > 0 ? (
-                            sale.items.map((item, index) => <li key={index}>{item}</li>)
+                            sale.items.map((item, index) => (
+                              <li key={index}>
+                                {item.item_name} - {item.item_type.join(', ')}
+                              </li>
+                            ))
                           ) : (
                             <Typography variant="body2">No items available for this sale.</Typography>
                           )}
