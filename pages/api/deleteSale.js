@@ -31,45 +31,23 @@ import database from '../../utils/database';
  */
 
 export default async function handler(req, res) {
-    if (req.method !== 'DELETE') {
-      res.setHeader('Allow', ['DELETE']);
-      return res.status(405).end(`Method ${req.method} Not Allowed`);
-    }
-  
-    const { saleNumber } = req.body;
-  
-    if (!saleNumber) {
-      return res.status(400).json({ error: 'Sale Number is required' });
-    }
-  
-    try {
-      // Start transaction
-      await database.query('BEGIN');
-  
-      // Delete associated entries from sales_menu
-      const deleteSalesMenuQuery = `
-        DELETE FROM sales_menu
-        WHERE sale_number = $1;
-      `;
-      await database.query(deleteSalesMenuQuery, [saleNumber]);
-  
-      // Delete the sale from the sales table
-      const deleteSalesQuery = `
-        DELETE FROM sales
-        WHERE sale_number = $1;
-      `;
-      const result = await database.query(deleteSalesQuery, [saleNumber]);
-  
-      if (result.rowCount === 0) {
-        throw new Error('No sale found with the given Sale Number');
-      }
-  
-      // Commit transaction
-      await database.query('COMMIT');
-      res.status(200).json({ message: 'Sale entry deleted successfully' });
-    } catch (error) {
-      await database.query('ROLLBACK');
-      console.error('Error deleting sale entry:', error);
-      res.status(500).json({ error: 'Failed to delete sale entry' });
-    }
+  if (req.method !== 'DELETE') {
+    res.setHeader('Allow', ['DELETE']);
+    return res.status(405).end(`Method ${req.method} Not Allowed`);
   }
+
+  const { saleNumber } = req.body;
+
+  try {
+    const deleteSalesMenuQuery = `DELETE FROM sales_menu WHERE sale_number = $1;`;
+    await database.query(deleteSalesMenuQuery, [saleNumber]);
+
+    const deleteSalesQuery = `DELETE FROM sales WHERE sale_number = $1;`;
+    await database.query(deleteSalesQuery, [saleNumber]);
+
+    res.status(200).json({ message: 'Sale deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting sale:', error);
+    res.status(500).json({ error: 'Error deleting sale' });
+  }
+}
