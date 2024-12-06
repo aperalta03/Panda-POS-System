@@ -25,6 +25,7 @@ const TranslateButton = ({
         onChange={onLanguageChange}
         className={`${styles.translateButton}`}
         style={customStyles} // Inline styles for unique positioning
+        aria-label="Select Language"
       >
         <option value="en">English</option>
         <option value="es">Español</option>
