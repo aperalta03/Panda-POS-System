@@ -124,17 +124,6 @@ const DeleteSales = ({ isOpen, onClose }) => {
           {/* Right Section: Native Date Picker */}
           <Box className={styles.scrollableContent} flex={1}>
             <Typography variant="h6">Date</Typography>
-            <Box mt={2}>
-              <Checkbox
-                checked={useToday}
-                onChange={(e) => {
-                  setUseToday(e.target.checked);
-                  setQueryType('date');
-                }}
-                disabled={queryType === 'id'}
-              />
-              Today
-            </Box>
             {!useToday && (
               <Box mt={2}>
                 <label>
