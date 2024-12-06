@@ -149,46 +149,52 @@ const DeleteSales = ({ isOpen, onClose }) => {
         </Button>
 
         {/* Results Table */}
-        <Table className={styles.reportTable} sx={{ mt: 4 }}>
-          <TableHead>
-            <TableRow>
-              <TableCell>Sale ID</TableCell>
-              <TableCell>Item</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {salesData.map((sale) => (
-              <React.Fragment key={sale.sale_number}>
-                <TableRow onClick={() => setExpandedRow(expandedRow === sale.sale_number ? null : sale.sale_number)}>
-                  <TableCell>{sale.sale_number}</TableCell>
-                  <TableCell>
-                    Click me
-                  </TableCell>
-                </TableRow>
-                {expandedRow === sale.sale_number && (
-                  <TableRow>
-                    <TableCell colSpan={2}>
-                      <Collapse in={expandedRow === sale.sale_number}>
-                        <Typography variant="subtitle1">Items:</Typography>
-                        <ul>
-                          {sale.items && sale.items.length > 0 ? (
-                            sale.items.map((item, index) => (
-                              <li key={index}>
-                                {item.item_name} - {item.item_type.join(', ')}
-                              </li>
-                            ))
-                          ) : (
-                            <Typography variant="body2">No items available for this sale.</Typography>
-                          )}
-                        </ul>
-                      </Collapse>
-                    </TableCell>
+        <div className={styles.tableContainer}>
+          <Table className={styles.reportTable}>
+            <TableHead>
+              <TableRow>
+                <TableCell>Sale ID</TableCell>
+                <TableCell>Item</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {salesData.map((sale) => (
+                <React.Fragment key={sale.sale_number}>
+                  <TableRow 
+                    onClick={() => 
+                      setExpandedRow(expandedRow === sale.sale_number ? null : sale.sale_number)
+                    }
+                  >
+                    <TableCell>{sale.sale_number}</TableCell>
+                    <TableCell>Click me</TableCell>
                   </TableRow>
-                )}
-              </React.Fragment>
-            ))}
-          </TableBody>
-        </Table>
+                  {expandedRow === sale.sale_number && (
+                    <TableRow>
+                      <TableCell colSpan={2}>
+                        <Collapse in={expandedRow === sale.sale_number}>
+                          <Typography variant="subtitle1">Items:</Typography>
+                          <ul>
+                            {sale.items && sale.items.length > 0 ? (
+                              sale.items.map((item, index) => (
+                                <li key={index}>
+                                  {item.item_name} - {item.item_type.join(', ')}
+                                </li>
+                              ))
+                            ) : (
+                              <Typography variant="body2">
+                                No items available for this sale.
+                              </Typography>
+                            )}
+                          </ul>
+                        </Collapse>
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </React.Fragment>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
 
         {/* Divider and Delete Sale by ID */}
         <Divider sx={{ my: 3 }} />
