@@ -5,26 +5,21 @@ import styles from './oauth.module.css';
 import Image from 'next/image';
 
 import Head from "next/head"; // Import Head for managing the document head
-
 /**
- * ResetPassword Component
+ * @description
+ * Provides a form for users to reset their passwords.
  * 
  * @author Alonso Peralta Espinoza
  *
- * @description
- * Provides a form for users to reset their passwords.
- *
- * @features
- * - Validates password and confirm password fields.
- * - Sends the new password to the server for reset.
- * - Redirects to login upon successful reset.
- *
- * @api
- * - `/api/oauth` (POST): Action `reset-password`: Submits a new password for the user.
+ * @param {object} props - The properties passed to the component.
  *
  * @returns {React.ReactElement} A React functional component.
+ *
+ * @example
+ * <ResetPassword />
+ *
+ * @module reset-password
  */
-
 const ResetPassword = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');

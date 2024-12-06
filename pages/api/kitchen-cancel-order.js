@@ -1,12 +1,6 @@
 import database from '../../utils/database';
 
 /**
- * API Route to Cancel an Order
- *
- * @author Anson Thai
- * 
- * @module api/kitchen-cancel-order
- *
  * @description
  * This API endpoint handles the cancellation of an order. It expects a `POST` request
  * containing the `saleNumber` and `orderNumber` in the request body. The endpoint
@@ -15,13 +9,8 @@ import database from '../../utils/database';
  * corresponding `salesRecord` is also deleted. On success, it responds with a success
  * message. If an error occurs, it returns an appropriate error response.
  *
- * @features
- * - **Order Data Validation**: Ensures that the `saleNumber` and `orderNumber` are
- *   provided and correctly formatted.
- * - **Database Interaction**: Executes a SQL query to delete the specified order and
- *   optionally the associated sales record.
- * - **Error Handling**: Rolls back the transaction if an error occurs and logs the issue.
- * - **Method Validation**: Restricts the endpoint to handle only `POST` requests.
+ * @author Anson Thai
+ * @module api/kitchen-cancel-order
  *
  * @requestBody
  * - `saleNumber` (number): The unique identifier for the sale.
@@ -32,9 +21,6 @@ import database from '../../utils/database';
  * - `400 Bad Request`: Returns an error message if the required data is missing or invalid.
  * - `405 Method Not Allowed`: Returns an error message if the request method is not `POST`.
  * - `500 Internal Server Error`: Returns an error message if a database or server error occurs.
- *
- * @dependencies
- * - `database`: Utility module for executing SQL queries.
  *
  * @example
  * // Request:

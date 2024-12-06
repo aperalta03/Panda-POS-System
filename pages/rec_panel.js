@@ -3,7 +3,7 @@ import styles from "./rec_panel.module.css";
 import { useGlobalState } from "@/app/context/GlobalStateContext";
 
 /**
- * @author: Uzair Khan
+ * @description
  * RecommendationPanel renders a panel with random items from the menu
  * and allows users to increment/decrement the quantity of each item and
  * add it to the cart.
@@ -16,13 +16,20 @@ import { useGlobalState } from "@/app/context/GlobalStateContext";
  *
  * The panel also displays a header with the title "Last Minute Picks?".
  *
- * The panel receives the following props from the context:
- * - menu: the menu items
- * - cart: the cart items
- * - setCart: a function to update the cart items
- * - translations: the translations for the text
- * - numTotalItems: the total number of items in the cart
- * - setNumTotalItems: a function to update the total number of items in the cart
+ * @param {object} props - The properties passed to the component.
+ * @param {Array<Object>} props.menu - The menu items.
+ * @param {Array<Object>} props.cart - The current cart items.
+ * @param {function} props.setCart - A function to update the cart items.
+ * @param {object} props.translations - The translations for the text.
+ * @param {number} props.numTotalItems - The total number of items in the cart.
+ * @param {function} props.setNumTotalItems - A function to update the total number of items in the cart.
+ *
+ * @returns {JSX.Element} The RecommendationPanel component.
+ *
+ * @example
+ * <RecommendationPanel menu={menuItems} cart={cartItems} setCart={setCartFunction} translations={translations} numTotalItems={10} setNumTotalItems={setNumTotalItemsFunction} />
+ *
+ * @module rec_panel
  */
 const RecommendationPanel = () => {
   const { menu, cart, setCart, translations, numTotalItems, setNumTotalItems } = useGlobalState();

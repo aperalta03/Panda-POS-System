@@ -9,28 +9,20 @@ import Image from 'next/image';
 import Head from "next/head"; // Import Head for managing the document head
 
 /**
- * LoginOAuth Component
+ * @description
+ * Login page allowing users to sign in using email/password or Google OAuth.
  * 
  * @author Alonso Peralta Espinoza
  *
- * @description
- * Login page allowing users to sign in using email/password or Google OAuth.
- *
- * @features
- * - Email/password authentication.
- * - Google Sign-In integration.
- * - Password reset functionality.
- * - Navigation to the sign-up page.
- * 
- * @api
- * - `/api/oauth` (POST):
- *   - Action `login`: Validates user credentials.
- *   - Action `forgot-password`: Sends a password reset email.
- *   - Action `google`: Authenticates the user via Google OAuth.
+ * @param {object} props - The properties passed to the component.
  *
  * @returns {React.ReactElement} A React functional component.
+ *
+ * @example
+ * <LoginOAuth />
+ *
+ * @module login-oauth
  */
-
 const LoginOAuth = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

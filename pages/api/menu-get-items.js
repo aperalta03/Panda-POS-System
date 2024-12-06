@@ -3,42 +3,50 @@ import path from 'path';
 import database from '../../utils/database';
 
 /**
- * 
- * @author Uzair Khan, Alonso Peralta Espinoza
- * 
+ * @description
  * Fetches all available menu items from the database.
+ * @author Uzair Khan, Alonso Peralta Espinoza
  * @module api/menu-get-items
  *
- * @api {get} /api/menu-get-items
- * @apiName GetMenuItems
- * @apiGroup Menu
- *
- * @apiSuccess {Object} Response object containing an array of menu items.
+ * @features
+ * - Fetches all menu items from the database.
+ * - Returns a list of items with their ID, name, and price.
  * 
- * @apiError (404) {Object} Response object with an error message when no menu items are found.
- * @apiError (500) {Object} Response object with an error message for server issues.
+ * @requestMethod
+ * - `GET`: Retrieves the menu items.
  *
- * @apiExample {curl} Example usage:
- *   curl -X GET \
- *     http://localhost:3000/api/menu-items
+ * @response
+ * - `200 OK`: Returns a JSON object containing an array of menu items.
+ * - `404 Not Found`: Returns an error message if no menu items are found.
+ * - `500 Internal Server Error`: Returns an error message if there is an issue fetching data.
  *
- * @apiSuccessExample {json} Success response:
- *     {
- *       "menuItems": [
- *         { "menu_item_id": 1, "name": "Orange Chicken", "price": 10.99 },
- *         { "menu_item_id": 2, "name": "Kung Pao Chicken", "price": 9.99 }
- *       ]
- *     }
+ * @returns {Object} JSON response containing the list of menu items:
+ * - `menuItems` (Array): Array of menu item objects.
+ *   - `menu_item_id` (number): Unique identifier for the menu item.
+ *   - `name` (string): The name of the menu item.
+ *   - `price` (number): The price of the menu item.
  *
- * @apiErrorExample {json} Error response when no items are found:
- *     {
- *       "error": "Menu items not found"
- *     }
+ * @example
+ * // Request:
+ * GET /api/menu-get-items
  *
- * @apiErrorExample {json} General server error response:
- *     {
- *       "error": "Error fetching menu items"
- *     }
+ * // Response:
+ * {
+ *   "menuItems": [
+ *     { "menu_item_id": 1, "name": "Orange Chicken", "price": 10.99 },
+ *     { "menu_item_id": 2, "name": "Kung Pao Chicken", "price": 9.99 }
+ *   ]
+ * }
+ *
+ * // Error Response (No Menu Items Found):
+ * {
+ *   "error": "Menu items not found"
+ * }
+ *
+ * // Error Response (Server Issue):
+ * {
+ *   "error": "Error fetching menu items"
+ * }
  */
 
 export default async function handler(req, res) {

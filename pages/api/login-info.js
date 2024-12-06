@@ -66,7 +66,8 @@ export default async function handler(req, res) {
             const employeeData = result.rows.map((employee) => ({
                 employeeID: employee.employee_id, 
                 name: `${employee.first_name} ${employee.last_name}`, 
-                isManager: employee.is_manager   
+                isManager: employee.is_manager,
+                isActive: employee.is_active
             }));
 
             // Return the transformed data

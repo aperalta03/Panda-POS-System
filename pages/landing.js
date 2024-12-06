@@ -8,22 +8,19 @@ import Head from "next/head"; // Import Head for managing the document head
 
 
 /**
- * Landing Component
+ * @description
+ * Serves as the main entry point for employees to log in using a numpad.
  * 
  * @author Alonso Peralta Espinoza
  *
- * @description
- * Serves as the main entry point for employees to log in using a numpad.
- *
- * @features
- * - Numpad input for employee codes.
- * - Redirects to the appropriate view based on the employee's role (manager or cashier).
- * - Includes quick navigation buttons for menu board, kitchen view, and kiosk view.
- * 
- * @api
- * - `/api/login-info` (GET): Fetches employee data (ID, role, name) for validation.
+ * @param {object} props - The properties passed to the component.
  *
  * @returns {React.ReactElement} A React functional component.
+ *
+ * @example
+ * <Landing />
+ *
+ * @module landing
  */
 
 const Landing = () => {
@@ -45,6 +42,7 @@ const Landing = () => {
                     employeeMap[employee.employeeID] = {
                         isManager: employee.isManager,
                         name: employee.name,
+                        isActive: employee.isActive
                     };
                 });
 
@@ -79,18 +77,24 @@ const Landing = () => {
             setInput("");
         } else {
             const employee = employeeMap[input];
+            if(employee.isActive){
 
-            setLoggedInName(employee.name);       
-            setEmployeeID(input);                 
+                setLoggedInName(employee.name);       
+                setEmployeeID(input);                 
 
-            if (employee.isManager) {
-                setRole("manager");
-            } else {
-                setRole("cashier");
+                if (employee.isManager) {
+                    setRole("manager");
+                } else {
+                    setRole("cashier");
+                }
+
+                setInput("");
+                router.push('/cashier');
             }
-
-            setInput("");
-            router.push('/cashier');
+            else{
+                alert("You were FIRED");
+                setInput("");
+            }
         }
     };
 

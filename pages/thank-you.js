@@ -7,22 +7,19 @@ import { useGlobalState } from "@/app/context/GlobalStateContext";
 import Head from "next/head"; // Import Head for managing the document head
 
 /**
- * ThankYouPage Component
- *
- * @author Uzair Khan, Alonso Peralta Espinoza, Brandon Batac
- *
  * @description
  * Displays a thank-you page after an order, including a dynamic order number and fortune.
+ * 
+ * @author Uzair Khan, Alonso Peralta Espinoza, Brandon Batac
  *
- * @features
- * - Confetti animation with custom emojis.
- * - Displays order number and fortune fetched from an API.
- * - Redirects to the kiosk view upon user interaction.
- *
- * @api
- * - `/api/fortune-ai` (GET): Fetches a fortune message for the thank-you page.
+ * @param {object} props - The properties passed to the component.
  *
  * @returns {React.ReactElement} A React functional component.
+ *
+ * @example
+ * <ThankYouPage />
+ *
+ * @module thank-you
  */
 
 const ThankYouPage = () => {

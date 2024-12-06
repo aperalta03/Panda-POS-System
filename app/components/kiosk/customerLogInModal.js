@@ -5,52 +5,27 @@ import CustomerSignUp from "./customerSignUpModal"; // Import the sign-up modal
 import CustomerPointsModal from "./customerPointsModal"; // Import the points modal
 import styles from "./customerLoginModal.module.css";
 
+
 /**
- * Customer Log In Component
- *
  * @author Conner Black, Brandon Batac
- *
+ * 
  * @description
- * A modal component for logging in a customer using their phone number.
- * It provides a keypad for input, allows submission of the phone number,
- * and supports showing error messages. Additionally, the component handles
+ * A modal component for logging in a customer using their phone number. 
+ * It provides a keypad for input, allows submission of the phone number, 
+ * and supports showing error messages. Additionally, the component handles 
  * the opening of the sign-up modal and customer points modal.
- *
- * @features
- * - Phone Number Input: Displays a keypad for entering a phone number, with numeric input and backspace functionality.
- * - Form Validation: Displays an error message if the phone number is missing or invalid.
- * - Submit Action: Submits the phone number to the server and handles login success or failure.
- * - Modal Interaction: Opens and closes modals for login, sign-up, and points display based on user interaction.
- * - Keyboard Support: Supports keyboard inputs for numeric values, backspace, and form submission (Enter key).
- *
- * @state
- * - `isSignUpModalOpen`: Boolean indicating whether the sign-up modal is open.
- * - `isPointsModalOpen`: Boolean indicating whether the points modal is open.
- * - `input`: The phone number entered by the user.
- * - `isSubmitting`: Boolean indicating whether the form is currently being submitted (disables the submit button).
- * - `error`: Stores error messages if login fails or input is invalid.
- *
- * @methods
- * - `handleButtonClick`: Updates the `input` state when a numeric button is clicked on the keypad.
- * - `handleBackspace`: Removes the last character from the `input` state.
- * - `handleSubmit`: Sends the phone number to the server for login and handles the response, including error handling.
- * - `handleSignUp`: Opens the sign-up modal for users who wish to create a new account.
- * - `handleKeyDown`: Listens for keyboard events (numeric keys, backspace, and enter) to control input and form submission.
- *
- * @modalInteraction
- * - Login Modal: Contains the keypad and login submission.
- * - Sign Up Modal: Opens upon clicking the "Sign Up" button, allowing new users to sign up.
- * - Customer Points Modal: Opens after a successful login to display customer points.
- *
- * @dependencies
- * - React: For component structure and state management.
- * - Material-UI: For modal component and styling.
- * - `GlobalStateContext`: For accessing and updating global state related to customer information.
- * - `CustomerSignUp`: Modal for customer sign-up.
- * - `CustomerPointsModal`: Modal for displaying customer points.
- *
+ * 
+ * @param {object} props - The properties passed to the component.
+ * @param {function} props.onClose - Function to close the modal.
+ * @param {boolean} props.isOpen - Boolean that determines if the modal is open.
+ * 
+ * @returns {JSX.Element} The CustomerLogIn component.
+ * 
  * @example
  * <CustomerLogIn isOpen={true} onClose={() => {}} />
+ * 
+ * 
+ * @module customerLogInModal
  */
 
 const CustomerLogIn = ({ onClose, isOpen }) => {

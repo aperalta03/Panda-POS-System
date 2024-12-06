@@ -10,32 +10,32 @@ import Image from 'next/image';
 import styles from './navbar.module.css';
 
 /**
- * Navbar Component
- * 
- * @author Alonso Peralta Espinoza
- *
  * @description
  * A navigation bar displaying the current time, weather information, and navigation buttons for switching views or logging out.
  *
- * @features
- * - Displays current time and updates every minute.
- * - Fetches and displays weather data using the `wttr.in` API.
- * - Provides buttons for switching views and logging out.
- * - Dynamically adjusts visibility of buttons based on the user's role and page.
+ * @author Alonso Peralta Espinoza
  *
- * @state
- * - `time`: Stores the current time.
- * - `weather`: Stores temperature and condition from the weather API.
- *
- * @methods
- * - `updateTime`: Updates the `time` state every minute.
- * - `fetchWeather`: Fetches weather data and updates the `weather` state.
- * - `getWeatherIcon`: Maps weather conditions to corresponding icons.
- * - `handleLogoff`: Clears the user's role and redirects to the login page.
- * - `toggleView`: Switches between manager, cashier, kitchen, and kitchen TV views.
+ * @param {object} props - The properties passed to the component.
+ * @param {string} props.time - The current time displayed on the navbar.
+ * @param {object} props.weather - The weather data including temperature and condition.
+ * 
+ * @returns {React.ReactElement} A navigation bar with current time, weather, and navigation buttons.
  *
  * @example
- * <Navbar />
+ * // Usage example
+ * import Navbar from './navbar';
+ *
+ * function Dashboard() {
+ *   return (
+ *     <div>
+ *       <Navbar time="12:00 PM" weather={{ temperature: 72, condition: "Clear" }} />
+ *     </div>
+ *   );
+ * }
+ *
+ * @since 1.0.0
+ *
+ * @module navbar
  */
 
 const Navbar = () => {

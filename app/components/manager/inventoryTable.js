@@ -2,30 +2,25 @@ import React, { useState, useEffect } from 'react';
 import style from './inventoryTable.module.css';
 
 /**
- * InventoryTable Component
- * 
  * @author Alonso Peralta Espinoza
- *
+ * 
  * @description
  * Displays a sortable table of inventory items, including stock levels and reorder quantities.
- *
- * @features
- * - Fetches inventory data from `/api/inventory-table`.
- * - Ensures reorder quantities (`to_order`) are non-negative.
- * - Supports sorting by column (ID, Name, Stocked, Required, To Order).
- *
+ * 
  * @state
  * - `inventoryData`: Stores the fetched inventory data.
  * - `loading`: Indicates whether data is being loaded.
  * - `error`: Tracks errors during data fetch.
  * - `sortConfig`: Tracks sorting configuration (column and direction).
- *
+ * 
  * @methods
  * - `fetchData`: Fetches inventory data from the API.
  * - `requestSort`: Updates `sortConfig` to sort by the specified column.
- *
+ * 
  * @example
  * <InventoryTable />
+ * 
+ * @module inventoryTable
  */
 const InventoryTable = () => {
     const [inventoryData, setInventoryData] = useState([]);

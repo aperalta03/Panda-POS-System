@@ -4,14 +4,21 @@ import styles from "./itemFrame.module.css";
 
 
 /**
- * @author: Uzair Khan
- * Component representing a single menu item.
- *
- * Renders an image, name, calories, and buttons to add/remove an item from the cart by making an item frame.
+ * @author Uzair Khan
+ * 
+ * @description
+ * Component representing a single menu item. Renders an image, name, calories, and buttons to add/remove an item 
+ * from the cart by making an item frame.
  *
  * @param {object} item - The menu item to render.
  * @param {boolean} isDone - Whether the entree selection is done.
- * @returns {ItemFrame} - Item Frame for a menu item
+ *
+ * @returns {JSX.Element} The item frame for a menu item.
+ *
+ * @example
+ * <MenuItem item={itemObject} isDone={false} />
+ *
+ * @module itemFrame
  */
 const ItemFrame = ({ item, isDone }) => {
   const {

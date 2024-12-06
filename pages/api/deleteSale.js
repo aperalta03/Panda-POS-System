@@ -1,25 +1,19 @@
 import database from '../../utils/database';
 
 /**
- * Delete a specific sale by Sale Number.
- * 
- * @author Alonso Peralta Espinoza
- * 
- * @module api/deleteSale
- *
  * @description
  * Deletes a sale entry from the `sales` table using the provided `sale_number`.
- *
- * @api {DELETE} /api/delete-sale-by-id
- * @apiName DeleteSaleById
- * @apiGroup Sales
- *
- * @apiParam {String} saleNumber The Sale Number of the sale to delete.
- *
- * @apiSuccess {Object} Response object with a success message.
  * 
- * @apiError (400) {Object} Response object with an error message if Sale Number is missing.
- * @apiError (500) {Object} Response object with an error message if deletion fails.
+ * @author Alonso Peralta Espinoza
+ * @module api/deleteSale
+ *
+ * @requestBody
+ * - `saleNumber`: The Sale Number of the sale to delete.
+ *
+ * @response
+ * - `200 OK`: Returns a success message if the sale entry is deleted successfully.
+ * - `400 Bad Request`: Returns an error message if the Sale Number is missing.
+ * - `500 Internal Server Error`: Returns an error message if deletion fails.
  *
  * @example
  * // Request
@@ -29,11 +23,9 @@ import database from '../../utils/database';
  *   body: JSON.stringify({ saleNumber: '123' }),
  * });
  *
- * @example
  * // Success Response
  * { "message": "Sale entry deleted successfully" }
  *
- * @example
  * // Error Response
  * { "error": "No sale found with the given Sale Number" }
  */

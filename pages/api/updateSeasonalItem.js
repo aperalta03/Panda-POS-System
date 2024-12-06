@@ -6,23 +6,50 @@ import database from "../../utils/database";
  * 
  * @author Alonso Peralta Espinoza
  * 
+ * @description
  * Updates the seasonal menu item and its associated inventory and ingredients.
  * @module api/updateSeasonalItem
- * @api {post} /api/updateSeasonalItem
- * @apiName UpdateSeasonalItem
- * @apiGroup Manager
  *
- * @apiParam {String} name New name for the seasonal menu item.
- * @apiParam {Number} price New price for the seasonal menu item.
- * @apiParam {Number} calories Updated caloric value for the seasonal menu item.
- * @apiParam {String} [description] Optional description of the menu item.
- * @apiParam {String} ingredients Comma-separated list of updated ingredients.
- * @apiParam {String} itemType Type of the seasonal menu item.
+ * @param {String} name - New name for the seasonal menu item.
+ * @param {Number} price - New price for the seasonal menu item.
+ * @param {Number} calories - Updated caloric value for the seasonal menu item.
+ * @param {String} [description] - Optional description of the menu item.
+ * @param {String} ingredients - Comma-separated list of updated ingredients.
+ * @param {String} itemType - Type of the seasonal menu item.
  *
- * @apiSuccess {Object} Response object with a success message.
- * 
- * @apiError (400) {Object} Response object with an error message for missing fields.
- * @apiError (500) {Object} Response object with an error message for server or transaction issues.
+ * @returns {Object} - Response object with a success message.
+ *
+ * @response
+ * - `200 OK`: Returns a success message if the update is successful.
+ * - `400 Bad Request`: Returns an error message for missing fields.
+ * - `500 Internal Server Error`: Returns an error message for server or transaction issues.
+ *
+ * @example
+ * // Request:
+ * POST /api/updateSeasonalItem
+ * {
+ *   "name": "Winter Special",
+ *   "price": 10.99,
+ *   "calories": 300,
+ *   "description": "A delicious winter special dish.",
+ *   "ingredients": "chicken, vegetables, spices",
+ *   "itemType": "seasonal"
+ * }
+ *
+ * // Response:
+ * {
+ *   "message": "Seasonal item updated successfully"
+ * }
+ *
+ * @errorExample {json} Error response for missing fields:
+ * {
+ *   "error": "Missing required fields: name, price, or ingredients"
+ * }
+ *
+ * @errorExample {json} General server error response:
+ * {
+ *   "error": "Failed to update seasonal item"
+ * }
  */
 
 export default async function handler(req, res) {

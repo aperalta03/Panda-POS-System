@@ -9,25 +9,20 @@ import styles from './manager.module.css';
 import Head from "next/head"; // Import Head for managing the document head
 
 /**
- * Manager Component
+ * @description
+ * Dashboard for manager functionalities, including inventory, profiles, reports, and sales charts.
  * 
  * @author Alonso Peralta Espinoza, Conner Black, Anson Thai
  *
- * @description
- * Dashboard for manager functionalities, including inventory, profiles, reports, and sales charts.
- *
- * @features
- * - Displays an inventory table and manager profile.
- * - Includes dropdown options for various reports and functionalities.
- * - Displays a customizable sales chart.
- *
- * @api
- * - `/api/inventory-table` (GET): Fetches inventory data for the table.
- * - `/api/sales-chart` (GET): Retrieves sales data for the chart, based on filters.
+ * @param {object} props - The properties passed to the component.
  *
  * @returns {React.ReactElement} A React functional component.
+ *
+ * @example
+ * <Manager />
+ *
+ * @module manager
  */
-
 const Manager = () => {
     const mockDataset = [
         { label: 'January', value: 30 },

@@ -1,58 +1,55 @@
 import database from '../../utils/database';
 
 /**
- * 
- * @author Alonso Peralta Espinoza
- * 
+ * @description
  * Adds a new menu item to the database and links it with its ingredients.
+ * @author Alonso Peralta Espinoza
  * @module api/updateMenuItem
- * @api {post} /api/updateMenuItem
- * @apiName UpdateMenuItem
- * @apiGroup Manager
  *
- * @apiParam {Number} menu_item_id Unique ID for the menu item.
- * @apiParam {String} name Name of the menu item.
- * @apiParam {Number} price Price of the menu item.
- * @apiParam {Number} calories Caloric value of the menu item.
- * @apiParam {String} description Description of the menu item.
- * @apiParam {String} designation Designation/category of the menu item.
- * @apiParam {String} type Type of the menu item (e.g., "entree", "side").
- * @apiParam {String} ingredients Comma-separated list of ingredients for the menu item.
+ * @param {Number} menu_item_id - Unique ID for the menu item.
+ * @param {String} name - Name of the menu item.
+ * @param {Number} price - Price of the menu item.
+ * @param {Number} calories - Caloric value of the menu item.
+ * @param {String} description - Description of the menu item.
+ * @param {String} designation - Designation/category of the menu item.
+ * @param {String} type - Type of the menu item (e.g., "entree", "side").
+ * @param {String} ingredients - Comma-separated list of ingredients for the menu item.
  *
- * @apiSuccess {Object} Response object with a success message.
- * 
- * @apiError (400) {Object} Response object with an error message when ID is already in use.
- * @apiError (500) {Object} Response object with an error message for other server issues.
+ * @returns {Object} - Response object with a success message.
  *
- * @apiExample {curl} Example usage:
- *   curl -X POST \
- *     http://localhost:3000/api/updateMenuItem \
- *     -H 'Content-Type: application/json' \
- *     -d '{
- *           "menu_item_id": 1,
- *           "name": "Orange Chicken",
- *           "price": 9.99,
- *           "calories": 500,
- *           "description": "Our signature dish.",
- *           "designation": "Main",
- *           "type": "entree",
- *           "ingredients": "chicken,orange-sauce"
- *         }'
+ * @response
+ * - `200 OK`: Returns a success message if the menu item is added successfully.
+ * - `400 Bad Request`: Returns an error message when the ID is already in use.
+ * - `500 Internal Server Error`: Returns an error message for server issues.
  *
- * @apiSuccessExample {json} Success response:
- *     {
- *       "message": "Menu item added successfully"
- *     }
+ * @example
+ * // Request:
+ * POST /api/updateMenuItem
+ * {
+ *   "menu_item_id": 1,
+ *   "name": "Orange Chicken",
+ *   "price": 9.99,
+ *   "calories": 500,
+ *   "description": "Our signature dish.",
+ *   "designation": "Main",
+ *   "type": "entree",
+ *   "ingredients": "chicken,orange-sauce"
+ * }
  *
- * @apiErrorExample {json} Error response when ID is already in use:
- *     {
- *       "error": "ID in Use. Please use a unique menu_item_id."
- *     }
+ * // Response:
+ * {
+ *   "message": "Menu item added successfully"
+ * }
  *
- * @apiErrorExample {json} General server error response:
- *     {
- *       "error": "Error adding menu item"
- *     }
+ * @errorExample {json} Error response when ID is already in use:
+ * {
+ *   "error": "ID in Use. Please use a unique menu_item_id."
+ * }
+ *
+ * @errorExample {json} General server error response:
+ * {
+ *   "error": "Error adding menu item"
+ * }
  */
 
 export default async function handler(req, res) {

@@ -1,16 +1,13 @@
 import database from '../../utils/database';
 
 /**
- * API Route to Fetch Kitchen Orders
- * 
- * @author Anson Thai
- * 
- * @module api/kitchen-get-orders
- *
  * @description
  * Handles `GET` requests to retrieve kitchen orders from the database. Orders
  * are grouped by `saleNumber` and include sale details and associated items
  * for each sale. This API is designed to fetch orders originating from a kiosk.
+ *
+ * @author Anson Thai
+ * @module api/kitchen-get-orders
  *
  * @features
  * - **Database Query**: Retrieves sales and their associated items using a 

@@ -1,41 +1,26 @@
 import fs from 'fs';
 import path from 'path';
 import database from '../../utils/database';
-
 /**
- * 
- * @author Alonso Peralta Espinoza
+ * @description
+ * This API endpoint retrieves employee data from the database for viewing. It expects a GET request with no parameters. 
+ * It returns a list of all employees, including their `employeeId`, `name`, and `isActive` status. If an error occurs 
+ * during the database query or while processing the data, appropriate error messages are returned.
  *
- * Fetches employee data from the database for viewing.
- * 
+ * @author Alonso Peralta Espinoza
  * @module api/employee-viewer
  *
- * @api {get} /api/employee-viewer
- * @apiName EmployeeViewer
- * @apiGroup Employee
+ * @requestBody
+ * No request body is required.
  *
- * @apiSuccess {Object} Response object containing employee data.
- * 
- * @apiError (500) {Object} Response object with an error message for server issues.
+ * @response
+ * - `200 OK`: Returns a list of all employees with their `employeeId`, `name`, and `isActive` status.
+ * - `500 Internal Server Error`: Returns an error message if a database error occurs while fetching the employee data.
  *
- * @apiExample {curl} Example usage:
- *   curl -X GET \
- *     http://localhost:3000/api/employee-viewer
- *
- * @apiSuccessExample {json} Success response:
- *     {
- *       "data": [
- *         { "employeeId": 123, "name": "John Doe", "isActive": true },
- *         { "employeeId": 456, "name": "Jane Smith", "isActive": false }
- *       ]
- *     }
- *
- * @apiErrorExample {json} General server error response:
- *     {
- *       "error": "Error accessing database"
- *     }
+ * @example
+ * curl -X GET \
+ *   http://localhost:3000/api/employee-viewer
  */
-
 export default async function handler(req, res) {
   if (req.method === 'GET') {
     try {

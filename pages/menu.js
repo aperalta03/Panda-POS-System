@@ -6,22 +6,19 @@ import styles from './menu.module.css';
 import Head from "next/head"; // Import Head for managing the document head
 
 /**
- * Menu Component
+ * @description
+ * Displays categorized menu items for customers, including seasonal items.
  * 
  * @author Alonso Peralta Espinoza
  *
- * @description
- * Displays categorized menu items for customers, including seasonal items.
- *
- * @features
- * - Categorized view of menu items (appetizers, sides, entrees, etc.).
- * - Seasonal item section with dynamic updates.
- * - Detailed nutritional and pricing information.
- *
- * @api
- * - `/api/menu-get-items` (GET): Fetches menu items and seasonal item details.
+ * @param {object} props - The properties passed to the component.
  *
  * @returns {React.ReactElement} A React functional component.
+ *
+ * @example
+ * <Menu />
+ *
+ * @module menu
  */
 
 const Menu = () => {

@@ -1,39 +1,33 @@
 import database from '../../utils/database';
 
 /**
+ * @description
+ * Retrieves menu items from the database, sorted by type and menu item ID. This endpoint is used to
+ * fetch all menu items available for a cashier in a structured format.
  * 
  * @author Alonso Peralta Espinoza
  *
- * Retrieves menu items from the database, sorted by type and menu item ID.
- * 
+ *
+ * @requestBody
+ * - None: This is a `GET` request and does not require a request body.
+ *
+ * @response
+ * - `200 OK`: Returns a JSON array of sorted menu items.
+ * - `500 Internal Server Error`: Returns an error message in case of a server issue.
+ *
+ * @example
+ * curl -X GET http://localhost:3000/api/cashier-getMenu
+ *
+ * Response:
+ * {
+ *   "data": [
+ *     { "name": "Plate", "price": 9.99, "type": "box" },
+ *     { "name": "Coca Cola", "price": 1.99, "type": "drink" }
+ *   ]
+ * }
+ *
  * @module api/cashier-getMenu
- *
- * @api {get} /api/cashier-getMenu
- * @apiName GetMenuItemsSorted
- * @apiGroup Menu
- *
- * @apiSuccess {Object} Response object containing an array of sorted menu items.
- * 
- * @apiError (500) {Object} Response object with an error message for server issues.
- * 
- * @apiExample {curl} Example usage:
- *   curl -X GET \
- *     http://localhost:3000/api/menu-items-sorted
- *
- * @apiSuccessExample {json} Success response:
- *     {
- *       "data": [
- *         { "name": "Plate", "price": 9.99, "type": "box" },
- *         { "name": "Coca Cola", "price": 1.99, "type": "drink" }
- *       ]
- *     }
- *
- * @apiErrorExample {json} General server error response:
- *     {
- *       "error": "Failed to fetch menu items"
- *     }
  */
-
 export default async function handler(req, res) {
   if (req.method === 'GET') {
     try {

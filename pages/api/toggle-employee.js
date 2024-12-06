@@ -3,40 +3,37 @@ import path from 'path';
 import database from '../../utils/database';
 
 /**
- * 
- * @author Alonso Peralta Espinoza
- * 
+ * @description
  * Updates the active/inactive status of an employee in the database.
+ * @author Alonso Peralta Espinoza
  * @module api/toggle-employee
- * @api {post} /api/toggle-employee
- * @apiName ToggleEmployeeStatus
- * @apiGroup Employee
  *
- * @apiParam {Number} employeeId ID of the employee whose status is being updated.
- * @apiParam {Boolean} isActive New status of the employee (true for active, false for inactive).
+ * @param {Number} employeeId - ID of the employee whose status is being updated.
+ * @param {Boolean} isActive - New status of the employee (true for active, false for inactive).
  *
- * @apiSuccess {Object} Response object with a success message.
- * 
- * @apiError (500) {Object} Response object with an error message for server issues.
+ * @returns {Object} Response object with a success message.
  *
- * @apiExample {curl} Example usage:
- *   curl -X POST \
- *     http://localhost:3000/api/toggle-employee \
- *     -H 'Content-Type: application/json' \
- *     -d '{
- *           "employeeId": 123,
- *           "isActive": true
- *         }'
+ * @response
+ * - `200 OK`: Returns a success message if the status was updated successfully.
+ * - `500 Internal Server Error`: Returns an error message for server issues.
  *
- * @apiSuccessExample {json} Success response:
- *     {
- *       "message": "Employee status updated successfully"
- *     }
+ * @example
+ * // Request:
+ * POST /api/toggle-employee
+ * {
+ *   "employeeId": 123,
+ *   "isActive": true
+ * }
  *
- * @apiErrorExample {json} General server error response:
- *     {
- *       "error": "Error updating employee status"
- *     }
+ * // Response:
+ * {
+ *   "message": "Employee status updated successfully"
+ * }
+ *
+ * @errorExample {json} General server error response:
+ * {
+ *   "error": "Error updating employee status"
+ * }
  */
 
 export default async function handler(req, res) {

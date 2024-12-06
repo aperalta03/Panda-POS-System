@@ -3,28 +3,22 @@ import Modal from '@mui/material/Modal';
 import styles from './xReport.module.css';
 
 /**
- * X Report Modal Component
- * 
- * @author Alonso Peralta Espinoza, Conner Black
- *
  * @description
  * Displays an hourly breakdown of sales for the current day.
  * Provides a total sales summary at the bottom.
+ * 
+ * @author Alonso Peralta Espinoza, Conner Black
  *
- * @features
- * - Fetch hourly sales data from `/api/x-report`.
- * - Displays a scrollable table with hourly sales details.
- * - Shows total sales at the bottom of the report.
+ * @param {object} props - The properties passed to the component.
+ * @param {boolean} props.isOpen - A boolean indicating whether the modal is open.
+ * @param {function} props.onClose - A function to close the modal.
  *
- * @state
- * - `reportData`: Stores hourly sales data.
- * - `totalSales`: Stores the total sales for the day.
- *
- * @methods
- * - `fetchSalesData`: Fetches hourly sales data from the API.
+ * @returns {React.ReactElement} The rendered X Report Modal component.
  *
  * @example
  * <XReportModal isOpen={true} onClose={() => {}} />
+ *
+ * @module xReport
  */
 
 const XReportModal = ({ isOpen, onClose }) => {

@@ -3,44 +3,23 @@ import { Modal, Box, TextField, Button, MenuItem, Select, InputLabel, FormContro
 import styles from './updateMenuItemModal.module.css';
 
 /**
- * Add Menu Modal Component
- *
- * @author Alonso Peralta Espinoza
- * 
  * @description
  * A modal component for managing menu items, ingredients, and inventory.
  * Supports adding, editing, deleting, and re-syncing menu and inventory data.
  * Dynamically renders input fields based on the selected item type.
+ * 
+ * @author Alonso Peralta Espinoza
  *
- * @features
- * - Dynamic Form Rendering: Adjusts input fields based on the selected item type.
- * - CRUD Operations: Supports creating, updating, and deleting menu items or ingredients.
- * - Re-Sync IDs: Fixes mismatched inventory-to-menu relationships.
- * - Validation: Ensures data integrity before submitting.
+ * @param {object} props - The properties passed to the component.
+ * @param {boolean} props.isOpen - Controls the visibility of the modal.
+ * @param {function} props.onClose - Callback function to close the modal.
  *
- * @state
- * - `type`: Specifies the type of item to manage (e.g., seasonal, menu item, ingredient).
- * - `formData`: Holds all the input data for the form fields.
- * - `deleteId`: Stores the ID of the item to be deleted.
- *
- * @methods
- * - `handleSubmit`: Submits data to the corresponding endpoint (`/api/updateSeasonalItem`, `/api/updateMenuItem`, or `/api/updateIngredient`).
- * - `handleDelete`: Deletes an inventory item and related menu data.
- * - `handleResync`: Re-syncs IDs between `menu` and `inventory` tables.
- *
- * @formStructure
- * - Seasonal Item:
- *   - Fields: Name, Price, Calories, Description, Ingredients.
- * - Menu Item:
- *   - Fields: Menu Item ID, Name, Price, Calories, Designation, Type, Description, Ingredients.
- * - Ingredient:
- *   - Fields: Inventory ID, Name, Current Amount, Needed for Week, Needed for Game Week.
- *
- * @dependencies
- * - Material-UI: For modal, form controls, and buttons.
+ * @returns {React.ReactElement} The rendered AddMenuModal component.
  *
  * @example
  * <AddMenuModal isOpen={true} onClose={() => {}} />
+ *
+ * @module updateMenuItemModal
  */
 
 const AddMenuModal = ({ isOpen, onClose }) => {

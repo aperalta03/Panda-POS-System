@@ -16,21 +16,17 @@ import Head from "next/head"; // Import Head for managing the document head
 /**
  * @description
  * Welcome component for the kiosk home page. Displays the current time, weather, and language selection.
- * @feature
- * - Displays the current time
- * - Displays the current weather condition and temperature
- * - Allows the user to select a language
- * - Displays a customer login button
- * - Displays a translate button
- * - Displays a handicap button
- * - Displays a bottom panel
- * @state
- * - `weather`: The current weather condition and temperature
- * - `time`: The current time
- * - `isLoginModalOpen`: A boolean indicating whether the customer login modal is open
- * @param {function} toItemPage - A function to navigate to the item page
- * @returns {JSX.Element} The Welcome component
+ *
  * @author Alonso Peralta Espinoza, Brandon Batac
+ *
+ * @param {function} toItemPage - A function to navigate to the item page.
+ *
+ * @returns {JSX.Element} The Welcome component.
+ *
+ * @example
+ * <Welcome toItemPage={navigateToItemPageFunction} />
+ *
+ * @module Kiosk
  */
 const Welcome = ({ toItemPage }) => {
   const { currentLanguage, changeLanguage, customerName, translations } =
@@ -41,6 +37,7 @@ const Welcome = ({ toItemPage }) => {
   console.log(customerName);
 
   /**
+   * @description
    * Handles a change in the language dropdown by calling changeLanguage with the selected language value.
    * @param {React.ChangeEvent<HTMLSelectElement>} e - The change event from the language dropdown
    * @returns {void}
@@ -90,6 +87,7 @@ const Welcome = ({ toItemPage }) => {
   }, []);
 
   /**
+   * @description
    * Given a weather condition, returns the corresponding MaterialUI icon.
    *
    * @author Alonso Peralta Espinoza

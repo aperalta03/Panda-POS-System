@@ -1,43 +1,28 @@
 import database from '../../utils/database';
 
 /**
- * 
- * @author Alonso Peralta Espinoza
- *
+ * @description
  * Deletes an inventory item and its linked menu item if applicable.
  * 
+ * @author Alonso Peralta Espinoza
  * @module api/deleteItem
  *
- * @api {delete} /api/deleteItem
- * @apiName DeleteItem
- * @apiGroup Manager
+ * @requestBody
+ * - `id`: The inventory ID to delete.
  *
- * @apiParam {Number} id Unique ID of the inventory item to delete.
+ * @response
+ * - `200 OK`: Returns a success message if the item is deleted.
+ * - `404 Not Found`: Returns an error if the inventory item does not exist.
+ * - `500 Internal Server Error`: Returns an error if there is a database issue.
  *
- * @apiSuccess {Object} Response object with a success message.
- * 
- * @apiError (500) {Object} Response object with an error message for server issues.
- *
- * @apiExample {curl} Example usage:
- *   curl -X DELETE \
- *     http://localhost:3000/api/deleteItem \
- *     -H 'Content-Type: application/json' \
- *     -d '{
- *           "id": 5
- *         }'
- *
- * @apiSuccessExample {json} Success response:
- *     {
- *       "message": "Item deleted successfully."
- *     }
- *
- * @apiErrorExample {json} General server error response:
- *     {
- *       "error": "Error deleting item."
- *     }
+ * @example
+ * curl -X DELETE \
+ *   http://localhost:3000/api/deleteItem \
+ *   -H 'Content-Type: application/json' \
+ *   -d '{
+ *         "id": 5
+ *       }'
  */
-
- 
 export default async function handler(req, res) {
   if (req.method === 'DELETE') {
     const { id } = req.body;

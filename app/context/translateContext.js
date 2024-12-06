@@ -7,8 +7,8 @@ export const TranslationContext = createContext({
 });
 
 /**
+ * @description
  * Provides translation functionality and context to its children components.
- *
  * This component maintains the current language and a set of translations for the application.
  * It uses the Google Translate API to convert text and updates the translations state with the results.
  *
@@ -25,8 +25,8 @@ export const TranslationProvider = ({ children }) => {
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY;
 
   /**
+   * @description
    * Translates an array of text strings into a specified target language using the Google Translate API.
-   *
    * The function sends a POST request to the Google Translate API with the provided text array and target language.
    * It processes the API response to extract the translated texts and updates the translations state accordingly.
    *
@@ -86,6 +86,7 @@ export const TranslationProvider = ({ children }) => {
 };
 
 /**
+ * @description
  * A hook to access the translation context.
  *
  * @returns The translation context value.

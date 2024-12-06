@@ -3,72 +3,43 @@ import path from 'path';
 import database from '../../utils/database';
 
 /**
- * API Route to Add a New Employee
- *
- * @author Conner Black
- * 
  * @module api/add-employee
  * 
+ * @author Conner Black
+ * 
  * @description
- * This API endpoint handles adding a new employee to the database. It expects a `POST` request
- * containing employee details in the request body. The data is validated, formatted, and inserted into
- * the database using a pre-defined SQL query. If the insertion is successful, it responds with the employee's data.
- * In case of an error, it returns a generic error message.
- *
- * @features
- * - Employee Data Validation: Ensures that the provided employee data is correctly formatted before insertion.
- * - Database Interaction: Reads the SQL query from a file and executes it to insert the employee data into the database.
- * - Error Handling: Catches errors during the process and responds with a status code and error message.
- * - Method Validation: Only allows `POST` requests. If the method is not `POST`, it returns a `405 Method Not Allowed` error.
- *
- * @requestBody
- * - `employee_id`: The unique identifier for the employee.
- * - `first_name`: The employee's first name.
- * - `last_name`: The employee's last name.
- * - `date_of_birth`: The employee's date of birth, formatted as a string (YYYY-MM-DD).
- * - `phone_number`: The employee's phone number.
- * - `hourly_rate`: The employee's hourly pay rate.
- * - `is_manager`: A boolean indicating if the employee is a manager.
- * - `is_parttime`: A boolean indicating if the employee works part-time.
- *
- * @response
- * - `200 OK`: Returns a success message and the added employee's data if the insertion is successful.
- * - `400 Bad Request`: Returns an error message if there is an issue with the input data.
- * - `405 Method Not Allowed`: Returns an error message if the request method is not `POST`.
- *
- * @dependencies
- * - `fs`: For reading the SQL query file.
- * - `path`: For resolving the file path to the SQL query.
- * - `database`: Utility module for interacting with the database.
- *
+ * Handles adding a new employee to the database. This function validates input data, interacts with the database,
+ * and returns a success or error response.
+ * 
+ * @param {Object} employeeData - The details of the employee to add.
+ * @param {string} employeeData.employee_id - The unique identifier for the employee.
+ * @param {string} employeeData.first_name - The employee's first name.
+ * @param {string} employeeData.last_name - The employee's last name.
+ * @param {string} employeeData.date_of_birth - The employee's date of birth in the format YYYY-MM-DD.
+ * @param {string} employeeData.phone_number - The employee's phone number.
+ * @param {number} employeeData.hourly_rate - The employee's hourly pay rate.
+ * @param {boolean} employeeData.is_manager - Whether the employee is a manager.
+ * @param {boolean} employeeData.is_parttime - Whether the employee works part-time.
+ * 
+ * @returns {Object} Returns a success response or an error message.
+ * 
+ * @throws {Error} Throws an error if the database query fails.
+ * 
  * @example
- * POST /api/add-employee
- * Request Body:
- * {
- *   "employee_id": "12345",
- *   "first_name": "John",
- *   "last_name": "Doe",
- *   "date_of_birth": "1990-01-01",
- *   "phone_number": "123-456-7890",
- *   "hourly_rate": 20.5,
- *   "is_manager": false,
- *   "is_parttime": true
- * }
- *
- * Response:
- * {
- *   "message": "Employee added successfully",
- *   "employee": {
- *     "employee_id": "12345",
- *     "first_name": "John",
- *     "last_name": "Doe",
- *     "date_of_birth": "1990-01-01",
- *     "phone_number": "123-456-7890",
- *     "hourly_rate": 20.5,
- *     "is_manager": false,
- *     "is_parttime": true
- *   }
- * }
+ * // Example usage of the addEmployee function
+ * const newEmployee = {
+ *   employee_id: "12345",
+ *   first_name: "John",
+ *   last_name: "Doe",
+ *   date_of_birth: "1990-01-01",
+ *   phone_number: "123-456-7890",
+ *   hourly_rate: 20.5,
+ *   is_manager: false,
+ *   is_parttime: true,
+ * };
+ * 
+ * const result = await addEmployee(newEmployee);
+ * console.log(result);
  */
 export default async function handler(req, res) {
     if (req.method === 'POST') {

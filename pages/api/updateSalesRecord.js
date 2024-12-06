@@ -4,59 +4,58 @@ import path from "path";
 
 /**
  *
- * @author Alonso Peralta Espinoza, Brandon Batac 
+ * @author Alonso Peralta Espinoza, Brandon Batac
  *
+ * @description
  * Inserts a new sales record into the database along with associated order details.
  * @module api/updateSalesRecord
- * @api {post} /api/updateSalesRecord
- * @apiName UpdateSalesRecord
- * @apiGroup Sales
  *
- * @apiParam {String} saleDate Date of the sale (YYYY-MM-DD format).
- * @apiParam {String} saleTime Time of the sale (HH:mm:ss format).
- * @apiParam {Number} totalPrice Total price of the sale.
- * @apiParam {Number} employeeID ID of the employee processing the sale.
- * @apiParam {String} source Source of the sale (e.g., "in-store", "online").
- * @apiParam {Array} orders Array of objects representing the sale details, each containing:
+ * @param {String} saleDate - Date of the sale (YYYY-MM-DD format).
+ * @param {String} saleTime - Time of the sale (HH:mm:ss format).
+ * @param {Number} totalPrice - Total price of the sale.
+ * @param {Number} employeeID - ID of the employee processing the sale.
+ * @param {String} source - Source of the sale (e.g., "in-store", "online").
+ * @param {Array} orders - Array of objects representing the sale details, each containing:
  * - {String} plateSize: Size of the plate (e.g., "Small", "Medium", "Large").
  * - {Array} components: List of components in the plate.
  *
- * @apiSuccess {Object} Response object with a success message.
+ * @returns {Object} - Response object with a success message.
  *
- * @apiError (400) {Object} Response object with an error message for missing fields.
- * @apiError (500) {Object} Response object with an error message for server issues.
+ * @response
+ * - `200 OK`: Returns a success message if the sale is recorded successfully.
+ * - `400 Bad Request`: Returns an error message for missing fields.
+ * - `500 Internal Server Error`: Returns an error message for server issues.
  *
- * @apiExample {curl} Example usage:
- *   curl -X POST \
- *     http://localhost:3000/api/insertSalesRecord \
- *     -H 'Content-Type: application/json' \
- *     -d '{
- *           "saleDate": "2024-12-01",
- *           "saleTime": "14:30:00",
- *           "totalPrice": 45.99,
- *           "employeeID": 123,
- *           "source": "in-store",
- *           "orders": [
- *             { "plateSize": "Large", "components": ["Orange Chicken", "Rice"] },
- *             { "plateSize": "Small", "components": ["Beef Broccoli"] }
- *           ]
- *         }'
+ * @example
+ * // Request:
+ * POST /api/updateSalesRecord
+ * {
+ *   "saleDate": "2024-12-01",
+ *   "saleTime": "14:30:00",
+ *   "totalPrice": 45.99,
+ *   "employeeID": 123,
+ *   "source": "in-store",
+ *   "orders": [
+ *     { "plateSize": "Large", "components": ["Orange Chicken", "Rice"] },
+ *     { "plateSize": "Small", "components": ["Beef Broccoli"] }
+ *   ]
+ * }
  *
- * @apiSuccessExample {json} Success response:
- *     {
- *       "message": "Sale recorded successfully"
- *     }
+ * // Response:
+ * {
+ *   "message": "Sale recorded successfully"
+ * }
  *
- * @apiErrorExample {json} Error response for missing fields:
- *     {
- *       "error": "Missing required fields: saleDate, saleTime, or employeeID"
- *     }
+ * @errorExample {json} Error response for missing fields:
+ * {
+ *   "error": "Missing required fields: saleDate, saleTime, or employeeID"
+ * }
  *
- * @apiErrorExample {json} General server error response:
- *     {
- *       "message": "Error writing sales record",
- *       "error": "Database connection failed"
- *     }
+ * @errorExample {json} General server error response:
+ * {
+ *   "message": "Error writing sales record",
+ *   "error": "Database connection failed"
+ * }
  */
 
 export default async function handler(req, res) {

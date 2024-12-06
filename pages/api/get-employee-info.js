@@ -3,24 +3,13 @@ import path from 'path';
 import database from '../../utils/database';
 
 /**
- * API Route to Retrieve an Employee's Information from the Database
+ * @description
+ * This API endpoint retrieves an employee's information from the database based on the provided `employeeId`.
+ * It expects a `POST` request with the `employeeId` in the request body. If the employee is found, their details are returned.
+ * If not, appropriate error messages are returned.
  *
  * @author Conner Black
- * 
  * @module api/get-employee-info
- *
- * @description
- * This API endpoint retrieves an employee's information from the database based on the provided `employeeId`. It expects 
- * a `POST` request with the `employeeId` in the request body. If the employee with the provided `employeeId` is found, 
- * their details are returned. If the employee is not found or any required field is missing, appropriate error messages 
- * are returned.
- *
- * @features
- * - Input Validation: Ensures that the `employeeId` is provided in the request.
- * - Database Interaction: Reads an SQL query from a file to fetch the employee's data from the database.
- * - Error Handling: Catches errors related to missing fields, employee not found, and database issues, returning 
- *   meaningful error responses.
- * - Method Validation: Only allows `POST` requests. Returns a `405 Method Not Allowed` error for other HTTP methods.
  *
  * @requestBody
  * - `employeeId`: The unique ID of the employee to be fetched (required).
@@ -32,13 +21,8 @@ import database from '../../utils/database';
  * - `500 Internal Server Error`: Returns an error message if a database error occurs while fetching the employee.
  * - `405 Method Not Allowed`: Returns this error if the request method is not `POST`.
  *
- * @dependencies
- * - `fs`: For reading the SQL query file that fetches the employee data.
- * - `path`: For resolving the file path to the SQL query.
- * - `database`: Utility module for interacting with the database.
- *
  * @example
- * POST /api/get-employee
+ * POST /api/get-employee-info
  * Request Body:
  * {
  *   "employeeId": "123"

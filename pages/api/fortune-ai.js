@@ -5,52 +5,52 @@ const openai = new OpenAI({
 });
 
 /**
- * Fortune Cookie AI Endpoint
- * 
- * @author Alonso Peralta Espinoza
- * 
- * @module api/fortune-ai
- * 
  * @description
  * Generates a fortune cookie-style message using a fine-tuned AI model. The language of the fortune is determined by the `currentLanguage` parameter.
  *
- * @api {get} /api/fortune-ai
- * @apiName FortuneCookie
- * @apiGroup AI
+ * @author Alonso Peralta Espinoza
+ * @module api/fortune-ai
  *
- * @apiQuery {String} currentLanguage The language code for the fortune (e.g., "en" for English, "es" for Spanish).
+ * @requestBody
+ * The `currentLanguage` parameter is required in the query string.
+ *
+ * @response
+ * The response is a JSON object with the generated fortune cookie message.
+ *
+ * @example
+ * curl -X GET \
+ *   http://localhost:3000/api/fortune-ai?currentLanguage=en
  * 
- * @apiSuccess {String} fortune The generated fortune cookie message.
- * 
- * @apiError (405) {Object} Error object with message when using a method other than GET.
- * @apiError (400) {Object} Error object when the `currentLanguage` parameter is missing.
- * @apiError (500) {Object} Error object for AI generation issues.
+ * // Example response:
+ * {
+ *   "fortune": "Great things are on the horizon for you!"
+ * }
  *
- * @apiExample {curl} Example usage:
- *   curl -X GET \
- *     http://localhost:3000/api/fortune-ai?currentLanguage=en
+ * @errorExample {json} Error response for method not allowed:
+ * {
+ *   "error": "Method not allowed. Use GET."
+ * }
  *
- * @apiSuccessExample {json} Success response:
- *     {
- *       "fortune": "Great things are on the horizon for you!"
- *     }
+ * @errorExample {json} Error response for missing language:
+ * {
+ *   "error": "Missing 'currentLanguage' parameter."
+ * }
  *
- * @apiErrorExample {json} Error response for method not allowed:
- *     {
- *       "error": "Method not allowed. Use GET."
- *     }
+ * @errorExample {json} General server error response:
+ * {
+ *   "error": "Failed to generate fortune. Please try again."
+ * }
  *
- * @apiErrorExample {json} Error response for missing language:
- *     {
- *       "error": "Missing 'currentLanguage' parameter."
- *     }
+ * @errorExample {json} Error response for unsupported language:
+ * {
+ *   "error": "Unsupported language. Please use one of the supported languages."
+ * }
  *
- * @apiErrorExample {json} General server error response:
- *     {
- *       "error": "Failed to generate fortune. Please try again."
- *     }
+ * @errorExample {json} Error response for AI generation issues:
+ * {
+ *   "error": "Failed to generate fortune. Please try again."
+ * }
  */
-
 export default async function handler(req, res) {
   if (req.method !== "GET") {
     return res.status(405).json({ error: "Method not allowed. Use GET." });

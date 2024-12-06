@@ -5,18 +5,19 @@ import styles from './index.module.css';
 import { Box, Typography } from '@mui/material';
 
 /**
- * Loading Component
+ * @description
+ * Displays a loading screen while redirecting the user to the login page.
  * 
  * @author Alonso Peralta Espinoza
  *
- * @description
- * Displays a loading screen while redirecting the user to the login page.
- *
- * @features
- * - Redirects to `/login-oauth` on mount.
- * - Shows animated visual elements and a "Loading..." message.
- *
  * @returns {React.ReactElement} A React functional component.
+ *
+ * @example
+ * <Loading />
+ *
+ * @since 1.0.0
+ *
+ * @module index
  */
 
 const Loading = () => {
