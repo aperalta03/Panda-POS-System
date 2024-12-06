@@ -41,7 +41,7 @@ const AiAgent = () => {
 
     //** Initial Bot Message **//
     useEffect(() => {
-        typeResponse("I am PandAI, here to answer your questions about our app!");
+        typeResponse("I am MaxxingAI, here to answer your questions about our app!");
     }, []);
 
     //** API Call **//
