@@ -42,6 +42,7 @@ const Landing = () => {
                     employeeMap[employee.employeeID] = {
                         isManager: employee.isManager,
                         name: employee.name,
+                        isActive: employee.isActive
                     };
                 });
 
@@ -76,18 +77,24 @@ const Landing = () => {
             setInput("");
         } else {
             const employee = employeeMap[input];
+            if(employee.isActive){
 
-            setLoggedInName(employee.name);       
-            setEmployeeID(input);                 
+                setLoggedInName(employee.name);       
+                setEmployeeID(input);                 
 
-            if (employee.isManager) {
-                setRole("manager");
-            } else {
-                setRole("cashier");
+                if (employee.isManager) {
+                    setRole("manager");
+                } else {
+                    setRole("cashier");
+                }
+
+                setInput("");
+                router.push('/cashier');
             }
-
-            setInput("");
-            router.push('/cashier');
+            else{
+                alert("You were FIRED");
+                setInput("");
+            }
         }
     };
 

@@ -42,7 +42,8 @@ SELECT
     employee_id,
     first_name,
     last_name,
-    is_manager
+    is_manager,
+    is_active
 FROM employees;
 
 -- ==============================================================================
