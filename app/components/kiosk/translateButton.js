@@ -3,27 +3,14 @@ import styles from "./translateButton.module.css";
 
 /**
  * @description
- * A button component that allows users to select a language from a dropdown list. 
- * It supports multiple languages and updates the selected language when the user 
- * changes it. The component can be customized with inline styles for unique positioning.
- * 
- * @param {object} props - The properties passed to the component.
- * @param {string} props.currentLanguage - The currently selected language.
- * @param {function} props.onLanguageChange - The function that handles the language change event.
- * @param {object} [props.customStyles] - Optional inline styles for customizing the button's appearance.
- * 
- * @returns {JSX.Element} The TranslateButton component.
- * 
- * @example
- * <TranslateButton 
- *   currentLanguage="en" 
- *   onLanguageChange={(e) => console.log(e.target.value)} 
- *   customStyles={{ position: 'absolute', top: '10px', right: '10px' }}
- * />
- * 
- * @since 1.0.0
- * 
- * @module translateButton
+ * TranslateButton component for language selection.
+ * The component renders a <select> element with options for different languages.
+ * The component also accepts a customStyles prop for inline CSS styling.
+ * @author Brandon Batac
+ * @param {string} currentLanguage - The current language selected
+ * @param {function} onLanguageChange - The function to call when the language is changed
+ * @param {object} customStyles - The custom styles to apply to the component
+ * @returns {JSX.Element} The rendered component
  */
 const TranslateButton = ({
   currentLanguage,
@@ -31,19 +18,22 @@ const TranslateButton = ({
   customStyles,
 }) => {
   return (
-    <select
-      value={currentLanguage}
-      onChange={onLanguageChange}
-      className={`${styles.translateButton}`}
-      style={customStyles} // Inline styles for unique positioning
-    >
-      <option value="en">English</option>
-      <option value="es">Español</option>
-      <option value="fr">Français</option>
-      <option value="de">Deutsch</option>
-      <option value="zh">中国人</option>
-      <option value="ja">日本語</option>
-    </select>
+    <div>
+      <select
+        id="language-select"
+        value={currentLanguage}
+        onChange={onLanguageChange}
+        className={`${styles.translateButton}`}
+        style={customStyles} // Inline styles for unique positioning
+      >
+        <option value="en">English</option>
+        <option value="es">Español</option>
+        <option value="fr">Français</option>
+        <option value="de">Deutsch</option>
+        <option value="zh">中国人</option>
+        <option value="ja">日本語</option>
+      </select>
+    </div>
   );
 };
 
