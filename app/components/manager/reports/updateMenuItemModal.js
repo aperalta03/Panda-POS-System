@@ -75,40 +75,17 @@ const AddMenuModal = ({ isOpen, onClose }) => {
         "Ingredient": "/api/updateIngredient",
       }[type];
   
-      const body = {
-        ...(type === "Seasonal Item" && {
-          name: formData.name,
-          price: formData.price,
-          calories: formData.calories,
-          type: formData.itemType,
-          description: formData.description,
-          ingredients: formData.ingredients,
-        }),
-        ...(type === "Menu Item" && {
-          menu_item_id: formData.menu_item_id,
-          name: formData.name,
-          price: formData.price,
-          calories: formData.calories,
-          description: formData.description,
-          designation: formData.designation,
-          type: formData.itemType,
-          ingredients: formData.ingredients,
-        }),
-        ...(type === "Ingredient" && {
-          inventory_id: formData.inventory_id,
-          name: formData.name,
-          curr_amount: formData.curr_amount,
-          needed4week: formData.needed4week,
-          needed4gameweek: formData.needed4gameweek,
-        }),
-      };
-
-      console.log("Payload:", body);
+      // Filter out empty or default fields
+      const filteredFormData = Object.fromEntries(
+        Object.entries(formData).filter(([key, value]) => value !== "" && value !== null && value !== 0)
+      );
+  
+      console.log("Payload:", filteredFormData);
   
       const response = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
+        body: JSON.stringify(filteredFormData),
       });
   
       if (!response.ok) {
@@ -121,7 +98,7 @@ const AddMenuModal = ({ isOpen, onClose }) => {
     } catch (error) {
       alert(error.message);
     }
-  };
+  };  
 
   //** DELETE ITEM **//
   const handleDelete = async () => {

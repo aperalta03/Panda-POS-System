@@ -52,30 +52,43 @@ import database from '../../utils/database';
 
  
 export default async function handler(req, res) {
-  if (req.method === 'POST') {
-    const { inventory_id, name, curr_amount, needed4week, needed4gameweek } = req.body;
-
-    try {
-      const item_type = 'ingredient';
-
-      const query = `
-        INSERT INTO inventory (inventory_id, item_name, item_type, curr_amount, needed4week, needed4gameweek)
-        VALUES ($1, $2, $3, $4, $5, $6);
-      `;
-      await database.query(query, [inventory_id, name, item_type, curr_amount, needed4week, needed4gameweek]);
-
-      res.status(200).json({ message: 'Ingredient added successfully' });
-    } catch (error) {
-      if (error.code === '23505') {
-        console.error('Duplicate inventory_id:', error.detail);
-        res.status(400).json({ error: 'ID in Use. Please use a unique inventory_id.' });
-      } else {
-        console.error('Error adding ingredient:', error);
-        res.status(500).json({ error: 'Error adding ingredient' });
-      }
-    }
-  } else {
-    res.setHeader('Allow', ['POST']);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
+  if (req.method !== "POST") {
+    res.setHeader("Allow", ["POST"]);
+    return res.status(405).end(`Method ${req.method} Not Allowed`);
   }
-}   
+
+  const { inventory_id, name, curr_amount, needed4week, needed4gameweek } = req.body;
+
+  if (!inventory_id) {
+    return res.status(400).json({ error: "inventory_id is required." });
+  }
+
+  try {
+    const item_type = "ingredient";
+
+    const updateIngredientQuery = `
+      INSERT INTO inventory (inventory_id, item_name, item_type, curr_amount, needed4week, needed4gameweek)
+      VALUES ($1, $2, $3, $4, $5, $6)
+      ON CONFLICT (inventory_id)
+      DO UPDATE SET
+        item_name = COALESCE(NULLIF(EXCLUDED.item_name, ''), inventory.item_name),
+        curr_amount = COALESCE(EXCLUDED.curr_amount, inventory.curr_amount),
+        needed4week = COALESCE(EXCLUDED.needed4week, inventory.needed4week),
+        needed4gameweek = COALESCE(EXCLUDED.needed4gameweek, inventory.needed4gameweek);
+    `;
+
+    await database.query(updateIngredientQuery, [
+      inventory_id,      // $1
+      name || "Unnamed Ingredient", // $2 (Default name if not provided)
+      item_type,         // $3
+      curr_amount,       // $4
+      needed4week,       // $5
+      needed4gameweek,   // $6
+    ]);
+
+    res.status(200).json({ message: "Ingredient updated successfully." });
+  } catch (error) {
+    console.error("Error updating ingredient:", error);
+    res.status(500).json({ error: "Failed to update ingredient." });
+  }
+}

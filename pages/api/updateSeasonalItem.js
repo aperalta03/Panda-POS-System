@@ -25,41 +25,73 @@ import database from "../../utils/database";
  * @apiError (500) {Object} Response object with an error message for server or transaction issues.
  */
 
- export default async function handler(req, res) {
+export default async function handler(req, res) {
   if (req.method !== "POST") {
     res.setHeader("Allow", ["POST"]);
     return res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 
-  const { name, price, calories, description = null, ingredients, type } = req.body;
+  const {
+    name,
+    price,
+    calories,
+    description,
+    designation,
+    type,
+    ingredients,
+    inventory_name,
+    curr_amount,
+    needed4week,
+    needed4gameweek,
+  } = req.body;
 
-  console.log("Received Payload:", req.body);
-
-  // Validate inputs
-  if (
-    !name ||
-    price === undefined ||
-    calories === undefined ||
-    !ingredients ||
-    typeof ingredients !== "string" ||
-    !type
-  ) {
-    return res
-      .status(400)
-      .json({ error: "Name, price, calories, ingredients, and type are required" });
-  }
+  // Hardcoded seasonal menu item ID
+  const seasonalMenuItemId = 7;
 
   try {
-    // Convert ingredients to an array
-    const ingredientsArray = ingredients.split(",").map((ingredient) => ingredient.trim());
-
-    // Hardcoded menu_item_id
-    const seasonalMenuItemId = 7;
-
-    // Start transaction
+    // Begin transaction
     await database.query("BEGIN");
 
-    // Fetch inventory ID associated with the seasonal item
+    // Update the `menu` table
+    const updateMenuQuery = `
+      UPDATE menu
+      SET 
+        name = COALESCE(NULLIF($2, ''), name), 
+        price = COALESCE($3, price), 
+        calories = COALESCE($4, calories), 
+        description = COALESCE(NULLIF($5, ''), description), 
+        designation = COALESCE(NULLIF($6, ''), designation), 
+        type = COALESCE(NULLIF($7, ''), type)
+      WHERE menu_item_id = $1;
+    `;
+    await database.query(updateMenuQuery, [
+      seasonalMenuItemId,
+      name,
+      price,
+      calories,
+      description,
+      designation,
+      type,
+    ]);
+
+    // Update the `menu_ingredients` table if ingredients are provided
+    if (ingredients) {
+      const ingredientsArray = ingredients.split(",").map((i) => i.trim());
+      const updateIngredientsQuery = `
+        INSERT INTO menu_ingredients (menu_item_id, item_name, ingredients)
+        VALUES ($1, $2, $3)
+        ON CONFLICT (menu_item_id)
+        DO UPDATE SET
+          ingredients = EXCLUDED.ingredients;
+      `;
+      await database.query(updateIngredientsQuery, [
+        seasonalMenuItemId,
+        name || "Seasonal Item",
+        `{${ingredientsArray.join(",")}}`,
+      ]);
+    }
+
+    // Check for existing inventory ID for the seasonal menu item
     const fetchInventoryIdQuery = `
       SELECT inventory_id 
       FROM menu_inventory 
@@ -67,66 +99,71 @@ import database from "../../utils/database";
       LIMIT 1;
     `;
     const inventoryResult = await database.query(fetchInventoryIdQuery, [seasonalMenuItemId]);
-    if (inventoryResult.rows.length === 0) {
-      throw new Error("No matching inventory item found for the seasonal menu item");
+
+    let inventoryId;
+    if (inventoryResult.rows.length > 0) {
+      // Existing inventory entry found
+      inventoryId = inventoryResult.rows[0].inventory_id;
+
+      // Update the inventory table
+      const updateInventoryQuery = `
+        UPDATE inventory
+        SET 
+          item_name = COALESCE(NULLIF($2, ''), item_name),
+          curr_amount = COALESCE($3, curr_amount),
+          needed4week = COALESCE($4, needed4week),
+          needed4gameweek = COALESCE($5, needed4gameweek)
+        WHERE inventory_id = $1;
+      `;
+      await database.query(updateInventoryQuery, [
+        inventoryId,
+        inventory_name || name || "Seasonal Item",
+        curr_amount,
+        needed4week,
+        needed4gameweek,
+      ]);
+    } else {
+      // No existing inventory entry; insert a new one
+      const generateInventoryIdQuery = `SELECT COALESCE(MAX(inventory_id), 0) + 1 AS new_id FROM inventory;`;
+      const newIdResult = await database.query(generateInventoryIdQuery);
+      inventoryId = newIdResult.rows[0].new_id;
+
+      const insertInventoryQuery = `
+        INSERT INTO inventory (inventory_id, item_name, item_type, curr_amount, needed4week, needed4gameweek)
+        VALUES ($1, $2, $3, $4, $5, $6);
+      `;
+      await database.query(insertInventoryQuery, [
+        inventoryId,
+        inventory_name || name || "Seasonal Item",
+        "seasonal",
+        curr_amount || 0,
+        needed4week || 0,
+        needed4gameweek || 0,
+      ]);
+
+      // Delete any existing relationship in `menu_inventory`
+      const deleteMenuInventoryQuery = `
+        DELETE FROM menu_inventory
+        WHERE menu_item_id = $1;
+      `;
+      await database.query(deleteMenuInventoryQuery, [seasonalMenuItemId]);
+
+      // Link the new inventory entry to the seasonal menu item
+      const insertMenuInventoryQuery = `
+        INSERT INTO menu_inventory (menu_item_id, inventory_id)
+        VALUES ($1, $2);
+      `;
+      await database.query(insertMenuInventoryQuery, [seasonalMenuItemId, inventoryId]);
     }
-    const inventoryId = inventoryResult.rows[0].inventory_id;
-
-    // Update menu table
-    const updateMenuQuery = `
-      UPDATE menu
-      SET 
-        name = $2, 
-        price = $3, 
-        calories = $4, 
-        description = COALESCE($5, description), 
-        type = $6
-        image = 'Seasonal_Item.png'
-      WHERE menu_item_id = $1;
-    `;
-    await database.query(updateMenuQuery, [
-      seasonalMenuItemId, // $1
-      name,               // $2
-      price,              // $3
-      calories,           // $4
-      description,        // $5
-      type,               // $6
-    ]);
-
-    // Update menu_ingredients table
-    const updateIngredientsQuery = `
-      UPDATE menu_ingredients
-      SET 
-        item_name = $2, 
-        ingredients = $3
-      WHERE menu_item_id = $1;
-    `;
-    await database.query(updateIngredientsQuery, [
-      seasonalMenuItemId, // $1
-      name,               // $2
-      ingredientsArray,   // $3
-    ]);
-
-    // Update inventory table
-    const updateInventoryQuery = `
-      UPDATE inventory
-      SET 
-        item_name = $2
-      WHERE inventory_id = $1;
-    `;
-    await database.query(updateInventoryQuery, [
-      inventoryId, // $1
-      name,        // $2
-    ]);
 
     // Commit transaction
     await database.query("COMMIT");
 
-    console.log("Transaction committed successfully.");
-    res.status(200).json({ message: "Seasonal item and ingredients updated successfully" });
+    res.status(200).json({ message: "Seasonal item, ingredients, and inventory updated successfully." });
   } catch (error) {
+    // Rollback transaction on error
     await database.query("ROLLBACK");
     console.error("Error updating seasonal item:", error);
-    res.status(500).json({ error: "Failed to update seasonal item" });
+    res.status(500).json({ error: "Failed to update seasonal item." });
   }
- }
+}
